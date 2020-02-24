@@ -26,7 +26,7 @@ npm run build
         />
 ```
 ## 2. 结构
-  #####2.1 顶部
+  ##### 2.1 顶部
     展示头部选项栏
   ```
     <div class="toolbar"
@@ -64,7 +64,7 @@ npm run build
       </div>
     </div>
   ```
-  #####2.2 中间
+  ##### 2.2 中间
     展示表格数据
   ```
    <el-table
@@ -79,7 +79,7 @@ npm run build
       ......
     </el-table>
   ```
-  #####2.3 底部
+  ##### 2.3 底部
     展示分页
   ```
    <el-pagination
@@ -97,32 +97,32 @@ npm run build
   ```
 ## events 其他事件按照el-table直接使用（如sort-change排序事件）
 
-|   事件名    | 说明     |     返回值     |
-| :---------: | :------- | :------------: |
+|     事件名     | 说明   |   返回值   |
+| :---------: | :--- | :-----: |
 | page-change | 当前页码 | 当前选中的页码 |
 ## 3. 配置参数
 
-| 参数                | 说明                                       | 类型          | 是否必须 |
-| ------------------- | ------------------------------------------ | ------------- | -------- |
-| table               | 表格数据对象                               | Object        | 是       |
-| ---data             | 展示数据                                   | Array         | 是       |
-| ---column           | 表头信息                                   | Array         | 是       |
-| ---isShowPagination | 是否显示分页(默认显示分页)                 | Boolean       | 否       |
-| ---toolbar          | 表格外操作栏选中表格某行，可以将其数据传出 | Array         | 否       |
-| ---operator         | 表格内操作栏数据                           | Array         | 否       |
-| ---operatorConfig   | 操作栏样式                                 | Object        | 否       |
-| ---changeColor      | 整行文字颜色样式控制                       | Object        | 否       |
-| ---firstColumn      | 表格首列(序号 index,复选框 selection）排列 | object        | 否       |
-| ---total            | 数据总条数                                 | Number        | 是       |
-| ---pageSize         | 页数量                                     | Number        | 是       |
-| ---currentPage      | 是否需要显示切换页条数                     | Number        | 是       |
-| height              | 是否固定高度                               | Boolean       | 否       |
-| fixHeight           | 走固定高度时候表格高度                     | String/Number | 否       |
-| size                | 分页类型选项                               | Boolean       | 否       |
+| 参数                  | 说明                             | 类型            | 是否必须 |
+| ------------------- | ------------------------------ | ------------- | ---- |
+| table               | 表格数据对象                         | Object        | 是    |
+| ---data             | 展示数据                           | Array         | 是    |
+| ---column           | 表头信息                           | Array         | 是    |
+| ---isShowPagination | 是否显示分页(默认显示分页)                 | Boolean       | 否    |
+| ---toolbar          | 表格外操作栏选中表格某行，可以将其数据传出          | Array         | 否    |
+| ---operator         | 表格内操作栏数据                       | Array         | 否    |
+| ---operatorConfig   | 操作栏样式                          | Object        | 否    |
+| ---changeColor      | 整行文字颜色样式控制                     | Object        | 否    |
+| ---firstColumn      | 表格首列(序号 index,复选框 selection）排列 | object        | 否    |
+| ---total            | 数据总条数                          | Number        | 是    |
+| ---pageSize         | 页数量                            | Number        | 是    |
+| ---currentPage      | 是否需要显示切换页条数                    | Number        | 是    |
+| height              | 是否固定高度                         | Boolean       | 否    |
+| fixHeight           | 走固定高度时候表格高度                    | String/Number | 否    |
+| size                | 分页类型选项                         | Boolean       | 否    |
 
 ## 4. 使用帮助
 
-  #####4.1 关于顶部工具栏
+  ##### 4.1 关于顶部工具栏
   使用插槽toolbar传入即可
   ```
   <template #toolbar>
@@ -138,7 +138,7 @@ npm run build
     </el-select>
   </template>
   ```
-  ######若需要表格外操作栏(超过3个按钮，第4个按钮会以下拉的方式展示)
+  ###### 若需要表格外操作栏(超过3个按钮，第4个按钮会以下拉的方式展示)
   配置toolbar即可（前提条件是，必须使用插槽toolbar）
   ```
   toolbar: [
@@ -150,7 +150,7 @@ npm run build
           }
   ]
   ```
-  #####4.2 关于表格内操作栏
+  ##### 4.2 关于表格内操作栏
   配置operator即可
   ```
   operator: [
@@ -172,7 +172,7 @@ npm run build
     }
   ]
   ```
-  #####4.3 关于表格操作栏样式，如固定右侧，宽度
+  ##### 4.3 关于表格操作栏样式，如固定右侧，宽度
   ```
   operatorConfig: {
     fixed: 'right',
@@ -180,7 +180,7 @@ npm run build
     label: '操作'
   }
   ```
-  #####4.4 关于表格某行文字颜色
+  ##### 4.4 关于表格某行文字颜色
   ```
   changeColor: {
     key: 'status', // 状态
@@ -188,15 +188,22 @@ npm run build
     txtStyle: 'red' // 设置文字颜色也可以用“#ef473a”
   }
   ```
-   #####4.5 关于表格状态filters方法使用（在表头column对象里添加如下字段）
+   ##### 4.5 关于表格状态filters方法使用（在表头column对象里添加如下字段）
   ```
   { prop: 'loanInterest', label: '利息', width: '120' , filters: { method: '%' }},
   filters: { method: '%' }：表显示百分比
   filters: { method: '￥' }：表显示金额
   filters: { param: 'REPAYMENT_STATES' } ：表状态对应的canstants对应的字段
   ```
-  #####4.5 关于element-ui el-table提供的一些方法，样式如何添加
+  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200224161930504.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3aW44OTUx,size_16,color_FFFFFF,t_70)
+  ##### 4.5 关于element-ui el-table提供的一些方法，样式如何添加
   按照el-table写法直接使用即可，无需其他配置
 
 ## 5. Dome
 参考：demo页面
+******
+## 最后
+[组件地址](https://github.com/wocwin/t-table)
+
+## 相关文章
+[axios二次封装，接口统一存放,满足RESTful风格](https://blog.csdn.net/cwin8951/article/details/104415090)

@@ -195,7 +195,6 @@ npm run build
   filters: { method: '￥' }：表显示金额
   filters: { param: 'REPAYMENT_STATES' } ：表状态对应的canstants对应的字段
   ```
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200224161930504.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3aW44OTUx,size_16,color_FFFFFF,t_70)
   ##### 4.5 关于element-ui el-table提供的一些方法，样式如何添加
   按照el-table写法直接使用即可，无需其他配置
 

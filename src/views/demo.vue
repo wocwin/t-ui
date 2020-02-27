@@ -7,6 +7,8 @@
           :table="table"
           @size-change="handlesSizeChange"
           @page-change="handlesCurrentChange"
+          :row-key="getRowKey"
+          @selection-change="handlesSelectionChange"
         />
       </div>
     </div>
@@ -23,7 +25,7 @@ export default {
         currentPage: 1,
         pageSize: 10,
         // 是否显示复选框或序列号
-        firstColumn: { type: 'index', label: '序列' },
+        firstColumn: { type: 'selection', isPaging: true },
         // 表格数据
         data: [
         ],
@@ -34,8 +36,8 @@ export default {
           { prop: 'dataStatus', label: '状态', minWidth: '160', sort: true, filters: { param: 'ROLE_STATUS' } },
           { prop: 'entName', label: '所属企业', minWidth: '200', sort: true }
         ],
-        // entId值为17时，文字变色
-        changeColor: { key: 'entId', val: '17', txtStyle: '#ef473a' },
+        // entId值为18时，文字变色
+        changeColor: { key: 'entId', val: '18', txtStyle: '#ef473a' },
         // 表格内操作列
         operator: [
           {
@@ -55,13 +57,23 @@ export default {
           minWidth: 200,
           label: '操作'
         }
-      }
+      },
+      chosenIds: []
     }
   },
   created () {
     this.getEntUserInfo()
   },
   methods: {
+    // 获取列表数据的唯一标识
+    getRowKey (row) {
+      return row.id
+    },
+    // 选中的数据
+    handlesSelectionChange (val) {
+      this.chosenIds = val.map(item => item.id)
+      console.log(888, this.chosenIds)
+    },
     // 请求接口
     async getEntUserInfo () {
       const tableParam = {

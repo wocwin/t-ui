@@ -97,28 +97,28 @@ npm run build
   ```
 ## events 其他事件按照el-table直接使用（如sort-change排序事件）
 
-|     事件名     | 说明   |   返回值   |
-| :---------: | :--- | :-----: |
+|   事件名    | 说明     |     返回值     |
+| :---------: | :------- | :------------: |
 | page-change | 当前页码 | 当前选中的页码 |
 ## 3. 配置参数
 
-| 参数                  | 说明                             | 类型            | 是否必须 |
-| ------------------- | ------------------------------ | ------------- | ---- |
-| table               | 表格数据对象                         | Object        | 是    |
-| ---data             | 展示数据                           | Array         | 是    |
-| ---column           | 表头信息                           | Array         | 是    |
-| ---isShowPagination | 是否显示分页(默认显示分页)                 | Boolean       | 否    |
-| ---toolbar          | 表格外操作栏选中表格某行，可以将其数据传出          | Array         | 否    |
-| ---operator         | 表格内操作栏数据                       | Array         | 否    |
-| ---operatorConfig   | 操作栏样式                          | Object        | 否    |
-| ---changeColor      | 整行文字颜色样式控制                     | Object        | 否    |
-| ---firstColumn      | 表格首列(序号 index,复选框 selection）排列 | object        | 否    |
-| ---total            | 数据总条数                          | Number        | 是    |
-| ---pageSize         | 页数量                            | Number        | 是    |
-| ---currentPage      | 是否需要显示切换页条数                    | Number        | 是    |
-| height              | 是否固定高度                         | Boolean       | 否    |
-| fixHeight           | 走固定高度时候表格高度                    | String/Number | 否    |
-| size                | 分页类型选项                         | Boolean       | 否    |
+| 参数                | 说明                                       | 类型          | 是否必须 |
+| ------------------- | ------------------------------------------ | ------------- | -------- |
+| table               | 表格数据对象                               | Object        | 是       |
+| ---data             | 展示数据                                   | Array         | 是       |
+| ---column           | 表头信息                                   | Array         | 是       |
+| ---isShowPagination | 是否显示分页(默认显示分页)                 | Boolean       | 否       |
+| ---toolbar          | 表格外操作栏选中表格某行，可以将其数据传出 | Array         | 否       |
+| ---operator         | 表格内操作栏数据                           | Array         | 否       |
+| ---operatorConfig   | 操作栏样式                                 | Object        | 否       |
+| ---changeColor      | 整行文字颜色样式控制                       | Object        | 否       |
+| ---firstColumn      | 表格首列(序号 index,复选框 selection）排列 | object        | 否       |
+| ---total            | 数据总条数                                 | Number        | 是       |
+| ---pageSize         | 页数量                                     | Number        | 是       |
+| ---currentPage      | 是否需要显示切换页条数                     | Number        | 是       |
+| height              | 是否固定高度                               | Boolean       | 否       |
+| fixHeight           | 走固定高度时候表格高度                     | String/Number | 否       |
+| size                | 分页类型选项                               | Boolean       | 否       |
 
 ## 4. 使用帮助
 
@@ -195,7 +195,59 @@ npm run build
   filters: { method: '￥' }：表显示金额
   filters: { param: 'REPAYMENT_STATES' } ：表状态对应的canstants对应的字段
   ```
-  ##### 4.5 关于element-ui el-table提供的一些方法，样式如何添加
+  ##### 4.6 新增翻页选中功能（2020-02-27添加）
+  **页面代码新增：:row-key属性和selection-change复选框事件**
+  ```
+  <t-table
+          :table="table"
+          @size-change="handlesSizeChange"
+          @page-change="handlesCurrentChange"
+          :row-key="getRowKey"
+          @selection-change="handlesSelectionChange"
+        />
+  ```
+  **js代码**
+   ```
+  // 获取列表数据的唯一标识
+    getRowKey (row) {
+      return row.id
+    },
+    // 选中的数据
+    handlesSelectionChange (val) {
+      this.chosenIds = val.map(item => item.id)
+    },
+  ```
+  ==注意：==（参考配置参数）
+    firstColumn: { type: 'selection', isPaging: true },
+     type: 'selection' 表复选框
+     isPaging: true 表可以跨页勾选
+     
+   **组件代码新增了:reserve-selection属性**
+```
+ <!-- 序列号/复选框 -->
+      <div v-if="table.firstColumn">
+        <el-table-column
+          :type="table.firstColumn.type"
+          width="50"
+          :label="table.firstColumn.label"
+          align="center"
+          v-if="table.firstColumn.type!=='index'"
+        ></el-table-column>
+        <el-table-column
+          :type="table.firstColumn.type"
+          width="50"
+          :reserve-selection="table.firstColumn.isPaging||false"
+          :label="table.firstColumn.label"
+          align="center"
+          v-if="table.firstColumn.type==='index'"
+        >
+          <template slot-scope="scope">
+            <span>{{isShowPagination?((table.currentPage - 1) * table.pageSize + scope.$index + 1):scope.$index + 1}}</span>
+          </template>
+        </el-table-column>
+      </div>
+```
+  ##### 4.6 关于element-ui el-table提供的一些方法，样式如何添加
   按照el-table写法直接使用即可，无需其他配置
 
 ## 5. Dome

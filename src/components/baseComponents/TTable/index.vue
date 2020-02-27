@@ -55,6 +55,7 @@
         <el-table-column
           :type="table.firstColumn.type"
           width="50"
+          :reserve-selection="table.firstColumn.isPaging||false"
           :label="table.firstColumn.label"
           align="center"
           v-if="table.firstColumn.type==='index'"

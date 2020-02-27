@@ -27,7 +27,8 @@ export default {
         currentPage: 1,
         pageSize: 10,
         // 是否显示复选框或序列号
-        firstColumn: { type: 'selection' },
+        // firstColumn: { type: 'selection' },
+        firstColumn: { type: 'index', label: '序列' },
         // 数据
         data: [
           {

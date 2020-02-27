@@ -17,6 +17,7 @@ npm run build
 
 ## 1. 简介
  HTML一行代码，可以实现表格分页/表格内/外按钮操作/行内文字变色/动态字典展示/filters格式化数据/排序/显示隐藏表格内操作按钮等
+ *新增可以翻页复选功能（具体参考使用帮助4.6）*
 **代码示例：**
 ```
      <t-table
@@ -122,7 +123,7 @@ npm run build
 
 ## 4. 使用帮助
 
-  ##### 4.1 关于顶部工具栏
+  #### 4.1 关于顶部工具栏
   使用插槽toolbar传入即可
   ```
   <template #toolbar>
@@ -138,7 +139,7 @@ npm run build
     </el-select>
   </template>
   ```
-  ###### 若需要表格外操作栏(超过3个按钮，第4个按钮会以下拉的方式展示)
+  ##### 若需要表格外操作栏(超过3个按钮，第4个按钮会以下拉的方式展示)
   配置toolbar即可（前提条件是，必须使用插槽toolbar）
   ```
   toolbar: [
@@ -150,7 +151,7 @@ npm run build
           }
   ]
   ```
-  ##### 4.2 关于表格内操作栏
+  #### 4.2 关于表格内操作栏
   配置operator即可
   ```
   operator: [
@@ -172,7 +173,7 @@ npm run build
     }
   ]
   ```
-  ##### 4.3 关于表格操作栏样式，如固定右侧，宽度
+  #### 4.3 关于表格操作栏样式，如固定右侧，宽度
   ```
   operatorConfig: {
     fixed: 'right',
@@ -180,7 +181,7 @@ npm run build
     label: '操作'
   }
   ```
-  ##### 4.4 关于表格某行文字颜色
+  #### 4.4 关于表格某行文字颜色
   ```
   changeColor: {
     key: 'status', // 状态
@@ -188,14 +189,14 @@ npm run build
     txtStyle: 'red' // 设置文字颜色也可以用“#ef473a”
   }
   ```
-   ##### 4.5 关于表格状态filters方法使用（在表头column对象里添加如下字段）
+   #### 4.5 关于表格状态filters方法使用（在表头column对象里添加如下字段）
   ```
   { prop: 'loanInterest', label: '利息', width: '120' , filters: { method: '%' }},
   filters: { method: '%' }：表显示百分比
   filters: { method: '￥' }：表显示金额
   filters: { param: 'REPAYMENT_STATES' } ：表状态对应的canstants对应的字段
   ```
-  ##### 4.6 新增翻页选中功能（2020-02-27添加）
+  #### 4.6 新增翻页选中功能（2020-02-27添加）
   **页面代码新增：:row-key属性和selection-change复选框事件**
   ```
   <t-table
@@ -247,7 +248,7 @@ npm run build
         </el-table-column>
       </div>
 ```
-  ##### 4.6 关于element-ui el-table提供的一些方法，样式如何添加
+  #### 4.7 关于element-ui el-table提供的一些方法，样式如何添加
   按照el-table写法直接使用即可，无需其他配置
 
 ## 5. Dome

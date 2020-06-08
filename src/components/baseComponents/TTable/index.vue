@@ -110,9 +110,8 @@
             :key="index"
             @click="item.fun(scope.row)"
             :type="item.type"
-            :loading="!item.loading?false:btnLoading"
             size="small"
-            v-show="!item.show || item.show.val.includes(scope.row[item.show.key])"
+            v-show="checkIsShow(scope,item)"
           >{{item.text}}</el-button>
         </template>
       </el-table-column>
@@ -160,11 +159,6 @@ export default {
       type: Boolean,
       default: false
     },
-    // 操作按钮loading
-    btnLoading: {
-      type: Boolean,
-      default: false
-    },
     // 是否显示分页
     isShowPagination: {
       type: Boolean,
@@ -193,6 +187,23 @@ export default {
     })
   },
   methods: {
+    // 是否显示表格操作按钮
+    checkIsShow (scope, item) {
+      let isNoShow = false
+      if (item.noshow) {
+        item.noshow.map(rs => {
+          rs.isShow = typeof rs.val === 'string'
+            ? (rs.val === 'isHadVal' ? (scope.row[rs.key] ? 'true' : 'false') : 'true')
+            : (rs.val.includes(scope.row[rs.key]) ? 'false' : 'true')
+        })
+        isNoShow = item.noshow.every(key => {
+          return key.isShow === 'true'
+        })
+      } else {
+        isNoShow = true
+      }
+      return (!item.show || item.show.val.includes(scope.row[item.show.key])) && isNoShow
+    },
     // 控制表格字体颜色
     txtChangeColor (scope) {
       if (this.table.changeColor && scope.row[this.table.changeColor.key] === this.table.changeColor.val) {

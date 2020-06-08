@@ -17,7 +17,8 @@ npm run build
 
 ## 1. 简介
  HTML一行代码，可以实现表格分页/表格内/外按钮操作/行内文字变色/动态字典展示/filters格式化数据/排序/显示隐藏表格内操作按钮等
- *新增可以翻页复选功能（具体参考使用帮助4.6）*
+  ==
+ > **2020.6.8新增表格内操作按钮，可以多种状态控制按钮的显示与隐藏——详情查看4.2点补充说明**
 **代码示例：**
 ```
      <t-table
@@ -170,6 +171,20 @@ npm run build
       text: '撤销',
       fun: this.revoke,
       show: { key: 'status', val: ['1'] }
+    }
+  ]
+  ```
+  ###### 补充说明：多种状态控制按钮的显示与隐藏
+  ```
+  operator: [
+    {
+      text: '预览',
+      type: 'primary',
+      fun: this.preview,
+      noshow:[{key:'fields',val:'isHasVal'},{key:'status',val:[0,1,99]},{key:'channelCode',val:['bank']}]
+      // noshow中的key值(fields/status/channelCode)是表格后台返回的字段
+      // 当val等于字符串'isHasVal'时,字段'fields'返回为空时，此行操作按钮隐藏
+      // 以上综合：当'status'为0/1/99并且'channelCode'为'bank'及'fields'为空时,隐藏按钮
     }
   ]
   ```

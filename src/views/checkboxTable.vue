@@ -43,7 +43,7 @@ export default {
             id: '2',
             date: '2019-09-26',
             name: '张三1',
-            status: '1',
+            status: '2',
             amount: 2000,
             address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
           },
@@ -105,7 +105,9 @@ export default {
           {
             text: '新增',
             type: 'primary',
-            fun: this.add
+            fun: this.add,
+            // status为1或amount为2000时，不显示此按钮
+            noshow: [{ key: 'status', val: ['1'] }, { key: 'amount', val: [2000] }]
           },
           {
             text: '编辑',

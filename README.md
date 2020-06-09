@@ -275,3 +275,5 @@ npm run build
 
 ## 相关文章
 [axios二次封装，接口统一存放,满足RESTful风格](https://blog.csdn.net/cwin8951/article/details/104415090)
+******
+[keep-alive不能缓存多层级路由(vue-router)菜单问题解决](https://blog.csdn.net/cwin8951/article/details/106644118)

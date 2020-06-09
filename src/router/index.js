@@ -2,17 +2,18 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
-
+const TableDemo = () => import('@/views/demo.vue')
+const CheckboxTable = () => import('@/views/demo.vue')
 const routes = [
   {
     path: '/',
     name: 'TTable',
-    component: () => import('@/views/demo.vue')
+    component: TableDemo
   },
   {
     path: '/checkbox-table',
     name: 'checkboxTable',
-    component: () => import('@/views/checkboxTable.vue')
+    component: CheckboxTable
   }
 ]
 

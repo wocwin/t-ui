@@ -227,6 +227,20 @@ export default {
     },
     // 表格头部按钮
     toolbarFun (item) {
+      if (!this.rowData) {
+        this.$message({
+          type: 'warning',
+          message: '请选中行'
+        })
+        return
+      }
+      if (!this.rowData.selectFlag) {
+        this.$message({
+          type: 'warning',
+          message: '请选中行'
+        })
+        return
+      }
       item.fun(this.rowData)
     },
     isShow (name) {

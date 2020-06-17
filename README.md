@@ -202,7 +202,7 @@ npm run build
   changeColor: {
     key: 'status', // 状态
     val: '0',  // 状态值
-    txtStyle: 'red' // 设置文字颜色也可以用“#ef473a”
+    txtStyle: '#ef473a' // 设置文字颜色也可以用“#ef473a”
   }
   ```
    #### 4.5 关于表格状态filters方法使用（在表头column对象里添加如下字段）
@@ -277,3 +277,5 @@ npm run build
 [axios二次封装，接口统一存放,满足RESTful风格](https://blog.csdn.net/cwin8951/article/details/104415090)
 ******
 [keep-alive不能缓存多层级路由(vue-router)菜单问题解决](https://blog.csdn.net/cwin8951/article/details/106644118)
+
+[基于ElementUi再次封装基础组件文档](https://wocwin.github.io/blog/)

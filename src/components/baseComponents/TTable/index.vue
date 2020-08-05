@@ -33,7 +33,6 @@
         </el-popover>
       </div>
     </div>
-    <!-- :style="{'width': $store.getters.tableWidth,'transition': 'width .3s'}" -->
     <el-table
       ref="el-table"
       :data="table.data"
@@ -68,7 +67,7 @@
       <slot name="begin"></slot>
 
       <el-table-column
-        v-for="(item, index) in table.column"
+        v-for="(item, index) in columnList"
         :key="index"
         :type="item.type"
         :label="item.label"
@@ -76,7 +75,7 @@
         :min-width="item['min-width'] || item.minWidth || item.width"
         :sortable="item.sort"
         :align="item.align || 'center'"
-        show-overflow-tooltip
+        :show-overflow-tooltip="!item.noShowTip"
         v-bind="$attrs"
         v-on="$listeners"
       >
@@ -172,6 +171,11 @@ export default {
     }
   },
   computed: {
+    columnList () {
+      return this.table.column.filter(item => {
+        return !item.noShowColumn
+      })
+    },
     getToolbarBtn () {
       return this.table.toolbar ? this.table.toolbar.slice(0, 3) : []
     },

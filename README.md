@@ -18,7 +18,7 @@ npm run build
 ## 1. 简介
  HTML一行代码，可以实现表格分页/表格内/外按钮操作/行内文字变色/动态字典展示/filters格式化数据/排序/显示隐藏表格内操作按钮等
   ==
- > **2020.6.8新增表格内操作按钮，可以多种状态控制按钮的显示与隐藏——详情查看4.2点补充说明**
+ > **新增隐藏某列及某单元格内容过长是否换行（默认内容过长省略号显示鼠标移入有tip提示）**
 ==========================================
  > **代码示例：**
 ```
@@ -105,23 +105,32 @@ npm run build
 | page-change | 当前页码 | 当前选中的页码 |
 ## 3. 配置参数
 
-| 参数                | 说明                                       | 类型          | 是否必须 |
-| ------------------- | ------------------------------------------ | ------------- | -------- |
-| table               | 表格数据对象                               | Object        | 是       |
-| ---data             | 展示数据                                   | Array         | 是       |
-| ---column           | 表头信息                                   | Array         | 是       |
-| ---isShowPagination | 是否显示分页(默认显示分页)                 | Boolean       | 否       |
-| ---toolbar          | 表格外操作栏选中表格某行，可以将其数据传出 | Array         | 否       |
-| ---operator         | 表格内操作栏数据                           | Array         | 否       |
-| ---operatorConfig   | 操作栏样式                                 | Object        | 否       |
-| ---changeColor      | 整行文字颜色样式控制                       | Object        | 否       |
-| ---firstColumn      | 表格首列(序号 index,复选框 selection）排列 | object        | 否       |
-| ---total            | 数据总条数                                 | Number        | 是       |
-| ---pageSize         | 页数量                                     | Number        | 是       |
-| ---currentPage      | 是否需要显示切换页条数                     | Number        | 是       |
-| height              | 是否固定高度                               | Boolean       | 否       |
-| fixHeight           | 走固定高度时候表格高度                     | String/Number | 否       |
-| size                | 分页类型选项                               | Boolean       | 否       |
+| 参数              | 说明                                       | 类型          | 是否必须 |
+| ----------------- | ------------------------------------------ | ------------- | -------- |
+| table             | 表格数据对象                               | Object        | 是       |
+| ---data           | 展示数据                                   | Array         | 是       |
+| ---column         | 表头信息                                   | Array         | 是       |
+| -------sort       | 排序 （设置：sort:true）                   | Boolean        | 否       |
+| -------noShowTip  | 是否换行 （设置：noShowTip:true）           | Boolean        | 否       |
+| -------noShowColumn | 是否隐藏当前列（设置：noShowColumn:true） | Boolean        | 否       |
+| -------filters    | filters转义（后台返回数字转中文，时间戳转时间）| Object    | 否       |
+| ---toolbar        | 表格外操作栏选中表格某行，可以将其数据传出 | Array         | 否       |
+| ---operator       | 表格内操作栏数据                           | Array         | 否       |
+| -------show       | 表格内操作栏根据状态显示                   | Object        | 否       |
+| -------noshow     | 表格内操作栏根据多种状态不显示             | Array         | 否       |
+| -------resCode    | 表格内操作栏按钮权限资源（路由path） 暂不支持| String        | 否       |
+| ---operatorConfig | 操作栏样式                                 | Object        | 否       |
+| ---changeColor    | 整行文字颜色样式控制                       | Object        | 否       |
+| ---firstColumn    | 表格首列(序号 index,复选框 selection）排列 | object        | 否       |
+| ---total          | 数据总条数                                 | Number        | 否       |
+| ---pageSize       | 页数量                                     | Number        | 否       |
+| ---currentPage    | 是否需要显示切换页条数                     | Number        | 否       |
+| height            | 是否固定高度                               | Boolean       | 否       |
+| fixHeight         | 走固定高度时候表格高度                     | String/Number | 否       |
+| size              | 分页类型选项                               | Boolean       | 否       |
+| isShowPagination  | 是否显示分页(默认显示分页)                 | Boolean       | 否       |
+| isCopy            | 是否允许双击单元格复制     暂不支持        | Boolean       | 否       |
+
 
 ## 4. 使用帮助
 

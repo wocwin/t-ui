@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 const TableDemo = () => import('@/views/demo.vue')
-const CheckboxTable = () => import('@/views/demo.vue')
+const CheckboxTable = () => import('@/views/checkboxTable.vue')
+const QueryData = () => import('@/views/query.vue')
 const routes = [
   {
     path: '/',
@@ -14,6 +15,11 @@ const routes = [
     path: '/checkbox-table',
     name: 'checkboxTable',
     component: CheckboxTable
+  },
+  {
+    path: '/query',
+    name: 'query表单',
+    component: QueryData
   }
 ]
 

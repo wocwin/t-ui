@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+    <div id="nav">
+      Nav路由
+      <router-link to="/">table组件</router-link>|
+      <router-link to="/query">查询条件组件</router-link>
+    </div>
+    <hr />
     <router-view />
   </div>
 </template>

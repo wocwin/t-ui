@@ -63,7 +63,10 @@
           </div>
         </div>
         <!-- 按钮 -->
-        <div class="el-col-8 flex-box flex-ver">
+        <div
+          class="el-col-8 flex-box flex-ver-v flex-ver-h-right t-margin-top-5"
+          :class="remainder===0?'el-col-24':remainder===1?'el-col-16':''"
+        >
           <el-button
             v-for="item in getOperatorList()"
             :key="item.label"
@@ -86,19 +89,15 @@ export default {
     className: {
       type: String
     },
-    // 相关列表
+    // 相关列表(下拉选择)
     listTypeInfo: {
       type: Object,
       default: () => {
         return {}
       }
     },
-    // 过滤器列表
-    filterList: {
-      type: Array
-    },
-    // 操作按钮
-    operatorList: {
+    // 查询条件list
+    queryList: {
       type: Array
     },
     // 参数
@@ -115,8 +114,16 @@ export default {
         //   return time.getTime() > +new Date() + 1000 * 600 * 1
         // }
       },
+      remainder: null,
       flag: 'inner', // 内 inner  外outside
-      searchQuery: {}
+      searchQuery: {},
+      // 操作按钮
+      operatorList: [
+        { label: '清空', type: 'danger', icon: 'el-icon-delete', fun: this.reset },
+        { label: '查询', type: 'primary', icon: 'el-icon-search', fun: this.search },
+        { label: '收起', type: 'danger', icon: 'el-icon-arrow-up', fun: this.unfold },
+        { label: '展开', type: 'danger', icon: 'el-icon-arrow-down', fun: this.unfold, show: false }
+      ]
     }
   },
   watch: {
@@ -139,8 +146,74 @@ export default {
   },
   mounted () {
     this.initParams()
+    this.initBtn()
   },
   methods: {
+    // 查询
+    search () {
+      const remainderArr = []
+      this.queryList.map(item => {
+        // 默认查询所以不清除
+        if (Object.values(this.query).every(res => res === '')) {
+          this.$set(item, 'show', true)
+          remainderArr.push(item)
+        } else {
+          if (!this.query[item.value]) {
+            this.$set(item, 'show', false)
+          } else {
+            remainderArr.push(item)
+          }
+          this.operatorList.map(item => {
+            if (item.label === '收起') {
+              this.$set(item, 'show', false)
+            } else {
+              this.$set(item, 'show', true)
+            }
+          })
+        }
+      })
+      this.remainder = remainderArr.length % 3
+    },
+    // 收起与展开
+    unfold (val) {
+      if (val.label === '收起') {
+        this.queryList.map((item, index) => {
+          if (index !== 0 && index !== 1) {
+            this.$set(item, 'show', false)
+          }
+        })
+        this.operatorList.map(item => {
+          if (item.label === '收起') {
+            this.$set(item, 'show', false)
+          } else {
+            this.$set(item, 'show', true)
+          }
+        })
+      } else {
+        this.queryList.map(item => {
+          this.$set(item, 'show', true)
+        })
+        // 初始化按钮位置
+        this.initBtn()
+        // 控制按钮是收起还是展示
+        this.operatorList.map(item => {
+          if (item.label === '展开') {
+            this.$set(item, 'show', false)
+          } else {
+            this.$set(item, 'show', true)
+          }
+        })
+      }
+    },
+    // 重置
+    reset () {
+      this.$emit('reset')
+    },
+    // 按钮位置
+    initBtn () {
+      this.remainder = Object.keys(this.query).length % 3
+    },
+    // 初始化参数
     initParams () {
       const obj = {}
       for (const key in this.query) {
@@ -153,7 +226,7 @@ export default {
     // 获取列表
     getConfigList () {
       // eslint-disable-next-line no-prototype-builtins
-      return this.filterList.filter(item => !item.hasOwnProperty('show') || (item.hasOwnProperty('show') && item.show))
+      return this.queryList.filter(item => !item.hasOwnProperty('show') || (item.hasOwnProperty('show') && item.show))
     },
     // 获取操作按钮
     getOperatorList () {

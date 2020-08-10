@@ -3,10 +3,11 @@
     <!-- 条件栏 -->
     <t-query-condition
       :query.sync="queryInfo.query"
-      :filter-list="queryInfo.queryList"
+      :query-list="queryInfo.queryList"
       :operator-list="queryInfo.operatorList"
       :list-type-info="listTypeInfo"
       @handleEvent="handleEvent"
+      @reset="reset"
     />
   </div>
 </template>
@@ -48,11 +49,6 @@ export default {
           { type: 'select', label: '创建人', value: 'createUser', list: 'userList' },
           { type: 'select', label: '状态', value: 'status', list: 'statusList' },
           { type: 'date', label: '创建时间', value: 'createTime', event: 'date' }
-        ],
-        operatorList: [
-          { label: '清空', type: 'danger', icon: 'el-icon-delete', fun: this.reset },
-          { label: '查询', type: 'primary', icon: 'el-icon-search', fun: this.search },
-          { label: '展开', type: 'danger', icon: 'el-icon-arrow-down', fun: this.unfold }
         ]
       },
       // 相关列表
@@ -81,30 +77,51 @@ export default {
           break
       }
     },
-    search () {
-      console.log('查询', this.queryInfo.query)
-      this.queryInfo.queryList.map(item => {
-        // 默认查询所以不清除
-        if (Object.values(this.queryInfo.query).every(res => res === '')) {
-          this.$set(item, 'show', true)
-        } else {
-          if (!this.queryInfo.query[item.value]) {
-            this.$set(item, 'show', false)
-          }
-        }
-      })
-      console.log('查询2', this.queryInfo.queryList)
-    },
+    // search () {
+    //   console.log('查询', this.queryInfo.query)
+    //   this.queryInfo.queryList.map(item => {
+    //     // 默认查询所以不清除
+    //     if (Object.values(this.queryInfo.query).every(res => res === '')) {
+    //       this.$set(item, 'show', true)
+    //     } else {
+    //       if (!this.queryInfo.query[item.value]) {
+    //         this.$set(item, 'show', false)
+    //       }
+    //     }
+    //   })
+    //   console.log('查询2', this.queryInfo.queryList)
+    // },
     reset () {
       console.log('重置')
       Object.assign(this.$data.queryInfo.query, this.$options.data().queryInfo.query)
-    },
-    unfold () {
-      console.log('展开')
-      this.queryInfo.queryList.map(item => {
-        this.$set(item, 'show', true)
-      })
     }
+    // unfold (val) {
+    //   if (val.label === '收起') {
+    //     this.queryInfo.queryList.map((item, index) => {
+    //       if (index !== 0 && index !== 1) {
+    //         this.$set(item, 'show', false)
+    //       }
+    //     })
+    //     this.queryInfo.operatorList.map(item => {
+    //       if (item.label === '收起') {
+    //         this.$set(item, 'show', false)
+    //       } else {
+    //         this.$set(item, 'show', true)
+    //       }
+    //     })
+    //   } else {
+    //     this.queryInfo.queryList.map(item => {
+    //       this.$set(item, 'show', true)
+    //     })
+    //     this.queryInfo.operatorList.map(item => {
+    //       if (item.label === '展开') {
+    //         this.$set(item, 'show', false)
+    //       } else {
+    //         this.$set(item, 'show', true)
+    //       }
+    //     })
+    //   }
+    // }
   }
 }
 </script>

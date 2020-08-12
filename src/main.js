@@ -8,8 +8,11 @@ import './components/index.js'
 import './assets/css/index.scss'
 import * as filters from './utils/filters' // global filters
 import PromiseHttp from './api/apiPath/index'
-
+import vueImgAlart from './utils/directive/imgAlart/index'// 图片弹窗指令
 Es6Promise.polyfill()
+
+Vue.use(vueImgAlart)
+
 Vue.config.productionTip = false
 
 Vue.prototype.$http = PromiseHttp

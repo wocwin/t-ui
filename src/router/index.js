@@ -5,6 +5,7 @@ Vue.use(VueRouter)
 const TableDemo = () => import('@/views/demo.vue')
 const CheckboxTable = () => import('@/views/checkboxTable.vue')
 const QueryData = () => import('@/views/query.vue')
+const FormData = () => import('@/views/form.vue')
 const routes = [
   {
     path: '/',
@@ -18,8 +19,13 @@ const routes = [
   },
   {
     path: '/query',
-    name: 'query表单',
+    name: '筛选条件查询',
     component: QueryData
+  },
+  {
+    path: '/form',
+    name: 'form表单',
+    component: FormData
   }
 ]
 

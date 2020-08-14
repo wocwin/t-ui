@@ -1,7 +1,6 @@
 /**
  * Created by Win on 20/02/21.
  */
-
 // 时间戳转化为年 月 日
 export function getLocalTime (nS) {
   // 将时间戳（十三位时间搓，也就是带毫秒的时间搓）转换成时间格式

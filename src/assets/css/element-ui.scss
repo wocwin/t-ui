@@ -121,3 +121,9 @@
     border-left-color: #f56c6c !important;
   }
 }
+
+
+// 修复keep-live后的页面表格操作栏的高度不一致
+.el-table__fixed-right{
+  height: 100%!important;
+}

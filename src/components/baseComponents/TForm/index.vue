@@ -6,6 +6,8 @@
     :model="formData"
     :rules="rules"
     :label-width="labelWidth"
+    v-bind="$attrs"
+    v-on="$listeners"
   >
     <el-form-item
       v-for="(item, index) in getConfigList()"
@@ -13,6 +15,9 @@
       :prop="item.value"
       :label="item.label"
       :class="item.className"
+      :rules="item.rules"
+      v-bind="$attrs"
+      v-on="$listeners"
     >
       <!-- solt -->
       <template v-if="item.type === 'slot'">
@@ -26,7 +31,7 @@
         :disabled="item.disabled"
         :clearable="item.clearable === false ? item.clearable : true"
         :placeholder="getPlaceholder(item)"
-        @change="handleEvent(item.event)"
+        @change="handleEvent(item.event, formData[item.value])"
       />
       <!-- 文本输入框 -->
       <el-input
@@ -36,7 +41,7 @@
         :disabled="item.disabled"
         :placeholder="getPlaceholder(item)"
         :autosize="item.autosize || {minRows: 2, maxRows: 10}"
-        @change="handleEvent(item.event)"
+        @change="handleEvent(item.event, formData[item.value])"
       />
       <!-- 计数器 -->
       <el-input-number
@@ -46,7 +51,7 @@
         :clearable="item.clearable === false ? item.clearable : true"
         :min="item.min"
         :max="item.max"
-        @change="handleEvent(item.event)"
+        @change="handleEvent(item.event, formData[item.value])"
       />
       <!-- 复选框 -->
       <el-checkbox-group
@@ -56,12 +61,11 @@
         @change="handleEvent(item.event, formData[item.value])"
       >
         <el-checkbox
-          v-for="(val,index) in listTypeInfo[item.list]"
-          :key="index"
-          :label="val.label"
-          :name="val.value"
+          v-for="val in listTypeInfo[item.list]"
+          :key="val.value"
+          :label="val.value"
           :disabled="val.disabled"
-        ></el-checkbox>
+        >{{val.label}}</el-checkbox>
       </el-checkbox-group>
       <!-- 选择框 -->
       <el-select
@@ -81,7 +85,7 @@
           :value="childItem.value"
         />
       </el-select>
-      <!-- 日期选择框 -->
+      <!-- 单个日期选择框 -->
       <el-date-picker
         v-if="item.type === 'date'"
         v-model="formData[item.value]"
@@ -89,8 +93,19 @@
         :picker-options="item.TimePickerOptions"
         :clearable="item.clearable === false ? item.clearable : true"
         :disabled="item.disabled"
+        value-format="yyyy-MM-dd"
         :placeholder="getPlaceholder(item)"
-        @change="handleEvent(item.event)"
+        @change="handleEvent(item.event,$event,item.value)"
+      />
+      <!-- 开始——结束日期选择框 -->
+      <t-date-picker
+        v-if="item.type === 't-date'"
+        :plusTime="item.plusTime === false ? item.plusTime : true"
+        :clearable="item.clearable === false ? item.clearable : true"
+        :startDate="formData[item.startDate]"
+        :endDate="formData[item.endDate]"
+        @startChange="handleEvent(item.event,$event,item.startDate)"
+        @endChange="handleEvent(item.event,$event,item.endDate)"
       />
     </el-form-item>
     <!-- 按钮 -->
@@ -108,8 +123,10 @@
 </template>
 
 <script>
+import TDatePicker from '../TDatePicker'
 export default {
   name: 'TForm',
+  components: { TDatePicker },
   props: {
     // 自定义类名
     className: {
@@ -136,6 +153,7 @@ export default {
         return {}
       }
     },
+    // 操作按钮list
     operatorList: {
       type: Array,
       default: () => {
@@ -195,9 +213,13 @@ export default {
     // 得到placeholder的显示
     getPlaceholder (row) {
       let placeholder
-      if (row.type === 'input' || row.type === 'textarea') {
+      // 请输入type
+      const inputArr = ['input', 'textarea']
+      // 请选择type
+      const selectArr = ['select', 'time', 'date', 't-date']
+      if (inputArr.includes(row.type)) {
         placeholder = '请输入' + row.label
-      } else if (row.type === 'select' || row.type === 'time' || row.type === 'date') {
+      } else if (selectArr.includes(row.type)) {
         placeholder = '请选择' + row.label
       } else {
         placeholder = row.label
@@ -205,12 +227,8 @@ export default {
       return placeholder
     },
     // 绑定的相关事件
-    handleEvent (evnet) {
-      this.$emit('handleEvent', evnet)
-    },
-    // 派发按钮点击事件
-    handleClick (event, data) {
-      this.$emit('handleClick', event, data)
+    handleEvent (type, val, key) {
+      this.$emit('handleEvent', type, val, key)
     }
   }
 }

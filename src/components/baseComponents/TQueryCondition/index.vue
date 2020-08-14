@@ -16,7 +16,7 @@
                 :disabled="item.disabled"
                 :clearable="item.clearable === false ? item.clearable : true"
                 :placeholder="getPlaceholder(item)"
-                @focus="handleEvent(item.event)"
+                @change="handleEvent(item.event,$event)"
               />
               <!-- 选择框 -->
               <el-select
@@ -28,7 +28,7 @@
                 :clearable="item.clearable === false ? item.clearable : true"
                 :filterable="item.filterable === false ? item.filterable : true"
                 :placeholder="getPlaceholder(item)"
-                @change="handleEvent(item.event)"
+                @change="handleEvent(item.event,$event)"
               >
                 <el-option
                   v-for="(childItem, childIndex) in listTypeInfo[item.list]"
@@ -56,8 +56,19 @@
                 :type="item.dateType"
                 :clearable="item.clearable === false ? item.clearable : true"
                 :disabled="item.disabled"
+                :value-format="item.valueFormat||'yyyy-MM-dd'"
                 :placeholder="getPlaceholder(item)"
-                @change="handleEvent($event,item.event)"
+                @change="handleEvent(item.event,$event,item.value)"
+              />
+              <!-- 开始——结束日期选择框 -->
+              <t-date-picker
+                v-if="item.type === 't-date'"
+                :plusTime="item.plusTime === false ? item.plusTime : true"
+                :clearable="item.clearable === false ? item.clearable : true"
+                :startDate="searchQuery[item.startDate]"
+                :endDate="searchQuery[item.endDate]"
+                @startChange="handleEvent(item.event,$event,item.startDate)"
+                @endChange="handleEvent(item.event,$event,item.endDate)"
               />
             </div>
           </div>
@@ -82,8 +93,10 @@
 </template>
 
 <script>
+import TDatePicker from '../TDatePicker'
 export default {
   name: 'TQueryCondition',
+  components: { TDatePicker },
   props: {
     // 自定义类名
     className: {
@@ -158,10 +171,18 @@ export default {
           this.$set(item, 'show', true)
           remainderArr.push(item)
         } else {
-          if (!this.query[item.value]) {
-            this.$set(item, 'show', false)
+          if (item.type === 't-date') {
+            if (!this.query[item.startDate] && !this.query[item.endDate]) {
+              this.$set(item, 'show', false)
+            } else {
+              remainderArr.push(item)
+            }
           } else {
-            remainderArr.push(item)
+            if (!this.query[item.value]) {
+              this.$set(item, 'show', false)
+            } else {
+              remainderArr.push(item)
+            }
           }
           this.operatorList.map(item => {
             if (item.label === '收起') {
@@ -172,6 +193,7 @@ export default {
           })
         }
       })
+      console.log(7788, this.query)
       this.remainder = remainderArr.length % 3
     },
     // 收起与展开
@@ -212,6 +234,13 @@ export default {
     // 按钮位置
     initBtn () {
       this.remainder = Object.keys(this.query).length % 3
+      if (Object.keys(this.query).length <= 2) {
+        this.operatorList.map(item => {
+          if (item.label === '收起' || item.label === '展开') {
+            this.$set(item, 'show', false)
+          }
+        })
+      }
     },
     // 初始化参数
     initParams () {
@@ -236,9 +265,13 @@ export default {
     // placeholder的显示
     getPlaceholder (row) {
       let placeholder
-      if (row.type === 'input' || row.type === 'textarea') {
+      // 请输入type
+      const inputArr = ['input', 'textarea']
+      // 请选择type
+      const selectArr = ['select', 'time', 'date', 't-date']
+      if (inputArr.includes(row.type)) {
         placeholder = '请输入' + row.label
-      } else if (row.type === 'select' || row.type === 'time' || row.type === 'date') {
+      } else if (selectArr.includes(row.type)) {
         placeholder = '请选择' + row.label
       } else {
         placeholder = row.label
@@ -246,8 +279,8 @@ export default {
       return placeholder
     },
     // 绑定的相关事件
-    handleEvent (event, type) {
-      this.$emit('handleEvent', event, type)
+    handleEvent (type, val, key) {
+      this.$emit('handleEvent', type, val, key)
     }
   }
 }

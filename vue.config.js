@@ -1,13 +1,15 @@
+const path = require('path')
 const port = 2222
-
+const isProduction = process.env.NODE_ENV === 'production'
+function resolve (dir) {
+  return path.join(__dirname, dir)
+}
 module.exports = {
-  // configureWebpack: (config) => {
-  //   config.entry.app = ['babel-polyfill', './src/main.js']
-  // },
+  transpileDependencies: ['element-ui'], // 解决IE浏览器本地启动白屏现象
   // outputDir: process.env.outputDir || 'dist', // 输出文件名称
   // publicPath: '/',//部署应用包时的基本 URL
-  // productionSourceMap: isProduction ? false : true, // 解决vue项目打包后浏览器F12查看到项目源代码false不能看到
-  productionSourceMap: true, // 测试调试打断点
+  productionSourceMap: !isProduction, // 解决vue项目打包后浏览器F12查看到项目源代码false不能看到
+  // productionSourceMap: true, // 测试调试打断点
   // lintOnSave: false,// 去掉eslint校验
   devServer: {
     port: port, // 设置端口号
@@ -21,6 +23,27 @@ module.exports = {
           '/api': '/mock' // 本地
         }
       }
+    }
+  },
+  // 底层是webpack-chain
+  chainWebpack: config => {
+    // 配置兼容IE浏览器
+    config.entry.app = ['babel-polyfill', './src/main.js']
+    // 配置别名
+    config.resolve.alias
+      .set('@', resolve('src'))
+    // 生产环境配置
+    if (isProduction) {
+      // 删除预加载
+      config.plugins.delete('preload')
+      config.plugins.delete('prefetch')
+      // 压缩代码
+      config.optimization.minimize(true)
+      // 分割代码
+      config.optimization.splitChunks({
+        chunks: 'all'
+        // maxSize: 100000 // 大于100kb做二次分割
+      })
     }
   }
 }

@@ -1,0 +1,7 @@
+@font-face{
+    font-family: 'SourceHanSansCN-Normal';
+    src: url('SourceHanSans/SourceHanSansCN-Normal.eot');
+    src: url('SourceHanSans/SourceHanSansCN-Normal.eot?#iefix') format('embedded-opentype'),
+         url('SourceHanSans/SourceHanSansCN-Normal.woff') format('woff'),
+         url('SourceHanSans/SourceHanSansCN-Normal.ttf') format('truetype');
+}

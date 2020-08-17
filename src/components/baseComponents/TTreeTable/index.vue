@@ -37,13 +37,13 @@
             ></i>
           </button>
           <span v-else-if="index===0" class="ms-tree-space"></span>
-          <span v-if="!column.filters">{{scope.row[column.dataIndex]}}</span>
+          <span v-if="!column.filters&&scope.row">{{scope.row[column.dataIndex]}}</span>
           <span
             v-if="column.filters&&column.filters.param"
           >{{scope.row[column.dataIndex] |constantKey2Value(column.filters.param)}}</span>
         </template>
       </el-table-column>
-      <el-table-column v-if="operator&&treeType === 'isEdit'" label="操作" min-width="120">
+      <el-table-column v-if="operator" label="操作" min-width="120">
         <template slot-scope="scope">
           <el-button
             v-for="(item, index) in operator"
@@ -95,11 +95,6 @@ export default {
       type: String,
       default: ''
     },
-    // 这个是是否展示操作列
-    treeType: {
-      type: String,
-      default: 'normal'
-    },
     // 是否显示勾选框 showCheckBox：
     showCheckBox: {
       type: Boolean,
@@ -109,11 +104,6 @@ export default {
     defaultExpandAll: {
       type: Boolean,
       default: false
-    }
-  },
-  data () {
-    return {
-      exceptResList: []
     }
   },
   computed: {

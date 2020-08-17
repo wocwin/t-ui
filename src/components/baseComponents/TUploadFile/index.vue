@@ -203,7 +203,7 @@ export default {
       // this.$ajaxRequest('POST', 'uploadCallback', { cost: this.endTime - this.startTime, callbackToken, fileContentType, fileId, fileName, fileSize })
     },
     uploadRequest (params) {
-      this.loading = true
+      // this.loading = true
       // this.getPolicy()
       // .then(success => {
       //   const data = success

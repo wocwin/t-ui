@@ -6,11 +6,7 @@
 </template>
 
 <script>
-// import TTable from '../../../../../packages/components/TTable'
 export default {
-  components: {
-    // TTable
-  },
   data () {
     return {
       table: {

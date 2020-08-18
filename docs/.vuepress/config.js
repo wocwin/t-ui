@@ -12,7 +12,7 @@ module.exports = {
     },
     themeConfig: {
         // 你的GitLab仓库，请正确填写
-        repo: 'https://github.com/wocwin/blog',
+        repo: 'https://wocwin.github.io/t-ui/',
         // 自定义仓库链接文字。
         repoLabel: 'GitHub',
         nav: [

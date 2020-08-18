@@ -21,4 +21,4 @@ npm run docs:dev
 npm run build
 ```
 
-[基于ElementUi再次封装基础组件文档](https://wocwin.github.io/blog/)
+[基于ElementUi再次封装基础组件文档](https://wocwin.github.io/t-ui/)

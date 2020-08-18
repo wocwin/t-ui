@@ -124,13 +124,13 @@ export default {
     },
     // 显示行
     showTr ({ row, rowIndex }) {
-      const show = (row._parent ? (row._parent._expanded && row._parent._show) : true)
+      let show = (row._parent ? (row._parent._expanded && row._parent._show) : true)
       row._show = show
       return show ? '' : 'hide-row'
     },
     // 展开下级
     toggle (trIndex) {
-      const record = this.data[trIndex]
+      let record = this.data[trIndex]
       record._expanded = !record._expanded
     },
     // 显示层级关系的空格和图标
@@ -162,7 +162,7 @@ export default {
     selectionParent (data, id, checked, row) {
       let result = []
       function handle (_data, _id) {
-        const _arr = Object.prototype.toString.call(_data) === '[object Array]' ? _data : _data.children
+        let _arr = Object.prototype.toString.call(_data) === '[object Array]' ? _data : _data.children
         for (let i = 0; i < _arr.length; i++) {
           if (_arr[i].id === _id) {
             result.push(_arr[i])
@@ -183,13 +183,13 @@ export default {
         })
       } else {
         result && result.map(item => {
-          const isSelect = item.children.some(rs => {
+          let isSelect = item.children.some(rs => {
             return rs.checked === true
           })
-          const isSelect1 = item.children.some(rs => {
+          let isSelect1 = item.children.some(rs => {
             return rs.type === '1'
           })
-          const isSelect2 = item.children.every(rs => {
+          let isSelect2 = item.children.every(rs => {
             return rs.type === '2'
           })
           if (!isSelect && isSelect1 && !isSelect2) item.checked = false
@@ -199,7 +199,7 @@ export default {
     // 父节点子节点联动（父找子）
     selectionChildren (obj, boolen) {
       obj.checked = boolen
-      const children = obj.children
+      let children = obj.children
       if (children && children.length === 0) {
         this.$forceUpdate()
         // console.log(this.dataSource)
@@ -218,7 +218,7 @@ export default {
         if (val.checked) {
           arr.push(val.id)
         }
-        const sonList = val.children
+        let sonList = val.children
         if (sonList.length > 0) {
           this.findSonListCheck(sonList, arr)
         }
@@ -231,7 +231,7 @@ export default {
         if (!val.checked) {
           arr.push(val.id)
         }
-        const sonList = val.children
+        let sonList = val.children
         if (sonList.length > 0) {
           this.findSonListNotCheck(sonList, arr)
         }

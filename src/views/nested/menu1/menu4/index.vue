@@ -3,7 +3,7 @@
     <t-layout sectionTitle="步骤组件">
       <div class="content-main">
         <div class="register-main-container">
-          <step-wizard
+          <t-step-wizard
             :stepData="stepData"
             :lastBtnTitle="lastBtnTitle"
             :active="active"
@@ -57,7 +57,7 @@
             </template>
             <template #second>第二步骤</template>
             <template #third>第三步骤</template>
-          </step-wizard>
+          </t-step-wizard>
         </div>
       </div>
     </t-layout>
@@ -122,7 +122,7 @@ export default {
         }
       ],
       lastBtnTitle: '提交资料',
-      successTitle: '企业信息填写完成，等待提交认证资料，经简单汇平台审核通过后即可办理业务',
+      successTitle: '企业信息填写完成，等待提交认证资料，经*****平台审核通过后即可办理业务',
       roleInfoForm: {
         name: '',
         mobile: '',

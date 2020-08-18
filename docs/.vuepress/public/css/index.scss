@@ -1,0 +1,844 @@
+@import "./variables.scss";
+@import "./element-ui.scss";
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+.page-nav,
+.theme-default-content:not(.custom) {
+  max-width: 1180px !important;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.no-padding {
+  padding: 0px !important;
+}
+
+.padding-content {
+  padding: 4px 0;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  // color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+/*******************flex样式****************************/
+.flex-box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+/*******************flex****************************/
+.flex33 {
+  flex: 33.33%;
+}
+.flex25 {
+  flex: 25%;
+}
+.flex50 {
+  flex: 50%;
+}
+.flex10 {
+  flex: 10%;
+}
+.flex90 {
+  flex: 90%;
+}
+.flex80 {
+  flex: 80%;
+}
+.flex70 {
+  flex: 70%;
+}
+.flex60 {
+  flex: 60%;
+}
+/*************垂直方向左对齐********/
+.flex-ver-left {
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+/*************水平方向左对齐********/
+.flex-ver-h-left {
+  justify-content: flex-start;
+}
+/*************水平方向右对齐********/
+.flex-ver-h-right {
+  justify-content: flex-end;
+}
+/*************水平垂直居中********/
+.flex-ver {
+  align-items: center;
+  justify-content: center;
+}
+/*************垂直居中********/
+.flex-ver-v {
+  align-items: center;
+}
+/*************水平居中********/
+.flex-ver-h {
+  justify-content: center;
+}
+/*************换行********/
+.flex-wrap {
+  flex-wrap: wrap;
+}
+/*************换行，第一行在下方********/
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+/*************垂直排列********/
+.flex-col {
+  flex-direction: column;
+}
+/*************水平排列********/
+.flex-row {
+  flex-direction: row;
+}
+/*************水平排列倒叙********/
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+/*************每个项目两侧的间隔相等********/
+.flex-around {
+  justify-content: space-around;
+}
+/*************两端对齐********/
+.flex-between {
+  justify-content: space-between;
+}
+/*************子元素底对齐********/
+.flex-align-self-end {
+  align-self: flex-end;
+}
+/*************子元素倒叙********/
+.flex-end {
+  justify-content: flex-end;
+}
+/*************子元素倒叙********/
+.flex-align-content-start {
+  align-content: flex-start;
+}
+/*************子元素分配剩余空间********/
+.flex-grow {
+  flex-grow: 1;
+}
+.flex-end-v {
+  align-items: flex-end;
+}
+/*******************flex样式结束****************************/
+
+/*********通用position**********/
+.t-relative {
+  position: relative;
+}
+.t-absolute {
+  position: absolute;
+}
+.t-fixed {
+  position: fixed;
+}
+.t-select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.t-display-block {
+  display: block;
+}
+.t-display-inlineBlock {
+  display: inline-block;
+}
+.t-display-none {
+  display: none;
+}
+/*********通用margin**********/
+.t-margin-auto {
+  margin: auto;
+}
+.t-margin10 {
+  margin: calc(10px);
+}
+.t-margin15 {
+  margin: calc(15px);
+}
+.t-margin20 {
+  margin: calc(20px);
+}
+.t-margin-v-5 {
+  margin: calc(5px) 0;
+}
+.t-margin-v-10 {
+  margin: calc(10px) 0;
+}
+.t-margin-v-15 {
+  margin: calc(15px) 0;
+}
+.t-margin-v-20 {
+  margin: calc(20px) 0;
+}
+.t-margin-h-10 {
+  margin: 0 calc(10px);
+}
+.t-margin-h-20 {
+  margin: 0 calc(20px);
+}
+.t-margin-h-15 {
+  margin: 0 calc(15px);
+}
+.t-margin-h-5 {
+  margin: 0 calc(5px);
+}
+.t-margin-left-5 {
+  margin-left: calc(5px);
+}
+.t-margin-left-10 {
+  margin-left: calc(10px);
+}
+.t-margin-left-15 {
+  margin-left: calc(15px);
+}
+.t-margin-left-20 {
+  margin-left: calc(20px);
+}
+.t-margin-left-25 {
+  margin-left: calc(25px);
+}
+.t-margin-left-30 {
+  margin-left: calc(30px);
+}
+.t-margin-right-5 {
+  margin-right: calc(5px);
+}
+.t-margin-right-10 {
+  margin-right: calc(10px);
+}
+.t-margin-right-15 {
+  margin-right: calc(15px);
+}
+.t-margin-right-20 {
+  margin-right: calc(20px);
+}
+.t-margin-right-25 {
+  margin-right: calc(25px);
+}
+.t-margin-right-30 {
+  margin-right: calc(30px);
+}
+.t-margin-top-50 {
+  margin-top: calc(50px);
+}
+.t-margin-top-30 {
+  margin-top: calc(30px);
+}
+.t-margin-top-25 {
+  margin-top: calc(25px);
+}
+.t-margin-top-20 {
+  margin-top: calc(20px);
+}
+.t-margin-top-15 {
+  margin-top: calc(15px);
+}
+.t-margin-top-10 {
+  margin-top: calc(10px);
+}
+.t-margin-top-5 {
+  margin-top: calc(5px);
+}
+.t-margin-bottom-110 {
+  margin-bottom: calc(110px);
+}
+.t-margin-bottom-70 {
+  margin-bottom: calc(70px);
+}
+.t-margin-bottom-60 {
+  margin-bottom: calc(60px);
+}
+.t-margin-bottom-50 {
+  margin-bottom: calc(50px);
+}
+.t-margin-bottom-30 {
+  margin-bottom: calc(30px);
+}
+.t-margin-bottom-25 {
+  margin-bottom: calc(25px);
+}
+.t-margin-bottom-20 {
+  margin-bottom: calc(20px);
+}
+.t-margin-bottom-15 {
+  margin-bottom: calc(15px);
+}
+.t-margin-bottom-10 {
+  margin-bottom: calc(10px);
+}
+.t-margin-bottom-5 {
+  margin-bottom: calc(5px);
+}
+/*********通用padding**********/
+.t-padding5 {
+  padding: calc(5px);
+}
+.t-padding10 {
+  padding: calc(10px);
+}
+.t-padding15 {
+  padding: calc(15px);
+}
+.t-padding20 {
+  padding: calc(20px);
+}
+.t-padding30 {
+  padding: calc(30px);
+}
+.t-padding-v-25 {
+  padding: calc(25px) 0;
+}
+.t-padding-v-20 {
+  padding: calc(20px) 0;
+}
+.t-padding-v-15 {
+  padding: calc(15px) 0;
+}
+.t-padding-v-10 {
+  padding: calc(10px) 0;
+}
+.t-padding-v-5 {
+  padding: calc(5px) 0;
+}
+.t-padding-h-5 {
+  padding: 0 calc(5px);
+}
+.t-padding-h-10 {
+  padding: 0 calc(10px);
+}
+.t-padding-h-15 {
+  padding: 0 calc(15px);
+}
+.t-padding-h-20 {
+  padding: 0 calc(20px);
+}
+.t-padding-h-30 {
+  padding: 0 calc(30px);
+}
+.t-padding-h-35 {
+  padding: 0 calc(35px);
+}
+.t-padding-left-5 {
+  padding-left: calc(5px);
+}
+.t-padding-left-10 {
+  padding-left: calc(10px);
+}
+.t-padding-left-15 {
+  padding-left: calc(15px);
+}
+.t-padding-left-20 {
+  padding-left: calc(2px);
+}
+.t-padding-left-25 {
+  padding-left: calc(25px);
+}
+.t-padding-left-30 {
+  padding-left: calc(30px);
+}
+.t-padding-right-5 {
+  padding-right: calc(5px);
+}
+.t-padding-right-15 {
+  padding-right: calc(15px);
+}
+.t-padding-right-10 {
+  padding-right: calc(10px);
+}
+.t-padding-right-20 {
+  padding-right: calc(20px);
+}
+.t-padding-top-5 {
+  padding-top: calc(5px);
+}
+.t-padding-top-10 {
+  padding-top: calc(10px);
+}
+.t-padding-top-15 {
+  padding-top: calc(15px);
+}
+.t-padding-bottom-5 {
+  padding-bottom: calc(5px);
+}
+.t-padding-bottom-10 {
+  padding-bottom: calc(10px);
+}
+.t-padding-bottom-15 {
+  padding-bottom: calc(15px);
+}
+.t-padding-bottom-20 {
+  padding-bottom: calc(20px);
+}
+/*********通用字体大小**********/
+.t-font-size-12 {
+  font-size: calc(12px);
+}
+.t-font-size-14 {
+  font-size: calc(14px);
+}
+.t-font-size-16 {
+  font-size: calc(16px);
+}
+.t-font-size-18 {
+  font-size: calc(18px);
+}
+.t-font-size-20 {
+  font-size: calc(20px);
+}
+.t-font-size-28 {
+  font-size: calc(28px);
+}
+/*********通用字体对齐**********/
+.t-text-align-c {
+  text-align: center;
+}
+.t-text-align-l {
+  text-align: left;
+}
+.t-text-align-r {
+  text-align: right;
+}
+/*允许在单词内换行*/
+.t-word-break-all {
+  word-break: break-all;
+}
+/**********溢出隐藏**************/
+.t-overflow-hidden {
+  overflow: hidden;
+}
+/**********文字省略*************/
+.t-lines-2-overflow-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.t-oneline-overflow-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/**********手势*************/
+.t-curPonit {
+  cursor: pointer;
+}
+/**********通用字体颜色*************/
+.t-color-white {
+  color: #fff;
+}
+.t-color-dark {
+  color: #333;
+}
+/**********通用背景颜色*************/
+.t-bg-white {
+  background-color: #fff;
+}
+.t-btn-danger {
+  background-color: #ef473a;
+}
+/**********旋转*************/
+.t-rotate-180 {
+  transform: rotate(180deg);
+}
+.t-rotate-90 {
+  transform: rotate(90deg);
+}
+/**********清除浮动*************/
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+/*********步骤向导主体内容区域*********************/
+.step-content {
+  width: 1024px;
+  margin: 0 auto;
+}
+.card-wrap {
+  padding: 20px 30px;
+}
+.border-top-dashed {
+  border-top: 1px dashed #ccc;
+}
+.no-tb-padding {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+.card-title {
+  font-size: 16px;
+  padding: 10px 0;
+}
+.list-group {
+  border: 1px solid #ccc;
+}
+.list-group-noborder {
+  border-top: 1px solid #ccc;
+}
+.list-group-item {
+  padding: 10px 15px;
+}
+.border-top-solid-line {
+  border-top: 1px double #ccc;
+}
+.dl-horizontal {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  dt {
+    min-width: 160px;
+    text-align: right;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+/**************查询布局start**********************/
+.text-danger {
+  color: #ef473a;
+}
+.text-primary {
+  color: #387ef5;
+}
+.text-muted {
+  color: #999;
+}
+.text-grey {
+  color: #606266;
+}
+.det-title {
+  span:nth-child(1) {
+    font-weight: bold;
+    padding: 0 10px;
+  }
+}
+.text-bold {
+  font-weight: bold;
+}
+.tooltip-custom {
+  border-color: #ccc !important;
+}
+
+.content-main {
+  padding-bottom: 20px;
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+.tool-bar {
+  padding: 10px 30px;
+  border-bottom: 1px solid #e7e7eb;
+}
+.form-group {
+  margin-bottom: 15px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+.form-horizontal .control-label {
+  display: inline-block;
+  text-align: right;
+}
+.form-control {
+  box-shadow: none !important;
+  padding: 6px 4px 6px 10px !important;
+}
+.table-content-wrap {
+  padding: 20px 30px 50px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+/**************查询布局end**********************/
+/**************详情布局start**********************/
+.content-hd {
+  border-bottom: 1px solid #e7e7eb;
+  position: relative;
+  > .hd-title {
+    font-size: 16px;
+    line-height: 30px;
+    margin: 15px 0;
+    padding: 0 20px;
+    overflow: hidden;
+    position: relative;
+  }
+}
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  min-height: 16px;
+  .modal-title {
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
+.bottom-tool-bar {
+  padding: 10px 30px;
+  text-align: center;
+  margin: 10px 0px;
+  background: #fff;
+}
+/**************详情布局end**********************/
+/**************btn单选选中打钩样式start*******************/
+.radio-line-item {
+  min-width: 110px;
+  text-align: center;
+  margin-left: 15px;
+  height: 40px;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  float: left;
+  line-height: 34px;
+  padding: 2px 10px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s;
+  margin-bottom: 10px;
+}
+.radioSelected {
+  box-shadow: 1px 1px 0 #1165f3 inset, -1px -1px 0 #1165f3 inset;
+  &:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border: 10px solid;
+    border-color: transparent #1165f3 #1165f3 transparent;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  .icon-check {
+    position: absolute;
+    right: -1px;
+    bottom: 1px;
+    line-height: 10px;
+    height: 10px;
+    width: 14px;
+    color: #fff;
+    font-size: 12px;
+  }
+}
+/**************btn单选选中打钩样式end*******************/
+code {
+  background: #eef1f6;
+  padding: 15px 16px;
+  margin-bottom: 20px;
+  display: block;
+  line-height: 36px;
+  font-size: 15px;
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  a {
+    color: #337ab7;
+    cursor: pointer;
+    &:hover {
+      color: rgb(32, 160, 255);
+    }
+  }
+}
+
+.warn-content {
+  background: rgba(66, 185, 131, 0.1);
+  border-radius: 2px;
+  padding: 16px;
+  padding: 1rem;
+  line-height: 1.6rem;
+  word-spacing: 0.05rem;
+  a {
+    color: #42b983;
+    font-weight: 600;
+  }
+}
+// 批量导入注意事项样式
+.hint {
+  a {
+    color: #666;
+    cursor: pointer;
+  }
+  a:focus,
+  a:hover {
+    color: #0b56d6;
+    text-decoration: underline;
+  }
+}
+.alert-content {
+  .alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+  }
+  .alert-info {
+    background-color: #d9edf7;
+    border-color: #d4e4f1;
+    color: #6d8594;
+  }
+}
+
+//main-container全局样式
+.app-container {
+  padding: 20px;
+}
+
+.components-container {
+  margin: 30px 50px;
+  position: relative;
+}
+
+.pagination-container {
+  margin-top: 30px;
+}
+
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.width-full {
+  width: 90%;
+}
+
+.sub-navbar {
+  height: 50px;
+  line-height: 50px;
+  position: relative;
+  width: 100%;
+  text-align: right;
+  padding-right: 20px;
+  transition: 600ms ease position;
+  background: linear-gradient(
+    90deg,
+    rgba(32, 182, 249, 1) 0%,
+    rgba(32, 182, 249, 1) 0%,
+    rgba(33, 120, 241, 1) 100%,
+    rgba(33, 120, 241, 1) 100%
+  );
+  .subtitle {
+    font-size: 20px;
+    color: #fff;
+  }
+  &.draft {
+    background: #d0d0d0;
+  }
+  &.deleted {
+    background: #d0d0d0;
+  }
+}
+
+.link-type,
+.link-type:focus {
+  color: #337ab7;
+  cursor: pointer;
+  &:hover {
+    color: rgb(32, 160, 255);
+  }
+}
+
+.filter-container {
+  padding-bottom: 10px;
+  .filter-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+  }
+}
+
+//refine vue-multiselect plugin
+.multiselect {
+  line-height: 16px;
+}
+
+.multiselect--active {
+  z-index: 1000 !important;
+}
+// 查询条件必填项文字边框变红
+.is-error {
+  .control-label {
+    color: #f56c6c;
+  }
+  .el-input__inner {
+    border-color: #f56c6c;
+  }
+}
+.table-wrap {
+  padding: 20px 30px 50px;
+}
+// 循环模块index编号样式
+.loop-index {
+  line-height: 34px;
+  font-size: 25px;
+  font-style: italic;
+}
+// 增加项目按钮块样式
+.add-item-btn {
+  text-align: center;
+  padding: 10px 0;
+  margin: 5px 0;
+  border: 2px dashed #eee;
+  border-radius: 2px;
+  &:hover {
+    border-color: #387ef5;
+    color: #387ef5;
+    cursor: pointer;
+  }
+}
+
+// 下拉分页
+.drop-down-scroll {
+  margin: 10px 20px 0;
+  background: #d6e5f8;
+  div {
+    line-height: 40px;
+  }
+}

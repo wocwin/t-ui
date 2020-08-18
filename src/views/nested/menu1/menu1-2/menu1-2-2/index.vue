@@ -1,16 +1,12 @@
 <template>
   <div class="excel-upload">
     <t-layout sectionTitle="Excel上传组件">
-      <step-wizard
-        firstTitle="上传文件"
-        secondTitle="核对信息"
-        thirdTitle="完成"
-        :successTitle="successTitle"
-        @submitBtn="submitBtn"
-        @next="next"
-        @stepBack="stepBack"
-        @goback="goback"
+      <t-step-wizard
+        :stepData="stepData"
+        :lastBtnTitle="lastBtnTitle"
         :active="active"
+        :successTitle="successTitle"
+        @complete="complete"
       >
         <!-- 1.上传文件 -->
         <div slot="first" class="content-main">
@@ -38,7 +34,10 @@
           <div class="alert-content">
             <div class="alert alert-info text-center">
               <i class="i-icon icon iconfont icon-prompt t-padding5 text-primary" />&nbsp;
-              <span>您本次共导入<span class="text-danger">{{importRecNum}}</span>条记录</span>
+              <span>
+                您本次共导入
+                <span class="text-danger">{{importRecNum}}</span>条记录
+              </span>
             </div>
           </div>
           <el-table
@@ -59,7 +58,7 @@
           </el-table>
           <!-- </div> -->
         </div>
-      </step-wizard>
+      </t-step-wizard>
     </t-layout>
   </div>
 </template>
@@ -68,9 +67,62 @@ export default {
   name: 'excelUpload',
   data () {
     return {
-      successTitle: '发票导入完成...',
+      active: 0,
+      stepData: [
+        {
+          id: 1,
+          title: '创建账户',
+          slotName: 'first',
+          btnArr: [
+            {
+              btnTitle: '下一步',
+              params: 1,
+              fn: this.next
+            }
+          ]
+        },
+        {
+          id: 2,
+          title: '填写基础信息',
+          slotName: 'second',
+          btnArr: [
+            {
+              btnTitle: '上一步',
+              params: 2,
+              fn: this.back
+            },
+            {
+              btnTitle: '下一步',
+              params: 2,
+              fn: this.next
+            }
+          ]
+        },
+        {
+          id: 3,
+          title: '填写用户信息',
+          slotName: 'third',
+          btnArr: [
+            {
+              btnTitle: '上一步',
+              params: 3,
+              fn: this.back
+            },
+            {
+              btnTitle: '下一步',
+              params: 3,
+              fn: this.next
+            }
+          ]
+        },
+        {
+          id: 4,
+          title: '注册成功'
+        }
+      ],
+      lastBtnTitle: '提交资料',
+      successTitle: '企业信息填写完成，等待提交认证资料，经*****平台审核通过后即可办理业务',
       fileName: '',
-      active: 0, // 初始为从0开始
       importRecNum: 0, // 导入多少条数据
       tableData: [],
       tableHeader: [],
@@ -123,7 +175,7 @@ export default {
       this.active -= 1
     },
     // 第三步完成
-    goback () {
+    complete () {
       this.active = 0
       // TODO: 重新初始化处理
     },

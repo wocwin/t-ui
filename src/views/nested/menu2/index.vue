@@ -1,7 +1,7 @@
 <template>
   <div class="nested-box">
     <t-layout sectionTitle="Demo页面">
-      <step-wizard
+      <t-step-wizard
         :stepData="stepData"
         :active="active"
         :successTitle="successTitle"
@@ -299,7 +299,7 @@
             </div>
           </div>
         </template>
-      </step-wizard>
+      </t-step-wizard>
     </t-layout>
   </div>
 </template>

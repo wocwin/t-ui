@@ -79,7 +79,7 @@ export default {
         }
       ],
       lastBtnTitle: '提交资料',
-      successTitle: '企业信息填写完成，等待提交认证资料，经简单汇平台审核通过后即可办理业务'
+      successTitle: '企业信息填写完成，等待提交认证资料，经*****平台审核通过后即可办理业务'
     }
   },
   methods: {

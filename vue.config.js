@@ -28,7 +28,7 @@ module.exports = {
   // 底层是webpack-chain
   chainWebpack: config => {
     // 配置兼容IE浏览器
-    config.entry.app = ['babel-polyfill', './src/main.js']
+    // config.entry.app = ['babel-polyfill', './src/main.js']
     // 配置别名
     config.resolve.alias
       .set('@', resolve('src'))

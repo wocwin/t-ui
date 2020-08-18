@@ -16,11 +16,11 @@
         />
         <div class="tool-bar">
           <div v-for="checkedItem in checkedList" :key="checkedItem.type">
-            <upload-file
+            <t-upload-file
               :attachmentType="checkedItem.type"
               @uploadSuccess="pushUploadItem"
               @deleteSuccess="pushUploadItem"
-            ></upload-file>
+            ></t-upload-file>
           </div>
         </div>
       </div>

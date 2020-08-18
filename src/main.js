@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import 'babel-polyfill'
+// import 'babel-polyfill'
 import Es6Promise from 'es6-promise'
 import './components/index.js'
 import './assets/css/index.scss' // 全局样式

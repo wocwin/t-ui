@@ -10,9 +10,10 @@ npm install
 ```shell
 npm run serve
 ```
-## 本地运行docs中组件文档
+## 本地运行vuepress中组件文档
 ```shell
 npm run docs:dev
+注：如果安装依赖后console报core.js错，需要下载2.**版本中把library文件夹移动到此项目node_modules中core.js中
 ```
 
 ### 项目打包

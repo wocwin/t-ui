@@ -1,7 +1,7 @@
 module.exports = {
     title: 'wocwin前端文档库',
     description: '技术分享及基础组件使用',
-    // base: '/blog/',
+    // base: '/t-ui/',
     // port: 6666,
     // dest: './dist',   // 设置输出目录
     head: [
@@ -11,8 +11,8 @@ module.exports = {
         lineNumbers: true // 代码块显示行号
     },
     themeConfig: {
-        // 你的GitLab仓库，请正确填写
-        repo: 'https://wocwin.github.io/t-ui/',
+        // 你的GitHub仓库，请正确填写
+        repo: 'https://github.com/wocwin/t-ui',
         // 自定义仓库链接文字。
         repoLabel: 'GitHub',
         nav: [

@@ -1,7 +1,7 @@
 module.exports = {
     title: 'wocwin前端文档库',
     description: '技术分享及基础组件使用',
-    // base: '/t-ui/',
+    base: '/t-ui/',
     // port: 6666,
     // dest: './dist',   // 设置输出目录
     head: [

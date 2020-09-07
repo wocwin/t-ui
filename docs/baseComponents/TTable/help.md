@@ -1,5 +1,5 @@
 # 使用帮助
-*新增行内操作按钮权限配置（参数配置请参考"具体操作"下4.8）*
+*新增自定义插槽显示某列数据*
 ## 配置参数（Table Attributes）
 
 | 参数              | 说明                                       | 类型          | 是否必须 |
@@ -11,6 +11,8 @@
 | -------noShowTip  | 是否换行 （设置：noShowTip:true）           | Boolean        | 否       |
 | -------noShowColumn | 是否隐藏当前列（设置：noShowColumn:true） | Boolean        | 否       |
 | -------filters    | filters转义（后台返回数字转中文，时间戳转时间）| Object    | 否       |
+| -------slotName | 插槽显示此列数据（其值是具名作用域插槽）        | String    | 否       |
+| -------------param | 具名插槽获取此行数据必须用解构接收{param}   | Object    | 否       |
 | ---toolbar        | 表格外操作栏选中表格某行，可以将其数据传出 | Array         | 否       |
 | ---operator       | 表格内操作栏数据                           | Array         | 否       |
 | -------show       | 表格内操作栏根据状态显示                   | Object        | 否       |

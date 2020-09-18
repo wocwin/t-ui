@@ -1,6 +1,8 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" isCopy />
+    <t-table :table="table" isCopy>
+      <template #amount="{param}">{{param.row.amount|currencyFilter}}</template>
+    </t-table>
   </div>
 </template>
 
@@ -46,7 +48,7 @@ export default {
           { prop: 'date', label: '日期', minWidth: '160' },
           { prop: 'address', label: '地址', minWidth: '220' },
           { prop: 'status', label: '状态', minWidth: '100', filters: { param: 'PROTOCOL_BUSS_TYPE' } },
-          { prop: 'amount', label: '金额', minWidth: '160', filters: { method: '￥' } },
+          { prop: 'amount', label: '金额', minWidth: '160', slotName: 'amount' },
           { prop: 'address', label: '地址', minWidth: '220' },
           { prop: 'name', label: '姓名', minWidth: '100' },
           { prop: 'date', label: '日期', minWidth: '180' },

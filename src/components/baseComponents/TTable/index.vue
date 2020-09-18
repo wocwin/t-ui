@@ -41,6 +41,7 @@
       v-on="$listeners"
       border
       @row-click="rowClick"
+      @cell-dblclick="cellDblclick"
     >
       <!-- 序列号/复选框 -->
       <div v-if="table.firstColumn">
@@ -149,6 +150,11 @@ export default {
       },
       required: true
     },
+    // 是否复制单元格
+    isCopy: {
+      type: Boolean,
+      default: false
+    },
     // 是否固定高度
     height: {
       type: Boolean,
@@ -197,6 +203,17 @@ export default {
     })
   },
   methods: {
+    // 双击复制单元格内容
+    cellDblclick (row, column) {
+      if (!this.isCopy) {
+        return false
+      }
+      this.$copyText(row[column.property]).then(() => {
+        this.$message.success('已复制')
+      }, () => {
+        this.$message.error('复制失败')
+      })
+    },
     // 是否显示表格操作按钮
     checkIsShow (scope, item) {
       let isNoShow = false
@@ -300,7 +317,7 @@ export default {
     align-items: center;
     .toolbar {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       width: 100%;
     }
     .el-button--small {

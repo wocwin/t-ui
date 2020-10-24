@@ -74,6 +74,7 @@ export default {
           endDate: '', // 结束日期
           wechat: '', // 微信
           qq: '', // qq
+          accountType: '',
           email: '', // 邮箱
           desc: '', // 描述
           status: '' // *状态: 0：停用，1：启用(默认为1)',
@@ -82,17 +83,18 @@ export default {
           { label: '账号', value: 'account', type: 'input', event: 'account' },
           { label: '密码', value: 'password', type: 'password' },
           { label: '昵称', value: 'name', type: 'input' },
-          { label: '性别', value: 'sex', type: 'select', list: 'sexList' },
+          { label: '性别', value: 'sex', type: 'select', list: 'sexList', arrLabel: 'key', arrKey: 'value' },
+          { label: '平台用户', value: 'accountType', type: 'select-obj', list: 'accountTypeList' },
+          { label: '状态', value: 'status', type: 'select', list: 'statusList', arrLabel: 'key', arrKey: 'value' },
           { label: '爱好', value: 'hobby', type: 'checkbox', list: 'hobbyList', event: 'checkbox' },
-          { label: '头像', value: 'avatar', type: 'slot' },
+          { label: '头像', value: 'avatar', type: 'slot', className: 't-form-block' },
           { label: '手机号码', value: 'phone', type: 'input' },
-          { label: '创建时间', value: 'createDate', type: 'date', event: 'date' },
+          { label: '创建时间', value: 'createDate', type: 'date', dateType: 'year', format: 'yyyy' },
           { label: '时间范围', startDate: 'startDate', endDate: 'endDate', type: 't-date', event: 'date' },
           { label: '微信', value: 'wechat', type: 'input' },
           { label: 'QQ', value: 'qq', type: 'input' },
           { label: '邮箱', value: 'email', type: 'input', rules: [{ required: true, message: '邮箱不能为空！' }, { validator: isEmail }] },
-          { label: '描述', value: 'desc', type: 'textarea' },
-          { label: '状态', value: 'status', type: 'select', list: 'statusList' }
+          { label: '描述', value: 'desc', type: 'textarea', className: 't-form-block' }
         ],
         rules: {
           account: [
@@ -133,11 +135,9 @@ export default {
           { key: '女', value: 1 },
           { key: '男', value: 0 }
         ],
-        accountTypeList: [
-          { key: '手机用户', value: 0 },
-          { key: '论坛用户', value: 1 },
-          { key: '平台用户', value: 2 }
-        ],
+        accountTypeList: {
+          0: '手机用户', 1: '论坛用户', 2: '平台用户'
+        },
         statusList: [
           { key: '启用', value: 1 },
           { key: '停用', value: 0 }

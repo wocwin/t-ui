@@ -32,7 +32,12 @@
         :clearable="item.clearable === false ? item.clearable : true"
         :placeholder="getPlaceholder(item)"
         @change="handleEvent(item.event, formData[item.value])"
-      />
+      >
+        <!-- 前置文本 -->
+        <template #prepend v-if="item.prepend">{{item.prepend}}</template>
+        <!-- 后置文本 -->
+        <template #append v-if="item.append">{{item.append}}</template>
+      </el-input>
       <!-- 文本输入框 -->
       <el-input
         v-if="item.type === 'textarea'"
@@ -67,7 +72,7 @@
           :disabled="val.disabled"
         >{{val.label}}</el-checkbox>
       </el-checkbox-group>
-      <!-- 选择框 -->
+      <!-- 选择框数组 -->
       <el-select
         v-if="item.type === 'select'"
         v-model="formData[item.value]"
@@ -81,9 +86,27 @@
         <el-option
           v-for="(childItem, childIndex) in listTypeInfo[item.list]"
           :key="childIndex"
-          :label="childItem.key"
-          :value="childItem.value"
+          :label="childItem[item.arrLabel]"
+          :value="childItem[item.arrKey]"
         />
+      </el-select>
+      <!-- 选择框 对象-->
+      <el-select
+        v-if="item.type === 'select-obj'"
+        v-model="formData[item.value]"
+        :disabled="item.disabled"
+        :clearable="item.clearable === false ? item.clearable : true"
+        :filterable="item.filterable === false ? item.filterable : true"
+        :placeholder="getPlaceholder(item)"
+        @change="handleEvent(item.event, formData[item.value])"
+        style="width:100%;"
+      >
+        <el-option
+          v-for="(value, key ,index) in listTypeInfo[item.list]"
+          :key="index"
+          :label="value"
+          :value="key"
+        ></el-option>
       </el-select>
       <!-- 单个日期选择框 -->
       <el-date-picker
@@ -93,7 +116,7 @@
         :picker-options="item.TimePickerOptions"
         :clearable="item.clearable === false ? item.clearable : true"
         :disabled="item.disabled"
-        value-format="yyyy-MM-dd"
+        :value-format="item.format||'yyyy-MM-dd'"
         :placeholder="getPlaceholder(item)"
         @change="handleEvent(item.event,$event,item.value)"
       />
@@ -216,7 +239,7 @@ export default {
       // 请输入type
       const inputArr = ['input', 'textarea']
       // 请选择type
-      const selectArr = ['select', 'time', 'date', 't-date']
+      const selectArr = ['select', 'time', 'select-obj', 'date', 't-date']
       if (inputArr.includes(row.type)) {
         placeholder = '请输入' + row.label
       } else if (selectArr.includes(row.type)) {
@@ -233,3 +256,59 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+// 自定义form相关
+.t-form {
+  .el-form-item {
+    display: inline-block;
+    width: 48%;
+    .el-form-item__content {
+      .el-input,
+      .el-select,
+      .el-textarea {
+        width: 100%;
+      }
+      .el-input-number {
+        .el-input {
+          width: inherit;
+        }
+      }
+    }
+  }
+  .t-form-block {
+    display: block;
+    width: 100%;
+    .el-form-item__content {
+      .el-textarea {
+        width: 100%;
+      }
+    }
+  }
+}
+.t-form-block {
+  .el-form-item {
+    display: block;
+    .el-form-item__content {
+      .el-input,
+      .el-select,
+      .el-textarea {
+        width: inherit;
+      }
+      .el-input-number {
+        .el-input {
+          width: inherit;
+        }
+      }
+    }
+  }
+  .el-form-block {
+    display: block;
+    width: 100%;
+    .el-form-item__content {
+      .el-textarea {
+        width: 100%;
+      }
+    }
+  }
+}
+</style>

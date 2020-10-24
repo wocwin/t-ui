@@ -29,7 +29,7 @@ const TUploadFile = () => import('@/views/components/uploadFile')
 // TreeTable组件
 const TreeTable = () => import('@/views/components/treeTable')
 // 表单组件
-const TForm = () => import('@/views/components/tForm')
+const TForm = () => import('@/views/components/TForm')
 
 const baseComponentsRouter = {
   path: '/base-components',

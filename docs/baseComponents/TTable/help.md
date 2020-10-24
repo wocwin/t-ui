@@ -18,7 +18,7 @@
 | -------show       | 表格内操作栏根据状态显示                   | Object        | 否       |
 | -------noshow     | 表格内操作栏根据多种状态不显示             | Array         | 否       |
 | -------resCode    | 表格内操作栏按钮权限资源（路由path）        | String        | 否       |
-| ---operatorConfig | 操作栏样式                                 | Object        | 否       |
+| ---operatorConfig | 表格内操作栏样式                           | Object        | 否       |
 | ---changeColor    | 整行文字颜色样式控制                       | Object        | 否       |
 | ---firstColumn    | 表格首列(序号 index,复选框 selection）排列 | object        | 否       |
 | ---total          | 数据总条数                                 | Number        | 否       |

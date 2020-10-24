@@ -38,7 +38,6 @@ module.exports = {
                     title: '常用组件',
                     collapsable: false,
                     children: [
-                        'TForm/base', // Form表单组件
                         'TQueryCondition/base', // 查询条件组件
                         'TInput/base', // input组件
                         'TSearch/base', // 下拉搜索查询组件
@@ -47,6 +46,14 @@ module.exports = {
                         'TDatePicker/base', // 日期组件
                         'TDialog/base', // 弹窗组件
                         'TUploadExcel/base' // 批量上传excel组件
+                    ]
+                },
+                {
+                    title: 'TForm表单组件',
+                    collapsable: false,
+                    children: [
+                        'TForm/base', // 基本
+                        'TForm/help' // 使用帮助(Attributes)
                     ]
                 },
                 {

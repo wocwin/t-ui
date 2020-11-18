@@ -76,7 +76,7 @@
         :min-width="item['min-width'] || item.minWidth || item.width"
         :sortable="item.sort"
         :align="item.align || 'center'"
-        :show-overflow-tooltip="!item.noShowTip"
+        :show-overflow-tooltip="item.noShowTip"
         v-bind="$attrs"
         v-on="$listeners"
       >

@@ -19,7 +19,9 @@ const globalConst = {
     15: '发票融资'
   },
   // 角色状态
-  ROLE_STATUS: { 0: '禁用', 1: '启用' }
+  ROLE_STATUS: { 0: '禁用', 1: '启用' },
+  // 菜单类型
+  MENU_TYPE: { 1: '菜单', 2: '操作' }
 }
 
 export default globalConst

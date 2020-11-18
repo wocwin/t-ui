@@ -15,6 +15,7 @@ npm run serve
 ```shell
 npm run docs:dev
 注：如果安装依赖后console报core.js错，需要下载2.**版本中把library文件夹移动到此项目node_modules中core.js中
+或者直接解压项目中library.zip将文件夹移动到项目node_modules中core.js中
 ```
 
 ### 项目打包

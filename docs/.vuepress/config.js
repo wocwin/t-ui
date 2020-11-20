@@ -76,10 +76,11 @@ module.exports = {
                     ]
                 },
                 {
-                    title: '图片上传组件',
+                    title: '图片/文件上传组件',
                     collapsable: false,
                     children: [
-                        'TUploadFile/base'
+                        'TUploadFile/base',
+                        'UploadFile/base'
                     ]
                 }
             ]

@@ -10,9 +10,13 @@
               </div>
               <div class="card-panel-description flex-box flex-col">
                 <div class="card-panel-title">基础组件</div>
-                <div class="card-panel-text">基础组件基础组件基础组件基础组件基础组件基础组件基础组件基础组件基础组件基础组件基础组件</div>
+                <div class="card-panel-text">
+                  基础组件基础组件基础组件基础组件基础组件基础组件基础组件基础组件基础组件基础组件基础组件
+                </div>
                 <div class="card-panel-btn">
-                  <el-button size="medium" type="danger" @click="toPaymentApply">前往基础组件</el-button>
+                  <el-button size="medium" type="danger" @click="toPaymentApply"
+                    >前往基础组件</el-button
+                  >
                 </div>
               </div>
             </div>
@@ -29,7 +33,7 @@ export default {
   name: 'index',
   methods: {
     toPaymentApply () {
-      this.$router.push('/base-components/t-date-picker')
+      this.$router.push('/base-components/t-common-components/t-date-picker')
     }
   }
 }

@@ -30,6 +30,8 @@ const TUploadFile = () => import('@/views/components/uploadFile')
 const TreeTable = () => import('@/views/components/treeTable')
 // 表单组件
 const TForm = () => import('@/views/components/TForm')
+// dh-form表单组件
+const DhForm = () => import('@/views/components/TForm/dh-form')
 
 const baseComponentsRouter = {
   path: '/base-components',
@@ -143,6 +145,12 @@ const baseComponentsRouter = {
           name: '表单组件demo',
           component: TForm,
           meta: { title: '表单组件demo' }
+        },
+        {
+          path: 'dh-form-demo',
+          name: '精简版表单',
+          component: DhForm,
+          meta: { title: '精简版表单' }
         }
       ]
     }

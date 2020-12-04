@@ -2,7 +2,7 @@
  * Created by Win on 20/02/21.
  */
 // 时间戳转化为年 月 日
-export function getLocalTime (nS) {
+export function getLocalTime(nS) {
   // 将时间戳（十三位时间搓，也就是带毫秒的时间搓）转换成时间格式
   // d.cTime = 1539083829787
   let date = new Date(nS)
@@ -17,14 +17,14 @@ export function getLocalTime (nS) {
   let second = date.getSeconds()
   month = month < 10 ? '0' + month : month
   day = day < 10 ? '0' + day : day
-  h = h < 10 ? ('0' + h) : h
-  minute = minute < 10 ? ('0' + minute) : minute
-  second = second < 10 ? ('0' + second) : second
+  h = h < 10 ? '0' + h : h
+  minute = minute < 10 ? '0' + minute : minute
+  second = second < 10 ? '0' + second : second
   date = year + '-' + month + '-' + day + ' ' + h + ':' + minute + ':' + second
   return date
 }
 // 获取当前时间，格式YYYY-MM-DD
-export function getNowFormatDate () {
+export function getNowFormatDate() {
   var date = new Date()
   var seperator1 = '-'
   var year = date.getFullYear()
@@ -43,7 +43,7 @@ export function getNowFormatDate () {
  * @desc 获取url参数
  * @param {String} name  想要获取的参数名字
  */
-export function GetUrlVal (name) {
+export function GetUrlVal(name) {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
   const url = window.location.search.replace(/%26/g, '&')
   const url1 = url.replace(/%3D/g, '=')
@@ -59,10 +59,10 @@ export function GetUrlVal (name) {
  * @param {boolean} immediate
  * @return {*}
  */
-export function debounce (func, wait, immediate) {
+export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function () {
+  const later = function() {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -79,7 +79,7 @@ export function debounce (func, wait, immediate) {
     }
   }
 
-  return function (...args) {
+  return function(...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -100,7 +100,7 @@ export function debounce (func, wait, immediate) {
  * @param {string} cls
  * @returns {boolean}
  */
-export function hasClass (ele, cls) {
+export function hasClass(ele, cls) {
   return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
 }
 /**
@@ -108,7 +108,7 @@ export function hasClass (ele, cls) {
  * @param {HTMLElement} elm
  * @param {string} cls
  */
-export function addClass (ele, cls) {
+export function addClass(ele, cls) {
   if (!hasClass(ele, cls)) ele.className += ' ' + cls
 }
 
@@ -117,7 +117,7 @@ export function addClass (ele, cls) {
  * @param {HTMLElement} elm
  * @param {string} cls
  */
-export function removeClass (ele, cls) {
+export function removeClass(ele, cls) {
   if (hasClass(ele, cls)) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
@@ -128,73 +128,74 @@ export function removeClass (ele, cls) {
  * @param {string} string
  * @return {string}
  */
-export function Encryptor (string) {
-  function md5RotateLeft (lValue, iShiftBits) {
+export function Encryptor(string) {
+  function md5RotateLeft(lValue, iShiftBits) {
     return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits))
   }
 
-  function md5AddUnsigned (lX, lY) {
+  function md5AddUnsigned(lX, lY) {
     var lX4, lY4, lX8, lY8, lResult
-    lX8 = (lX & 2147483648)
-    lY8 = (lY & 2147483648)
-    lX4 = (lX & 1073741824)
-    lY4 = (lY & 1073741824)
+    lX8 = lX & 2147483648
+    lY8 = lY & 2147483648
+    lX4 = lX & 1073741824
+    lY4 = lY & 1073741824
     lResult = (lX & 1073741823) + (lY & 1073741823)
     if (lX4 & lY4) {
-      return (lResult ^ 2147483648 ^ lX8 ^ lY8)
+      return lResult ^ 2147483648 ^ lX8 ^ lY8
     }
     if (lX4 | lY4) {
       if (lResult & 1073741824) {
-        return (lResult ^ 3221225472 ^ lX8 ^ lY8)
+        return lResult ^ 3221225472 ^ lX8 ^ lY8
       } else {
-        return (lResult ^ 1073741824 ^ lX8 ^ lY8)
+        return lResult ^ 1073741824 ^ lX8 ^ lY8
       }
     } else {
-      return (lResult ^ lX8 ^ lY8)
+      return lResult ^ lX8 ^ lY8
     }
   }
 
-  function md5F (x, y, z) {
-    return (x & y) | ((~x) & z)
+  function md5F(x, y, z) {
+    return (x & y) | (~x & z)
   }
 
-  function md5G (x, y, z) {
-    return (x & z) | (y & (~z))
+  function md5G(x, y, z) {
+    return (x & z) | (y & ~z)
   }
 
-  function md5H (x, y, z) {
-    return (x ^ y ^ z)
+  function md5H(x, y, z) {
+    return x ^ y ^ z
   }
 
-  function md5I (x, y, z) {
-    return (y ^ (x | (~z)))
+  function md5I(x, y, z) {
+    return y ^ (x | ~z)
   }
 
-  function md5FF (a, b, c, d, x, s, ac) {
+  function md5FF(a, b, c, d, x, s, ac) {
     a = md5AddUnsigned(a, md5AddUnsigned(md5AddUnsigned(md5F(b, c, d), x), ac))
     return md5AddUnsigned(md5RotateLeft(a, s), b)
   }
 
-  function md5GG (a, b, c, d, x, s, ac) {
+  function md5GG(a, b, c, d, x, s, ac) {
     a = md5AddUnsigned(a, md5AddUnsigned(md5AddUnsigned(md5G(b, c, d), x), ac))
     return md5AddUnsigned(md5RotateLeft(a, s), b)
   }
 
-  function md5HH (a, b, c, d, x, s, ac) {
+  function md5HH(a, b, c, d, x, s, ac) {
     a = md5AddUnsigned(a, md5AddUnsigned(md5AddUnsigned(md5H(b, c, d), x), ac))
     return md5AddUnsigned(md5RotateLeft(a, s), b)
   }
 
-  function md5II (a, b, c, d, x, s, ac) {
+  function md5II(a, b, c, d, x, s, ac) {
     a = md5AddUnsigned(a, md5AddUnsigned(md5AddUnsigned(md5I(b, c, d), x), ac))
     return md5AddUnsigned(md5RotateLeft(a, s), b)
   }
 
-  function md5ConvertToWordArray (string) {
+  function md5ConvertToWordArray(string) {
     var lWordCount
     var lMessageLength = string.length
     var lNumberOfWordsTemp1 = lMessageLength + 8
-    var lNumberOfWordsTemp2 = (lNumberOfWordsTemp1 - (lNumberOfWordsTemp1 % 64)) / 64
+    var lNumberOfWordsTemp2 =
+      (lNumberOfWordsTemp1 - (lNumberOfWordsTemp1 % 64)) / 64
     var lNumberOfWords = (lNumberOfWordsTemp2 + 1) * 16
     var lWordArray = Array(lNumberOfWords - 1)
     var lBytePosition = 0
@@ -202,7 +203,9 @@ export function Encryptor (string) {
     while (lByteCount < lMessageLength) {
       lWordCount = (lByteCount - (lByteCount % 4)) / 4
       lBytePosition = (lByteCount % 4) * 8
-      lWordArray[lWordCount] = (lWordArray[lWordCount] | (string.charCodeAt(lByteCount) << lBytePosition))
+      lWordArray[lWordCount] =
+        lWordArray[lWordCount] |
+        (string.charCodeAt(lByteCount) << lBytePosition)
       lByteCount++
     }
     lWordCount = (lByteCount - (lByteCount % 4)) / 4
@@ -213,17 +216,22 @@ export function Encryptor (string) {
     return lWordArray
   }
 
-  function md5WordToHex (lValue) {
-    var WordToHexValue = ''; var WordToHexValueTemp = ''; var lByte; var lCount
+  function md5WordToHex(lValue) {
+    var WordToHexValue = ''
+    var WordToHexValueTemp = ''
+    var lByte
+    var lCount
     for (lCount = 0; lCount <= 3; lCount++) {
       lByte = (lValue >>> (lCount * 8)) & 255
       WordToHexValueTemp = '0' + lByte.toString(16)
-      WordToHexValue = WordToHexValue + WordToHexValueTemp.substr(WordToHexValueTemp.length - 2, 2)
+      WordToHexValue =
+        WordToHexValue +
+        WordToHexValueTemp.substr(WordToHexValueTemp.length - 2, 2)
     }
     return WordToHexValue
   }
 
-  function md5Utf8Encode (string) {
+  function md5Utf8Encode(string) {
     string = string.replace(/\r\n/g, '\n')
     var utfText = ''
     for (var n = 0; n < string.length; n++) {
@@ -231,7 +239,7 @@ export function Encryptor (string) {
       if (c < 128) {
         utfText += String.fromCharCode(c)
       } else {
-        if ((c > 127) && (c < 2048)) {
+        if (c > 127 && c < 2048) {
           utfText += String.fromCharCode((c >> 6) | 192)
           utfText += String.fromCharCode((c & 63) | 128)
         } else {
@@ -247,10 +255,22 @@ export function Encryptor (string) {
   // eslint-disable-next-line no-array-constructor
   var x = Array()
   var k, AA, BB, CC, DD, a, b, c, d
-  var S11 = 7; var S12 = 12; var S13 = 17; var S14 = 22
-  var S21 = 5; var S22 = 9; var S23 = 14; var S24 = 20
-  var S31 = 4; var S32 = 11; var S33 = 16; var S34 = 23
-  var S41 = 6; var S42 = 10; var S43 = 15; var S44 = 21
+  var S11 = 7
+  var S12 = 12
+  var S13 = 17
+  var S14 = 22
+  var S21 = 5
+  var S22 = 9
+  var S23 = 14
+  var S24 = 20
+  var S31 = 4
+  var S32 = 11
+  var S33 = 16
+  var S34 = 23
+  var S41 = 6
+  var S42 = 10
+  var S43 = 15
+  var S44 = 21
   string = md5Utf8Encode(string)
   x = md5ConvertToWordArray(string)
   a = 1732584193
@@ -331,7 +351,12 @@ export function Encryptor (string) {
     c = md5AddUnsigned(c, CC)
     d = md5AddUnsigned(d, DD)
   }
-  return (md5WordToHex(a) + md5WordToHex(b) + md5WordToHex(c) + md5WordToHex(d)).toLocaleUpperCase()
+  return (
+    md5WordToHex(a) +
+    md5WordToHex(b) +
+    md5WordToHex(c) +
+    md5WordToHex(d)
+  ).toLocaleUpperCase()
 }
 
 /**
@@ -340,7 +365,7 @@ export function Encryptor (string) {
  * @param {number} arg2
  * @return {number}
  */
-export function FloatAdd (arg1, arg2) {
+export function FloatAdd(arg1, arg2) {
   var r1, r2, m
   try {
     r1 = arg1.toString().split('.')[1].length
@@ -353,7 +378,7 @@ export function FloatAdd (arg1, arg2) {
     r2 = 0
   }
   m = Math.pow(10, Math.max(r1, r2))
-  return FloatDiv((FloatMul(arg1, m) + FloatMul(arg2, m)), m)
+  return FloatDiv(FloatMul(arg1, m) + FloatMul(arg2, m), m)
 }
 
 /**
@@ -362,7 +387,7 @@ export function FloatAdd (arg1, arg2) {
  * @param {number} arg2
  * @return {number}
  */
-export function FloatSub (arg1, arg2) {
+export function FloatSub(arg1, arg2) {
   var r1, r2, m, n
   try {
     r1 = arg1.toString().split('.')[1].length
@@ -376,8 +401,8 @@ export function FloatSub (arg1, arg2) {
   }
   m = Math.pow(10, Math.max(r1, r2))
   // 动态控制精度长度
-  n = (r1 >= r2) ? r1 : r2
-  return (FloatDiv((FloatMul(arg1, m) - FloatMul(arg2, m)), m)).toFixed(n)
+  n = r1 >= r2 ? r1 : r2
+  return FloatDiv(FloatMul(arg1, m) - FloatMul(arg2, m), m).toFixed(n)
 }
 
 /**
@@ -386,17 +411,20 @@ export function FloatSub (arg1, arg2) {
  * @param {number} arg2
  * @return {number}
  */
-export function FloatMul (arg1, arg2) {
-  var m = 0; var s1 = arg1.toString(); var s2 = arg2.toString()
+export function FloatMul(arg1, arg2) {
+  var m = 0
+  var s1 = arg1.toString()
+  var s2 = arg2.toString()
   try {
     m += s1.split('.')[1].length
-  } catch (e) {
-  }
+  } catch (e) {}
   try {
     m += s2.split('.')[1].length
-  } catch (e) {
-  }
-  return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m)
+  } catch (e) {}
+  return (
+    (Number(s1.replace('.', '')) * Number(s2.replace('.', ''))) /
+    Math.pow(10, m)
+  )
 }
 
 /**
@@ -405,16 +433,17 @@ export function FloatMul (arg1, arg2) {
  * @param {number} arg2
  * @return {number}
  */
-export function FloatDiv (arg1, arg2) {
-  var t1 = 0; var t2 = 0; var r1; var r2
+export function FloatDiv(arg1, arg2) {
+  var t1 = 0
+  var t2 = 0
+  var r1
+  var r2
   try {
     t1 = arg1.toString().split('.')[1].length
-  } catch (e) {
-  }
+  } catch (e) {}
   try {
     t2 = arg2.toString().split('.')[1].length
-  } catch (e) {
-  }
+  } catch (e) {}
   r1 = Number(arg1.toString().replace('.', ''))
   r2 = Number(arg2.toString().replace('.', ''))
   return (r1 / r2) * Math.pow(10, t2 - t1)
@@ -425,7 +454,7 @@ export function FloatDiv (arg1, arg2) {
  * @param {number} val:待处理的数字
  * @param {number} pos：精确位数，default 2
  */
-export function ToFixed (val, pos) {
+export function ToFixed(val, pos) {
   var p = pos || 2
   var mul = FloatMul(Number(val), Math.pow(10, p))
   return FloatDiv(Math.round(mul), Math.pow(10, p))
@@ -436,7 +465,7 @@ export function ToFixed (val, pos) {
  * @param {array} arry:为数组，数组中装的是对象
  * @param {string} attr：为对象的属性
  */
-export function getSumArryObj (arry, attr) {
+export function getSumArryObj(arry, attr) {
   var sum = 0
   for (var i in arry) {
     sum += arry[i][attr]
@@ -447,7 +476,7 @@ export function getSumArryObj (arry, attr) {
  * @param {string} path
  * @returns {Boolean}
  */
-export function isExternal (path) {
+export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
 
@@ -455,32 +484,60 @@ export function isExternal (path) {
  * @param {string} url
  * @returns {Boolean}
  */
-export function validURL (url) {
+export function validURL(url) {
   const reg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
   return reg.test(url)
 }
 
 /* 小写字母 */
-export function validateLowerCase (str) {
+export function validateLowerCase(str) {
   const reg = /^[a-z]+$/
   return reg.test(str)
 }
 
 /* 大写字母 */
-export function validateUpperCase (str) {
+export function validateUpperCase(str) {
   const reg = /^[A-Z]+$/
   return reg.test(str)
 }
 
 /* 大小写字母 */
-export function validateAlphabets (str) {
+export function validateAlphabets(str) {
   const reg = /^[A-Za-z]+$/
   return reg.test(str)
 }
 /* 判断网络响应状态是否成功 */
-export function isStatusSucces (status) {
-  if (typeof (status) !== 'number') {
+export function isStatusSucces(status) {
+  if (typeof status !== 'number') {
     return false
   }
-  return (status >= 200 && status < 300)
+  return status >= 200 && status < 300
+}
+export const chunk = (array, size) => {
+  if (!array.length || size < 1) return []
+  let result = []
+  array.forEach((item, index) => {
+    const rowSize = Math.floor(index / size)
+    if (!(result[rowSize] instanceof Array)) {
+      result[rowSize] = []
+    }
+    result[rowSize].push(item)
+  })
+  return result
+}
+export const fromEntries = arr => {
+  if (Object.prototype.toString.call(arr) === '[object Map]') {
+    let result = {}
+    for (const key of arr.keys()) {
+      result[key] = arr.get(key)
+    }
+    return result
+  }
+  if (Array.isArray(arr)) {
+    let result = {}
+    arr.map(([key, value]) => {
+      result[key] = value
+    })
+    return result
+  }
 }

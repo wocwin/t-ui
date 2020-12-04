@@ -57,6 +57,14 @@ module.exports = {
                     ]
                 },
                 {
+                    title: 'DhForm精简版表单组件',
+                    collapsable: false,
+                    children: [
+                        'DhForm/base', // 基本
+                        'DhForm/help' // 使用帮助(Attributes)
+                    ]
+                },
+                {
                     title: 'TTable组件',
                     collapsable: false,
                     children: [

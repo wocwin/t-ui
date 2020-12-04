@@ -1,25 +1,33 @@
 <template>
-  <div class="dh-form-demo">
-    <t-layout sectionTitle="精简表单组件">
-      <div class="content-main t-margin20">
-        <dh-form
-          :ref-obj.sync="formInfo.ref"
-          :form-data="formInfo.formData"
-          :field-list="formInfo.fieldList"
-          :rules="formInfo.rules"
-          :operator-list="formInfo.operatorList"
-          :list-type-info="listTypeInfo"
-          @handleEvent="handleEvent"
-        />
-      </div>
-    </t-layout>
+  <div class="form-data">
+    <dh-form
+      :ref-obj.sync="formInfo.ref"
+      :form-data="formInfo.formData"
+      :field-list="formInfo.fieldList"
+      :rules="formInfo.rules"
+      :widthSize="1"
+      :operator-list="formInfo.operatorList"
+      :list-type-info="listTypeInfo"
+      @handleEvent="handleEvent"
+    />
   </div>
 </template>
-
 <script>
+import DhForm from '../../../../../src/components/baseComponents/DhForm'
 export default {
-  name: 'dhFormDemo',
+  name: 'formData',
+  components: {
+    DhForm
+  },
   data () {
+    const isEmail = (rule, value, callback) => {
+      const reg = /^([a-z0-9A-Z]+[-|._]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/
+      if (!reg.test(value)) {
+        callback(new Error('请输入正确格式的邮箱'))
+      } else {
+        callback()
+      }
+    }
     return {
       // form表单
       formInfo: {
@@ -107,6 +115,7 @@ export default {
       }
     }
   },
+  // 方法
   methods: {
     // 触发事件
     handleEvent (type, val, key) {
@@ -139,3 +148,10 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.form-data {
+  margin: 0 auto;
+  padding: 40px;
+  width: 900px;
+}
+</style>

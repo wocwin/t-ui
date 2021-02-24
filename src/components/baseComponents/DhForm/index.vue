@@ -141,7 +141,7 @@ export default {
   },
   computed: {
     // 子组件名称
-    compChildName () {
+    compChildName() {
       return ({ type }) => {
         switch (type) {
           case 'checkbox':
@@ -153,7 +153,7 @@ export default {
       }
     },
     // 获取字段列表
-    getConfigList () {
+    getConfigList() {
       return this.fieldList.filter(
         (item) =>
           !item.hasOwnProperty('show') ||
@@ -161,7 +161,7 @@ export default {
       )
     },
     // 获取操作按钮
-    getOperatorList () {
+    getOperatorList() {
       return this.operatorList.filter(
         (item) =>
           !item.hasOwnProperty('show') ||
@@ -169,25 +169,25 @@ export default {
       )
     }
   },
-  data () {
+  data() {
     return {}
   },
   watch: {
     formData: {
-      handler (val) {
+      handler(val) {
         // 将form实例返回到父级
         this.$emit('update:refObj', this.$refs.form)
       },
       deep: true // 深度监听
     }
   },
-  mounted () {
+  mounted() {
     // 将form实例返回到父级
     this.$emit('update:refObj', this.$refs.form)
   },
   methods: {
     // 得到placeholder的显示
-    getPlaceholder (row) {
+    getPlaceholder(row) {
       let placeholder
       // 请输入type
       const inputArr = ['input', 'textarea']
@@ -203,7 +203,7 @@ export default {
       return placeholder
     },
     // 绑定的相关事件
-    handleEvent (type, val, key) {
+    handleEvent(type, val, key) {
       this.$emit('handleEvent', type, val, key)
     }
   }

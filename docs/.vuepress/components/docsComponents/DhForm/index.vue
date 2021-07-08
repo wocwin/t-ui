@@ -5,7 +5,7 @@
       :form-data="formInfo.formData"
       :field-list="formInfo.fieldList"
       :rules="formInfo.rules"
-      :widthSize="1"
+      :widthSize="2"
       :operator-list="formInfo.operatorList"
       :list-type-info="listTypeInfo"
       @handleEvent="handleEvent"

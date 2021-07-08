@@ -8,7 +8,7 @@ module.exports = {
         ['link', { rel: 'shortcut icon', type: 'image/x-icon', href: `./favicon.ico` }]
     ],
     markdown: {
-        lineNumbers: true // 代码块显示行号
+        // lineNumbers: true // 代码块显示行号
     },
     themeConfig: {
         // 你的GitHub仓库，请正确填写

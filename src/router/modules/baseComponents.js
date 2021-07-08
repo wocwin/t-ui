@@ -33,6 +33,8 @@ const TForm = () => import('@/views/components/TForm')
 // dh-form表单组件
 const DhForm = () => import('@/views/components/TForm/dh-form')
 
+const TUploadExcel = () => import('@/views/components/TUploadExcel')
+
 const baseComponentsRouter = {
   path: '/base-components',
   isStatic: true,
@@ -131,6 +133,20 @@ const baseComponentsRouter = {
           name: 'TreeTableDemo',
           component: TreeTable,
           meta: { title: 'TreeTableDemo' }
+        }
+      ]
+    },
+    {
+      path: 't-upload-excel',
+      name: '上传excel组件',
+      component: Blank,
+      meta: { title: '上传excel组件' },
+      children: [
+        {
+          path: 't-upload-excel-demo',
+          name: '上传excel组件',
+          component: TUploadExcel,
+          meta: { title: '上传excel组件' }
         }
       ]
     },

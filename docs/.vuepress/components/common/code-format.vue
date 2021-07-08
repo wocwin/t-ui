@@ -1,106 +1,291 @@
 <template>
-  <div class="code">
-    <div class="code--title">
-      <h2 v-if="title">{{title}}</h2>
-      <small v-if="description">{{description}}</small>
+  <div
+    class="code-format"
+    :class="[blockClass, { 'hover': hovering }]"
+    @mouseenter="hovering = true"
+    @mouseleave="hovering = false"
+  >
+    <div class="source">
+      <slot name="source"></slot>
     </div>
-    <div class="code--demo">
-      <div class="code-content">
+    <div class="meta" ref="meta">
+      <div class="description" v-if="$slots.default">
         <slot></slot>
       </div>
+      <div class="highlight">
+        <slot name="highlight"></slot>
+      </div>
     </div>
-    <div v-if="$slots.codeText" class="code--button" @click="handleToggleShow">{{codeTextBtn}}</div>
-    <div v-if="isShow" class="code--segment">
-      <slot name="codeText"></slot>
+    <div
+      class="code-format-control"
+      ref="control"
+      :class="{ 'is-fixed': fixedControl }"
+      @click="isExpanded = !isExpanded"
+    >
+      <transition name="arrow-slide">
+        <i :class="[iconClass, { 'hovering': hovering }]"></i>
+      </transition>
+      <transition name="text-slide">
+        <span v-show="hovering">{{ controlText }}</span>
+      </transition>
+      <!-- <el-tooltip effect="dark"
+        :content="前往 codepen.io 运行此示例"
+        placement="right">
+        <transition name="text-slide">
+          <el-button v-show="hovering || isExpanded"
+            size="small"
+            type="text"
+            class="control-button"
+            @click.stop="goCodepen">
+            在线运行
+          </el-button>
+        </transition>
+      </el-tooltip>-->
     </div>
   </div>
 </template>
 
-<script>
+
+<script type="text/babel">
 export default {
   name: 'CodeFormat',
-  props: {
-    title: {
-      type: String,
-      default: ''
-    },
-    description: {
-      type: String,
-      default: ''
-    }
-  },
   data () {
     return {
-      isShow: false,
-      codeTextBtn: '显示代码'
+      codepen: {
+        script: '',
+        html: '',
+        style: ''
+      },
+      hovering: false,
+      isExpanded: false,
+      fixedControl: false,
+      scrollParent: null
+    }
+  },
+  methods: {
+    goCodepen () {
+
+    },
+    scrollHandler () {
+      const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
+      this.fixedControl = bottom > document.documentElement.clientHeight &&
+        top + 44 <= document.documentElement.clientHeight
+      // this.$refs.control.style.left = this.fixedControl ? `${left}px` : '0'
+    },
+    removeScrollHandler () {
+      this.scrollParent && this.scrollParent.removeEventListener('scroll', this.scrollHandler)
+    }
+  },
+  computed: {
+    lang () {
+      return this.$route.path.split('/')[1]
+    },
+    blockClass () {
+      return `demo-${this.lang} demo-${this.$router.currentRoute.path.split('/').pop()}`
+    },
+    iconClass () {
+      return this.isExpanded ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
+    },
+    controlText () {
+      return this.isExpanded ? '隐藏代码' : '显示代码'
+    },
+    codeArea () {
+      return this.$el.getElementsByClassName('meta')[0]
+    },
+    codeAreaHeight () {
+      if (this.$el.getElementsByClassName('description').length > 0) {
+        return this.$el.getElementsByClassName('description')[0].clientHeight +
+          this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
+      }
+      return this.$el.getElementsByClassName('highlight')[0].clientHeight
+    }
+  },
+  watch: {
+    isExpanded (val) {
+      this.codeArea.style.height = val ? `${this.codeAreaHeight + 1}px` : '0'
+      if (!val) {
+        this.fixedControl = false
+        // this.$refs.control.style.left = '0'
+        this.removeScrollHandler()
+        return
+      }
+      setTimeout(() => {
+        this.scrollParent = window
+        this.scrollParent && this.scrollParent.addEventListener('scroll', this.scrollHandler)
+        this.scrollHandler()
+      }, 200)
+    }
+  },
+  created () {
+    const highlight = this.$slots.highlight
+    if (highlight && highlight[0]) {
+      let code = ''
+      let cur = highlight[0]
+      if (cur.tag === 'pre' && (cur.children && cur.children[0])) {
+        cur = cur.children[0]
+        if (cur.tag === 'code') {
+          code = cur.children[0].text
+        }
+      }
     }
   },
   mounted () {
-    // console.log(333, this.$slots.codeText)
+    this.$nextTick(() => {
+      let highlight = this.$el.getElementsByClassName('highlight')[0]
+      if (this.$el.getElementsByClassName('description').length === 0) {
+        highlight.style.width = '100%'
+        highlight.borderRight = 'none'
+      }
+    })
   },
-  methods: {
-    handleToggleShow () {
-      this.isShow = !this.isShow
-      this.codeTextBtn = this.isShow ? '隐藏代码' : '显示代码'
-    }
+  beforeDestroy () {
+    this.removeScrollHandler()
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.code {
-  .code--title {
-    h2 {
-      padding: 0;
-      margin: 0;
-      border-bottom: none;
-      font-size: 18px;
-    }
-
-    small {
-      font-size: 16px;
-      display: inline-block;
-      margin: 10px 0 20px 0;
-      color: #5e6d82;
-    }
-  }
-  .code--demo {
-    border: 1px solid #ebebeb;
-    border-bottom: none;
-    border-radius: 3px;
-    box-shadow: 0 0 2px 0 rgba(232, 237, 250, 0.6),
-      0 1px 2px 0 rgba(232, 237, 250, 0.5);
-    .code-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-      border-bottom: 1px solid #ddd;
-    }
-  }
-  .code--button {
-    background: #fafbfc;
-    color: #409eff;
-    font-weight: 400;
-    line-height: 40px;
-    text-align: center;
-    border: 1px solid #ebebeb;
-    cursor: pointer;
+<style lang="scss">
+.code-format {
+  border: solid 1px #ebebeb;
+  border-radius: 3px;
+  transition: 0.2s;
+  &.hover {
     box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
       0 2px 4px 0 rgba(232, 237, 250, 0.5);
-    transition: all 1s;
-    &:hover {
-      font-size: 17px;
-      box-shadow: 0 0 4px 2px #ccc;
+  }
+  code {
+    font-family: Menlo, Monaco, Consolas, Courier, monospace;
+  }
+  .demo-button {
+    float: right;
+  }
+  .source {
+    padding: 24px;
+  }
+  .meta {
+    background-color: #fafafa;
+    border-top: solid 1px #eaeefb;
+    overflow: hidden;
+    height: 0;
+    transition: height 0.2s;
+  }
+  .description {
+    padding: 20px;
+    box-sizing: border-box;
+    border: solid 1px #ebebeb;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 22px;
+    color: #666;
+    word-break: break-word;
+    margin: 10px;
+    background-color: #fff;
+    p {
+      margin: 0;
+      line-height: 26px;
+    }
+    code {
+      color: #5e6d82;
+      background-color: #e6effb;
+      margin: 0 4px;
+      display: inline-block;
+      padding: 1px 5px;
+      font-size: 12px;
+      border-radius: 3px;
+      height: 18px;
+      line-height: 18px;
     }
   }
-
-  & + .code {
-    margin-top: 20px;
+  .highlight {
+    pre {
+      margin: 0;
+    }
+    code.hljs {
+      margin: 0;
+      border: none;
+      max-height: none;
+      border-radius: 0;
+      &::before {
+        content: none;
+      }
+    }
   }
+  .code-format-control {
+    border-top: solid 1px #eaeefb;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-align: center;
+    margin-top: -1px;
+    color: #d3dce6;
+    cursor: pointer;
+    position: relative;
 
-  &:not(:first-child) {
-    margin-top: 20px;
+    &.is-fixed {
+      position: fixed;
+      bottom: 0;
+      width: 1068px;
+      z-index: 1;
+    }
+    i {
+      font-size: 16px;
+      line-height: 44px;
+      transition: 0.3s;
+      &.hovering {
+        transform: translateX(-40px);
+      }
+    }
+    > span {
+      position: absolute;
+      transform: translateX(-30px);
+      font-size: 14px;
+      line-height: 44px;
+      transition: 0.3s;
+      display: inline-block;
+    }
+    &:hover {
+      color: #409eff;
+      background-color: #f9fafc;
+    }
+    & .text-slide-enter,
+    & .text-slide-leave-active {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+
+    .control-button {
+      line-height: 26px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 14px;
+      padding-left: 5px;
+      padding-right: 25px;
+    }
+  }
+  table {
+    margin: 0;
+    display: table;
+  }
+  th,
+  td,
+  tr {
+    border: 0;
+  }
+}
+.el-popper {
+  table {
+    margin: 0;
+    display: table;
+  }
+  th,
+  td,
+  tr {
+    border: 0;
+  }
+  tr:nth-child(2n) {
+    background: none;
   }
 }
 </style>

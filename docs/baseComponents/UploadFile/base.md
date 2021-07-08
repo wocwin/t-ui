@@ -1,40 +1,16 @@
 # 文件文件上传组件
+
 ---
 
 <common-code-format>
-  <docsComponents-UploadFile-index></docsComponents-UploadFile-index>
-  <highlight-code slot="codeText">
-    <template>
-        <div class="upload-file-demo" style="min-height:100px;width:100%;padding:10px;">
-          <upload-file
-              ref="uploadFile"
-              :savePath="uploadImgUrl"
-              :showFileList="fileList"
-              @changeFileList="pushUploadItem"
-            />
-        </div>
-    </template>
-    <script>
-        export default {
-             data () {
-              return {
-                fileList: [],
-                uploadImgUrl: '#'
-              }
-            },
-            // 方法
-            methods: {
-                pushUploadItem (fileList) {
-                this.fileList = fileList
-              }
-            }
-        }
-    </script>
-  </highlight-code>
+  <docsComponents-UploadFile-index slot="source"></docsComponents-UploadFile-index>
+   <<< @/docs/.vuepress/components/docsComponents/UploadFile/index.vue
 </common-code-format>
 
 ## UploadFile 文件上传组件
+
 **代码示例：**
+
 ```
 方式一：按钮形式
  <UploadFile
@@ -56,11 +32,13 @@
       @changeFileList="uploadedSuccess" // 获取最终已上传文件
       />
 ```
+
 ### Attribute
+
 | 参数          | 说明                             | 类型    | 默认值                                                              |
-|---------------|----------------------------------|---------|---------------------------------------------------------------------|
+| ------------- | -------------------------------- | ------- | ------------------------------------------------------------------- |
 | multiple      | 是否支持多选文件                 | boolean | true                                                                |
-| showFileList  | 回显文件的list                   | Array   | []                                                                  |
+| showFileList  | 回显文件的 list                  | Array   | []                                                                  |
 | drag          | 是否启用拖拽上传                 | boolean | false                                                               |
 | isDrag        | 是按钮形式还是拖拽形式(默认按钮) | boolean | false                                                               |
 | btnDisabled   | 按钮形式上传禁用                 | boolean | false                                                               |
@@ -70,19 +48,21 @@
 | savePath      | 服务器上传地址                   | string  | string                                                              |
 
 ### events
+
 | 事件名         | 说明                                   | 返回值                                         |
-|----------------|----------------------------------------|------------------------------------------------|
+| -------------- | -------------------------------------- | ---------------------------------------------- |
 | changeFileList | 上传文件/删除已上传文件                | fileList（最终已上传的文件数组）               |
 | isFinished     | 外部引入组件确认文件是否已全部上传成功 | (false,confirm)/(true,cancel)/(false,noUpload) |
 
 ### Methods
-| 方法名         | 说明                                            | 参数                     |
-|----------------|-------------------------------------------------|--------------------------|
-| finishedUpload | 判断文件是否已成功上传                         | type(boolean:true/false) |
-| clearFiles     | 清空已上传的文件列表                           | —                        |
-| abort          | 取消上传请求                                  | —                        |
-| submit         | 手动上传文件列表（需要配合auto-upload属性使用） | —                        |
 
-### 关于element-ui el-upload提供的属性如何添加
-按照el-upload写法直接使用即可，无需其他配置（如：限制总上传数需新增limit属性）
+| 方法名         | 说明                                              | 参数                     |
+| -------------- | ------------------------------------------------- | ------------------------ |
+| finishedUpload | 判断文件是否已成功上传                            | type(boolean:true/false) |
+| clearFiles     | 清空已上传的文件列表                              | —                        |
+| abort          | 取消上传请求                                      | —                        |
+| submit         | 手动上传文件列表（需要配合 auto-upload 属性使用） | —                        |
 
+### 关于 element-ui el-upload 提供的属性如何添加
+
+按照 el-upload 写法直接使用即可，无需其他配置（如：限制总上传数需新增 limit 属性）

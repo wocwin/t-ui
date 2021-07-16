@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>keep-alive不能缓存多层级路由(vue-router)菜单问题解决 | wocwin前端文档库</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <meta name="description" content="技术分享及基础组件使用">
+    
+    <link rel="preload" href="/t-ui/assets/css/0.styles.240ebd75.css" as="style"><link rel="preload" href="/t-ui/assets/js/app.8bfce3ba.js" as="script"><link rel="preload" href="/t-ui/assets/js/4.63561fff.js" as="script"><link rel="preload" href="/t-ui/assets/js/60.0f2ce44a.js" as="script"><link rel="prefetch" href="/t-ui/assets/js/1.e3ac6893.js"><link rel="prefetch" href="/t-ui/assets/js/10.097f667f.js"><link rel="prefetch" href="/t-ui/assets/js/11.0c93cfb5.js"><link rel="prefetch" href="/t-ui/assets/js/12.86a54be4.js"><link rel="prefetch" href="/t-ui/assets/js/13.43736c8e.js"><link rel="prefetch" href="/t-ui/assets/js/14.bccd3b08.js"><link rel="prefetch" href="/t-ui/assets/js/15.56d47e7c.js"><link rel="prefetch" href="/t-ui/assets/js/16.80195211.js"><link rel="prefetch" href="/t-ui/assets/js/17.c57368de.js"><link rel="prefetch" href="/t-ui/assets/js/18.cdd60006.js"><link rel="prefetch" href="/t-ui/assets/js/19.e4c90b6f.js"><link rel="prefetch" href="/t-ui/assets/js/2.45ac1fcb.js"><link rel="prefetch" href="/t-ui/assets/js/20.55e68eb8.js"><link rel="prefetch" href="/t-ui/assets/js/21.6821757f.js"><link rel="prefetch" href="/t-ui/assets/js/22.31b64920.js"><link rel="prefetch" href="/t-ui/assets/js/23.431ece39.js"><link rel="prefetch" href="/t-ui/assets/js/24.054e9a5c.js"><link rel="prefetch" href="/t-ui/assets/js/25.68101803.js"><link rel="prefetch" href="/t-ui/assets/js/26.5b8db781.js"><link rel="prefetch" href="/t-ui/assets/js/27.a22cade4.js"><link rel="prefetch" href="/t-ui/assets/js/28.73fccd79.js"><link rel="prefetch" href="/t-ui/assets/js/29.67314804.js"><link rel="prefetch" href="/t-ui/assets/js/30.0f0f6098.js"><link rel="prefetch" href="/t-ui/assets/js/31.95ddc8f2.js"><link rel="prefetch" href="/t-ui/assets/js/32.39230cfd.js"><link rel="prefetch" href="/t-ui/assets/js/33.8f7fbf5c.js"><link rel="prefetch" href="/t-ui/assets/js/34.b6412805.js"><link rel="prefetch" href="/t-ui/assets/js/35.b5703d74.js"><link rel="prefetch" href="/t-ui/assets/js/36.46384342.js"><link rel="prefetch" href="/t-ui/assets/js/37.70bb3136.js"><link rel="prefetch" href="/t-ui/assets/js/38.8ef74dca.js"><link rel="prefetch" href="/t-ui/assets/js/39.ce17e3cf.js"><link rel="prefetch" href="/t-ui/assets/js/40.4510b59f.js"><link rel="prefetch" href="/t-ui/assets/js/41.941eeafd.js"><link rel="prefetch" href="/t-ui/assets/js/42.aed1c7a6.js"><link rel="prefetch" href="/t-ui/assets/js/43.6d112f8e.js"><link rel="prefetch" href="/t-ui/assets/js/44.adce1247.js"><link rel="prefetch" href="/t-ui/assets/js/45.7cf35f1f.js"><link rel="prefetch" href="/t-ui/assets/js/46.dd7101f8.js"><link rel="prefetch" href="/t-ui/assets/js/47.6010283a.js"><link rel="prefetch" href="/t-ui/assets/js/48.20e19f9a.js"><link rel="prefetch" href="/t-ui/assets/js/49.3515685d.js"><link rel="prefetch" href="/t-ui/assets/js/5.3bf80254.js"><link rel="prefetch" href="/t-ui/assets/js/50.8c46938a.js"><link rel="prefetch" href="/t-ui/assets/js/51.3d03682e.js"><link rel="prefetch" href="/t-ui/assets/js/52.e40a5792.js"><link rel="prefetch" href="/t-ui/assets/js/53.77db6646.js"><link rel="prefetch" href="/t-ui/assets/js/54.0a8d5807.js"><link rel="prefetch" href="/t-ui/assets/js/55.f72c691c.js"><link rel="prefetch" href="/t-ui/assets/js/56.8676c115.js"><link rel="prefetch" href="/t-ui/assets/js/57.29189581.js"><link rel="prefetch" href="/t-ui/assets/js/58.4202bb11.js"><link rel="prefetch" href="/t-ui/assets/js/59.828dbbab.js"><link rel="prefetch" href="/t-ui/assets/js/6.5b0f4484.js"><link rel="prefetch" href="/t-ui/assets/js/61.dac9589f.js"><link rel="prefetch" href="/t-ui/assets/js/7.32ad04cd.js"><link rel="prefetch" href="/t-ui/assets/js/8.8119cccc.js"><link rel="prefetch" href="/t-ui/assets/js/9.815689da.js">
+    <link rel="stylesheet" href="/t-ui/assets/css/0.styles.240ebd75.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/t-ui/" class="home-link router-link-active"><!----> <span class="site-name">wocwin前端文档库</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/t-ui/" class="nav-link">
+  主页
+</a></div><div class="nav-item"><a href="/t-ui/projectProblem/permission.html" class="nav-link">
+  实际项目问题
+</a></div><div class="nav-item"><a href="/t-ui/baseComponents/TForm/base.html" class="nav-link">
+  基础组件
+</a></div><div class="nav-item"><a href="/t-ui/changeLog/log.html" class="nav-link">
+  更新日志
+</a></div> <a href="https://github.com/wocwin/t-ui" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/t-ui/" class="nav-link">
+  主页
+</a></div><div class="nav-item"><a href="/t-ui/projectProblem/permission.html" class="nav-link">
+  实际项目问题
+</a></div><div class="nav-item"><a href="/t-ui/baseComponents/TForm/base.html" class="nav-link">
+  基础组件
+</a></div><div class="nav-item"><a href="/t-ui/changeLog/log.html" class="nav-link">
+  更新日志
+</a></div> <a href="https://github.com/wocwin/t-ui" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Vue项目</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/t-ui/projectProblem/permission.html" class="sidebar-link">Vue 项目 菜单权限及按钮级权限控制</a></li><li><a href="/t-ui/projectProblem/keepAlive.html" aria-current="page" class="active sidebar-link">keep-alive不能缓存多层级路由(vue-router)菜单问题解决</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/t-ui/projectProblem/axios.html" class="sidebar-link">axios二次封装，接口统一存放,满足RESTful风格</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="keep-alive不能缓存多层级路由-vue-router-菜单问题解决"><a href="#keep-alive不能缓存多层级路由-vue-router-菜单问题解决" class="header-anchor">#</a> keep-alive不能缓存多层级路由(vue-router)菜单问题解决</h1> <h3 id="需求"><a href="#需求" class="header-anchor">#</a> 需求</h3> <p>如图需要缓存“风控报告”及“风控规则查询”页面，并且每次删除后才能重新加载（如图二）
+<img src="https://img-blog.csdnimg.cn/20200609155315559.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3aW44OTUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> <img src="https://img-blog.csdnimg.cn/20200609162028713.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3aW44OTUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p> <p>&quot;风控管理&quot;是一个blank.vue文件（所有嵌套路由其父都是一个仅放&lt;router-view /&gt;的空白文件——占位让其子视图渲染而已），代码如下</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;template&gt;
+    &lt;router-view /&gt;
+&lt;/template&gt;
+&lt;script&gt;
+export default {
+  name: 'Blank'
+}
+&lt;/script&gt;
+</code></pre></div><h3 id="解决"><a href="#解决" class="header-anchor">#</a> 解决</h3> <p>看了很多文档，都是把嵌套多级路由拍平（keep-alive满足二级/一级菜单缓存）</p> <ol><li>：需要把所有页签存在vuex中，可以参考<a href="https://github.com/PanJiaChen/vue-element-admin" target="_blank" rel="noopener noreferrer">vue-element-admin<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>项目中store有个tagsView.js文件</li> <li>在AppMin.vue文件中，如图加上这两句
+<img src="https://img-blog.csdnimg.cn/20200609163605949.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3aW44OTUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li> <li>在全局路由守卫中加上这段代码：（仅仅只是满足三级菜单缓存）</li></ol> <div class="language- extra-class"><pre class="language-text"><code>if (to.matched &amp;&amp; to.matched.length &gt; 2) {
+   for (let i = 0; i &lt; to.matched.length; i++) {
+     const element = to.matched[i]
+     if (element.components.default.name === 'Blank') {
+       to.matched.splice(i, 1)
+     }
+   }
+ }
+</code></pre></div><hr> <h3 id="相关文章"><a href="#相关文章" class="header-anchor">#</a> 相关文章</h3> <p><a href="https://blog.csdn.net/cwin8951/article/details/104415090" target="_blank" rel="noopener noreferrer">axios二次封装，接口统一存放,满足RESTful风格<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <hr> <p><a href="https://blog.csdn.net/cwin8951/article/details/104479606" target="_blank" rel="noopener noreferrer">基于elementUI中table组件二次封装（Vue项目）<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <hr></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/t-ui/projectProblem/permission.html" class="prev">
+        Vue 项目 菜单权限及按钮级权限控制
+      </a></span> <span class="next"><a href="/t-ui/projectProblem/axios.html">
+        axios二次封装，接口统一存放,满足RESTful风格
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/t-ui/assets/js/app.8bfce3ba.js" defer></script><script src="/t-ui/assets/js/4.63561fff.js" defer></script><script src="/t-ui/assets/js/60.0f2ce44a.js" defer></script>
+  </body>
+</html>

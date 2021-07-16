@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>步骤组件 | wocwin前端文档库</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <meta name="description" content="技术分享及基础组件使用">
+    
+    <link rel="preload" href="/t-ui/assets/css/0.styles.240ebd75.css" as="style"><link rel="preload" href="/t-ui/assets/js/app.8bfce3ba.js" as="script"><link rel="preload" href="/t-ui/assets/js/4.63561fff.js" as="script"><link rel="preload" href="/t-ui/assets/js/47.6010283a.js" as="script"><link rel="preload" href="/t-ui/assets/js/27.a22cade4.js" as="script"><link rel="preload" href="/t-ui/assets/js/11.0c93cfb5.js" as="script"><link rel="prefetch" href="/t-ui/assets/js/1.e3ac6893.js"><link rel="prefetch" href="/t-ui/assets/js/10.097f667f.js"><link rel="prefetch" href="/t-ui/assets/js/12.86a54be4.js"><link rel="prefetch" href="/t-ui/assets/js/13.43736c8e.js"><link rel="prefetch" href="/t-ui/assets/js/14.bccd3b08.js"><link rel="prefetch" href="/t-ui/assets/js/15.56d47e7c.js"><link rel="prefetch" href="/t-ui/assets/js/16.80195211.js"><link rel="prefetch" href="/t-ui/assets/js/17.c57368de.js"><link rel="prefetch" href="/t-ui/assets/js/18.cdd60006.js"><link rel="prefetch" href="/t-ui/assets/js/19.e4c90b6f.js"><link rel="prefetch" href="/t-ui/assets/js/2.45ac1fcb.js"><link rel="prefetch" href="/t-ui/assets/js/20.55e68eb8.js"><link rel="prefetch" href="/t-ui/assets/js/21.6821757f.js"><link rel="prefetch" href="/t-ui/assets/js/22.31b64920.js"><link rel="prefetch" href="/t-ui/assets/js/23.431ece39.js"><link rel="prefetch" href="/t-ui/assets/js/24.054e9a5c.js"><link rel="prefetch" href="/t-ui/assets/js/25.68101803.js"><link rel="prefetch" href="/t-ui/assets/js/26.5b8db781.js"><link rel="prefetch" href="/t-ui/assets/js/28.73fccd79.js"><link rel="prefetch" href="/t-ui/assets/js/29.67314804.js"><link rel="prefetch" href="/t-ui/assets/js/30.0f0f6098.js"><link rel="prefetch" href="/t-ui/assets/js/31.95ddc8f2.js"><link rel="prefetch" href="/t-ui/assets/js/32.39230cfd.js"><link rel="prefetch" href="/t-ui/assets/js/33.8f7fbf5c.js"><link rel="prefetch" href="/t-ui/assets/js/34.b6412805.js"><link rel="prefetch" href="/t-ui/assets/js/35.b5703d74.js"><link rel="prefetch" href="/t-ui/assets/js/36.46384342.js"><link rel="prefetch" href="/t-ui/assets/js/37.70bb3136.js"><link rel="prefetch" href="/t-ui/assets/js/38.8ef74dca.js"><link rel="prefetch" href="/t-ui/assets/js/39.ce17e3cf.js"><link rel="prefetch" href="/t-ui/assets/js/40.4510b59f.js"><link rel="prefetch" href="/t-ui/assets/js/41.941eeafd.js"><link rel="prefetch" href="/t-ui/assets/js/42.aed1c7a6.js"><link rel="prefetch" href="/t-ui/assets/js/43.6d112f8e.js"><link rel="prefetch" href="/t-ui/assets/js/44.adce1247.js"><link rel="prefetch" href="/t-ui/assets/js/45.7cf35f1f.js"><link rel="prefetch" href="/t-ui/assets/js/46.dd7101f8.js"><link rel="prefetch" href="/t-ui/assets/js/48.20e19f9a.js"><link rel="prefetch" href="/t-ui/assets/js/49.3515685d.js"><link rel="prefetch" href="/t-ui/assets/js/5.3bf80254.js"><link rel="prefetch" href="/t-ui/assets/js/50.8c46938a.js"><link rel="prefetch" href="/t-ui/assets/js/51.3d03682e.js"><link rel="prefetch" href="/t-ui/assets/js/52.e40a5792.js"><link rel="prefetch" href="/t-ui/assets/js/53.77db6646.js"><link rel="prefetch" href="/t-ui/assets/js/54.0a8d5807.js"><link rel="prefetch" href="/t-ui/assets/js/55.f72c691c.js"><link rel="prefetch" href="/t-ui/assets/js/56.8676c115.js"><link rel="prefetch" href="/t-ui/assets/js/57.29189581.js"><link rel="prefetch" href="/t-ui/assets/js/58.4202bb11.js"><link rel="prefetch" href="/t-ui/assets/js/59.828dbbab.js"><link rel="prefetch" href="/t-ui/assets/js/6.5b0f4484.js"><link rel="prefetch" href="/t-ui/assets/js/60.0f2ce44a.js"><link rel="prefetch" href="/t-ui/assets/js/61.dac9589f.js"><link rel="prefetch" href="/t-ui/assets/js/7.32ad04cd.js"><link rel="prefetch" href="/t-ui/assets/js/8.8119cccc.js"><link rel="prefetch" href="/t-ui/assets/js/9.815689da.js">
+    <link rel="stylesheet" href="/t-ui/assets/css/0.styles.240ebd75.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/t-ui/" class="home-link router-link-active"><!----> <span class="site-name">wocwin前端文档库</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/t-ui/" class="nav-link">
+  主页
+</a></div><div class="nav-item"><a href="/t-ui/projectProblem/permission.html" class="nav-link">
+  实际项目问题
+</a></div><div class="nav-item"><a href="/t-ui/baseComponents/TForm/base.html" class="nav-link">
+  基础组件
+</a></div><div class="nav-item"><a href="/t-ui/changeLog/log.html" class="nav-link">
+  更新日志
+</a></div> <a href="https://github.com/wocwin/t-ui" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/t-ui/" class="nav-link">
+  主页
+</a></div><div class="nav-item"><a href="/t-ui/projectProblem/permission.html" class="nav-link">
+  实际项目问题
+</a></div><div class="nav-item"><a href="/t-ui/baseComponents/TForm/base.html" class="nav-link">
+  基础组件
+</a></div><div class="nav-item"><a href="/t-ui/changeLog/log.html" class="nav-link">
+  更新日志
+</a></div> <a href="https://github.com/wocwin/t-ui" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>常用组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/t-ui/baseComponents/TQueryCondition/base.html" class="sidebar-link">查询条件组件</a></li><li><a href="/t-ui/baseComponents/TInput/base.html" class="sidebar-link">Input 组件</a></li><li><a href="/t-ui/baseComponents/TSearch/base.html" class="sidebar-link">search 组件</a></li><li><a href="/t-ui/baseComponents/TLayout/base.html" class="sidebar-link">布局组件</a></li><li><a href="/t-ui/baseComponents/TStepWizard/base.html" aria-current="page" class="active sidebar-link">步骤组件</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/t-ui/baseComponents/TDatePicker/base.html" class="sidebar-link">日期组件</a></li><li><a href="/t-ui/baseComponents/TDialog/base.html" class="sidebar-link">弹窗组件</a></li><li><a href="/t-ui/baseComponents/TUploadExcel/base.html" class="sidebar-link">Excel 导入组件</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>TForm表单组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/t-ui/baseComponents/TForm/base.html" class="sidebar-link">TForm 表单组件</a></li><li><a href="/t-ui/baseComponents/TForm/help.html" class="sidebar-link">TForm 参数配置</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>DhForm精简版表单组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/t-ui/baseComponents/DhForm/base.html" class="sidebar-link">DhForm 表单组件(精简版本)</a></li><li><a href="/t-ui/baseComponents/DhForm/help.html" class="sidebar-link">DhForm 参数配置</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>TTable组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/t-ui/baseComponents/TTable/base.html" class="sidebar-link">基本使用</a></li><li><a href="/t-ui/baseComponents/TTable/pagination.html" class="sidebar-link">分页功能</a></li><li><a href="/t-ui/baseComponents/TTable/checkbox.html" class="sidebar-link">复选框功能</a></li><li><a href="/t-ui/baseComponents/TTable/operation.html" class="sidebar-link">显示 table 外操作按钮</a></li><li><a href="/t-ui/baseComponents/TTable/filters.html" class="sidebar-link">filters 转义</a></li><li><a href="/t-ui/baseComponents/TTable/help.html" class="sidebar-link">使用帮助</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>TTreeTable组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/t-ui/baseComponents/TTable/tree.html" class="sidebar-link">TreeTable 组件</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>图片/文件上传组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/t-ui/baseComponents/TUploadFile/base.html" class="sidebar-link">图片文件上传组件</a></li><li><a href="/t-ui/baseComponents/UploadFile/base.html" class="sidebar-link">文件文件上传组件</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="步骤组件"><a href="#步骤组件" class="header-anchor">#</a> 步骤组件</h1> <hr> <div class="code-format"><div class="source"></div> <div class="meta"><div class="description"><div slot="source" style="width:100%;"><div class="step-wizard" style="min-height:400px;"><div class="el-steps el-steps--simple"><div class="el-step is-simple is-flex" style="flex-basis:Infinity%;max-width:100%;"><div class="el-step__head is-"><div class="el-step__line"><i class="el-step__line-inner"></i></div><div class="el-step__icon is-text"><!----><!----></div></div><div class="el-step__main"><div class="el-step__title is-">1 创建账户</div><div class="el-step__arrow"></div></div></div><div class="el-step is-simple is-flex" style="flex-basis:100%;max-width:50%;"><div class="el-step__head is-"><div class="el-step__line"><i class="el-step__line-inner"></i></div><div class="el-step__icon is-text"><!----><!----></div></div><div class="el-step__main"><div class="el-step__title is-">2 填写基础信息</div><div class="el-step__arrow"></div></div></div><div class="el-step is-simple is-flex" style="flex-basis:50%;max-width:33.333333333333336%;"><div class="el-step__head is-"><div class="el-step__line"><i class="el-step__line-inner"></i></div><div class="el-step__icon is-text"><!----><!----></div></div><div class="el-step__main"><div class="el-step__title is-">3 填写用户信息</div><div class="el-step__arrow"></div></div></div><div class="el-step is-simple is-flex" style="flex-basis:33.333333333333336%;max-width:25%;"><div class="el-step__head is-"><div class="el-step__line"><i class="el-step__line-inner"></i></div><div class="el-step__icon is-text"><!----><!----></div></div><div class="el-step__main"><div class="el-step__title is-">4 注册成功</div><div class="el-step__arrow"></div></div></div></div> <div class="content-step-main step-content"><div class="step-first flex-box flex-col flex-ver-h" style="display:;">第一步 <div class="fix-btn flex-box flex-ver bottom-tool-bar bar-fixed-bottom" data-v-5490964b><button type="button" class="el-button el-button--danger"><!----><!----><span>下一步</span></button></div></div><div class="step-first flex-box flex-col flex-ver-h" style="display:none;">第二步骤 <div class="fix-btn flex-box flex-ver bottom-tool-bar bar-fixed-bottom" data-v-5490964b><button type="button" class="el-button el-button--danger"><!----><!----><span>上一步</span></button><button type="button" class="el-button el-button--danger"><!----><!----><span>下一步</span></button></div></div><div class="step-first flex-box flex-col flex-ver-h" style="display:none;">第三步骤 <div class="fix-btn flex-box flex-ver bottom-tool-bar bar-fixed-bottom" data-v-5490964b><button type="button" class="el-button el-button--danger"><!----><!----><span>上一步</span></button><button type="button" class="el-button el-button--danger"><!----><!----><span>下一步</span></button></div></div> <!----></div></div></div> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token style-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span><span class="token style language-css"><span class="token property">width</span><span class="token punctuation">:</span>100%<span class="token punctuation">;</span></span><span class="token punctuation">&quot;</span></span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>t-step-wizard</span>
+      <span class="token style-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span><span class="token style language-css"><span class="token property">min-height</span><span class="token punctuation">:</span>400px<span class="token punctuation">;</span></span><span class="token punctuation">&quot;</span></span></span>
+      <span class="token attr-name">:stepData</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>stepData<span class="token punctuation">&quot;</span></span>
+      <span class="token attr-name">:lastBtnTitle</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>lastBtnTitle<span class="token punctuation">&quot;</span></span>
+      <span class="token attr-name">:active</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>active<span class="token punctuation">&quot;</span></span>
+      <span class="token attr-name">:successTitle</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>successTitle<span class="token punctuation">&quot;</span></span>
+      <span class="token attr-name">@complete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>complete<span class="token punctuation">&quot;</span></span>
+    <span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">#first</span><span class="token punctuation">&gt;</span></span>第一步<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">#second</span><span class="token punctuation">&gt;</span></span>第二步骤<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">#third</span><span class="token punctuation">&gt;</span></span>第三步骤<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>t-step-wizard</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> TStepWizard <span class="token keyword">from</span> <span class="token string">'../../../../../src/components/baseComponents/TStepWizard'</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  components<span class="token operator">:</span> <span class="token punctuation">{</span>
+    TStepWizard
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">data</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      active<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      stepData<span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          id<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+          title<span class="token operator">:</span> <span class="token string">'创建账户'</span><span class="token punctuation">,</span>
+          slotName<span class="token operator">:</span> <span class="token string">'first'</span><span class="token punctuation">,</span>
+          btnArr<span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+              btnTitle<span class="token operator">:</span> <span class="token string">'下一步'</span><span class="token punctuation">,</span>
+              params<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+              fn<span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>next
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          id<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+          title<span class="token operator">:</span> <span class="token string">'填写基础信息'</span><span class="token punctuation">,</span>
+          slotName<span class="token operator">:</span> <span class="token string">'second'</span><span class="token punctuation">,</span>
+          btnArr<span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+              btnTitle<span class="token operator">:</span> <span class="token string">'上一步'</span><span class="token punctuation">,</span>
+              params<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+              fn<span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>back
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+              btnTitle<span class="token operator">:</span> <span class="token string">'下一步'</span><span class="token punctuation">,</span>
+              params<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+              fn<span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>next
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          id<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+          title<span class="token operator">:</span> <span class="token string">'填写用户信息'</span><span class="token punctuation">,</span>
+          slotName<span class="token operator">:</span> <span class="token string">'third'</span><span class="token punctuation">,</span>
+          btnArr<span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+              btnTitle<span class="token operator">:</span> <span class="token string">'上一步'</span><span class="token punctuation">,</span>
+              params<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+              fn<span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>back
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+              btnTitle<span class="token operator">:</span> <span class="token string">'下一步'</span><span class="token punctuation">,</span>
+              params<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+              fn<span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>next
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          id<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+          title<span class="token operator">:</span> <span class="token string">'注册成功'</span><span class="token punctuation">,</span>
+          lastBtnArr<span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+              btnTitle<span class="token operator">:</span> <span class="token string">'上一步'</span><span class="token punctuation">,</span>
+              params<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+              fn<span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>back
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+              btnTitle<span class="token operator">:</span> <span class="token string">'下一步'</span><span class="token punctuation">,</span>
+              params<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+              fn<span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>next
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      lastBtnTitle<span class="token operator">:</span> <span class="token string">'提交资料'</span><span class="token punctuation">,</span>
+      successTitle<span class="token operator">:</span> <span class="token string">'企业信息填写完成，等待提交认证资料，经*****平台审核通过后即可办理业务'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  methods<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 下一步</span>
+    <span class="token function">next</span> <span class="token punctuation">(</span><span class="token parameter">val</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">switch</span> <span class="token punctuation">(</span>val<span class="token punctuation">.</span>params<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token number">1</span><span class="token operator">:</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>active <span class="token operator">+=</span> <span class="token number">1</span>
+          <span class="token keyword">break</span>
+        <span class="token keyword">case</span> <span class="token number">2</span><span class="token operator">:</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>active <span class="token operator">+=</span> <span class="token number">1</span>
+          <span class="token keyword">break</span>
+        <span class="token keyword">case</span> <span class="token number">3</span><span class="token operator">:</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>active <span class="token operator">+=</span> <span class="token number">2</span>
+          <span class="token keyword">break</span>
+        <span class="token keyword">case</span> <span class="token number">4</span><span class="token operator">:</span>
+          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">22222222222</span><span class="token punctuation">)</span>
+          <span class="token keyword">break</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment">// 上一步</span>
+    <span class="token function">back</span> <span class="token punctuation">(</span><span class="token parameter">val</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">switch</span> <span class="token punctuation">(</span>val<span class="token punctuation">.</span>params<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token number">2</span><span class="token operator">:</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>active <span class="token operator">-=</span> <span class="token number">1</span>
+          <span class="token keyword">break</span>
+        <span class="token keyword">case</span> <span class="token number">3</span><span class="token operator">:</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>active <span class="token operator">-=</span> <span class="token number">1</span>
+          <span class="token keyword">break</span>
+        <span class="token keyword">case</span> <span class="token number">4</span><span class="token operator">:</span>
+          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">111111111</span><span class="token punctuation">)</span>
+          <span class="token keyword">break</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment">// 完成</span>
+    <span class="token function">complete</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>active <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></div> <div class="highlight"></div></div> <div class="code-format-control"><i class="el-icon-caret-bottom"></i> <span style="display:none;">显示代码</span> <div class="control-button-container"><button type="button" class="el-button control-button copy-button el-button--text el-button--small" style="display:none;"><!----><!----><span>复制代码</span></button></div></div></div> <h1 id="tstepwizard-参数配置"><a href="#tstepwizard-参数配置" class="header-anchor">#</a> TStepWizard 参数配置</h1> <h3 id="_1-简介"><a href="#_1-简介" class="header-anchor">#</a> 1. 简介</h3> <p>步骤组件
+<strong>代码示例：</strong></p> <div class="language- extra-class"><pre class="language-text"><code>    &lt;t-step-wizard
+            :stepData=&quot;stepData&quot;
+            :lastBtnTitle=&quot;lastBtnTitle&quot;
+            :active=&quot;active&quot;
+            :successTitle=&quot;successTitle&quot;
+            @complete=&quot;complete&quot;
+          &gt;
+           &lt;template #first&gt;第一步骤&lt;/template&gt;
+          .....
+          &lt;/t-step-wizard&gt;
+</code></pre></div><h3 id="_2-events-其他事件按照-el-steps-el-step-直接使用"><a href="#_2-events-其他事件按照-el-steps-el-step-直接使用" class="header-anchor">#</a> 2. events 其他事件按照 el-steps/el-step 直接使用</h3> <table><thead><tr><th style="text-align:center;">事件名</th> <th style="text-align:left;">说明</th> <th style="text-align:center;">返回值</th></tr></thead> <tbody><tr><td style="text-align:center;">complete</td> <td style="text-align:left;">最后一步按钮点击事件</td> <td style="text-align:center;">当前步骤值</td></tr></tbody></table> <h3 id="_3-配置参数"><a href="#_3-配置参数" class="header-anchor">#</a> 3. 配置参数</h3> <table><thead><tr><th>参数</th> <th>说明</th> <th>类型</th> <th>是否必须</th></tr></thead> <tbody><tr><td>stepData</td> <td>步骤数据源</td> <td>Array</td> <td>是</td></tr> <tr><td>---id</td> <td>步骤 ID 唯一</td> <td>Number</td> <td>是</td></tr> <tr><td>---title</td> <td>步骤头文字展示</td> <td>String</td> <td>是</td></tr> <tr><td>---slotName</td> <td>每个步骤的具名 slot</td> <td>String</td> <td>是</td></tr> <tr><td>---btnArr</td> <td>每个步骤的按钮</td> <td>Array</td> <td>是</td></tr> <tr><td>----- btnTitle</td> <td>按钮文字信息</td> <td>String</td> <td>是</td></tr> <tr><td>----- params</td> <td>每个按钮传参信息（不一定为 params)</td> <td>String/Number</td> <td>否</td></tr> <tr><td>----- fn</td> <td>按钮事件</td> <td>function</td> <td>是</td></tr> <tr><td>isShowLastSuccess</td> <td>是否显示默认 icon 最后一步</td> <td>Boolean</td> <td>否</td></tr> <tr><td>active</td> <td>设置当前激活步骤</td> <td>Number</td> <td>是</td></tr> <tr><td>---lastBtnArr</td> <td>最后一步按钮需要多个</td> <td>Array</td> <td>是</td></tr> <tr><td>----- btnTitle</td> <td>按钮文字信息</td> <td>String</td> <td>是</td></tr> <tr><td>----- params</td> <td>每个按钮传参信息（不一定为 params)</td> <td>String/Number</td> <td>否</td></tr> <tr><td>----- fn</td> <td>按钮事件</td> <td>function</td> <td>是</td></tr> <tr><td>lastBtnTitle</td> <td>最后一步骤成功按钮文字</td> <td>String</td> <td>否</td></tr> <tr><td>successTitle</td> <td>最后一步骤成功提示语</td> <td>String</td> <td>是</td></tr></tbody></table> <h3 id="_4-使用帮助"><a href="#_4-使用帮助" class="header-anchor">#</a> 4. 使用帮助</h3> <p><strong>js 代码</strong></p> <div class="language- extra-class"><pre class="language-text"><code>stepData: [
+        {
+          id: 1,
+          title: '创建账户',
+          slotName: 'first',
+          btnArr: [
+            {
+              btnTitle: '下一步',
+              params: 1,
+              fn: this.next
+            }
+          ]
+        },
+        {
+          id: 2,
+          title: '填写基础信息',
+          slotName: 'second',
+          btnArr: [
+            {
+              btnTitle: '上一步',
+              params: 2,
+              fn: this.back
+            },
+            {
+              btnTitle: '下一步',
+              params: 2,
+              fn: this.next
+            }
+          ]
+        },
+        {
+          id: 3,
+          title: '填写用户信息',
+          slotName: 'third',
+          btnArr: [
+            {
+              btnTitle: '上一步',
+              params: 3,
+              fn: this.back
+            },
+            {
+              btnTitle: '下一步',
+              params: 3,
+              fn: this.next
+            }
+          ]
+        },
+        {
+          id: 4,
+          title: '注册成功'
+        }
+  ]
+</code></pre></div><p><em>注意:（以上表示）</em>
+当前有 4 个步骤，其标题分别为：
+1、创建账户
+2、填写基础信息
+3、填写用户信息
+4、注册成功
+解析第一步：（其它步骤都如此）
+其内容放在 slot 为 first 中；有一个按钮为“下一步”，其事件是 next,默认参数是当前对象内容
+具体 js 代码如下：</p> <div class="language- extra-class"><pre class="language-text"><code> methods: {
+    // 下一步
+    next (val) { // val就是当前对象
+      console.log(55, val)
+      console.log(66, val.params)
+      switch (val.params) {
+        case 1:
+          this.active += 1
+          break
+        case 2:
+          this.active += 1
+          break
+        case 3:
+          this.active += 2
+          break
+      }
+    }
+  }
+</code></pre></div><h3 id="_5-关于-elementui-el-steps-el-step-提供的一些方法和属性-样式如何添加"><a href="#_5-关于-elementui-el-steps-el-step-提供的一些方法和属性-样式如何添加" class="header-anchor">#</a> 5. 关于 elementUi el-steps/el-step 提供的一些方法和属性，样式如何添加</h3> <p>按照 el-steps/el-step 写法直接使用即可，无需其它配置</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/t-ui/baseComponents/TLayout/base.html" class="prev">
+        布局组件
+      </a></span> <span class="next"><a href="/t-ui/baseComponents/TDatePicker/base.html">
+        日期组件
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/t-ui/assets/js/app.8bfce3ba.js" defer></script><script src="/t-ui/assets/js/4.63561fff.js" defer></script><script src="/t-ui/assets/js/47.6010283a.js" defer></script><script src="/t-ui/assets/js/27.a22cade4.js" defer></script><script src="/t-ui/assets/js/11.0c93cfb5.js" defer></script>
+  </body>
+</html>

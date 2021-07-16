@@ -99,6 +99,7 @@ module.exports = {
         ['vuepress-plugin-gotop-plus', {
             // mobileShow: false,
             threshold: 150
-        }]
+        }],
+        '@vuepress-reco/extract-code'
     ]
 }

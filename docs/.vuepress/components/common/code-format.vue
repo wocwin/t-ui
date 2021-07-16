@@ -1,7 +1,7 @@
 <template>
   <div
     class="code-format"
-    :class="[blockClass, { 'hover': hovering }]"
+    :class="{ 'hover': hovering }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -28,60 +28,34 @@
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
       </transition>
-      <!-- <el-tooltip effect="dark"
-        :content="前往 codepen.io 运行此示例"
-        placement="right">
-        <transition name="text-slide">
-          <el-button v-show="hovering || isExpanded"
-            size="small"
-            type="text"
-            class="control-button"
-            @click.stop="goCodepen">
-            在线运行
-          </el-button>
-        </transition>
-      </el-tooltip>-->
+      <div class="control-button-container">
+        <el-button
+          v-show="isExpanded"
+          ref="copyButton"
+          size="small"
+          type="text"
+          class="control-button copy-button"
+          @click.stop="copyCode"
+        >复制代码</el-button>
+      </div>
     </div>
   </div>
 </template>
 
-
-<script type="text/babel">
+<script>
 export default {
   name: 'CodeFormat',
   data () {
     return {
-      codepen: {
-        script: '',
-        html: '',
-        style: ''
-      },
       hovering: false,
       isExpanded: false,
       fixedControl: false,
       scrollParent: null
     }
   },
-  methods: {
-    goCodepen () {
-
-    },
-    scrollHandler () {
-      const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
-      this.fixedControl = bottom > document.documentElement.clientHeight &&
-        top + 44 <= document.documentElement.clientHeight
-      // this.$refs.control.style.left = this.fixedControl ? `${left}px` : '0'
-    },
-    removeScrollHandler () {
-      this.scrollParent && this.scrollParent.removeEventListener('scroll', this.scrollHandler)
-    }
-  },
   computed: {
     lang () {
       return this.$route.path.split('/')[1]
-    },
-    blockClass () {
-      return `demo-${this.lang} demo-${this.$router.currentRoute.path.split('/').pop()}`
     },
     iconClass () {
       return this.isExpanded ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
@@ -91,18 +65,11 @@ export default {
     },
     codeArea () {
       return this.$el.getElementsByClassName('meta')[0]
-    },
-    codeAreaHeight () {
-      if (this.$el.getElementsByClassName('description').length > 0) {
-        return this.$el.getElementsByClassName('description')[0].clientHeight +
-          this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
-      }
-      return this.$el.getElementsByClassName('highlight')[0].clientHeight
     }
   },
   watch: {
     isExpanded (val) {
-      this.codeArea.style.height = val ? `${this.codeAreaHeight + 1}px` : '0'
+      this.setCodeAreaHeight()
       if (!val) {
         this.fixedControl = false
         // this.$refs.control.style.left = '0'
@@ -116,30 +83,42 @@ export default {
       }, 200)
     }
   },
-  created () {
-    const highlight = this.$slots.highlight
-    if (highlight && highlight[0]) {
-      let code = ''
-      let cur = highlight[0]
-      if (cur.tag === 'pre' && (cur.children && cur.children[0])) {
-        cur = cur.children[0]
-        if (cur.tag === 'code') {
-          code = cur.children[0].text
-        }
-      }
-    }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      let highlight = this.$el.getElementsByClassName('highlight')[0]
-      if (this.$el.getElementsByClassName('description').length === 0) {
-        highlight.style.width = '100%'
-        highlight.borderRight = 'none'
-      }
-    })
-  },
   beforeDestroy () {
     this.removeScrollHandler()
+  },
+  methods: {
+    getCodeAreaHeight () {
+      if (this.$el.getElementsByClassName('description').length > 0) {
+        return this.$el.getElementsByClassName('description')[0].clientHeight +
+          this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
+      }
+      return this.$el.getElementsByClassName('highlight')[0].clientHeight
+    },
+    setCodeAreaHeight () {
+      this.codeArea.style.height = this.isExpanded ? `${this.getCodeAreaHeight() + 1}px` : '0'
+    },
+    copyCode () {
+      const pre = this.$el.querySelectorAll("pre")[0]
+      pre.setAttribute("contenteditable", "true")
+      pre.focus()
+      document.execCommand("selectAll", false, null)
+      const copied = document.execCommand("copy")
+      if (copied) {
+        pre.removeAttribute("contenteditable")
+        this.$message.success('复制成功！')
+      } else {
+        this.$message.error('复制失败！')
+      }
+    },
+    scrollHandler () {
+      const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
+      this.fixedControl = bottom > document.documentElement.clientHeight &&
+        top + 44 <= document.documentElement.clientHeight
+      // this.$refs.control.style.left = this.fixedControl ? `${left}px` : '0'
+    },
+    removeScrollHandler () {
+      this.scrollParent && this.scrollParent.removeEventListener('scroll', this.scrollHandler)
+    }
   }
 }
 </script>
@@ -166,7 +145,7 @@ export default {
     border-top: solid 1px #eaeefb;
     overflow: hidden;
     height: 0;
-    transition: height 0.2s;
+    transition: height 0.5s;
   }
   .description {
     padding: 20px;

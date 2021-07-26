@@ -45,7 +45,7 @@
 </template>
 <script>
 export default {
-  name: 'DhDatePicker',
+  name: 'TDatePicker',
   data () {
     return {
       time: '',

@@ -32,6 +32,7 @@
 <script>
 import { dateFormatFilter } from '@/utils/filters'
 export default {
+  name: 't-date-picker-demo',
   data () {
     return {
       formDate: {

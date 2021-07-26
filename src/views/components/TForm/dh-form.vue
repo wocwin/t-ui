@@ -10,6 +10,7 @@
           :operator-list="formInfo.operatorList"
           :list-type-info="listTypeInfo"
           @handleEvent="handleEvent"
+          :widthSize="3"
         />
       </div>
     </t-layout>

@@ -45,7 +45,7 @@
 <script>
 export default {
   name: 'CodeFormat',
-  data () {
+  data() {
     return {
       hovering: false,
       isExpanded: false,
@@ -54,21 +54,21 @@ export default {
     }
   },
   computed: {
-    lang () {
+    lang() {
       return this.$route.path.split('/')[1]
     },
-    iconClass () {
+    iconClass() {
       return this.isExpanded ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
     },
-    controlText () {
+    controlText() {
       return this.isExpanded ? '隐藏代码' : '显示代码'
     },
-    codeArea () {
+    codeArea() {
       return this.$el.getElementsByClassName('meta')[0]
     }
   },
   watch: {
-    isExpanded (val) {
+    isExpanded(val) {
       this.setCodeAreaHeight()
       if (!val) {
         this.fixedControl = false
@@ -83,21 +83,21 @@ export default {
       }, 200)
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.removeScrollHandler()
   },
   methods: {
-    getCodeAreaHeight () {
+    getCodeAreaHeight() {
       if (this.$el.getElementsByClassName('description').length > 0) {
         return this.$el.getElementsByClassName('description')[0].clientHeight +
           this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
       }
       return this.$el.getElementsByClassName('highlight')[0].clientHeight
     },
-    setCodeAreaHeight () {
+    setCodeAreaHeight() {
       this.codeArea.style.height = this.isExpanded ? `${this.getCodeAreaHeight() + 1}px` : '0'
     },
-    copyCode () {
+    copyCode() {
       const pre = this.$el.querySelectorAll("pre")[0]
       pre.setAttribute("contenteditable", "true")
       pre.focus()
@@ -110,13 +110,13 @@ export default {
         this.$message.error('复制失败！')
       }
     },
-    scrollHandler () {
+    scrollHandler() {
       const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
       this.fixedControl = bottom > document.documentElement.clientHeight &&
         top + 44 <= document.documentElement.clientHeight
       // this.$refs.control.style.left = this.fixedControl ? `${left}px` : '0'
     },
-    removeScrollHandler () {
+    removeScrollHandler() {
       this.scrollParent && this.scrollParent.removeEventListener('scroll', this.scrollHandler)
     }
   }

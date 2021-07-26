@@ -36,10 +36,10 @@ const dialogDrag = {
         styL = +sty.left.replace(/\px/g, '')
         styT = +sty.top.replace(/\px/g, '')
       }
-      document.addEventListener('mousemove', mouseMoveHandler)
-      document.addEventListener('mouseup', mouseUpHandler)
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
     }
-    dialogHeaderEl.addEventListener('mousedown', mouseDownHandler)
+    dialogHeaderEl.addEventListener('mousedown', mouseDownHandler);
   }
 }
 export default dialogDrag

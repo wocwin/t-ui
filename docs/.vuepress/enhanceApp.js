@@ -7,7 +7,7 @@ import ElementUI from 'element-ui'
 import { message } from './public/utils/resetMessage' // 防止重复点击重复弹出message弹框
 import vueClipboard from 'vue-clipboard2'
 import * as filters from './public/utils/filters' // global filters
-import './public/utils/directive' // 自定义指令（拖拽）
+import './public/utils/directives' // 自定义指令
 import 'element-ui/lib/theme-chalk/index.css'
 import '../.vuepress/public/css/index.scss'
 // 解决低版本浏览器不支持es6

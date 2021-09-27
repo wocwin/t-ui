@@ -1,7 +1,7 @@
 <template>
   <div
     class="code-format"
-    :class="{ 'hover': hovering }"
+    :class="{ hover: hovering }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -23,7 +23,7 @@
       @click="isExpanded = !isExpanded"
     >
       <transition name="arrow-slide">
-        <i :class="[iconClass, { 'hovering': hovering }]"></i>
+        <i :class="[iconClass, { hovering: hovering }]"></i>
       </transition>
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
@@ -36,7 +36,8 @@
           type="text"
           class="control-button copy-button"
           @click.stop="copyCode"
-        >复制代码</el-button>
+          >复制代码</el-button
+        >
       </div>
     </div>
   </div>
@@ -45,7 +46,7 @@
 <script>
 export default {
   name: 'CodeFormat',
-  data() {
+  data () {
     return {
       hovering: false,
       isExpanded: false,
@@ -54,21 +55,21 @@ export default {
     }
   },
   computed: {
-    lang() {
+    lang () {
       return this.$route.path.split('/')[1]
     },
-    iconClass() {
+    iconClass () {
       return this.isExpanded ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
     },
-    controlText() {
+    controlText () {
       return this.isExpanded ? '隐藏代码' : '显示代码'
     },
-    codeArea() {
+    codeArea () {
       return this.$el.getElementsByClassName('meta')[0]
     }
   },
   watch: {
-    isExpanded(val) {
+    isExpanded (val) {
       this.setCodeAreaHeight()
       if (!val) {
         this.fixedControl = false
@@ -83,21 +84,21 @@ export default {
       }, 200)
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.removeScrollHandler()
   },
   methods: {
-    getCodeAreaHeight() {
+    getCodeAreaHeight () {
       if (this.$el.getElementsByClassName('description').length > 0) {
         return this.$el.getElementsByClassName('description')[0].clientHeight +
           this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
       }
       return this.$el.getElementsByClassName('highlight')[0].clientHeight
     },
-    setCodeAreaHeight() {
+    setCodeAreaHeight () {
       this.codeArea.style.height = this.isExpanded ? `${this.getCodeAreaHeight() + 1}px` : '0'
     },
-    copyCode() {
+    copyCode () {
       const pre = this.$el.querySelectorAll("pre")[0]
       pre.setAttribute("contenteditable", "true")
       pre.focus()
@@ -110,13 +111,13 @@ export default {
         this.$message.error('复制失败！')
       }
     },
-    scrollHandler() {
+    scrollHandler () {
       const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
       this.fixedControl = bottom > document.documentElement.clientHeight &&
         top + 44 <= document.documentElement.clientHeight
       // this.$refs.control.style.left = this.fixedControl ? `${left}px` : '0'
     },
-    removeScrollHandler() {
+    removeScrollHandler () {
       this.scrollParent && this.scrollParent.removeEventListener('scroll', this.scrollHandler)
     }
   }
@@ -241,6 +242,27 @@ export default {
       font-size: 14px;
       padding-left: 5px;
       padding-right: 25px;
+    }
+  }
+  @media (max-width: 1500px) {
+    .code-format-control {
+      &.is-fixed {
+        width: 940px;
+      }
+    }
+  }
+  @media (max-width: 1300px) {
+    .code-format-control {
+      &.is-fixed {
+        width: 840px;
+      }
+    }
+  }
+  @media (max-width: 1200px) {
+    .code-format-control {
+      &.is-fixed {
+        width: 770px;
+      }
     }
   }
   table {

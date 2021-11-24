@@ -19,7 +19,8 @@ module.exports = {
             { text: '主页', link: '/' },
             { text: '实际项目问题', link: '/projectProblem/permission' },
             { text: '基础组件', link: '/baseComponents/TForm/base' },
-            { text: '更新日志', link: '/changeLog/log' }
+            { text: '更新日志', link: '/changeLog/log' },
+            { text: 'Gitee码云', link: 'https://gitee.com/wocwin/t-ui' }
         ],
         sidebar: {
             '/projectProblem/': [

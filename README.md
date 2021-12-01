@@ -1,5 +1,5 @@
 # t-ui
-
+## 近期因网络原因，没有更新，可以在[码云](https://gitee.com/wocwin/t-ui)拉取最新代码
 ## 介绍
 这是我在学习 Vue 中基于[Element-ui](https://element.faas.ele.me/#/zh-CN) 二次封装基础组件文档，希望对你有用。可查看  [官方文档](https://wocwin.github.io/t-ui/) 预览
 

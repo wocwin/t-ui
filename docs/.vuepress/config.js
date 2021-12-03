@@ -95,6 +95,9 @@ module.exports = {
             ]
         }
     },
+ chainWebpack (config) {
+    config.resolve.alias.set('core-js/library/fn', 'core-js/features');
+     },
     configureWebpack: {
         module: {
             rules: [

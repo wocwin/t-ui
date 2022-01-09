@@ -10,19 +10,15 @@
 </template>
 
 <script>
-import UploadFile from '../../../../../src/components/baseComponents/UploadFile'
 export default {
-  components: {
-    UploadFile
-  },
-  data() {
+  data () {
     return {
       fileList: [],
       uploadImgUrl: '#'
     }
   },
   methods: {
-    pushUploadItem(fileList) {
+    pushUploadItem (fileList) {
       this.fileList = fileList
     }
   }

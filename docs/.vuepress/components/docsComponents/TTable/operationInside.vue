@@ -1,15 +1,11 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" />
+    <t-table :table="table" :columns="columns" />
   </div>
 </template>
 
 <script>
-import TTable from '../../../../../src/components/baseComponents/TTable'
 export default {
-  components: {
-    TTable
-  },
   data () {
     return {
       table: {
@@ -35,13 +31,6 @@ export default {
             status: '3',
             address: '广东省广州市天河区3'
           }
-        ],
-        column: [
-          { prop: 'name', label: '姓名', minWidth: '100' },
-          { prop: 'date', label: '日期', minWidth: '180' },
-          { prop: 'address', label: '地址', minWidth: '220' },
-          { prop: 'date', label: '日期', minWidth: '180' },
-          { prop: 'address', label: '地址', minWidth: '220' }
         ],
         // 表格内操作列
         operator: [
@@ -70,7 +59,14 @@ export default {
           width: 280,
           label: '操作'
         }
-      }
+      },
+      columns: [
+        { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
+      ],
     }
   },
   methods: {

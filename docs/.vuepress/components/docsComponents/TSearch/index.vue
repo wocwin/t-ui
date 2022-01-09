@@ -12,11 +12,7 @@
 </template>
 
 <script>
-import TSearch from '../../../../../src/components/baseComponents/TSearch'
 export default {
-  components: {
-    TSearch
-  },
   data () {
     return {
       searchValue: '', // 查询条件

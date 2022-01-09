@@ -16,11 +16,7 @@
 </template>
 
 <script>
-import TStepWizard from '../../../../../src/components/baseComponents/TStepWizard'
 export default {
-  components: {
-    TStepWizard
-  },
   data () {
     return {
       active: 0,

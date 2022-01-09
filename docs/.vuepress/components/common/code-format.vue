@@ -1,7 +1,7 @@
 <template>
   <div
     class="code-format"
-    :class="{ hover: hovering }"
+    :class="{ 'hover': hovering }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -23,7 +23,7 @@
       @click="isExpanded = !isExpanded"
     >
       <transition name="arrow-slide">
-        <i :class="[iconClass, { hovering: hovering }]"></i>
+        <i :class="[iconClass, { 'hovering': hovering }]"></i>
       </transition>
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
@@ -36,8 +36,7 @@
           type="text"
           class="control-button copy-button"
           @click.stop="copyCode"
-          >复制代码</el-button
-        >
+        >复制代码</el-button>
       </div>
     </div>
   </div>

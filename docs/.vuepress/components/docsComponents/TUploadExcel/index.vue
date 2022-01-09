@@ -9,7 +9,6 @@
         :successTitle="successTitle"
         @complete="complete"
       >
-        <!-- 1.上传文件 -->
         <template #first>
           <div class="content-main">
             <t-upload-excel
@@ -32,7 +31,6 @@
             </div>
           </div>
         </template>
-        <!-- 2.核对信息 -->
         <template #second>
           <div class="content-main">
             <div class="alert-content">
@@ -67,16 +65,8 @@
   </div>
 </template>
 <script>
-import TLayout from '../../../../../src/components/baseComponents/TLayout'
-import TUploadExcel from '../../../../../src/components/baseComponents/TUploadExcel'
-import TStepWizard from '../../../../../src/components/baseComponents/TStepWizard'
 export default {
   name: 'excelUpload',
-  components: {
-    TLayout,
-    TUploadExcel,
-    TStepWizard
-  },
   data () {
     return {
       active: 0,

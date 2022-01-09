@@ -2,6 +2,7 @@
   <div class="t-table" style="width:100%;">
     <t-table
       :table="table"
+      :columns="columns"
       @selection-change="selectionChange"
       :row-key="getRowKey"
       isShowPagination
@@ -10,11 +11,7 @@
 </template>
 
 <script>
-import TTable from '../../../../../src/components/baseComponents/TTable'
 export default {
-  components: {
-    TTable
-  },
   data () {
     return {
       table: {
@@ -37,15 +34,15 @@ export default {
             status: '1',
             address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
           }
-        ],
-        column: [
-          { prop: 'name', label: '姓名', minWidth: '100' },
-          { prop: 'date', label: '日期', minWidth: '180' },
-          { prop: 'address', label: '地址', minWidth: '220' },
-          { prop: 'date', label: '日期', minWidth: '180' },
-          { prop: 'address', label: '地址', minWidth: '220' }
         ]
-      }
+      },
+      columns: [
+        { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
+      ]
     }
   },
   methods: {

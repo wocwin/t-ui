@@ -27,12 +27,10 @@
   </div>
 </template>
 <script>
-import TForm from '../../../../../src/components/baseComponents/TForm'
-import TUploadFile from '../../../../../src/components/baseComponents/TUploadFile'
+import TUploadFile from '../../../../../examples/components/baseComponents/TUploadFile'
 export default {
   name: 'formData',
   components: {
-    TForm,
     TUploadFile
   },
   data () {
@@ -90,7 +88,7 @@ export default {
           { label: '头像', value: 'avatar', type: 'slot', className: 't-form-block' },
           { label: '手机号码', value: 'phone', type: 'input' },
           { label: '创建时间', value: 'createDate', type: 'date', dateType: 'year', format: 'yyyy' },
-          { label: '时间范围', startDate: 'startDate', endDate: 'endDate', type: 't-date', event: 'date' },
+          { label: '时间范围', startDate: 'startDate', endDate: 'endDate', type: 't-date', dispaysType: 'two', event: 'date' },
           { label: '微信', value: 'wechat', type: 'input' },
           { label: 'QQ', value: 'qq', type: 'input' },
           { label: '邮箱', value: 'email', type: 'input', rules: [{ required: true, message: '邮箱不能为空！' }, { validator: isEmail }] },

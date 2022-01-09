@@ -12,11 +12,7 @@
   </div>
 </template>
 <script>
-import TProtocol from '../../../../../src/components/baseComponents/TProtocol'
 export default {
-  components: {
-    TProtocol
-  },
   data () {
     return {
       protocolVisible: false,

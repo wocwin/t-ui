@@ -1,6 +1,6 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" highlight-current-row>
+    <t-table :table="table" highlight-current-row :columns="columns">
       <!-- 必须要有toolbar插槽 -->
       <template #toolbar></template>
     </t-table>
@@ -8,11 +8,7 @@
 </template>
 
 <script>
-import TTable from '../../../../../src/components/baseComponents/TTable'
 export default {
-  components: {
-    TTable
-  },
   data () {
     return {
       table: {
@@ -38,13 +34,6 @@ export default {
             status: '3',
             address: '广东省广州市天河区3'
           }
-        ],
-        column: [
-          { prop: 'name', label: '姓名', minWidth: '100' },
-          { prop: 'date', label: '日期', minWidth: '180' },
-          { prop: 'address', label: '地址', minWidth: '220' },
-          { prop: 'date', label: '日期', minWidth: '180' },
-          { prop: 'address', label: '地址', minWidth: '220' }
         ],
         // 表格外操作，选中表格某行，可以将其数据传出
         toolbar: [
@@ -73,7 +62,14 @@ export default {
             fun: this.getBack
           }
         ]
-      }
+      },
+      columns: [
+        { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
+      ],
     }
   },
   methods: {

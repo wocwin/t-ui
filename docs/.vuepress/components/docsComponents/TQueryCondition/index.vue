@@ -1,91 +1,166 @@
 <template>
   <div class="query-data">
-    <t-query-condition
-      :query.sync="queryInfo.query"
-      :query-list="queryInfo.queryList"
-      :list-type-info="listTypeInfo"
-      @handleEvent="handleEvent"
-      @reset="reset"
-    />
+    <t-query-condition :opts="opts" @submit="conditionEnter" />
   </div>
 </template>
 <script>
-import TQueryCondition from '../../../../../src/components/baseComponents/TQueryCondition'
+import moment from 'moment'
+const ADDRESS_TYPES = [
+  {
+    label: '前纺一车间',
+    key: 'W1'
+  },
+  {
+    label: '前纺二车间',
+    key: 'W2'
+  },
+  {
+    label: '前纺三车间',
+    key: 'W3'
+  }
+]
 export default {
   name: 'queryData',
-  components: {
-    TQueryCondition
-  },
   data () {
     return {
-      // 过滤相关配置
-      queryInfo: {
-        query: {
-          createTime: '',
-          startDate: '',
-          endDate: '',
-          account: '',
-          createUser: '',
-          status: '',
-          name: '',
-          name1: '',
-          name2: '',
-          name3: '',
-          name4: '',
-          name5: '',
-          name6: '',
-          name7: '',
-          name8: '',
-          name9: ''
+      queryData: {
+        likeCargoNo: '',
+        likeBookNo: '',
+        likeTransportNo: '',
+        likeCargoName: '',
+        workshopNum: '',
+        workshopNum1: '',
+        date1: '',
+        date2: '',
+        date: ''
+      }
+    }
+  },
+  computed: {
+    opts () {
+      return {
+        likeCargoNo: {
+          label: '货源编号',
+          comp: 'el-input',
+          bind: {
+          }
         },
-        queryList: [
-          { type: 'input', label: '账户', value: 'account' },
-          { type: 'input', label: '用户名', value: 'name' },
-          { type: 'input', label: '用户名1', value: 'name1' },
-          { type: 'input', label: '用户名2', value: 'name2' },
-          { type: 'input', label: '用户名3', value: 'name3' },
-          { type: 'input', label: '用户名4', value: 'name4' },
-          { type: 'input', label: '用户名5', value: 'name5' },
-          { type: 'input', label: '用户名6', value: 'name6' },
-          { type: 'input', label: '用户名7', value: 'name7' },
-          { type: 'input', label: '用户名8', value: 'name8' },
-          { type: 'input', label: '用户名9', value: 'name9' },
-          { type: 'select', label: '创建人', value: 'createUser', list: 'userList' },
-          { type: 'select', label: '状态', value: 'status', list: 'statusList' },
-          { type: 'date', label: '创建时间', value: 'createTime', event: 'date' },
-          { type: 't-date', label: '日期范围', startDate: 'startDate', endDate: 'endDate', event: 'date' }
-        ]
-      },
-      // 相关列表
-      listTypeInfo: {
-        userList: [
-          { key: '手机用户', value: 0 },
-          { key: '论坛用户', value: 1 },
-          { key: '平台用户', value: 2 }
-        ],
-        statusList: [
-          { key: '未完成', value: 0 },
-          { key: '审批中', value: 1 },
-          { key: '已完成', value: 2 }
-        ]
+        likeBookNo: {
+          label: '订单编号',
+          comp: 'el-input',
+          bind: {
+          }
+        },
+        likeTransportNo: {
+          label: '运单编号',
+          comp: 'el-input',
+          bind: {
+          }
+        },
+        likeCargoName: {
+          label: '货品名称',
+          comp: 'el-input',
+          bind: {
+          }
+        },
+        workshopNum1: {
+          label: '车间2',
+          comp: 'el-select',
+          changeEvent: 'change',
+          // defaultVal: 'W1',
+          bind: {
+          },
+          child: ADDRESS_TYPES.reduce((acc, cur) => {
+            acc.push({
+              comp: 'el-option',
+              value: cur.key,
+              bind: {
+                label: cur.label,
+                key: cur.key
+              }
+            })
+            return acc
+          }, [])
+        },
+        workshopNum: {
+          label: '车间',
+          comp: 'el-select',
+          changeEvent: 'change',
+          // defaultVal: 'W1',
+          bind: {
+          },
+          child: [
+            {
+              comp: 'el-option',
+              value: 'W1',
+              bind: {
+                label: '前纺一车间',
+                key: 'W1'
+              }
+            },
+            {
+              comp: 'el-option',
+              value: 'W2',
+              bind: {
+                label: '前纺二车间',
+                key: 'W2'
+              }
+            },
+            {
+              comp: 'el-option',
+              value: 'W3',
+              bind: {
+                label: '前纺三车间',
+                key: 'W3'
+              }
+            }
+          ]
+        },
+        date1: {
+          label: '日期',
+          comp: 'el-date-picker',
+          bind: {
+            valueFormat: 'yyyy-MM-dd'
+          }
+        },
+        date: {
+          label: '日期范围',
+          comp: 'el-date-picker',
+          span: 2,
+          defaultVal: [moment().add(-1, 'days').format('yyyy-MM-DD'), moment().format('yyyy-MM-DD')],
+          bind: {
+            type: 'daterange',
+            rangeSeparator: '-',
+            startPlaceholder: '开始日期',
+            endPlaceholder: '结束日期',
+            valueFormat: 'yyyy-MM-dd'
+          }
+        }
+      }
+    },
+    // 查询条件所需参数
+    getQueryData () {
+      const { likeCargoNo, likeBookNo, likeTransportNo, likeCargoName, workshopNum, workshopNum1, date1, date } = this.queryData
+      return {
+        likeCargoNo,
+        likeBookNo,
+        likeTransportNo,
+        likeCargoName,
+        workshopNum,
+        workshopNum1,
+        date1,
+        beginDate: date[0] ? date[0] : null,
+        endDate: date[1] ? date[1] : null
       }
     }
   },
   // 方法
   methods: {
-    // 触发事件
-    handleEvent (type, val, key) {
-      switch (type) {
-        // 对表格获取到的数据做处理
-        case 'date':
-          console.log(1111111, val, type, key)
-          this.queryInfo.query[key] = val
-          break
-      }
-    },
-    reset () {
-      console.log('重置')
-      Object.assign(this.$data.queryInfo.query, this.$options.data().queryInfo.query)
+    // 点击查询按钮
+    conditionEnter (data) {
+      console.log('查询条件', data)
+      this.queryData = data
+      console.log('最终条件', this.getQueryData)
     }
   }
 }

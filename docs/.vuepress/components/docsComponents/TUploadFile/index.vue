@@ -11,11 +11,7 @@
 </template>
 
 <script>
-import TUploadFile from '../../../../../src/components/baseComponents/TUploadFile'
 export default {
-  components: {
-    TUploadFile
-  },
   data () {
     return {
       fmFileList: [],

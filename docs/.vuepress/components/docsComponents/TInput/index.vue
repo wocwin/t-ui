@@ -20,11 +20,7 @@
 </template>
 
 <script>
-import TInput from '../../../../../src/components/baseComponents/TInput'
 export default {
-  components: {
-    TInput
-  },
   data () {
     return {
       money: null,

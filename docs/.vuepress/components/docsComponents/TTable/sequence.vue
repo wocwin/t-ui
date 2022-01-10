@@ -1,15 +1,11 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" isShowPagination />
+    <t-table :table="table" isShowPagination :columns="columns" />
   </div>
 </template>
 
 <script>
-import TTable from '../../../../../src/components/baseComponents/TTable'
 export default {
-  components: {
-    TTable
-  },
   data () {
     return {
       table: {
@@ -41,15 +37,15 @@ export default {
             status: '3',
             address: '广东省广州市天河区3'
           }
-        ],
-        column: [
-          { prop: 'name', label: '姓名', minWidth: '100', sort: true },
-          { prop: 'date', label: '日期', minWidth: '180', sort: true },
-          { prop: 'address', label: '地址', minWidth: '220', sort: true },
-          { prop: 'date', label: '日期', minWidth: '180', sort: true },
-          { prop: 'address', label: '地址', minWidth: '220' }
         ]
-      }
+      },
+      columns: [
+        { prop: 'name', label: '姓名', minWidth: '100', sort: true, noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', sort: true, noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
+      ]
     }
   }
 }

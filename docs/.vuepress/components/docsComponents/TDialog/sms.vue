@@ -11,11 +11,7 @@
   </div>
 </template>
 <script>
-import TPhone from '../../../../../src/components/baseComponents/TPhone'
 export default {
-  components: {
-    TPhone
-  },
   data () {
     return {
       phoneVisible: false,

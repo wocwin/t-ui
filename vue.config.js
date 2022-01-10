@@ -1,9 +1,9 @@
 const path = require('path')
 const port = 2222
 const isProduction = process.env.NODE_ENV === 'production'
-function resolve (dir) {
-  return path.join(__dirname, dir)
-}
+// function resolve (dir) {
+//   return path.join(__dirname, dir)
+// }
 module.exports = {
   transpileDependencies: ['element-ui'], // 解决IE浏览器本地启动白屏现象
   // outputDir: process.env.outputDir || 'dist', // 输出文件名称
@@ -25,13 +25,33 @@ module.exports = {
       }
     }
   },
-  // 底层是webpack-chain
+  // 修改 src 目录 为 examples 目录
+  pages: {
+    index: {
+      entry: 'examples/main.js',
+      template: 'public/index.html',
+      filename: 'index.html'
+    }
+  },
+  // 强制内联CSS
+  css: {
+    extract: false
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './examples')
+        // 'vue$': path.resolve(__dirname, './node_modules/vue/dist/vue.runtime.esm.js')
+      }
+    }
+  },
+  // 底层是webpack-chain packages
   chainWebpack: config => {
     // 配置兼容IE浏览器
     // config.entry.app = ['babel-polyfill', './src/main.js']
     // 配置别名
-    config.resolve.alias
-      .set('@', resolve('src'))
+    // config.resolve.alias
+    //   .set('@', resolve('examples'))
     // 生产环境配置
     if (isProduction) {
       // 删除预加载

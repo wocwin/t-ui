@@ -11,11 +11,7 @@
 </template>
 
 <script>
-import TTreeTable from '../../../../../src/components/baseComponents/TTreeTable'
 export default {
-  components: {
-    TTreeTable
-  },
   data () {
     return {
       columns: [

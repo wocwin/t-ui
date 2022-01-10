@@ -9,7 +9,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "docs:dev": "vuepress dev docs --open  --host 0.0.0.0",
+    "docs:dev": "vuepress dev docs --open",
     "docs:build": "vuepress build docs",
     "lib": "vue-cli-service build --target lib --name t-win-ui --dest lib ./packages/index.js --no-clean",
     "deploy": "deploy.sh",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@vuepress-reco/vuepress-plugin-extract-code": "^1.0.4",
     "ant-design-vue": "^1.7.8",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.33",
     "element-ui": "^2.13.2",
@@ -37,7 +37,7 @@
     "vuepress": "^1.5.2",
     "vuepress-plugin-gotop-plus": "^1.0.4",
     "vuex": "^3.5.1",
-    "xlsx": "^0.16.6"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.3",

@@ -39,11 +39,13 @@ export default {
     }
   },
   data () {
-    const columnSet = this.getColumnSetCache()
-    this.$emit('columnSetting', columnSet)
     return {
-      columnSet
+      columnSet: null
     }
+  },
+  mounted () {
+    this.columnSet = this.getColumnSetCache()
+    this.$emit('columnSetting', this.columnSet)
   },
   watch: {
     columnSet: function (n) {

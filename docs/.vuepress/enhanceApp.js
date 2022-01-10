@@ -14,6 +14,8 @@ import * as filters from './public/utils/filters' // global filters
 import './public/utils/directives' // 自定义指令
 import 'element-ui/lib/theme-chalk/index.css'
 import '../.vuepress/public/css/index.scss'
+import moment from 'moment'
+moment.suppressDeprecationWarnings = true // 去掉警告
 // 解决低版本浏览器不支持es6
 // Es6Promise.polyfill()
 

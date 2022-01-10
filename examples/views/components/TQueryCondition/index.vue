@@ -47,6 +47,7 @@ export default {
         likeCargoNo: {
           label: '货源编号',
           comp: 'el-input',
+          // span: 2,
           bind: {
             // clearable: true,
             placeholder: '请输入货源编号'
@@ -133,7 +134,7 @@ export default {
         date: {
           label: '日期范围',
           comp: 'el-date-picker',
-          // span: 2,
+          span: 2,
           // defaultVal: [moment().add(-1, 'days').format('yyyy-MM-DD'), moment().format('yyyy-MM-DD')],
           bind: {
             type: 'daterange',

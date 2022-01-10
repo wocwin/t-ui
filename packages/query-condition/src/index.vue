@@ -59,6 +59,7 @@ export default {
   },
   data () {
     return {
+      colLength: null,
       form: Object.keys(this.opts).reduce((acc, field) => {
         acc[field] = this.opts[field].defaultVal || null
         return acc
@@ -128,16 +129,6 @@ export default {
       }
       return (areas + '').replace(/,/g, '')
     },
-    colLength () { // 行列数
-      const width = window.innerWidth
-      let colLength = 4
-      if (width > 768 && width < 1280) {
-        colLength = 3
-      } else if (width <= 768) {
-        colLength = 2
-      }
-      return colLength
-    },
     // 占用单元格长度
     span () {
       let span = 1
@@ -156,6 +147,16 @@ export default {
     }
   },
   methods: {
+    getColLength () { // 行列数
+      const width = window.innerWidth
+      let colLength = 4
+      if (width > 768 && width < 1280) {
+        colLength = 3
+      } else if (width <= 768) {
+        colLength = 2
+      }
+      return colLength
+    },
     initForm (opts, keepVal = false) {
       return Object.keys(opts).reduce((acc, field) => {
         if (keepVal && this.form) {
@@ -182,7 +183,8 @@ export default {
       this.$emit('submit', this.form)
     }
   },
-  created () {
+  mounted () {
+    this.colLength = this.getColLength()
     if (this.boolEnter) {
       var lett = this
       document.onkeydown = function (e) {

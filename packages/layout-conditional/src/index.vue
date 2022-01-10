@@ -48,6 +48,7 @@ export default {
   },
   data () {
     return {
+      colLength: null,
       form: this.initForm(this.opts)
     }
   },
@@ -84,16 +85,6 @@ export default {
         acc[field] = opt
         return acc
       }, {})
-    },
-    colLength () { // 行列数
-      const width = window.innerWidth
-      let colLength = 4
-      if (width > 768 && width < 1280) {
-        colLength = 3
-      } else if (width <= 768) {
-        colLength = 2
-      }
-      return colLength
     },
     gridAreas () { // grid布局按钮位置
       let template = "'. . . .'"
@@ -150,7 +141,20 @@ export default {
       return length
     }
   },
+  mounted () {
+    this.colLength = this.getColLength()
+  },
   methods: {
+    getColLength () { // 行列数
+      const width = window.innerWidth
+      let colLength = 4
+      if (width > 768 && width < 1280) {
+        colLength = 3
+      } else if (width <= 768) {
+        colLength = 2
+      }
+      return colLength
+    },
     initForm (opts, keepVal = false) { // keepVal 保持当前用户选择的结果
       return Object.keys(opts).reduce((acc, field) => {
         acc[field] = (keepVal && this.form && this.form[field]) || opts[field].defaultVal || null

@@ -25,4 +25,3 @@ yarn-error.log*
 *.sw?
 # vuepress temp file
 .temp
-package-lock.json

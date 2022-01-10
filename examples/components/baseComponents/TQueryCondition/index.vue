@@ -121,7 +121,7 @@ export default {
       this.$emit('submit', this.form)
     }
   },
-  created () {
+  mounted () {
     if (this.boolEnter) {
       var lett = this
       document.onkeydown = function (e) {

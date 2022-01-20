@@ -8,6 +8,7 @@ import TCalendar from './calendar'
 import TDatePicker from './date-picker'
 import TDialog from './dialog'
 import TEditTable from './edit-table'
+import TComplexEditTable from './complex-edit-table'
 import TForm from './form'
 import TIcon from './icon'
 import TInput from './input'
@@ -65,6 +66,7 @@ const components = [
   TAntModal,
   TAntProtocol,
   TModuleForm,
+  TComplexEditTable,
   TEditTable
 ]
 
@@ -116,6 +118,7 @@ export {
   TAntModal,
   TAntProtocol,
   TModuleForm,
+  TComplexEditTable,
   TEditTable
 }
 export default {

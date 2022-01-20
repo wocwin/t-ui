@@ -71,6 +71,7 @@ export default {
       type: Boolean,
       default: false
     },
+    // 第三组件的属性相当于v-bind="$attrs"
     tableOpt: {
       type: Object,
       default: () => ({})

@@ -13,7 +13,7 @@ const modulesRouter = require.context('./modules', true, /\.js$/)
 modulesRouter.keys().forEach(key => {
   // console.log(1111, modulesRouter(key).default.name)
   if (modulesRouter(key).default.name === 'Demo') {
-    demoRouter.push(modulesRouter(key).default)
+    // demoRouter.push(modulesRouter(key).default)
   } else if (modulesRouter(key).default.isStatic) {
     staticRouter.push(modulesRouter(key).default)
   } else {

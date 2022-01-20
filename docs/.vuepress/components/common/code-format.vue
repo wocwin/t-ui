@@ -138,7 +138,7 @@ export default {
     float: right;
   }
   .source {
-    padding: 24px;
+    padding: 15px 15px 5px 15px;
   }
   .meta {
     background-color: #fafafa;

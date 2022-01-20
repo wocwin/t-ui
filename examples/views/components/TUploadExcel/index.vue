@@ -67,7 +67,7 @@
   </div>
 </template>
 <script>
-import TUploadExcel from '@/components/baseComponents/TUploadExcel'
+import TUploadExcel from '../../../../packages/upload-excel'
 export default {
   name: 'excelUpload',
   components: { TUploadExcel },

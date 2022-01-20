@@ -22,6 +22,8 @@ const TStepWizard = () => import('@/views/components/tCommonComponents/TStepWiza
 const TTable = () => import('@/views/components/TTable')
 // 条件查询置顶组件
 const TQueryCondition = () => import('@/views/components/TQueryCondition')
+// 编辑表格
+const TEditTable = () => import('@/views/components/TEditTable')
 
 // 图片上传组件
 const TUploadFile = () => import('@/views/components/uploadFile')
@@ -96,6 +98,12 @@ const baseComponentsRouter = {
       name: '查询条件置顶组件',
       component: TQueryCondition,
       meta: { title: '查询条件置顶组件' }
+    },
+    {
+      path: 't-edit-table',
+      name: '表格编辑组件',
+      component: TEditTable,
+      meta: { title: '表格编辑组件' }
     },
     {
       path: 't-table',

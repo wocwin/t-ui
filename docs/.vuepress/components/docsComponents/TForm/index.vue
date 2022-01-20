@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import TUploadFile from '../../../../../examples/components/baseComponents/TUploadFile'
+import TUploadFile from '../../../../../packages/upload-file'
 export default {
   name: 'formData',
   components: {

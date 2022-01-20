@@ -4,9 +4,43 @@
       <div class="content-main">
         <t-layout-page>
           <t-layout-page-item>
+            <h1>table单个单元格编辑操作</h1>
+            <div class="edit_config">
+              <t-table
+                isShowFooterBtn
+                :isShowTips="false"
+                :table="singleEditConfig.table"
+                :columns="singleEditConfig.table.columns"
+                :listTypeInfo="singleEditConfig.listTypeInfo"
+                @handleEvent="handleEvent"
+                @save="singleSave"
+              />
+            </div>
+          </t-layout-page-item>
+          <t-layout-page-item>
+            <h1>table编辑操作</h1>
+            <div class="edit_config">
+              <t-table
+                isEditCell
+                isShowFooterBtn
+                :table="editConfig.table"
+                :columns="editConfig.table.columns"
+                :listTypeInfo="editConfig.listTypeInfo"
+                @handleEvent="handleEvent"
+                @save="save"
+                @add="editAdd"
+              />
+            </div>
+          </t-layout-page-item>
+          <t-layout-page-item>
             <h1>简单操作</h1>
             <div class="base">
-              <t-table title="常规表格" :table="baseData.table" :columns="baseData.columns" />
+              <t-table
+                title="常规表格"
+                :table="baseData.table"
+                :columns="baseData.columns"
+                @radioChange="radioChange"
+              />
               <t-table title="双击单元格复制" :table="baseData.table" :columns="baseData.columns" isCopy />
               <t-table title="文字变色" :table="changeColor.table" :columns="changeColor.columns" />
               <t-table
@@ -36,6 +70,8 @@
                 :columns="columnSetData.columns"
               />
             </div>
+          </t-layout-page-item>
+          <t-layout-page-item>
             <h1>按钮操作</h1>
             <div class="operator">
               <t-table title="表格内操作" :table="operatorData.table" :columns="operatorData.columns" />
@@ -49,6 +85,8 @@
                 <template #toolbar></template>
               </t-table>
             </div>
+          </t-layout-page-item>
+          <t-layout-page-item>
             <h1>过滤和插槽操作</h1>
             <div class="filters">
               <t-table
@@ -72,9 +110,173 @@ export default {
   name: 'TTableDemo',
   data () {
     return {
+      // 编辑某个单元格
+      singleEditConfig: {
+        table: {
+          border: true,
+          firstColumn: { type: 'index', label: '序列' }, // 显示序列号
+          data: [
+            {
+              name: '张三',
+              hobby: '1',
+              hobby1: ['1', '2'],
+              date: '2022-01-18',
+              year: '2022',
+              time: '2022-01-18 16:58:58',
+              remake: '备注张三',
+              number: 12
+            },
+            {
+              name: '李四',
+              hobby: '2',
+              hobby1: ['0', '2'],
+              date: '2022-01-19',
+              year: '2021',
+              time: '2022-01-19 16:58:58',
+              remake: '备注李四',
+              number: 15
+            }
+          ],
+          columns: [
+            {
+              prop: 'name',
+              label: '姓名',
+              minWidth: '100',
+              canEdit: true,
+              renderHeader: (h, { column }) => {
+                const style = {
+                  color: '#F56C6C',
+                  fontSize: '16px',
+                  marginRight: '3px'
+                }
+                return (
+                  <div>
+                    <span style={style}>*</span>
+                    <span>{column.label}</span>
+                  </div>
+                )
+              }
+            },
+            {
+              prop: 'hobby',
+              label: '爱好单选',
+              minWidth: '180',
+              headerRequired: true,
+              canEdit: true,
+              configEdit: {
+                label: '爱好单选',
+                type: 'select-arr',
+                editComponent: 'el-select',
+                list: 'hobbyList',
+                event: 'hobbyList',
+                arrLabel: 'label',
+                arrKey: 'value'
+              }
+            },
+            {
+              prop: 'hobby1',
+              label: '爱好多选',
+              minWidth: '180',
+              renderHeader: (h, { column }) => {
+                return (
+                  <div>
+                    <span>{column.label}</span>
+                    <i class="el-icon-question" style="color:#409eff;margin-left:5px;font-size:15px;"></i>
+                  </div>
+                )
+              },
+              canEdit: true,
+              configEdit: {
+                label: '爱好多选',
+                type: 'el-select-multiple',
+                editComponent: 'el-select',
+                list: 'hobbyList',
+                event: 'hobbyList1',
+                bind: { multiple: true },
+                arrLabel: 'label',
+                arrKey: 'value'
+              }
+            },
+            {
+              prop: 'date',
+              label: '日期',
+              minWidth: '180'
+            },
+            {
+              prop: 'year',
+              label: '日期年',
+              minWidth: '180',
+              canEdit: true,
+              configEdit: {
+                label: '日期年',
+                type: 'year',
+                editComponent: 'el-date-picker',
+                bind: { valueFormat: 'yyyy' }
+              }
+            },
+            {
+              prop: 'time',
+              label: '日期时间',
+              minWidth: '180',
+              canEdit: true,
+              configEdit: {
+                label: '日期时间',
+                type: 'datetime',
+                editComponent: 'el-date-picker',
+                bind: {
+                  valueFormat: 'yyyy-MM-dd hh:mm:ss'
+                }
+              }
+            },
+            {
+              prop: 'number',
+              label: '计数器',
+              minWidth: '220',
+              canEdit: true,
+              configEdit: {
+                label: '计数器',
+                type: 'inputNumber',
+                bind: { min: 0, max: 99 },
+                editComponent: 'el-input-number'
+              }
+            },
+            {
+              prop: 'remake',
+              label: '备注',
+              minWidth: '220',
+              canEdit: true,
+              configEdit: {
+                label: '备注',
+                type: 'textarea',
+                bind: { type: 'textarea' },
+                editComponent: 'el-input'
+              }
+            }
+          ],
+          // 表格内操作列
+          operator: [
+            {
+              type: 'danger',
+              text: '删除',
+              fun: this.editDel
+            }
+          ]
+        },
+        // 下拉选择项
+        listTypeInfo: {
+          hobbyList: [
+            { label: '吉他', value: '0' },
+            { label: '看书', value: '1' },
+            { label: '美剧', value: '2' },
+            { label: '旅游', value: '3' },
+            { label: '音乐', value: '4' }
+          ]
+        }
+      },
       baseData: {
         table: {
           border: true, // 可自动调整列宽
+          firstColumn: { type: 'radio' }, // 显示单选框
           data: [
             {
               id: '1',
@@ -408,10 +610,115 @@ export default {
             }
           ]
         }
+      },
+      // 编辑表格
+      editConfig: {
+        table: {
+          border: true,
+          firstColumn: { type: 'index', label: '序列' }, // 显示序列号
+          data: [],
+          columns: [
+            { prop: 'name', label: '姓名', minWidth: '100', configEdit: { label: '姓名', type: 'input', editComponent: 'el-input' } },
+            {
+              prop: 'hobby',
+              label: '爱好',
+              minWidth: '180',
+              configEdit: {
+                label: '爱好',
+                type: 'select-arr',
+                editComponent: 'el-select',
+                list: 'hobbyList',
+                event: 'hobbyList',
+                arrLabel: 'label',
+                arrKey: 'value'
+              }
+            },
+            {
+              prop: 'number',
+              label: '计数器',
+              minWidth: '220',
+              configEdit: {
+                label: '计数器',
+                type: 'inputNumber',
+                bind: { controls: true, min: 0, max: 99 },
+                editComponent: 'el-input-number'
+              }
+            },
+            {
+              prop: 'checkbox',
+              label: '复选框',
+              minWidth: '220',
+              configEdit: {
+                label: '复选框',
+                type: 'checkbox',
+                list: 'hobbyList',
+                editComponent: 'el-checkbox-group'
+              }
+            }
+          ],
+          // 表格内操作列
+          operator: [
+            {
+              type: 'danger',
+              text: '删除',
+              fun: this.editDel
+            }
+          ]
+        },
+        // 下拉选择项
+        listTypeInfo: {
+          hobbyList: [
+            { label: '吉他', value: '0' },
+            { label: '看书', value: '1' },
+            { label: '美剧', value: '2' },
+            { label: '旅游', value: '3' },
+            { label: '音乐', value: '4' }
+          ]
+        }
       }
     }
   },
   methods: {
+    singleSave (data) {
+      console.log('单个单元格编辑保存', data)
+    },
+    radioChange (row) {
+      console.log('单选传出数据', row)
+    },
+    /****
+     * 编辑表格
+     */
+    editAdd () {
+      console.log('新增')
+      const objAdd = {
+        name: '',
+        hobby: '',
+        checkbox: [],
+        number: 0
+      }
+      this.editConfig.table.data.push(objAdd)
+    },
+    editDel (item, index, row) {
+      row.splice(index, 1)
+      console.log('删除', item, row, index)
+    },
+    // 编辑每一项的change事件
+    handleEvent (type, val) {
+      console.log('handleEvent', type, val)
+      switch (type) {
+        case 'hobbyList':
+          console.log('hobbyList', val)
+          break
+      }
+    },
+    save (data) {
+      const flag = data.some(item => item.hobby === '')
+      if (flag) {
+        this.$message.error('爱好不能为空')
+        return
+      }
+      console.log('保存', data)
+    },
     // 复选框选中
     selectionChange (val) {
       console.log('复选框选中值', val)

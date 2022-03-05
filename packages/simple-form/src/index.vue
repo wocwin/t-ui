@@ -6,6 +6,7 @@
     :model="formOpts.formData"
     :rules="formOpts.rules"
     :label-width="formOpts.labelWidth||'120px'"
+    :label-position="formOpts.labelPosition||'right'"
     v-bind="$attrs"
     v-on="$listeners"
   >
@@ -14,9 +15,9 @@
       :key="index"
       :prop="item.value"
       :label="item.label"
-      :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName}]"
+      :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName},{'render_laber_position':formOpts.labelPosition}]"
       :rules="item.rules"
-      :style="{ width: `${100 / (item.widthSize || colSize)}%` }"
+      :style="getChildWidth(item)"
       v-bind="$attrs"
       v-on="$listeners"
     >
@@ -36,15 +37,20 @@
         :placeholder="getPlaceholder(item)"
         @change="handleEvent(item.event, formOpts.formData[item.value])"
         v-bind="{clearable:true,filterable:true,...item.bind}"
-        style="width: 100%"
+        :style="{width: item.width||'100%'}"
       >
         <!-- 前置文本 -->
         <template #prepend v-if="item.prepend">{{ item.prepend }}</template>
         <!-- 后置文本 -->
         <template #append v-if="item.append">{{ item.append }}</template>
+        <!-- 子组件自定义插槽 -->
+        <template v-if="item.childSlotName">
+          <slot :name="item.childSlotName"></slot>
+        </template>
         <component
+          v-else
           :is="compChildName(item)"
-          v-for="(value, key, index) in formOpts.listTypeInfo[item.list]"
+          v-for="(value, key, index) in selectListType(item)"
           :key="index"
           :disabled="value.disabled"
           :label="item.type === 'select-obj'? value: item.type === 'checkbox'? value.value: value[item.arrLabel]"
@@ -107,6 +113,15 @@ export default {
     }
   },
   computed: {
+    selectListType () {
+      return ({ list }) => {
+        if (this.formOpts.listTypeInfo) {
+          return this.formOpts.listTypeInfo[list]
+        } else {
+          return []
+        }
+      }
+    },
     // 子组件名称
     compChildName () {
       return ({ type }) => {
@@ -147,6 +162,13 @@ export default {
     this.$emit('update:refObj', this.$refs.form)
   },
   methods: {
+    getChildWidth (item) {
+      if (this.formOpts.labelPosition === 'top') {
+        return `width: calc((${100 / (item.widthSize || this.colSize)}% - 10px));margin-right:10px;`
+      } else {
+        return `width:${100 / (item.widthSize || this.colSize)}%;`
+      }
+    },
     // 得到placeholder的显示
     getPlaceholder (row) {
       let placeholder
@@ -241,6 +263,11 @@ export default {
       &::before {
         margin-top: 1px;
       }
+    }
+  }
+  .render_laber_position {
+    .el-form-item__label {
+      justify-content: flex-start;
     }
   }
   .label_render {

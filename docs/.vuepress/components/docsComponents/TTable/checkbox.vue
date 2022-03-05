@@ -1,6 +1,13 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" @selection-change="selectionChange" isShowPagination></t-table>
+    <t-table
+      ref="tableCheckbox"
+      :table="table"
+      :columns="columns"
+      @selection-change="selectionChange"
+      isShowPagination
+    />
+    <el-button type="danger" @click="cancelCheck">取消选中</el-button>
   </div>
 </template>
 
@@ -58,6 +65,10 @@ export default {
     // 复选框选中
     selectionChange (val) {
       console.log('复选框选中值', val)
+    },
+    // 取消选中
+    cancelCheck () {
+      this.$refs.tableCheckbox.clearSelection()
     }
   }
 }

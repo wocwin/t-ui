@@ -97,6 +97,7 @@ export default {
         goods: {
           name: 'goods',
           title: '货品信息',
+          disabled: true,
           data: [
             {
               label: '货品名称',

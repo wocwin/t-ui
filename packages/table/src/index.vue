@@ -3,10 +3,10 @@
     <div class="header_wrap">
       <div class="header_title">
         {{title}}
-        <el-button v-if="isEditCell&&!$slots.title" type="primary" @click="() => $emit('add')">新增</el-button>
         <slot name="title" />
       </div>
       <div class="toolbar_top">
+        <!-- 表格外操作 -->
         <div v-if="isShow('toolbar')">
           <slot name="toolbar"></slot>
           <div class="toolbar">
@@ -14,7 +14,7 @@
               v-for="(item, index) in getToolbarBtn"
               :key="index"
               @click="toolbarFun(item)"
-              :icon="item.icon?item.icon:'el-icon-search'"
+              :icon="item.icon?item.icon:''"
               :type="item.type||'primary'"
               size="small"
             >{{item.text}}</el-button>
@@ -40,9 +40,9 @@
             </el-popover>
           </div>
         </div>
+        <!--列设置按钮-->
         <div class="header_right_wrap">
           <slot name="btn" />
-          <!--列设置按钮-->
           <column-set
             v-if="columnSetting"
             v-bind="$attrs"
@@ -63,7 +63,7 @@
       @row-click="rowClick"
       @cell-dblclick="cellDblclick"
     >
-      <!-- 序列号/单选框/复选框 -->
+      <!-- 首列之 序列号/单选框/复选框 -->
       <div v-if="table.firstColumn">
         <!-- 复选框 -->
         <el-table-column
@@ -99,7 +99,7 @@
           </template>
         </el-table-column>
       </div>
-      <slot name="begin"></slot>
+      <!-- 主体内容 -->
       <template v-for="(item,index) in renderColumns">
         <el-table-column
           :key="index+'i'"
@@ -135,13 +135,16 @@
                   :canEdit="item.canEdit"
                   :configEdit="item.configEdit"
                   v-model="scope.row[scope.column.property]"
+                  @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
                   v-on="$listeners"
                   v-bind="$attrs"
                   ref="editCell"
                 >
-                  <template v-for="(index, name) in $slots" :slot="name">
-                    <slot :name="name" />
-                  </template>
+                  <slot
+                    v-if="item.configEdit&&item.configEdit.editSlotName"
+                    :name="item.configEdit.editSlotName"
+                    :scope="scope"
+                  />
                 </single-edit-cell>
               </template>
               <!-- filters渲染 -->
@@ -162,6 +165,7 @@
               >{{scope.row[item.prop]}}</div>
             </template>
             <template v-else>
+              <!-- 整行编辑 -->
               <edit-cell
                 :configEdit="item.configEdit"
                 v-model="scope.row[scope.column.property]"
@@ -178,7 +182,7 @@
         </el-table-column>
       </template>
       <slot></slot>
-
+      <!-- 操作按钮 -->
       <el-table-column
         v-if="table.operator"
         :fixed="table.operatorConfig && table.operatorConfig.fixed"
@@ -187,18 +191,24 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-button
-            v-for="(item, index) in table.operator"
-            :key="index"
-            @click="item.fun(scope.row,scope.$index,tableData)"
-            :type="item.type"
-            size="small"
-            v-show="checkIsShow(scope,item)"
-          >{{item.text}}</el-button>
+          <div class="operator_btn" :style="table.operatorConfig && table.operatorConfig.style">
+            <el-button
+              v-for="(item, index) in table.operator"
+              :key="index"
+              @click="item.fun(scope.row,scope.$index,tableData)"
+              :type="item.type||'text'"
+              :style="item.style"
+              size="small"
+              v-show="checkIsShow(scope,item)"
+            >{{item.text}}</el-button>
+          </div>
         </template>
       </el-table-column>
-      <slot name="end"></slot>
     </el-table>
+    <div v-if="isEdit" class="edit_cell">
+      <el-button type="dashed" block size="small" @click="() => $emit('add')">添加</el-button>
+    </div>
+    <!-- 分页器 -->
     <el-pagination
       v-show="(tableData && tableData.length) && isShowPagination"
       :current-page="table.currentPage"
@@ -211,11 +221,11 @@
       v-on="$listeners"
       background
     ></el-pagination>
-    <!-- 按钮 -->
+    <!-- 表格底部按钮 -->
     <footer class="handle_wrap" v-if="isShowFooterBtn&&(tableData&&tableData.length>0)">
       <slot name="footer" />
       <div v-if="!$slots.footer">
-        <el-button type="primary" @click="()=>$emit('save',tableData)">保存</el-button>
+        <el-button type="primary" @click="save">保存</el-button>
       </div>
     </footer>
   </div>
@@ -266,6 +276,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isEdit: {
+      type: Boolean,
+      default: false
+    },
     // 是否显示设置（隐藏/显示列）
     columnSetting: {
       type: Boolean,
@@ -300,6 +314,14 @@ export default {
       columnSet: []
     }
   },
+  watch: {
+    'table.data': {
+      handler (val) {
+        this.tableData = val
+      },
+      deep: true // 深度监听
+    }
+  },
   computed: {
     columnByProp () {
       return this.columns.reduce((acc, cur) => {
@@ -323,6 +345,15 @@ export default {
     }
   },
   methods: {
+    // 清空复选框
+    clearSelection () {
+      this.$refs['el-table'].clearSelection()
+    },
+    // 整行编辑返回数据
+    save () {
+      this.$emit('save', this.tableData)
+      return this.tableData
+    },
     // 头部标题是否需要加头部必填*符号
     renderHeader (h, { column }) {
       const style = {
@@ -411,7 +442,7 @@ export default {
 .t-table {
   z-index: 0;
   background-color: #fff;
-  padding: 10px;
+  // padding: 10px;
   // border-radius: 4px;
   ::v-deep .el-pagination {
     display: flex;
@@ -471,6 +502,17 @@ export default {
   .marginBttom {
     margin-bottom: -8px;
   }
+  // 操作样式
+  .operator_btn {
+    // text-align: left;
+    .el-button {
+      margin: 0;
+      margin-right: 10px;
+      // &:last-child {
+      //   margin-right: 0;
+      // }
+    }
+  }
   // 复制功能样式
   .cursor {
     ::v-deep tbody {
@@ -523,6 +565,16 @@ export default {
     text-align: right;
     .el-btn {
       margin-left: 8px;
+    }
+  }
+  // 整行编辑按钮样式
+  .edit_cell {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    ::v-deep .el-button {
+      border-color: #355db4;
+      color: #355db4;
     }
   }
 }

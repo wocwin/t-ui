@@ -12,6 +12,15 @@
           <el-input v-model="formOpts.formData.wechat" placeholder="自定义插槽"></el-input>
         </div>
       </template>
+      <!-- 平台用户下拉子组件自定义插槽 -->
+      <template #accountType>
+        <el-option
+          v-for="(item,key) in formOpts.listTypeInfo.accountTypeList"
+          :key="key"
+          :label="item"
+          :value="key"
+        ></el-option>
+      </template>
     </t-simple-form>
   </div>
 </template>
@@ -23,6 +32,7 @@ export default {
     return {
       // form表单
       formOpts: {
+        labelPosition: 'top',
         ref: null,
         formData: {
           id: `${Math.floor(Math.random() * 10 + 1)}`, // *唯一ID
@@ -47,7 +57,7 @@ export default {
           { label: '密码', value: 'password', type: 'password', comp: 'el-input' },
           { label: '昵称', value: 'name', type: 'input', comp: 'el-input' },
           { label: '性别', value: 'sex', type: 'select-arr', comp: 'el-select', list: 'sexList', bind: { disabled: false }, arrLabel: 'key', arrKey: 'value' },
-          { label: '平台用户', value: 'accountType', type: 'select-obj', comp: 'el-select', list: 'accountTypeList' },
+          { label: '平台用户', value: 'accountType', type: 'select-obj', comp: 'el-select', list: 'accountTypeList', childSlotName: 'accountType' },
           { label: '状态', value: 'status', type: 'select-arr', list: 'statusList', comp: 'el-select', arrLabel: 'key', arrKey: 'value' },
           { label: '爱好', value: 'hobby', type: 'checkbox', comp: 'el-checkbox-group', list: 'hobbyList', event: 'checkbox' },
           { label: '手机号码', value: 'phone', type: 'input', comp: 'el-input', bind: { maxlength: 11 } },

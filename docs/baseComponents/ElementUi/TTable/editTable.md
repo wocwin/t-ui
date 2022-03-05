@@ -5,7 +5,8 @@
 <common-code-format>
   <docsComponents-TTable-editTable slot="source"></docsComponents-TTable-editTable>
 在组件中需配置
-
+需要编辑先设置属性：`isEditCell:true`<br/>
+需要显示添加按钮设置属性：`isEdit:true`<br/>
 column 每项中新增需要的`configEdit`属性其值如下:<br/>
 `label`: `placeholder 显示`<br/>
 `editComponent` :`组件名称可直接指定全局注册的组件，也可引入'element/abtd'如：'a-button/el-button'`<br/>

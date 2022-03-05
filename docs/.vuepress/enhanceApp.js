@@ -28,6 +28,12 @@ export default ({
     Vue.use(Tui),
     Vue.use(vueClipboard),
     Vue.prototype.$messageUpload = message,
+    Vue.prototype.$message = ElementUI.Message,
+    Vue.prototype.$loading = ElementUI.Loading.service,
+    Vue.prototype.$msgbox = ElementUI.MessageBox,
+    Vue.prototype.$alert = ElementUI.MessageBox.alert,
+    Vue.prototype.$confirm = ElementUI.MessageBox.confirm,
+    Vue.prototype.$prompt = ElementUI.MessageBox.prompt,
     // 过滤器
     Object.keys(filters).forEach(key => {
       Vue.filter(key, filters[key])

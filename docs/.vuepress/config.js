@@ -49,12 +49,14 @@ module.exports = {
                 'ElementUi/TLayout/base', // 布局组件
                 'ElementUi/TStepWizard/base', // 步驟组件
                 'ElementUi/TDatePicker/base', // 日期组件
-                'ElementUi/TDialog/base' // 弹窗组件
+                'ElementUi/TDialog/base', // 弹窗组件
+                'ElementUi/TDetail/base', // 详情组件
+                'ElementUi/TPaginationSelect/base', // 下拉选择分页组件
                 // 'ElementUi/TUploadExcel/base' // 批量上传excel组件
               ]
             },
             {
-              title: 'TForm/TSimpleForm表单组件',
+              title: '表单组件',
               collapsable: false,
               children: [
                 'ElementUi/TForm/base', // 基本
@@ -84,7 +86,7 @@ module.exports = {
               ]
             },
             {
-              title: 'TEditTable组件',
+              title: '表格编辑组件',
               collapsable: false,
               children: [
                 'ElementUi/TEditTable/base', // 编辑table组件

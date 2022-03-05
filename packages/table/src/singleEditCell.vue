@@ -1,52 +1,37 @@
 <template>
-  <div @click="onFieldClick" class="single_edit_cell" :class="{'edit-enabled-cell': canEdit}">
-    <div class="cell-content" v-if="!editMode">
-      <el-tooltip
-        v-if="isShowTips"
-        class="item"
-        effect="light"
-        content="单击可编辑"
-        placement="top"
-        v-bind="$attrs"
-      >
-        <div v-if="childCom.includes(configEdit.type)">{{childVal}}&nbsp;</div>
-        <div v-else>{{model}}&nbsp;</div>
-        <slot name="content"></slot>
-      </el-tooltip>
-      <template v-else>
-        <div v-if="childCom.includes(configEdit.type)">{{childVal}}&nbsp;</div>
-        <div v-else>{{model}}&nbsp;</div>
-        <slot name="content"></slot>
-      </template>
-    </div>
+  <div class="single_edit_cell" :class="{'edit-enabled-cell': canEdit}">
+    <!-- 编辑组件自定义插槽 -->
+    <template v-if="configEdit.editSlotName">
+      <slot />
+    </template>
     <component
-      v-if="editMode"
+      v-if="!configEdit.editSlotName"
       :is="configEdit.editComponent||'el-input'"
       v-model="model"
       :type="configEdit.type"
       :placeholder="getPlaceholder(configEdit)"
-      v-bind="attrs"
       ref="parentCom"
       @change="handleEvent(configEdit.event, model,configEdit.editComponent)"
-      @keyup.enter.native="onInputExit"
-      @blur="onInputExit"
-      style="width: 100%"
+      :style="{width: configEdit.width||'100%'}"
+      v-bind="{ clearable: true, filterable: true, ...this.configEdit.bind }"
+      v-on="$listeners"
     >
       <!-- 前置文本 -->
       <template #prepend v-if="configEdit.prepend">{{ configEdit.prepend }}</template>
       <!-- 后置文本 -->
       <template #append v-if="configEdit.append">{{ configEdit.append }}</template>
-      <slot name="editChild" />
-      <div v-if="!$slots.editChild">
-        <component
-          :is="compChildName(configEdit)"
-          v-for="(value, key, index) in listTypeInfo[configEdit.list]"
-          :key="index"
-          :disabled="value.disabled"
-          :label="compChildLabel(configEdit,value)"
-          :value="compChildValue(configEdit,value,key)"
-        >{{compChildShowLabel(configEdit,value)}}</component>
-      </div>
+      <!-- 子组件自定义插槽 -->
+      <!-- <template v-if="configEdit.childSlotName">
+        <slot />
+      </template>-->
+      <component
+        :is="compChildName(configEdit)"
+        v-for="(value, key, index) in listTypeInfo[configEdit.list]"
+        :key="index"
+        :disabled="value.disabled"
+        :label="compChildLabel(configEdit,value)"
+        :value="compChildValue(configEdit,value,key)"
+      >{{compChildShowLabel(configEdit,value)}}</component>
     </component>
   </div>
 </template>
@@ -92,26 +77,20 @@ export default {
   data () {
     return {
       childCom: ['select-arr', 'checkbox', 'select-obj', 'el-select-multiple'],
-      editMode: false
+      editMode: false,
+      model: this.value
     }
   },
   computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (val) {
-        this.$emit('input', val)
-      }
-    },
-    attrs () {
-      let attrObj = { clearable: true, filterable: true, ...this.configEdit.bind }
-      if (this.configEdit.editComponent === 'el-input-number') {
-        return { controls: false, ...attrObj }
-      } else {
-        return attrObj
-      }
-    },
+    // model: {
+    //   get () {
+    //     return this.value
+    //   },
+    //   set (val) {
+    //     // console.log('model', val)
+    //     this.$emit('input', val)
+    //   }
+    // },
     // 有子组件的返回值
     childVal: {
       get () {
@@ -147,7 +126,7 @@ export default {
         return valLabel
       },
       set (val) {
-        console.log('computed set', val)
+        // console.log('computed set', val)
         return val
       }
     },
@@ -213,6 +192,13 @@ export default {
         this.childVal = val
       },
       deep: true
+    },
+    model: {
+      handler (val) {
+        // console.log('model', val)
+        this.model = val
+      },
+      deep: true
     }
   },
   methods: {
@@ -228,8 +214,10 @@ export default {
         })
       }
     },
+    // 失焦事件
     onInputExit () {
-      if (!(this.configEdit.editComponent && this.configEdit.editComponent.includes('select'))) {
+      const elementArr = ['el-input-number', 'el-select']
+      if (!(this.configEdit.editComponent && (elementArr.includes(this.configEdit.editComponent)))) {
         this.editMode = false
       }
     },
@@ -252,7 +240,7 @@ export default {
     // 绑定的相关事件
     handleEvent (type, val, editCom) {
       // console.log('组件', type, val, editCom)
-      let changeCom = ['el-select', 'el-date-picker']
+      let changeCom = ['el-select', 'el-date-picker', 'el-input-number']
       // select
       if (changeCom.includes(editCom)) {
         this.editMode = false

@@ -138,6 +138,7 @@ TModuleForm 模块表单/详情组件
 | title        | 详情标题(是否显示控制折叠面板功能)        | String          | 无     |
 | slotName     | 插槽(自定义详情数据)有插槽就无需配置 data | slot            | 无     |
 | name         | 每组详情定义的名字（作用：是否默认展开）  | String          | 无     |
+| disabled     | 禁用时取消收缩功能及隐藏 icon）           | Boolean         | false  |
 | data         | 详情配置项                                | Object          | 无     |
 | ----label    | 详情字段说明标题                          | String          | 无     |
 | ----value    | 详情字段返回值                            | String          | 无     |
@@ -147,13 +148,14 @@ TModuleForm 模块表单/详情组件
 
 ### formOpts 配置参数
 
-| 参数      | 说明                                      | 类型   | 默认值 |
-| :-------- | :---------------------------------------- | :----- | :----- |
-| title     | 表单标题(是否显示控制折叠面板功能)        | String | 无     |
-| slotName  | 插槽(自定义表单数据)有插槽就无需配置 opts | slot   | 无     |
-| name      | 每组表单定义的名字（作用：是否默认展开）  | String | 无     |
-| widthSize | 每行显示几个输入项（默认两项） 最大值 4   | Number | 3      |
-| opts      | 表单配置项                                | Object | 无     |
+| 参数      | 说明                                      | 类型    | 默认值 |
+| :-------- | :---------------------------------------- | :------ | :----- |
+| title     | 表单标题(是否显示控制折叠面板功能)        | String  | 无     |
+| slotName  | 插槽(自定义表单数据)有插槽就无需配置 opts | slot    | 无     |
+| name      | 每组表单定义的名字（作用：是否默认展开）  | String  | 无     |
+| widthSize | 每行显示几个输入项（默认两项） 最大值 4   | Number  | 3      |
+| disabled  | 禁用时取消收缩功能及隐藏 icon）           | Boolean | false  |
+| opts      | 表单配置项                                | Object  | 无     |
 
 #### opts 配置参数
 
@@ -162,6 +164,7 @@ TModuleForm 模块表单/详情组件
 | rules           | 规则（可依据 elementUI el-form 配置————对应 formData 的值）                                             | Object/Array | 否       |
 | operatorList    | 操作按钮 list                                                                                           | Array        | 否       |
 | listTypeInfo    | 下拉选择数据源（type:'select'有效）                                                                     | Object       | 否       |
+| labelPosition   | 改变表单项 label 与输入框的布局方式(默认：right) /top                                                   | String       | 否       |
 | labelWidth      | label 宽度(默认值 120px)                                                                                | String       | 否       |
 | formData        | 表单提交数据(对应 fieldList 每一项的 value 值)                                                          | Object       | 是       |
 | fieldList       | form 表单每项 list                                                                                      | Array        | 是       |
@@ -170,8 +173,9 @@ TModuleForm 模块表单/详情组件
 | ----bind        | 表单每一项属性（继承第三方 UI 的 Attributes，如 el-input 中的 clearable 清空功能）默认清空及下拉过滤    | Object       | 否       |
 | ----type        | form 表单每一项类型                                                                                     | String       | 是       |
 | ----widthSize   | form 表单某一项所占比例(如果一行展示可以设值：1)                                                        | Number       | 否       |
-| -------arrLabel | type=select-arr 时，每个下拉显示的中文                                                                  | String       | 否       |
-| -------arrKey   | type=select-arr 时，每个下拉显示的中文传后台的数字                                                      | String       | 否       |
+| ----width       | form 表单某一项所占实际宽度                                                                             | String       | 否       |
+| ----arrLabel    | type=select-arr 时，每个下拉显示的中文                                                                  | String       | 否       |
+| ----arrKey      | type=select-arr 时，每个下拉显示的中文传后台的数字                                                      | String       | 否       |
 | ----label       | form 表单每一项 title                                                                                   | String       | 是       |
 | ----labelRender | 自定义某一项 title                                                                                      | function     | 是       |
 | ----value       | form 表单每一项传给后台的参数                                                                           | String       | 是       |

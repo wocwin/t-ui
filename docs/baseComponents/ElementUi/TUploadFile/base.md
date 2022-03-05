@@ -57,15 +57,14 @@
 
 ##### 2.3 用法示例 2 回显模块
 
-```
-            <upload-file
-                    disabled
-                    showOnly="true"
-                    :fileIdList="authLetterFileIds"
-                    :isShowTips="false"
-                    v-if="authLetterFileIds.length>0"
-                    ></upload-file>
-
+```html
+<upload-file
+  disabled
+  showOnly="true"
+  :fileIdList="authLetterFileIds"
+  :isShowTips="false"
+  v-if="authLetterFileIds.length>0"
+></upload-file>
 ```
 
 ```
@@ -74,11 +73,11 @@
 
 ##### 2.3 业务代码中方法示例：
 
-```
+```js
 @uploadSuccess=
 @deleteSuccess=
 setKey=
-这三个字段结合使用保持上传、删除实时更新业务代码中的绑定属性(TODO:用一个属性功能代替三个)
+//这三个字段结合使用保持上传、删除实时更新业务代码中的绑定属性(TODO:用一个属性功能代替三个)
 
 methods: {
   ...

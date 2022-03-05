@@ -1,13 +1,36 @@
 <template>
   <div class="t-table-single-edit-cell" style="width:100%;">
     <t-table
-      isShowFooterBtn
       :table="singleEditConfig.table"
       :columns="singleEditConfig.table.columns"
       :listTypeInfo="singleEditConfig.listTypeInfo"
       @handleEvent="handleEvent"
       @save="singleSave"
-    />
+    >
+      <!-- 自定义单元格编辑组件(多选下拉选择) -->
+      <template #editHobby="{scope}">
+        <el-select v-model="scope.row[scope.column.property]" multiple>
+          <el-option
+            v-for="item in singleEditConfig.listTypeInfo.hobbyList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </template>
+      <!-- 自定义单元格编辑组件（自动完成） -->
+      <template #autocomplete="{scope}">
+        <el-autocomplete
+          clearable
+          :debounce="0"
+          class="inline-input"
+          v-model="scope.row[scope.column.property]"
+          :fetch-suggestions="querySearch"
+          @clear="clearSelect"
+          placeholder="请输入内容"
+        ></el-autocomplete>
+      </template>
+    </t-table>
   </div>
 </template>
 
@@ -26,7 +49,8 @@ export default {
               name: '张三',
               hobby: '1',
               hobby1: ['1', '2'],
-              date: '2022-01-18',
+              hobby2: ['1', '2'],
+              autocomplete: '三全鲜食（北新泾店）',
               year: '2022',
               time: '2022-01-18 16:58:58',
               remake: '备注张三',
@@ -36,7 +60,8 @@ export default {
               name: '李四',
               hobby: '2',
               hobby1: ['0', '2'],
-              date: '2022-01-19',
+              hobby2: ['0', '2'],
+              autocomplete: '三全鲜食（北新泾店）',
               year: '2021',
               time: '2022-01-19 16:58:58',
               remake: '备注李四',
@@ -44,11 +69,30 @@ export default {
             }
           ],
           columns: [
-            { prop: 'name', label: '姓名', minWidth: '100', canEdit: true },
+            {
+              prop: 'name',
+              label: '姓名',
+              minWidth: '100',
+              canEdit: true,
+              renderHeader: (h, { column }) => {
+                const style = {
+                  color: '#F56C6C',
+                  fontSize: '16px',
+                  marginRight: '3px'
+                }
+                return (
+                  <div>
+                    <span style={style}>*</span>
+                    <span>{column.label}</span>
+                  </div>
+                )
+              }
+            },
             {
               prop: 'hobby',
               label: '爱好单选',
               minWidth: '180',
+              headerRequired: true,
               canEdit: true,
               configEdit: {
                 label: '爱好单选',
@@ -62,24 +106,35 @@ export default {
             },
             {
               prop: 'hobby1',
-              label: '爱好多选',
+              label: '编辑组件插槽',
               minWidth: '180',
+              renderHeader: (h, { column }) => {
+                return (
+                  <div>
+                    <span>{column.label}</span>
+                    <i class="el-icon-question" style="color:#409eff;margin-left:5px;font-size:15px;"></i>
+                  </div>
+                )
+              },
               canEdit: true,
               configEdit: {
-                label: '爱好多选',
+                label: '编辑组件插槽',
                 type: 'el-select-multiple',
                 editComponent: 'el-select',
-                list: 'hobbyList',
-                event: 'hobbyList1',
-                bind: { multiple: true },
-                arrLabel: 'label',
-                arrKey: 'value'
+                editSlotName: 'editHobby'
               }
             },
             {
-              prop: 'date',
-              label: '日期',
-              minWidth: '180'
+              prop: 'autocomplete',
+              label: '自动完成',
+              minWidth: '180',
+              canEdit: true,
+              configEdit: {
+                label: '自动输入完成',
+                // type: 'el-select-multiple',
+                editComponent: 'el-autocomplete',
+                editSlotName: 'autocomplete'
+              }
             },
             {
               prop: 'year',
@@ -150,11 +205,44 @@ export default {
             { label: '旅游', value: '3' },
             { label: '音乐', value: '4' }
           ]
-        }
+        },
+        autoOption: [
+          { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
+          { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
+          { 'value': '新旺角茶餐厅', 'address': '上海市普陀区真北路988号创邑金沙谷6号楼113' },
+          { 'value': '泷千家(天山西路店)', 'address': '天山西路438号' },
+          { 'value': '胖仙女纸杯蛋糕（上海凌空店）', 'address': '上海市长宁区金钟路968号1幢18号楼一层商铺18-101' },
+          { 'value': '贡茶', 'address': '上海市长宁区金钟路633号' },
+          { 'value': '豪大大香鸡排超级奶爸', 'address': '上海市嘉定区曹安公路曹安路1685号' },
+          { 'value': '茶芝兰（奶茶，手抓饼）', 'address': '上海市普陀区同普路1435号' },
+          { 'value': '十二泷町', 'address': '上海市北翟路1444弄81号B幢-107' }
+        ]
       }
     }
   },
   methods: {
+    /**
+    * 自动完成组件
+    */
+    querySearch (queryString, cb) {
+      var restaurants = this.singleEditConfig.autoOption
+      var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+      // 调用 callback 返回建议列表的数据
+      cb(results)
+    },
+    createFilter (queryString) {
+      return (restaurant) => {
+        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+      }
+    },
+    // clearable清除事件事件
+    clearSelect () {
+      // 主要代码
+      // this.$refs.parentCom.activated = true
+      // document.activeElement获得了DOM中被聚焦的元素；.blur()取消聚焦
+      document.activeElement.blur()
+      this.$forceUpdate()
+    },
     singleSave (data) {
       console.log('单个单元格编辑保存', data)
     },

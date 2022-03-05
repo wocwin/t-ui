@@ -3,10 +3,11 @@
     <el-collapse v-model="defaultActiveKey">
       <el-collapse-item
         v-for="(formOpt, formIndex) in formOpts"
-        :class="{noTitle:!formOpt.title}"
+        :class="{noTitle:!formOpt.title,disabledStyle:formOpt.disabled}"
         :key="formIndex"
         :title="formOpt.title"
         :name="formOpt.name"
+        :disabled="formOpt.disabled"
       >
         <template v-if="formOpt.slotName">
           <slot :name="formOpt.slotName"></slot>
@@ -95,6 +96,17 @@ export default {
     .noTitle {
       > div {
         &:first-child {
+          display: none;
+        }
+      }
+    }
+    // 禁用时取消收缩功能及隐藏icon
+    .disabledStyle {
+      .el-collapse-item__header {
+        color: #303133;
+        cursor: default;
+        padding-left: 20px;
+        .el-collapse-item__arrow {
           display: none;
         }
       }

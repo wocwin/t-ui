@@ -34,6 +34,12 @@ Vue.use(VueClipboard)
 Vue.prototype.$http = PromiseHttp
 Vue.prototype.$messageUpload = message
 Vue.prototype.$message = Element.Message
+Vue.prototype.$loading = Element.Loading.service
+Vue.prototype.$msgbox = Element.MessageBox
+Vue.prototype.$alert = Element.MessageBox.alert
+Vue.prototype.$confirm = Element.MessageBox.confirm
+Vue.prototype.$prompt = Element.MessageBox.prompt
+Vue.prototype.$notify = Notification
 // 过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

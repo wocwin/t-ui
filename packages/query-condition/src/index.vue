@@ -169,6 +169,10 @@ export default {
         return acc
       }, {})
     },
+    // 更新defaultVal
+    updateFields (keepVal = true) {
+      this.form = this.initForm(this.opts, keepVal)
+    },
     resetHandle () {
       this.form = this.initForm(this.opts)
       this.checkHandle()
@@ -212,10 +216,12 @@ export default {
   }
   .flex_end {
     grid-area: submit_btn;
+    margin-top: 2px;
     .el-form-item__content {
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      overflow: visible !important;
     }
   }
   .el-form-item {

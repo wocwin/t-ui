@@ -5,33 +5,33 @@
 Form 表单组件
 **代码示例：**
 
-```
-     <t-form
-      :ref-obj.sync="formInfo.ref"
-      :form-data="formInfo.formData"
-      :field-list="formInfo.fieldList"
-      :rules="formInfo.rules"
-      :operator-list="formInfo.operatorList"
-      :label-width="formInfo.labelWidth"
-      :list-type-info="listTypeInfo"
-      @handleEvent="handleEvent"
+```html
+<t-form
+  :ref-obj.sync="formInfo.ref"
+  :form-data="formInfo.formData"
+  :field-list="formInfo.fieldList"
+  :rules="formInfo.rules"
+  :operator-list="formInfo.operatorList"
+  :label-width="formInfo.labelWidth"
+  :list-type-info="listTypeInfo"
+  @handleEvent="handleEvent"
+>
+  <!-- 自定义插槽-选择头像 -->
+  <template #form-avatar>
+    <div
+      class="slot-avatar"
+      v-for="checkedItem in uploadFile.checkedList"
+      :key="checkedItem.type"
     >
-      <!-- 自定义插槽-选择头像 -->
-      <template #form-avatar>
-        <div
-          class="slot-avatar"
-          v-for="checkedItem in uploadFile.checkedList"
-          :key="checkedItem.type"
-        >
-          <t-upload-file
-            :attachmentType="checkedItem.type"
-            @uploadSuccess="pushUploadItem"
-            @deleteSuccess="pushUploadItem"
-          />
-        </div>
-      </template>
-    </t-form>
-    //注意:ref-obj(form校验规则相当于ref)必须要‘.sync’修饰符
+      <t-upload-file
+        :attachmentType="checkedItem.type"
+        @uploadSuccess="pushUploadItem"
+        @deleteSuccess="pushUploadItem"
+      />
+    </div>
+  </template>
+</t-form>
+//注意:ref-obj(form校验规则相当于ref)必须要‘.sync’修饰符
 ```
 
 ### 2. events

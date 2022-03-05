@@ -16,6 +16,8 @@ const TInput = () => import('@/views/components/tCommonComponents/TInput')
 const TLayout = () => import('@/views/components/tCommonComponents/TLayout')
 // 搜索组件
 const TSearch = () => import('@/views/components/tCommonComponents/TSearch')
+// 下拉选择
+const TSelect = () => import('@/views/components/tCommonComponents/TSelect')
 // 步骤组件
 const TStepWizard = () => import('@/views/components/tCommonComponents/TStepWizard')
 // TTable组件
@@ -84,6 +86,12 @@ const baseComponentsRouter = {
           name: '搜索组件',
           component: TSearch,
           meta: { title: '搜索组件' }
+        },
+        {
+          path: 't-select',
+          name: '下拉选择组件',
+          component: TSelect,
+          meta: { title: '下拉选择组件' }
         },
         {
           path: 't-step-wizard',

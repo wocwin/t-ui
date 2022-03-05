@@ -1,8 +1,8 @@
 <template>
   <div class="t-table-edit-cell" style="width:100%;">
     <t-table
+      isEdit
       isEditCell
-      isShowFooterBtn
       :table="editConfig.table"
       :columns="editConfig.table.columns"
       :listTypeInfo="editConfig.listTypeInfo"
@@ -69,7 +69,10 @@ export default {
               text: '删除',
               fun: this.editDel
             }
-          ]
+          ],
+          // operatorConfig: {
+          //   fixed: 'right'
+          // }
         },
         // 下拉选择项
         listTypeInfo: {

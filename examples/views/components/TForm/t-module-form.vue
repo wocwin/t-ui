@@ -96,8 +96,9 @@ export default {
         goodsInformation: {
           title: '货品信息',
           name: 'goodsInformation',
-          ref: null,
+          disabled: true,
           opts: {
+            labelPosition: 'top',
             formData: {
               id: `${Math.floor(Math.random() * 10 + 1)}`, // *唯一ID
               account: '', // *用户账号
@@ -117,7 +118,7 @@ export default {
               status: '' // *状态: 0：停用，1：启用(默认为1)',
             },
             fieldList: [
-              { label: '账号', value: 'account', type: 'input', comp: 'el-input', event: 'account' },
+              { label: '账号', value: 'account', type: 'input', comp: 'el-input', event: 'account', widthSize: 1, width: '33%' },
               { label: '密码', value: 'password', type: 'password', comp: 'el-input' },
               { label: '昵称', value: 'name', type: 'input', comp: 'el-input' },
               { label: '性别', value: 'sex', type: 'select-arr', comp: 'el-select', list: 'sexList', bind: { disabled: false }, arrLabel: 'key', arrKey: 'value' },

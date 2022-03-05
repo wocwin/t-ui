@@ -3,10 +3,11 @@
     <el-collapse v-model="defaultActiveKey">
       <el-collapse-item
         v-for="(val, index) in descData"
-        :class="{ noTitle: !val.title }"
+        :class="{ noTitle: !val.title,disabledStyle:val.disabled }"
         :key="index"
         :title="val.title"
         :name="val.name"
+        :disabled="val.disabled"
       >
         <template v-if="val.slotName">
           <slot :name="val.slotName"></slot>
@@ -121,6 +122,17 @@ export default {
       margin-top: 0;
       > div {
         &:first-child {
+          display: none;
+        }
+      }
+    }
+    // 禁用时取消收缩功能及隐藏icon
+    .disabledStyle {
+      .el-collapse-item__header {
+        color: #303133;
+        cursor: default;
+        padding-left: 20px;
+        .el-collapse-item__arrow {
           display: none;
         }
       }

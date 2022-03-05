@@ -2,6 +2,12 @@
   <div class="t-date-picker-demo">
     <t-layout-page>
       <t-layout-page-item>
+        <div>按钮模式</div>
+        <div style="display:flex;">
+          <t-btn-date></t-btn-date>
+        </div>
+      </t-layout-page-item>
+      <t-layout-page-item>
         <div>基本模式</div>
         <div style="display:flex;">
           <t-date-picker

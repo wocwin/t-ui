@@ -13,7 +13,7 @@ module.exports = {
   // lintOnSave: false,// 去掉eslint校验
   devServer: {
     port: port, // 设置端口号
-    open: true, // 启动项目自动打开浏览器
+    // open: true, // 启动项目自动打开浏览器
     proxy: { // 解决跨域问题
       '/api': {
         target: 'http://localhost:2222/', // 本地json数据

@@ -96,6 +96,7 @@ export default {
           name: 'goodsInformation',
           ref: null,
           opts: {
+            labelPosition: 'top',
             formData: {
               id: `${Math.floor(Math.random() * 10 + 1)}`, // *唯一ID
               account: '', // *用户账号

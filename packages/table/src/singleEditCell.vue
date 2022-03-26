@@ -7,13 +7,15 @@
     <component
       v-if="!configEdit.editSlotName"
       :is="configEdit.editComponent||'el-input'"
-      v-model="model"
+      v-model="record.row[prop]"
       :type="configEdit.type"
       :placeholder="getPlaceholder(configEdit)"
       ref="parentCom"
-      @change="handleEvent(configEdit.event, model,configEdit.editComponent)"
+      @change="handleEvent(configEdit.event, record.row[prop],configEdit.editComponent)"
       :style="{width: configEdit.width||'100%'}"
-      v-bind="{ clearable: true, filterable: true, ...this.configEdit.bind }"
+      :clearable="true"
+      :filterable="true"
+      v-bind="typeof this.configEdit.bind == 'function' ? this.configEdit.bind(record) : {...this.configEdit.bind}"
       v-on="$listeners"
     >
       <!-- 前置文本 -->
@@ -60,76 +62,22 @@ export default {
       type: Object,
       default: () => ({})
     },
-    // 是否显示tip
-    isShowTips: {
-      type: Boolean,
-      default: true
-    },
     // 是否开启编辑
     canEdit: {
       type: Boolean,
       default: false
     },
-    value: {
-      type: [String, Number, Object, Array, Date]
-    }
-  },
-  data () {
-    return {
-      childCom: ['select-arr', 'checkbox', 'select-obj', 'el-select-multiple'],
-      editMode: false,
-      model: this.value
+    // scope
+    record: {
+      type: Object,
+      default: () => ({})
+    },
+    // 编辑的字段名
+    prop: {
+      type: String
     }
   },
   computed: {
-    // model: {
-    //   get () {
-    //     return this.value
-    //   },
-    //   set (val) {
-    //     // console.log('model', val)
-    //     this.$emit('input', val)
-    //   }
-    // },
-    // 有子组件的返回值
-    childVal: {
-      get () {
-        let valLabel
-        let checkboxVal = []
-        let selcetMultiple = []
-        this.listTypeInfo[this.configEdit.list] && this.listTypeInfo[this.configEdit.list].map((val, key) => {
-          switch (this.configEdit.type) {
-            case 'checkbox':
-              if (this.model.join(',').includes(val.value)) {
-                checkboxVal.push(val.label)
-              }
-              valLabel = checkboxVal.join(',')
-              break
-            case 'select-arr':
-              // eslint-disable-next-line eqeqeq
-              if (this.model == val[this.configEdit.arrKey]) {
-                valLabel = val[this.configEdit.arrLabel]
-              }
-              break
-            case 'el-select-multiple':
-              // console.log('el-select-multiple', this.model)
-              if (this.model && this.model.join(',').includes(val[this.configEdit.arrKey])) {
-                selcetMultiple.push(val[this.configEdit.arrLabel])
-              }
-              valLabel = selcetMultiple.join(',')
-              break
-            case 'select-obj':
-              valLabel = val
-              break
-          }
-        })
-        return valLabel
-      },
-      set (val) {
-        // console.log('computed set', val)
-        return val
-      }
-    },
     // 子组件名称
     compChildName () {
       return ({ type }) => {
@@ -186,46 +134,12 @@ export default {
       }
     }
   },
-  watch: {
-    childVal: {
-      handler (val) {
-        this.childVal = val
-      },
-      deep: true
-    },
-    model: {
-      handler (val) {
-        // console.log('model', val)
-        this.model = val
-      },
-      deep: true
-    }
-  },
   methods: {
-    // 点击外层开启编辑focus
-    onFieldClick () {
-      if (this.canEdit) {
-        this.editMode = true
-        this.$nextTick(() => {
-          let parentRef = this.$refs.parentCom
-          if (parentRef && parentRef.focus) {
-            parentRef.focus()
-          }
-        })
-      }
-    },
-    // 失焦事件
-    onInputExit () {
-      const elementArr = ['el-input-number', 'el-select']
-      if (!(this.configEdit.editComponent && (elementArr.includes(this.configEdit.editComponent)))) {
-        this.editMode = false
-      }
-    },
     // 得到placeholder的显示
     getPlaceholder (row) {
       let placeholder
       // 请输入type
-      const inputArr = ['input', 'textarea']
+      const inputArr = ['input', 'textarea', 'el-input-number']
       // 请选择type
       const selectArr = ['select-arr', 'time', 'select-obj', 'date']
       if (inputArr.includes(row.type)) {
@@ -238,14 +152,8 @@ export default {
       return placeholder
     },
     // 绑定的相关事件
-    handleEvent (type, val, editCom) {
+    handleEvent (type, val) {
       // console.log('组件', type, val, editCom)
-      let changeCom = ['el-select', 'el-date-picker', 'el-input-number']
-      // select
-      if (changeCom.includes(editCom)) {
-        this.editMode = false
-        this.$forceUpdate()
-      }
       this.$emit('handleEvent', type, val)
     }
   }

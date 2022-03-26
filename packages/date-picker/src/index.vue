@@ -5,8 +5,7 @@
         v-model="startTime"
         :type="pickerType"
         class="date-pick"
-        size="large"
-        value-format="yyyy-MM-dd"
+        :value-format="valueFormat"
         :picker-options="startTimeConf"
         placeholder="开始日期"
         @change="startTimeChange"
@@ -18,8 +17,7 @@
         v-model="endTime"
         :type="pickerType"
         class="date-pick"
-        size="large"
-        value-format="yyyy-MM-dd"
+        :value-format="valueFormat"
         :picker-options="endTimeConf"
         placeholder="结束日期"
         v-bind="$attrs"
@@ -106,20 +104,6 @@ export default {
       this.time = val
     }
   },
-  computed: {
-    // initTime () {
-    //   let arry = []
-    //   arry[0] = this.startTime
-    //   arry[1] = this.endTime
-    //   return arry
-    // }
-  },
-  mounted () {
-    // let arry = []
-    // arry[0] = this.startTime
-    // arry[1] = this.endTime
-    // this.time = arry
-  },
   methods: {
     // 开始时间配置
     startTimeConfig () {
@@ -181,14 +165,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .t-date-picker {
-  // line-height: 36px;
-  .el-date-editor--date {
-    width: 170px;
-    // ::v-deep .el-input__inner {
-    //   height: 36px;
-    //   line-height: 36px;
-    // }
-  }
   .flex-ver {
     align-items: center;
     justify-content: center;

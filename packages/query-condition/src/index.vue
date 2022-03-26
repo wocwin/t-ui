@@ -175,7 +175,7 @@ export default {
     },
     resetHandle () {
       this.form = this.initForm(this.opts)
-      this.checkHandle()
+      this.checkHandle('reset')
     },
     change (v, dataIndex) {
       this.form[dataIndex] = v
@@ -183,16 +183,30 @@ export default {
         ...this.form
       })
     },
-    checkHandle () {
-      this.$emit('submit', this.form)
+    checkHandle (flagText) {
+      this.$emit('submit', this.form, flagText)
     }
   },
-  mounted () {
-    this.colLength = this.getColLength()
+  created () {
     if (this.boolEnter) {
-      var lett = this
+      let lett = this
       document.onkeydown = function (e) {
-        var key = window.event.keyCode
+        let key = window.event.keyCode
+        let pagination = document.querySelectorAll('.el-pagination')
+        let isPaginationInputFocus = false
+        if (pagination) {
+          pagination.forEach(ele => {
+            let paginationInputList = ele.getElementsByTagName('input')
+            let paginationInput = paginationInputList[paginationInputList.length - 1]
+            // 判断是否有分页器筛选输入框获取焦点
+            if (paginationInput === document.activeElement) {
+              isPaginationInputFocus = true
+            }
+          })
+        }
+        if (isPaginationInputFocus) {
+          return
+        }
         if (key === 13) {
           lett.checkHandle()
         }
@@ -234,7 +248,7 @@ export default {
     }
     .el-form-item__content {
       flex-grow: 1;
-      overflow: hidden;
+      // overflow: hidden;
       margin-left: 0 !important;
     }
   }

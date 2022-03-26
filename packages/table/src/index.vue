@@ -60,6 +60,7 @@
       v-on="$listeners"
       :highlight-current-row="highlightCurrentRow"
       :border="table.border"
+      :span-method="objectSpanMethod"
       @row-click="rowClick"
       @cell-dblclick="cellDblclick"
     >
@@ -70,6 +71,7 @@
           :type="table.firstColumn.type"
           :width="table.firstColumn.width||50"
           :label="table.firstColumn.label"
+          :fixed="table.firstColumn.fixed"
           :align="table.firstColumn.align||'center'"
           v-if="table.firstColumn.type==='selection'"
         ></el-table-column>
@@ -78,6 +80,7 @@
           :type="table.firstColumn.type"
           :width="table.firstColumn.width||50"
           :label="table.firstColumn.label"
+          :fixed="table.firstColumn.fixed"
           :align="table.firstColumn.align||'center'"
           v-if="table.firstColumn.type==='radio'"
         >
@@ -91,6 +94,7 @@
           :width="table.firstColumn.width||50"
           :reserve-selection="table.firstColumn.isPaging||false"
           :label="table.firstColumn.label"
+          :fixed="table.firstColumn.fixed"
           :align="table.firstColumn.align||'center'"
           v-if="table.firstColumn.type==='index'"
         >
@@ -135,6 +139,8 @@
                   :canEdit="item.canEdit"
                   :configEdit="item.configEdit"
                   v-model="scope.row[scope.column.property]"
+                  :prop="item.prop"
+                  :record="scope"
                   @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
                   v-on="$listeners"
                   v-bind="$attrs"
@@ -195,12 +201,22 @@
             <el-button
               v-for="(item, index) in table.operator"
               :key="index"
-              @click="item.fun(scope.row,scope.$index,tableData)"
+              @click="item.fun&&item.fun(scope.row,scope.$index,tableData)"
               :type="item.type||'text'"
               :style="item.style"
               size="small"
               v-show="checkIsShow(scope,item)"
-            >{{item.text}}</el-button>
+            >
+              <span v-if="!item.customRender">{{item.text}}</span>
+              <!-- render渲染 -->
+              <OptComponent
+                v-else
+                v-for="(comp, i) in item.customRender.comps"
+                :key="scope.$index + i.toString()"
+                v-bind="comp"
+                :scope="scope"
+              />
+            </el-button>
           </div>
         </template>
       </el-table-column>
@@ -304,6 +320,16 @@ export default {
     isShowPagination: {
       type: Boolean,
       default: false
+    },
+    // 第几列合并
+    mergeCol: {
+      type: Number,
+      default: 0
+    },
+    // 是否开启合并单元格
+    isMergedCell: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -345,6 +371,42 @@ export default {
     }
   },
   methods: {
+    // 合并单元格
+    objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
+      if (!this.isMergedCell) {
+        return false
+      }
+      if (columnIndex === this.mergeCol) {
+        let spanArr = this.getSpanArr(this.tableData, column.property)
+        const _row = spanArr[rowIndex]
+        const _col = _row > 0 ? 1 : 0
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
+    // 处理合并行的数据
+    getSpanArr (data, spanKey) {
+      let spanArr = []
+      let pos = ''
+      for (let i = 0; i < data.length; i++) {
+        if (i === 0) {
+          spanArr.push(1)
+          pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i][spanKey] === data[i - 1][spanKey]) {
+            spanArr[pos] += 1
+            spanArr.push(0)
+          } else {
+            spanArr.push(1)
+            pos = i
+          }
+        }
+      }
+      return spanArr
+    },
     // 清空复选框
     clearSelection () {
       this.$refs['el-table'].clearSelection()

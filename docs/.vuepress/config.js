@@ -59,8 +59,8 @@ module.exports = {
               title: '表单组件',
               collapsable: false,
               children: [
-                'ElementUi/TForm/base', // 基本
-                'ElementUi/TForm/help', // 使用帮助(Attributes)
+                // 'ElementUi/TForm/base', // 基本
+                // 'ElementUi/TForm/help', // 使用帮助(Attributes)
                 'ElementUi/TSimpleForm/base', // 基本
                 'ElementUi/TSimpleForm/help', // 使用帮助(Attributes)
                 'ElementUi/TModuleForm/base', // 基本
@@ -74,6 +74,7 @@ module.exports = {
               children: [
                 'ElementUi/TTable/base', // 基本
                 'ElementUi/TTable/pagination', // 分页
+                'ElementUi/TTable/mergedCell', // 合并单元格
                 'ElementUi/TTable/renderHeader', // 自定义列标题 label
                 'ElementUi/TTable/radio', // 单选
                 'ElementUi/TTable/singleEditTable', // 开启单个单元格编辑
@@ -82,16 +83,17 @@ module.exports = {
                 'ElementUi/TTable/columnSet', // 显示隐藏列
                 'ElementUi/TTable/operation', // 操作栏
                 'ElementUi/TTable/filters', // 状态filters方法使用
+                'ElementUi/TTable/customRender', // customRender操作自定义渲染
                 'ElementUi/TTable/help' // 使用帮助(Attributes)
               ]
             },
-            {
-              title: '表格编辑组件',
-              collapsable: false,
-              children: [
-                'ElementUi/TEditTable/base', // 编辑table组件
-              ]
-            },
+            // {
+            //   title: '表格编辑组件',
+            //   collapsable: false,
+            //   children: [
+            //     'ElementUi/TEditTable/base', // 编辑table组件
+            //   ]
+            // },
             {
               title: 'TTreeTable组件',
               collapsable: false,

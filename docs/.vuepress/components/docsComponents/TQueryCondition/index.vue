@@ -32,7 +32,9 @@ export default {
         workshopNum1: '',
         date1: '',
         date2: '',
-        date: ''
+        date: '',
+        beginTime: null, // 组件开始日期
+        endTime: moment().format('yyyy-MM-DD 23:59:59'), // 组件结束日期
       }
     }
   },
@@ -116,6 +118,22 @@ export default {
             }
           ]
         },
+        date3: {
+          label: '日期组件',
+          comp: 'TDatePicker',
+          span: 2,
+          event: {
+            startChange: (val) => this.startChange(val),
+            endChange: (val) => this.endChange(val),
+          },
+          bind: {
+            dispaysType: 'two',
+            pickerType: 'datetime',
+            valueFormat: 'yyyy-MM-dd HH:mm:ss',
+            endDate: moment().format('yyyy-MM-DD 23:59:59'),
+            startDate: '',
+          }
+        },
         date1: {
           label: '日期',
           comp: 'el-date-picker',
@@ -140,7 +158,7 @@ export default {
     },
     // 查询条件所需参数
     getQueryData () {
-      const { likeCargoNo, likeBookNo, likeTransportNo, likeCargoName, workshopNum, workshopNum1, date1, date } = this.queryData
+      const { likeCargoNo, likeBookNo, likeTransportNo, likeCargoName, workshopNum, workshopNum1, date1, date, beginTime, endTime } = this.queryData
       return {
         likeCargoNo,
         likeBookNo,
@@ -150,12 +168,22 @@ export default {
         workshopNum1,
         date1,
         beginDate: date[0] ? date[0] : null,
-        endDate: date[1] ? date[1] : null
+        endDate: date[1] ? date[1] : null,
+        beginTime,
+        endTime: endTime && endTime ? endTime : moment().format('yyyy-MM-DD 23:59:59'),
       }
     }
   },
   // 方法
   methods: {
+    // 开始日期
+    startChange (val) {
+      this.getQueryData.beginTime = val
+    },
+    // 结束日期
+    endChange (val) {
+      this.getQueryData.endTime = val
+    },
     // 点击查询按钮
     conditionEnter (data) {
       console.log('查询条件', data)

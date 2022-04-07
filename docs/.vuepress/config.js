@@ -47,6 +47,7 @@ module.exports = {
                 'ElementUi/TInput/base', // input组件
                 'ElementUi/TSearch/base', // 下拉搜索查询组件
                 'ElementUi/TLayout/base', // 布局组件
+                'ElementUi/TLayoutPage/base', // 局部布局组件
                 'ElementUi/TStepWizard/base', // 步驟组件
                 'ElementUi/TDatePicker/base', // 日期组件
                 'ElementUi/TDialog/base', // 弹窗组件

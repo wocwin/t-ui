@@ -29,8 +29,12 @@
       <template v-if="item.slotName">
         <slot :name="item.slotName"></slot>
       </template>
+      <!-- 文本展示值 -->
+      <template v-if="item.textShow">
+        <span>{{item.textValue||formOpts.formData[item.value]}}</span>
+      </template>
       <component
-        v-else
+        v-if="!item.slotName&&!item.textShow"
         :is="item.comp"
         v-model="formOpts.formData[item.value]"
         :type="item.type"
@@ -164,9 +168,9 @@ export default {
   methods: {
     getChildWidth (item) {
       if (this.formOpts.labelPosition === 'top') {
-        return `width: calc((${100 / (item.widthSize || this.colSize)}% - 10px));margin-right:10px;`
+        return `flex: 0 1 calc((${100 / (item.widthSize || this.colSize)}% - 10px));margin-right:10px;`
       } else {
-        return `width:${100 / (item.widthSize || this.colSize)}%;`
+        return `flex: 0 1 ${100 / (item.widthSize || this.colSize)}%;`
       }
     },
     // 得到placeholder的显示
@@ -223,6 +227,8 @@ export default {
 
 <style lang="scss">
 .t-form {
+  display: flex;
+  flex-wrap: wrap;
   .el-form-item {
     display: inline-block;
     width: 50%;

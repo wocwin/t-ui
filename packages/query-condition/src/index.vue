@@ -187,7 +187,8 @@ export default {
       this.$emit('submit', this.form, flagText)
     }
   },
-  created () {
+  mounted () {
+    this.colLength = this.getColLength()
     if (this.boolEnter) {
       let lett = this
       document.onkeydown = function (e) {

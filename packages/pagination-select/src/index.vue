@@ -5,6 +5,7 @@
       @change="(val) => $emit('change',val)"
       :style="{width: width||'100%'}"
       v-bind="attrs"
+      v-on="$listeners"
     >
       <el-option
         v-for="item in optionSource"
@@ -42,7 +43,7 @@ export default {
     valueKey: {
       type: String
     },
-    //传入的option数组中，要作为显示项的键值名称
+    // 传入的option数组中，要作为显示项的键值名称
     labelKey: {
       type: String
     },
@@ -50,15 +51,15 @@ export default {
     optionSource: {
       type: Array
     },
-    //分页配置项
+    // 分页配置项
     paginationOption: {
       type: Object,
       default: () => {
         return {
-          pageSize: 6,//每页显示条数
-          currentPage: 1,//当前页
-          pagerCount: 5,//按钮数，超过时会折叠
-          total: 0 //总条数
+          pageSize: 6, // 每页显示条数
+          currentPage: 1, // 当前页
+          pagerCount: 5, // 按钮数，超过时会折叠
+          total: 0 // 总条数
         }
       }
     }

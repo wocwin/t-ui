@@ -64,7 +64,7 @@ export default {
     getPlaceholder (row) {
       // console.log(111, row)
       let placeholder
-      if (row.comp) {
+      if (typeof row.comp === 'string' && row.comp) {
         if (row.comp.includes('input')) {
           placeholder = '请输入' + row.label
         } else if (row.comp.includes('select') || row.comp.includes('date')) {

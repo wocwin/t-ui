@@ -119,6 +119,7 @@ operator: [
   {
     text: '预览',
     type: 'primary',
+    icon: 'el-icon-delete'
     fun: this.preview
   },
   {

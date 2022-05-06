@@ -1,0 +1,88 @@
+<template>
+  <div class="t-table" style="width:100%;">
+    <t-table :table="table" :columns="table.columns" />
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      table: {
+        data: [
+          {
+            id: '1',
+            date: '2019-09-25',
+            name: '张三',
+            status: '2',
+            address: '广东省广州市天河区'
+          },
+          {
+            id: '2',
+            date: '2019-09-26',
+            name: '张三1',
+            status: '1',
+            address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
+          },
+          {
+            id: '3',
+            date: '2019-09-27',
+            name: '张三2',
+            status: '3',
+            address: '广东省广州市天河区3'
+          }
+        ],
+        columns: [
+          { prop: 'name', label: '姓名', minWidth: '100' },
+          {
+            prop: 'status',
+            label: '状态',
+            minWidth: '180',
+            render: (text, row, index) => {
+              // console.log(777, text, row, index)
+              let type = ''
+              let val = ''
+              switch (text) {
+                case '1':
+                  type = ''
+                  val = '待处理'
+                  break
+                case '2':
+                  type = 'warning'
+                  val = '进行中'
+                  break
+                case '3':
+                  type = 'success'
+                  val = '已完成'
+                  break
+              }
+              return (
+                <el-tag type={type}>
+                  {val}
+                </el-tag>
+              )
+            }
+          },
+          { prop: 'address', label: '地址', minWidth: '220' },
+          { prop: 'date', label: '日期', minWidth: '180' },
+          { prop: 'address', label: '地址', minWidth: '220' }
+        ],
+      },
+    }
+  },
+  methods: {
+    // 新增
+    add (val) {
+      console.log('新增', val)
+    },
+    // 编辑
+    edit (val) {
+      console.log('编辑', val)
+    },
+    // 删除
+    handleDelete (val) {
+      console.log('删除', val)
+    }
+  }
+}
+</script>

@@ -105,7 +105,9 @@
       </div>
       <!-- 主体内容 -->
       <template v-for="(item,index) in renderColumns">
+        <!-- 常规表头-->
         <el-table-column
+          v-if="!item.children"
           :key="index+'i'"
           :type="item.type"
           :label="item.label"
@@ -121,6 +123,15 @@
           <template slot-scope="scope">
             <template v-if="!isEditCell">
               <!-- render渲染 -->
+              <template v-if="item.render">
+                <render-col
+                  :column="item"
+                  :row="scope.row"
+                  :render="item.render"
+                  :index="scope.$index"
+                />
+              </template>
+              <!-- customRender渲染 -->
               <template v-if="item.customRender">
                 <OptComponent
                   v-for="(comp, i) in item.customRender.comps"
@@ -142,7 +153,6 @@
                   :prop="item.prop"
                   :record="scope"
                   @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
-                  v-on="$listeners"
                   v-bind="$attrs"
                   ref="editCell"
                 >
@@ -166,7 +176,7 @@
                 >{{scope.row[item.prop] |percentFilter}}</span>
               </div>
               <div
-                v-if="!item.filters&&!item.slotName&&!item.customRender&&!item.canEdit"
+                v-if="!item.render&&!item.filters&&!item.slotName&&!item.customRender&&!item.canEdit"
                 :style="{color:txtChangeColor(scope)}"
               >{{scope.row[item.prop]}}</div>
             </template>
@@ -186,6 +196,8 @@
             </template>
           </template>
         </el-table-column>
+        <!-- 表头合并单元格 -->
+        <t-table-column v-else :key="index+'i'" :item="item" />
       </template>
       <slot></slot>
       <!-- 操作按钮 -->
@@ -194,7 +206,8 @@
         :fixed="table.operatorConfig && table.operatorConfig.fixed"
         :label="(table.operatorConfig && table.operatorConfig.label) || '操作'"
         :min-width="(table.operatorConfig && (table.operatorConfig.width || table.operatorConfig.minWidth)) || 100"
-        align="center"
+        :align="table.operatorConfig && table.operatorConfig.align||'center'"
+        class-name="operator"
       >
         <template slot-scope="scope">
           <div class="operator_btn" :style="table.operatorConfig && table.operatorConfig.style">
@@ -204,6 +217,7 @@
               @click="item.fun&&item.fun(scope.row,scope.$index,tableData)"
               :type="item.type||'text'"
               :style="item.style"
+              :icon="item.icon?item.icon:''"
               size="small"
               v-show="checkIsShow(scope,item)"
             >
@@ -251,6 +265,8 @@
 import EditCell from '../../edit-table/src/EditCell.vue'
 import SingleEditCell from './singleEditCell.vue'
 import ColumnSet from './ColumnSet.vue'
+import TTableColumn from './TTableColumn.vue'
+import RenderCol from './renderCol.vue'
 import OptComponent from './OptComponent.vue'
 export default {
   name: 'TTable',
@@ -258,6 +274,8 @@ export default {
     SingleEditCell,
     EditCell,
     ColumnSet,
+    TTableColumn,
+    RenderCol,
     OptComponent
   },
   props: {
@@ -406,6 +424,10 @@ export default {
         }
       }
       return spanArr
+    },
+    // 取消某一项选中项
+    toggleRowSelection (row) {
+      this.$refs['el-table'].toggleRowSelection(row, false)
     },
     // 清空复选框
     clearSelection () {

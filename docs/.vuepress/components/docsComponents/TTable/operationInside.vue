@@ -38,6 +38,7 @@ export default {
             text: '新增',
             type: 'primary',
             fun: this.add,
+            icon: 'el-icon-delete',
             // status为1时，不显示此按钮
             noshow: [{ key: 'status', val: ['1'] }]
           },

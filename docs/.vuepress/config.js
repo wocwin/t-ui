@@ -76,6 +76,8 @@ module.exports = {
                 'ElementUi/TTable/base', // 基本
                 'ElementUi/TTable/pagination', // 分页
                 'ElementUi/TTable/mergedCell', // 合并单元格
+                'ElementUi/TTable/headerGroup', // 表头合并
+                'ElementUi/TTable/renderCol', // render列渲染
                 'ElementUi/TTable/renderHeader', // 自定义列标题 label
                 'ElementUi/TTable/radio', // 单选
                 'ElementUi/TTable/singleEditTable', // 开启单个单元格编辑

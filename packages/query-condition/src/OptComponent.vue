@@ -1,7 +1,7 @@
 <template>
   <component
     :is="comp"
-    v-bind="{clearable:true,filterable:true,...bind}"
+    v-bind="typeof bind == 'function' ? bind(form) : {clearable:true,filterable:true,...bind}"
     :placeholder="getPlaceholder(opt)"
     v-on="cEvent"
     :value="value"
@@ -16,6 +16,10 @@ export default {
     dataIndex: {
       type: String,
       default: ''
+    },
+    form: {
+      type: Object,
+      default: () => ({})
     },
     opt: {
       type: Object,

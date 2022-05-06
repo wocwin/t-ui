@@ -7,7 +7,13 @@
     :style="{'grid-template-areas': gridAreas, 'grid-template-columns': `repeat(${colLength}, minmax(220px, ${100 / colLength}%))`}"
   >
     <el-form-item v-for="(opt, i) in cOpts" :key="i" :label="opt.label" :style="{gridArea: i}">
-      <OptComponent v-bind="opt" :opt="opt" :value="form[opt.dataIndex]" @change="change" />
+      <OptComponent
+        v-bind="opt"
+        :opt="opt"
+        :form="form"
+        :value="form[opt.dataIndex]"
+        @change="change"
+      />
     </el-form-item>
     <el-form-item
       v-if="Object.keys(cOpts).length > 0"

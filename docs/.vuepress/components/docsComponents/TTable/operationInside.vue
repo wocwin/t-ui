@@ -51,7 +51,19 @@ export default {
           },
           {
             text: '删除',
-            fun: this.del
+            // fun: this.del,
+            render: (text, row) => {
+              return (
+                <el-popconfirm
+                  title="你确定要删除吗？"
+                  onConfirm={() => this.del(row)}
+                >
+                  <div slot="reference" type="link">
+                    删除
+                  </div>
+                </el-popconfirm>
+              )
+            }
           }
         ],
         // 操作列样式

@@ -87,7 +87,6 @@ export default {
           { prop: 'date1', label: '日期', minWidth: '180', },
           { prop: 'address1', label: '地址', minWidth: '220', }
         ],
-        border: true,
         data: [
           {
             id: '1',

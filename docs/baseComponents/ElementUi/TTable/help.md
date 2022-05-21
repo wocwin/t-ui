@@ -54,7 +54,9 @@ _新增自定义插槽显示某列数据_
 | name                    | 组件唯一标记，类似 Key 值，用于缓存组件数据                                    | String       | 否       |
 | title                   | 表格左上标题                                                                   | String /slot | 否       |
 | isMergedCell            | 是否开启合并单元格                                                             | Boolean      | 否       |
+| isMultiMergedCol        | 是否开启多列相连行合并 multi：表多个; single:表单列行合并（默认）              | String       | 否       |
 | mergeCol                | 第几列合并进行行合并（默认第一列）                                             | Number       | 否       |
+| isObjShowProp           | 是否开启对象模式渲染数据 功能(适用于一层对象数据)                              | Boolean      | 否       |
 | isShowPagination        | 是否显示分页(默认显示分页)                                                     | Boolean      | 否       |
 | isCopy                  | 是否允许双击单元格复制                                                         | Boolean      | 否       |
 

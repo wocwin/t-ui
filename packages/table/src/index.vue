@@ -59,7 +59,7 @@
       v-bind="$attrs"
       v-on="$listeners"
       :highlight-current-row="highlightCurrentRow"
-      :border="table.border"
+      :border="table.border||isTableBorder"
       :span-method="objectSpanMethod"
       @row-click="rowClick"
       @cell-dblclick="cellDblclick"
@@ -178,7 +178,12 @@
               <div
                 v-if="!item.render&&!item.filters&&!item.slotName&&!item.customRender&&!item.canEdit"
                 :style="{color:txtChangeColor(scope)}"
-              >{{scope.row[item.prop]}}</div>
+              >
+                <span
+                  v-if="isObjShowProp"
+                >{{item.prop.includes('.')?scope.row[item.prop.split('.')[0]][item.prop.split('.')[1]]:scope.row[item.prop]}}</span>
+                <span v-else>{{scope.row[item.prop]}}</span>
+              </div>
             </template>
             <template v-else>
               <!-- 整行编辑 -->
@@ -221,15 +226,25 @@
               size="small"
               v-show="checkIsShow(scope,item)"
             >
-              <span v-if="!item.customRender">{{item.text}}</span>
+              <!-- customRender渲染 -->
+              <template v-if="item.customRender">
+                <OptComponent
+                  v-for="(comp, i) in item.customRender.comps"
+                  :key="scope.$index + i.toString()"
+                  v-bind="comp"
+                  :scope="scope"
+                />
+              </template>
               <!-- render渲染 -->
-              <OptComponent
-                v-else
-                v-for="(comp, i) in item.customRender.comps"
-                :key="scope.$index + i.toString()"
-                v-bind="comp"
-                :scope="scope"
-              />
+              <template v-if="item.render">
+                <render-col
+                  :column="item"
+                  :row="scope.row"
+                  :render="item.render"
+                  :index="scope.$index"
+                />
+              </template>
+              <span v-if="!item.render&&!item.customRender">{{item.text}}</span>
             </el-button>
           </div>
         </template>
@@ -344,8 +359,18 @@ export default {
       type: Number,
       default: 0
     },
+    // 是否开启多列相连行合并  multi：表多个; single:表单列行合并
+    isMultiMergedCol: {
+      type: String,
+      default: 'single'
+    },
     // 是否开启合并单元格
     isMergedCell: {
+      type: Boolean,
+      default: false
+    },
+    // 是否开启对象模式渲染数据
+    isObjShowProp: {
       type: Boolean,
       default: false
     }
@@ -381,6 +406,11 @@ export default {
         return acc
       }, []) : this.columns
     },
+    // 判断如果有表头合并就自动开启单元格缩放
+    isTableBorder () {
+      // console.log(789, this.renderColumns.some(item => item.children))
+      return this.renderColumns.some(item => item.children)
+    },
     getToolbarBtn () {
       return this.table.toolbar ? this.table.toolbar.slice(0, 3) : []
     },
@@ -394,14 +424,29 @@ export default {
       if (!this.isMergedCell) {
         return false
       }
-      if (columnIndex === this.mergeCol) {
-        let spanArr = this.getSpanArr(this.tableData, column.property)
-        const _row = spanArr[rowIndex]
-        const _col = _row > 0 ? 1 : 0
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
+      switch (this.isMultiMergedCol) {
+        case 'multi':
+          if (columnIndex <= this.mergeCol) {
+            let spanArr = this.getSpanArr(this.tableData, column.property)
+            const _row = spanArr[rowIndex]
+            const _col = _row > 0 ? 1 : 0
+            return {
+              rowspan: _row,
+              colspan: _col
+            }
+          }
+          break
+        case 'single':
+          if (columnIndex === this.mergeCol) {
+            let spanArr = this.getSpanArr(this.tableData, column.property)
+            const _row = spanArr[rowIndex]
+            const _col = _row > 0 ? 1 : 0
+            return {
+              rowspan: _row,
+              colspan: _col
+            }
+          }
+          break
       }
     },
     // 处理合并行的数据
@@ -458,7 +503,13 @@ export default {
       if (!this.isCopy) {
         return false
       }
-      this.$copyText(row[column.property]).then(() => {
+      let label
+      if (this.isObjShowProp) {
+        label = column.property.includes('.') ? row[column.property.split('.')[0]][column.property.split('.')[1]] : row[column.property]
+      } else {
+        label = row[column.property]
+      }
+      this.$copyText(label).then(() => {
         this.$message.success('已复制')
       }, () => {
         this.$message.error('复制失败')

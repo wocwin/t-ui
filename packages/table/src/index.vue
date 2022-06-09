@@ -85,7 +85,11 @@
           v-if="table.firstColumn.type==='radio'"
         >
           <template slot-scope="scope">
-            <el-radio v-model="radioVal" :label="scope.$index" @click.native.prevent="()=>{}"></el-radio>
+            <el-radio
+              v-model="radioVal"
+              :label="scope.$index"
+              @click.native="radioChange(scope.row)"
+            ></el-radio>
           </template>
         </el-table-column>
         <!-- 序列号 -->
@@ -223,6 +227,7 @@
               :type="item.type||'text'"
               :style="item.style"
               :icon="item.icon?item.icon:''"
+              :disabled="item.disabled"
               size="small"
               v-show="checkIsShow(scope,item)"
             >
@@ -359,10 +364,10 @@ export default {
       type: Number,
       default: 0
     },
-    // 是否开启多列相连行合并  multi：表多个; single:表单列行合并
-    isMultiMergedCol: {
+    // 多列相连行比较运算符
+    comparisonOperator: {
       type: String,
-      default: 'single'
+      default: '=='
     },
     // 是否开启合并单元格
     isMergedCell: {
@@ -371,6 +376,11 @@ export default {
     },
     // 是否开启对象模式渲染数据
     isObjShowProp: {
+      type: Boolean,
+      default: false
+    },
+    // 是否开启点击整行选中单选框
+    rowClickRadio: {
       type: Boolean,
       default: false
     }
@@ -424,29 +434,17 @@ export default {
       if (!this.isMergedCell) {
         return false
       }
-      switch (this.isMultiMergedCol) {
-        case 'multi':
-          if (columnIndex <= this.mergeCol) {
-            let spanArr = this.getSpanArr(this.tableData, column.property)
-            const _row = spanArr[rowIndex]
-            const _col = _row > 0 ? 1 : 0
-            return {
-              rowspan: _row,
-              colspan: _col
-            }
-          }
-          break
-        case 'single':
-          if (columnIndex === this.mergeCol) {
-            let spanArr = this.getSpanArr(this.tableData, column.property)
-            const _row = spanArr[rowIndex]
-            const _col = _row > 0 ? 1 : 0
-            return {
-              rowspan: _row,
-              colspan: _col
-            }
-          }
-          break
+      // eslint-disable-next-line no-eval
+      const falg = eval(`columnIndex${this.comparisonOperator}this.mergeCol`)
+      // console.log(777, `columnIndex${this.comparisonOperator}this.mergeCol`)
+      if (falg) {
+        let spanArr = this.getSpanArr(this.tableData, column.property)
+        const _row = spanArr[rowIndex]
+        const _col = _row > 0 ? 1 : 0
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
       }
     },
     // 处理合并行的数据
@@ -544,9 +542,18 @@ export default {
     handlesCurrentChange (val) {
       this.$emit('page-change', val)
     },
-    rowClick (row) {
+    // 点击某个单元格触发事件
+    radioChange (row) {
+      // console.log('radioChange', row)
       this.radioVal = this.table.data.indexOf(row)
       this.$emit('radioChange', row, this.radioVal)
+    },
+    // 点击某行
+    rowClick (row) {
+      if (this.rowClickRadio) {
+        this.radioVal = this.table.data.indexOf(row)
+        this.$emit('radioChange', row, this.radioVal)
+      }
       this.rowData = row
       row.selectFlag = !row.selectFlag
       if (row.selectFlag) {

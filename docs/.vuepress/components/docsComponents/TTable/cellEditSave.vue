@@ -185,7 +185,7 @@ export default {
       item.isPrint = true
       this.table.operator.map((val) => {
         if (val.text == '编辑') {
-          val.disabled = true
+          val.disabled = false
         }
       })
     },

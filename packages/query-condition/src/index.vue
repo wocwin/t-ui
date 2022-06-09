@@ -5,6 +5,7 @@
     size="small"
     class="t-query-condition"
     :style="{'grid-template-areas': gridAreas, 'grid-template-columns': `repeat(${colLength}, minmax(220px, ${100 / colLength}%))`}"
+    @submit.native.prevent
   >
     <el-form-item v-for="(opt, i) in cOpts" :key="i" :label="opt.label" :style="{gridArea: i}">
       <OptComponent

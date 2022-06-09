@@ -13,9 +13,7 @@
       ref="parentCom"
       @change="handleEvent(configEdit.event, record.row[prop],configEdit.editComponent)"
       :style="{width: configEdit.width||'100%'}"
-      :clearable="true"
-      :filterable="true"
-      v-bind="typeof this.configEdit.bind == 'function' ? this.configEdit.bind(record) : {...this.configEdit.bind}"
+      v-bind="typeof this.configEdit.bind == 'function' ? this.configEdit.bind(record) : {clearable:true,filterable:true,...this.configEdit.bind}"
       v-on="$listeners"
     >
       <!-- 前置文本 -->

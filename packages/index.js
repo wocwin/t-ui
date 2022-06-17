@@ -35,6 +35,7 @@ import TSelect from './select'
 import TPaginationSelect from './pagination-select'
 import TDetail from './detail'
 import { TAntModal, TAntProtocol } from './modal'
+import TSelectTable from './select-table'
 
 // 存储组件列表
 const components = [
@@ -75,7 +76,8 @@ const components = [
   TBtnDate,
   TSelect,
   TPaginationSelect,
-  TDetail
+  TDetail,
+  TSelectTable
 ]
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册

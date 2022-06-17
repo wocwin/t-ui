@@ -53,6 +53,7 @@ module.exports = {
                 'ElementUi/TDialog/base', // 弹窗组件
                 'ElementUi/TDetail/base', // 详情组件
                 'ElementUi/TPaginationSelect/base', // 下拉选择分页组件
+                'ElementUi/TSelectTable/base', // 下拉选择表格组件
                 // 'ElementUi/TUploadExcel/base' // 批量上传excel组件
               ]
             },

@@ -60,7 +60,8 @@
       v-on="$listeners"
       :highlight-current-row="highlightCurrentRow"
       :border="table.border||isTableBorder"
-      :span-method="objectSpanMethod"
+      :span-method="spanMethod||objectSpanMethod"
+      :cell-class-name="cellClassNameFuc"
       @row-click="rowClick"
       @cell-dblclick="cellDblclick"
     >
@@ -369,6 +370,10 @@ export default {
       type: String,
       default: '=='
     },
+    // 是否自定义合并单元格
+    spanMethod: {
+      type: Function
+    },
     // 是否开启合并单元格
     isMergedCell: {
       type: Boolean,
@@ -381,6 +386,11 @@ export default {
     },
     // 是否开启点击整行选中单选框
     rowClickRadio: {
+      type: Boolean,
+      default: false
+    },
+    // 是否开启某行隐藏复选框/单选框
+    isTableColumnHidden: {
       type: Boolean,
       default: false
     }
@@ -429,6 +439,15 @@ export default {
     }
   },
   methods: {
+    // 合并行隐藏复选框/单选框
+    cellClassNameFuc (row) {
+      if (!this.isTableColumnHidden) {
+        return false
+      }
+      if (this.tableData.length - (this.tableData.length - this.table.pageSize) <= row.rowIndex) {
+        return 'table_column_hidden'
+      }
+    },
     // 合并单元格
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
       if (!this.isMergedCell) {
@@ -643,6 +662,19 @@ export default {
   }
   .marginBttom {
     margin-bottom: -8px;
+  }
+  // 合并行隐藏复选框/单选框
+  ::v-deep .el-table {
+    .el-table__row {
+      .table_column_hidden {
+        .cell {
+          .el-radio__input,
+          .el-checkbox__input {
+            display: none;
+          }
+        }
+      }
+    }
   }
   // 操作样式
   .operator_btn {

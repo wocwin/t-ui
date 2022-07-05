@@ -30,6 +30,7 @@
         :loading="loading"
       >查询</el-button>
       <el-button v-if="reset" class="btn_reset" size="small" @click="resetHandle">重置</el-button>
+      <slot name="querybar"></slot>
     </el-form-item>
   </el-form>
 </template>

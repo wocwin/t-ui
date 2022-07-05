@@ -1,12 +1,12 @@
 <template>
-  <div class="t_module_form">
+  <div class="t_module_form" :style="{marginBottom:footer!==null?'60px':''}">
     <div class="scroll_wrap">
       <!-- 头部 -->
       <el-page-header
         v-if="title"
         :title="title"
         @back="back"
-        :class="{noContent:!isShow('extra')&&!subTitle}"
+        :class="{noContent:!isShow('extra')&&!subTitle,'isShowBack':isShowBack}"
       >
         <template #content>
           <div class="sub_title">{{subTitle}}</div>
@@ -52,7 +52,7 @@
           v-if="handleType==='edit'"
           @click="saveHandle"
           :loading="loading"
-        >保存</el-button>
+        >{{btnTxt}}</el-button>
       </div>
     </footer>
   </div>
@@ -71,10 +71,20 @@ export default {
       type: String,
       default: 'edit' // edit表form表单操作，desc表详情页面
     },
+    // 是否显示返回箭头
+    isShowBack: {
+      type: Boolean,
+      default: false
+    },
     // 返回上一层触发方法
     isGoBackEvent: {
       type: Boolean,
       default: false
+    },
+    // 操作按钮文字
+    btnTxt: {
+      type: String,
+      default: '保存'
     },
     // 是否显示底部操作按钮 :footer="null"
     footer: Object,
@@ -140,6 +150,9 @@ export default {
     },
     // 点击头部返回或者取消
     back () {
+      if (this.isShowBack) {
+        return
+      }
       this.$emit('back')
       if (!this.isGoBackEvent) {
         this.$router.go(-1)
@@ -205,7 +218,8 @@ export default {
   flex-direction: column;
   height: 100%;
   text-align: left;
-  background-color: #f6f6f6;
+  background-color: #f0f2f5;
+  overflow: auto;
   .scroll_wrap {
     display: flex;
     flex-direction: column;
@@ -259,9 +273,17 @@ export default {
         }
       }
     }
+    // 是否显示返回箭头
+    .isShowBack {
+      .el-page-header__left {
+        .el-icon-back {
+          display: none;
+        }
+      }
+    }
     .t_form {
       .el-collapse-borderless {
-        background-color: #f6f6f6;
+        background-color: #f0f2f5;
         .noTitle {
           .el-collapse-header {
             display: none;
@@ -301,17 +323,29 @@ export default {
     }
   }
   .handle_wrap {
-    position: sticky;
-    z-index: 10;
+    // position: sticky;
+    // z-index: 10;
+    // right: 0;
+    // bottom: -8px;
+    // // margin: 0 -8px -8px;
+    // padding: 12px 16px;
+    // background-color: #fff;
+    // border-top: 1px solid #ebeef5;
+    // text-align: right;
+    position: fixed;
+    z-index: 4;
     right: 0;
-    bottom: -8px;
-    margin: 0 -8px -8px;
-    padding: 12px 16px;
+    bottom: 0px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     background-color: #fff;
     border-top: 1px solid #ebeef5;
     text-align: right;
-    .el-btn {
-      margin-left: 8px;
+    width: 100%;
+    .el-button:last-child {
+      margin-right: 15px;
     }
   }
 }

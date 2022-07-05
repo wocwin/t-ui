@@ -38,7 +38,7 @@
         :is="item.comp"
         v-model="formOpts.formData[item.value]"
         :type="item.type"
-        :placeholder="getPlaceholder(item)"
+        :placeholder="item.placeholder||getPlaceholder(item)"
         @change="handleEvent(item.event, formOpts.formData[item.value])"
         v-bind="{clearable:true,filterable:true,...item.bind}"
         :style="{width: item.width||'100%'}"
@@ -57,28 +57,30 @@
           v-for="(value, key, index) in selectListType(item)"
           :key="index"
           :disabled="value.disabled"
-          :label="item.type === 'select-obj'? value: item.type === 'checkbox'? value.value: value[item.arrLabel]"
-          :value="item.type === 'select-obj'? key : item.type === 'checkbox' ? value.value : value[item.arrKey]"
-        >{{ item.type === 'checkbox' ? value.label : item.type === 'select-arr'?value[item.arrLabel]:item.type === 'select-obj' ? value :'' }}</component>
+          :label="compChildLabel(item,value)"
+          :value="compChildValue(item,value,key)"
+        >{{compChildShowLabel(item,value)}}</component>
       </component>
     </el-form-item>
     <!-- 按钮 -->
-    <div
-      class="flex-box flex-ver t-margin-top-5"
-      v-if="formOpts.operatorList&&formOpts.operatorList.length>0"
-    >
-      <el-button
-        v-for="val in formOpts.operatorList"
-        :key="val.label"
-        @click="val.fun(val)"
-        :type="val.type"
-        :icon="val.icon"
-        :size="val.size || 'medium'"
-      >{{ val.label }}</el-button>
+    <div class="footer_btn flex-box flex-ver t-margin-top-5">
+      <template v-if="formOpts.btnSlotName">
+        <slot :name="formOpts.btnSlotName"></slot>
+      </template>
+      <template v-if="!formOpts.btnSlotName&&formOpts.operatorList&&formOpts.operatorList.length>0">
+        <el-button
+          v-for="(val,index) in formOpts.operatorList"
+          :key="index"
+          @click="val.fun(val)"
+          :type="val.type||'primary'"
+          :icon="val.icon"
+          :size="val.size || 'small'"
+          :disabled="val.disabled"
+        >{{ val.label }}</el-button>
+      </template>
     </div>
   </el-form>
 </template>
-
 <script>
 import RenderComp from './renderComp'
 export default {
@@ -132,9 +134,56 @@ export default {
         switch (type) {
           case 'checkbox':
             return 'el-checkbox'
+          case 'radio':
+            return 'el-radio'
           case 'select-arr':
           case 'select-obj':
             return 'el-option'
+        }
+      }
+    },
+    // 子子组件label
+    compChildLabel () {
+      return ({ type, arrLabel }, value) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.value
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrLabel || 'dictLabel']
+          case 'select-obj':
+            return value
+        }
+      }
+    },
+    // 子子组件value
+    compChildValue () {
+      return ({ type, arrKey }, value, key) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.value
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrKey || 'dictValue']
+          case 'select-obj':
+            return key
+        }
+      }
+    },
+    // 子子组件文字展示
+    compChildShowLabel () {
+      return ({ type, arrLabel }, value) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.label
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrLabel || 'dictLabel']
+          case 'select-obj':
+            return value
         }
       }
     }
@@ -166,6 +215,7 @@ export default {
     this.$emit('update:refObj', this.$refs.form)
   },
   methods: {
+    // label与输入框的布局方式
     getChildWidth (item) {
       if (this.formOpts.labelPosition === 'top') {
         return `flex: 0 1 calc((${100 / (item.widthSize || this.colSize)}% - 10px));margin-right:10px;`
@@ -177,7 +227,7 @@ export default {
     getPlaceholder (row) {
       let placeholder
       // 请输入type
-      const inputArr = ['input', 'textarea']
+      const inputArr = ['input', 'textarea', 'inputNumber']
       // 请选择type
       const selectArr = ['select-arr', 'time', 'select-obj', 'date']
       if (inputArr.includes(row.type)) {
@@ -249,6 +299,13 @@ export default {
   .t-margin-top-5 {
     margin-top: calc(5px);
   }
+  .el-input-number {
+    .el-input {
+      .el-input__inner {
+        text-align: left;
+      }
+    }
+  }
   .t-form-block {
     display: block;
     width: 100% !important;
@@ -282,6 +339,7 @@ export default {
     justify-content: flex-end;
   }
   .slot_label {
+    // margin-bottom: 0 !important;
     .el-form-item__content {
       // margin-left: 0 !important;
       label {
@@ -291,6 +349,9 @@ export default {
         margin-right: 12px;
       }
     }
+  }
+  .footer_btn {
+    width: 100%;
   }
 }
 </style>

@@ -3,12 +3,17 @@
     <el-collapse v-model="defaultActiveKey">
       <el-collapse-item
         v-for="(formOpt, formIndex) in formOpts"
-        :class="{noTitle:!formOpt.title,disabledStyle:formOpt.disabled}"
+        :class="[formOpt.className,{ noTitle: !formOpt.title,disabledStyle:formOpt.disabled }]"
         :key="formIndex"
-        :title="formOpt.title"
         :name="formOpt.name"
         :disabled="formOpt.disabled"
       >
+        <template #title>
+          {{formOpt.title}}
+          <div class="t_btn" v-if="formOpt.btn">
+            <slot :name="formOpt.btn"></slot>
+          </div>
+        </template>
         <template v-if="formOpt.slotName">
           <slot :name="formOpt.slotName"></slot>
         </template>
@@ -58,7 +63,7 @@ export default {
 .t_form {
   .el-collapse {
     border: none;
-    background-color: #f6f6f6;
+    background-color: #f0f2f5;
     .el-collapse-item {
       background-color: #fff;
       margin-top: 10px;
@@ -90,6 +95,9 @@ export default {
       .el-collapse-item__wrap {
         padding: 16px;
         border: none;
+        .el-collapse-item__content {
+          padding-bottom: 0;
+        }
       }
     }
     // 隐藏手风琴title
@@ -103,11 +111,18 @@ export default {
     // 禁用时取消收缩功能及隐藏icon
     .disabledStyle {
       .el-collapse-item__header {
-        color: #303133;
+        color: #000;
         cursor: default;
         padding-left: 20px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         .el-collapse-item__arrow {
           display: none;
+        }
+        .t_btn {
+          margin-right: 15px;
         }
       }
     }

@@ -1,6 +1,10 @@
 <template>
   <div class="query-data">
-    <t-query-condition :opts="opts" @submit="conditionEnter" />
+    <t-query-condition ref="queryCondition" :opts="opts" @submit="conditionEnter">
+      <template #likeTransportNo>
+        <el-input v-model="queryData.likeTransportNo" clearable placeholder="自定义插槽输入框" />
+      </template>
+    </t-query-condition>
   </div>
 </template>
 <script>
@@ -24,15 +28,15 @@ export default {
   data () {
     return {
       queryData: {
-        likeCargoNo: '',
-        likeBookNo: '',
-        likeTransportNo: '',
-        likeCargoName: '',
-        workshopNum: '',
-        workshopNum1: '',
-        date1: '',
-        date2: '',
-        date: '',
+        likeCargoNo: null,
+        likeBookNo: null,
+        likeTransportNo: null,
+        likeCargoName: null,
+        workshopNum: null,
+        workshopNum1: null,
+        date1: null,
+        date2: null,
+        date: null,
         beginTime: null, // 组件开始日期
         endTime: moment().format('yyyy-MM-DD 23:59:59'), // 组件结束日期
       }
@@ -44,20 +48,26 @@ export default {
         likeCargoNo: {
           label: '货源编号',
           comp: 'el-input',
-          bind: {
+          placeholder: '去除首尾空格',
+          event: {
+            change: (val) => this.change(val, 'likeCargoNo')
           }
         },
         likeBookNo: {
-          label: '订单编号',
-          comp: 'el-input',
-          bind: {
-          }
+          labelRender: () => {
+            return (
+              <el-tooltip content={'自定义label'} placement="top">
+                <div>订单编号</div>
+              </el-tooltip>
+            )
+          },
+          placeholder: '自定义label',
+          comp: 'el-input'
         },
         likeTransportNo: {
           label: '运单编号',
           comp: 'el-input',
-          bind: {
-          }
+          slotName: 'likeTransportNo',
         },
         likeCargoName: {
           label: '货品名称',
@@ -176,6 +186,13 @@ export default {
   },
   // 方法
   methods: {
+    // 去除输入框首尾空格
+    change (val, type) {
+      const reg = /(^\s*)|(\s*$)/g
+      const value = val.replace(reg, '')
+      this.queryData[type] = value
+      this.$refs.queryCondition._data.form[type] = value
+    },
     // 开始日期
     startChange (val) {
       this.getQueryData.beginTime = val

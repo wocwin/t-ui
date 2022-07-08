@@ -9,7 +9,7 @@
 
 # TQueryCondition 参数配置
 
-### 1. 简介：可以让多种查询条件在输入值后置顶并且按钮显示在右侧，可以收起或展开所有查询条件
+### 1. 简介：可以让多种查询条件在输入值后置顶并且按钮显示在右侧
 
 查询条件组件
 **代码示例：**
@@ -20,19 +20,22 @@
 
 ### 2. 配置参数（Attributes）
 
-| 参数       | 说明                                      | 类型      |  默认值 |
-| :--------- | :---------------------------------------- | :-------- | ------: |
-| opts       | 接收筛选器组件配置                        | formOpt{} |      无 |
-| loading    | 查询按钮 loading 状态，请求数据时需要体现 | Boolean   |   false |
-| reset      | 是否显示“重置”按钮                        | Boolean   |    true |
-| boolEnter  | 是否敲回车查询                            | Boolean   |    true |
-| labelWidth | labelWidth 宽度                           | String    | '100px' |
+| 参数       | 说明                                      | 类型    |  默认值 |
+| :--------- | :---------------------------------------- | :------ | ------: |
+| opts       | 接收筛选器组件配置                        | object  |      无 |
+| loading    | 查询按钮 loading 状态，请求数据时需要体现 | Boolean |   false |
+| reset      | 是否显示“重置”按钮                        | Boolean |    true |
+| boolEnter  | 是否敲回车查询                            | Boolean |    true |
+| labelWidth | labelWidth 宽度                           | String  | '100px' |
 
-### 3. formOpt 配置参数（formOpt Attributes）
+### 3. opts 配置参数（opts Attributes）
 
 | 参数        | 说明                                                                                  | 类型             | 默认值  |
 | :---------- | :------------------------------------------------------------------------------------ | :--------------- | :------ |
 | label       | 表单字段说明标题                                                                      | string           | 无      |
+| className   | 自定义 class                                                                          | string           | 无      |
+| labelRender | 自定义 label（render 函数 jsx 方式编写）                                              | function         | 无      |
+| slotName    | 自定义输入框插槽(作用域插槽解构接收{param}返回当前所有表单初始值)                     | string           | 无      |
 | comp        | 组件名称，可直接指定全局注册的组件，也可引入'elmentUI'如：Button 或者'el-button'      | string,component | 无      |
 | defaultVal  | 默认值                                                                                | -                | 无      |
 | span        | 控件占用的列宽，默认占用 1 列，最多 4 列 (独占一行)                                   | number           | 1       |

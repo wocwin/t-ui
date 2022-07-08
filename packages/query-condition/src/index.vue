@@ -7,8 +7,23 @@
     :style="{'grid-template-areas': gridAreas, 'grid-template-columns': `repeat(${colLength}, minmax(220px, ${100 / colLength}%))`}"
     @submit.native.prevent
   >
-    <el-form-item v-for="(opt, i) in cOpts" :key="i" :label="opt.label" :style="{gridArea: i}">
+    <el-form-item
+      v-for="(opt, i) in cOpts"
+      :key="i"
+      :label="opt.label"
+      :style="{gridArea: i}"
+      :class="[opt.className,{'render_label':opt.labelRender}]"
+    >
+      <!-- 自定义label -->
+      <template #label v-if="opt.labelRender">
+        <render-comp :createElementFunc="opt.labelRender" />
+      </template>
+      <!-- 自定义输入框插槽 -->
+      <template v-if="opt.slotName">
+        <slot :name="opt.slotName" :param="form"></slot>
+      </template>
       <OptComponent
+        v-if="!opt.slotName"
         v-bind="opt"
         :opt="opt"
         :form="form"
@@ -37,10 +52,12 @@
 
 <script>
 import OptComponent from './OptComponent'
+import RenderComp from './renderComp.vue'
 export default {
   name: 'TQueryCondition',
   components: {
-    OptComponent
+    OptComponent,
+    RenderComp
   },
   props: {
     // 配置项
@@ -245,6 +262,17 @@ export default {
       justify-content: flex-end;
       align-items: center;
       overflow: visible !important;
+    }
+  }
+  .render_label {
+    .el-form-item__label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      &::before {
+        margin-top: 1px;
+      }
     }
   }
   .el-form-item {

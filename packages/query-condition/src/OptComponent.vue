@@ -2,7 +2,7 @@
   <component
     :is="comp"
     v-bind="typeof bind == 'function' ? bind(form) : {clearable:true,filterable:true,...bind}"
-    :placeholder="getPlaceholder(opt)"
+    :placeholder="placeholder||getPlaceholder(opt)"
     v-on="cEvent"
     :value="value"
   >
@@ -26,8 +26,7 @@ export default {
       default: () => ({})
     },
     bind: {
-      type: Object,
-      default: () => ({})
+      type: [Object, Function],
     },
     event: {
       type: Object,
@@ -40,6 +39,9 @@ export default {
     child: {
       type: Array,
       default: () => ([])
+    },
+    placeholder: {
+      type: String,
     },
     value: {
       type: [String, Number, Array, Date],
@@ -66,9 +68,9 @@ export default {
   methods: {
     // 得到placeholder的显示
     getPlaceholder (row) {
-      // console.log(111, row)
+      // console.log(222, row, form)
       let placeholder
-      if (typeof row.comp === 'string' && row.comp) {
+      if (typeof row.comp == 'string' && row.comp) {
         if (row.comp.includes('input')) {
           placeholder = '请输入' + row.label
         } else if (row.comp.includes('select') || row.comp.includes('date')) {

@@ -488,6 +488,10 @@ export default {
       }
       return spanArr
     },
+    // 对 Table 进行重新布局
+    doLayout () {
+      this.$refs['el-table'].doLayout()
+    },
     // 取消某一项选中项
     toggleRowSelection (row) {
       this.$refs['el-table'].toggleRowSelection(row, false)

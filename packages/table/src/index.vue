@@ -41,7 +41,7 @@
           </div>
         </div>
         <!--列设置按钮-->
-        <div class="header_right_wrap">
+        <div class="header_right_wrap" :style="{marginLeft:isShow('toolbar')?'12px':0}">
           <slot name="btn" />
           <column-set
             v-if="columnSetting"
@@ -121,6 +121,7 @@
           :sortable="item.sort"
           :render-header="item.renderHeader||(item.headerRequired&&renderHeader)"
           :align="item.align || 'center'"
+          :fixed="item.fixed"
           :show-overflow-tooltip="item.noShowTip"
           v-bind="{...item.bind,...$attrs}"
           v-on="$listeners"
@@ -389,7 +390,7 @@ export default {
       type: Boolean,
       default: false
     },
-    // 是否开启某行隐藏复选框/单选框
+    // 是否开启合计行隐藏复选框/单选框/序列
     isTableColumnHidden: {
       type: Boolean,
       default: false
@@ -444,7 +445,7 @@ export default {
       if (!this.isTableColumnHidden) {
         return false
       }
-      if (this.tableData.length - (this.tableData.length - this.table.pageSize) <= row.rowIndex) {
+      if (this.tableData.length - ((this.tableData.length - this.table.pageSize) < 0 ? 1 : (this.tableData.length - this.table.pageSize)) <= row.rowIndex) {
         return 'table_column_hidden'
       }
     },
@@ -670,6 +671,9 @@ export default {
         .cell {
           .el-radio__input,
           .el-checkbox__input {
+            display: none;
+          }
+          & > span {
             display: none;
           }
         }

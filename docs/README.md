@@ -2,7 +2,7 @@
 home: true
 heroImage: /hero.jpg      
 actionText: 快速上手 →
-actionLink: /baseComponents/ElementUi/TInput/base
+actionLink: /baseComponents/ElementUi/TQueryCondition/base
 features:
 - title: 实际项目
   details: 实际项目中碰到的疑点、难点，致力于更优的自我。

@@ -1,7 +1,7 @@
 <template>
   <div
     class="code-format"
-    :class="{ 'hover': hovering }"
+    :class="{ hover: hovering }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -23,11 +23,18 @@
       @click="isExpanded = !isExpanded"
     >
       <transition name="arrow-slide">
-        <i :class="[iconClass, { 'hovering': hovering }]"></i>
+        <i :class="[iconClass, { hovering: hovering }]"></i>
       </transition>
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
       </transition>
+      <el-button
+        class="qr_code"
+        size="small"
+        type="text"
+        @click.stop="qrCodeDialog = true"
+        >微信二维码</el-button
+      >
       <div class="control-button-container">
         <el-button
           v-show="isExpanded"
@@ -36,91 +43,109 @@
           type="text"
           class="control-button copy-button"
           @click.stop="copyCode"
-        >复制代码</el-button>
+          >复制代码</el-button
+        >
       </div>
     </div>
+    <t-dialog
+      title="wocwin微信二维码"
+      width="30%"
+      :visible="qrCodeDialog"
+      @update:visible="qrCodeDialog = false"
+    >
+      <img src="../../public/wocwin.jpg" />
+    </t-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CodeFormat',
-  data () {
+  name: "CodeFormat",
+  data() {
     return {
+      qrCodeDialog: false,
       hovering: false,
       isExpanded: false,
       fixedControl: false,
-      scrollParent: null
-    }
+      scrollParent: null,
+    };
   },
   computed: {
-    lang () {
-      return this.$route.path.split('/')[1]
+    lang() {
+      return this.$route.path.split("/")[1];
     },
-    iconClass () {
-      return this.isExpanded ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
+    iconClass() {
+      return this.isExpanded ? "el-icon-caret-top" : "el-icon-caret-bottom";
     },
-    controlText () {
-      return this.isExpanded ? '隐藏代码' : '显示代码'
+    controlText() {
+      return this.isExpanded ? "隐藏代码" : "显示代码";
     },
-    codeArea () {
-      return this.$el.getElementsByClassName('meta')[0]
-    }
+    codeArea() {
+      return this.$el.getElementsByClassName("meta")[0];
+    },
   },
   watch: {
-    isExpanded (val) {
-      this.setCodeAreaHeight()
+    isExpanded(val) {
+      this.setCodeAreaHeight();
       if (!val) {
-        this.fixedControl = false
+        this.fixedControl = false;
         // this.$refs.control.style.left = '0'
-        this.removeScrollHandler()
-        return
+        this.removeScrollHandler();
+        return;
       }
       setTimeout(() => {
-        this.scrollParent = window
-        this.scrollParent && this.scrollParent.addEventListener('scroll', this.scrollHandler)
-        this.scrollHandler()
-      }, 200)
-    }
+        this.scrollParent = window;
+        this.scrollParent &&
+          this.scrollParent.addEventListener("scroll", this.scrollHandler);
+        this.scrollHandler();
+      }, 200);
+    },
   },
-  beforeDestroy () {
-    this.removeScrollHandler()
+  beforeDestroy() {
+    this.removeScrollHandler();
   },
   methods: {
-    getCodeAreaHeight () {
-      if (this.$el.getElementsByClassName('description').length > 0) {
-        return this.$el.getElementsByClassName('description')[0].clientHeight +
-          this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
+    getCodeAreaHeight() {
+      if (this.$el.getElementsByClassName("description").length > 0) {
+        return (
+          this.$el.getElementsByClassName("description")[0].clientHeight +
+          this.$el.getElementsByClassName("highlight")[0].clientHeight +
+          20
+        );
       }
-      return this.$el.getElementsByClassName('highlight')[0].clientHeight
+      return this.$el.getElementsByClassName("highlight")[0].clientHeight;
     },
-    setCodeAreaHeight () {
-      this.codeArea.style.height = this.isExpanded ? `${this.getCodeAreaHeight() + 1}px` : '0'
+    setCodeAreaHeight() {
+      this.codeArea.style.height = this.isExpanded
+        ? `${this.getCodeAreaHeight() + 1}px`
+        : "0";
     },
-    copyCode () {
-      const pre = this.$el.querySelectorAll("pre")[0]
-      pre.setAttribute("contenteditable", "true")
-      pre.focus()
-      document.execCommand("selectAll", false, null)
-      const copied = document.execCommand("copy")
+    copyCode() {
+      const pre = this.$el.querySelectorAll("pre")[0];
+      pre.setAttribute("contenteditable", "true");
+      pre.focus();
+      document.execCommand("selectAll", false, null);
+      const copied = document.execCommand("copy");
       if (copied) {
-        pre.removeAttribute("contenteditable")
-        this.$message.success('复制成功！')
+        pre.removeAttribute("contenteditable");
+        this.$message.success("复制成功！");
       } else {
-        this.$message.error('复制失败！')
+        this.$message.error("复制失败！");
       }
     },
-    scrollHandler () {
-      const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
-      this.fixedControl = bottom > document.documentElement.clientHeight &&
-        top + 44 <= document.documentElement.clientHeight
+    scrollHandler() {
+      const { top, bottom, left } = this.$refs.meta.getBoundingClientRect();
+      this.fixedControl =
+        bottom > document.documentElement.clientHeight &&
+        top + 44 <= document.documentElement.clientHeight;
       // this.$refs.control.style.left = this.fixedControl ? `${left}px` : '0'
     },
-    removeScrollHandler () {
-      this.scrollParent && this.scrollParent.removeEventListener('scroll', this.scrollHandler)
-    }
-  }
-}
+    removeScrollHandler() {
+      this.scrollParent &&
+        this.scrollParent.removeEventListener("scroll", this.scrollHandler);
+    },
+  },
+};
 </script>
 <style lang="scss">
 .code-format {
@@ -200,7 +225,6 @@ export default {
     color: #d3dce6;
     cursor: pointer;
     position: relative;
-
     &.is-fixed {
       position: fixed;
       bottom: 0;
@@ -232,7 +256,15 @@ export default {
       opacity: 0;
       transform: translateX(10px);
     }
-
+    .qr_code {
+      line-height: 26px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 14px;
+      padding-left: 15px;
+      padding-right: 25px;
+    }
     .control-button {
       line-height: 26px;
       position: absolute;

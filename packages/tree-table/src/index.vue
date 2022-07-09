@@ -42,12 +42,6 @@
             scope.row[column.dataIndex]
             }}
           </span>
-          <span v-if="column.filters && column.filters.param">
-            {{
-            scope.row[column.dataIndex]
-            | constantKey2Value(column.filters.param)
-            }}
-          </span>
         </template>
       </el-table-column>
       <el-table-column v-if="operator" label="操作" min-width="120">

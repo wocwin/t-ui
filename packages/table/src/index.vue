@@ -169,20 +169,8 @@
                   />
                 </single-edit-cell>
               </template>
-              <!-- filters渲染 -->
-              <div v-if="item.filters" :style="{color:txtChangeColor(scope)}">
-                <span
-                  v-if="item.filters.param"
-                >{{scope.row[item.prop] |constantKey2Value(item.filters.param)}}</span>
-                <span
-                  v-if="!item.filters.param&&item.filters.method==='￥'"
-                >{{scope.row[item.prop] |currencyFilter}}</span>
-                <span
-                  v-if="!item.filters.param&&item.filters.method==='%'"
-                >{{scope.row[item.prop] |percentFilter}}</span>
-              </div>
               <div
-                v-if="!item.render&&!item.filters&&!item.slotName&&!item.customRender&&!item.canEdit"
+                v-if="!item.render&&!item.slotName&&!item.customRender&&!item.canEdit"
                 :style="{color:txtChangeColor(scope)}"
               >
                 <span
@@ -332,6 +320,7 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否显示添加按钮
     isEdit: {
       type: Boolean,
       default: false

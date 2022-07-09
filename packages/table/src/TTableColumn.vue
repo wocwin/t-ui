@@ -57,21 +57,10 @@
               />
             </single-edit-cell>
           </template>
-          <!-- filters渲染 -->
-          <div v-if="val.filters">
-            <span
-              v-if="val.filters.param"
-            >{{scope.row[val.prop] |constantKey2Value(val.filters.param)}}</span>
-            <span
-              v-if="!val.filters.param&&val.filters.method==='￥'"
-            >{{scope.row[val.prop] |currencyFilter}}</span>
-            <span
-              v-if="!val.filters.param&&val.filters.method==='%'"
-            >{{scope.row[val.prop] |percentFilter}}</span>
-          </div>
           <div
-            v-if="!val.render&&!val.filters&&!val.slotName&&!val.customRender&&!val.canEdit"
-          >{{scope.row[val.prop]}}</div>
+            v-if="!val.render&&!val.slotName&&!val.customRender&&!val.canEdit"
+          >{{scope.row[val.prop]}}
+          </div>
         </template>
       </el-table-column>
     </template>

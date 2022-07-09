@@ -89,7 +89,6 @@ module.exports = {
                 'ElementUi/TTable/checkbox', // 基本复选
                 'ElementUi/TTable/columnSet', // 显示隐藏列
                 'ElementUi/TTable/operation', // 操作栏
-                'ElementUi/TTable/filters', // 状态filters方法使用
                 'ElementUi/TTable/customRender', // customRender操作自定义渲染
                 'ElementUi/TTable/help' // 使用帮助(Attributes)
               ]

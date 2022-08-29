@@ -3,6 +3,15 @@ node_modules
 node_modules/
 dist
 lib
+# 忽略目录
+examples/
+packages/
+public/
+
+# 忽略指定文件
+vue.config.js
+babel.config.js
+*.map
 
 # local env files
 .env.local
@@ -25,4 +34,3 @@ yarn-error.log*
 *.sw?
 # vuepress temp file
 .temp
-package-lock.json

@@ -1,36 +1,38 @@
 .DS_Store
 node_modules
-node_modules/
-dist
-lib
-# 忽略目录
-examples/
-packages/
-public/
+/dist
 
-# 忽略指定文件
-vue.config.js
-babel.config.js
-*.map
 
 # local env files
 .env.local
 .env.*.local
+.env.*
 
 # Log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+# 忽略目录
+examples/
+docs/
+# packages/
+public/
+tests/
+node_modules/
+/node_modules
+# 忽略指定文件
+vue.config.js
+babel.config.js
+*.map
 # Editor directories and files
 .idea
 .vscode
 .gitee
 .git
+*.sh
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+*.zip
 *.sw?
-# vuepress temp file
-.temp

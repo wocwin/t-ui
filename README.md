@@ -8,12 +8,20 @@
 
 这是我在学习 Vue 中基于[Element-ui](https://element.faas.ele.me/#/zh-CN) 和[ant-design-vue](https://www.antdv.com/docs/vue/introduce-cn/)二次封装基础组件文档，希望对你有用。可查看 [详细组件案例文档](https://wocwin.github.io/t-ui/) 预览
 
-## 安装依赖
+## npm方式安装使用
+```js
+// 先安装
+npm i @wocwin/t-ui
+// 在main.js中按下引入
+import Tui from '@wocwin/t-ui'
+Vue.use(Tui)
+```
+## 安装依赖 **如果总报错就用 cnpm install** 
 
 ```shell
 npm install
-```
 
+```
 ## 本地运行 src 中组件示例
 
 ```shell
@@ -24,6 +32,5 @@ npm run serve
 
 ```shell
 npm run docs:dev
-注：如果安装依赖后console报core.js错，需要下载2.**版本中把library文件夹移动到此项目node_modules中core.js中
-或者直接解压项目中library.zip将文件夹移动到项目node_modules中core.js中
+
 ```

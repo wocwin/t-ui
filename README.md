@@ -12,6 +12,9 @@
   <a href="https://github.com/vuejs/vue">
     <img src="https://img.shields.io/badge/vue-2.6.11-brightgreen.svg" alt="vue">
   </a>
+  <a href="https://gitee.com/wocwin/t-ui/stargazers">
+    <img src="https://gitee.com/wocwin/t-ui/badge/star.svg?theme=dark" alt="t-ui">
+  </a>
   <a href="https://github.com/wocwin/t-ui/stargazers">
     <img src="https://img.shields.io/github/stars/wocwin/t-ui.svg" alt="t-ui">
   </a>

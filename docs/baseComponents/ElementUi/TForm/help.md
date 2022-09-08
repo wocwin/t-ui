@@ -2,66 +2,62 @@
 
 ### 1. 简介：基于 ElementUI Form 表单组件的二次封装，着重于数据层面，HTML 一行代码
 
-Form 表单组件
+TForm 表单组件
 **代码示例：**
 
 ```html
 <t-form
-  :ref-obj.sync="formInfo.ref"
-  :form-data="formInfo.formData"
-  :field-list="formInfo.fieldList"
-  :rules="formInfo.rules"
-  :operator-list="formInfo.operatorList"
-  :label-width="formInfo.labelWidth"
-  :list-type-info="listTypeInfo"
+  :ref-obj.sync="formOpts.ref"
+  :formOpts="formOpts"
+  :widthSize="2"
   @handleEvent="handleEvent"
->
-  <!-- 自定义插槽-选择头像 -->
-  <template #form-avatar>
-    <div
-      class="slot-avatar"
-      v-for="checkedItem in uploadFile.checkedList"
-      :key="checkedItem.type"
-    >
-      <t-upload-file
-        :attachmentType="checkedItem.type"
-        @uploadSuccess="pushUploadItem"
-        @deleteSuccess="pushUploadItem"
-      />
-    </div>
-  </template>
-</t-form>
+/>
 //注意:ref-obj(form校验规则相当于ref)必须要‘.sync’修饰符
 ```
 
 ### 2. events
 
-|   事件名    | 说明                 |                          返回值                          |
-| :---------: | :------------------- | :------------------------------------------------------: |
+| 事件名      | 说明                 | 返回值                                                   |
+| :---------- | :------------------- | :------------------------------------------------------- |
 | handleEvent | 单个查询条件触发事件 | fieldList 中 type/查询条件输入的值/fieldList 中 event 值 |
 
-### 3. 配置参数
+### 3. Methods
 
-| 参数           | 说明                                                                    | 类型         | 是否必须 |
-| -------------- | ----------------------------------------------------------------------- | ------------ | -------- |
-| refObj         | form 表单校验规则方法 （可以参考 elementUI Form 表单方法中的 validate） | obj          | 是       |
-| className      | 自定义类名                                                              | String       | 否       |
-| listTypeInfo   | 下拉选择数据源（type:'select'有效）                                     | Object       | 否       |
-| fieldList      | form 表单每项 list                                                      | Array        | 是       |
-| ---type        | form 表单每一项类型（若值为 slot——新增自定义插槽 form-'value')          | String       | 是       |
-| ---label       | form 表单每一项 title                                                   | String       | 是       |
-| ---value       | form 表单每一项传给后台的参数                                           | String       | 是       |
-| ---startDate   | 仅仅针对（type:'t-date'有效）与 endDate 同时使用                        | String       | 否       |
-| ---endDate     | 仅仅针对（type:'t-date'有效）选择开始——结束日期                         | String       | 否       |
-| ---plusTime    | 仅仅针对（type:'t-date'有效）是否带后缀时分秒                           | Boolean      | 否       |
-| ---valueFormat | type 为 date/t-date 日期返回值格式                                      | String       | 是       |
-| ---rules       | 每一项输入框的表单校验规则                                              | Object/Array | 否       |
-| ---list        | 下拉选择数据源（仅仅对 type:'select'有效）                              | String       | 否       |
-| ---event       | 每个输入框事件标志                                                      | Array        | 是       |
-| formData       | 参数                                                                    | Object       | 是       |
-| labelWidth     | label 宽度                                                              | String       | 否       |
-| rules          | 规则（可依据 elementUI 配置）                                           | Object/Array | 否       |
-| operatorList   | 操作按钮 list                                                           | Array        | 否       |
-| isOperator     | 是否显示操作按钮                                                        | Boolean      | 否       |
+| 事件名        | 说明     | 参数 |
+| :------------ | :------- | :--- |
+| resetFields   | 重置表单 | -    |
+| clearValidate | 清空校验 | -    |
 
-### 4. 关于 element-ui el-form 提供的一些方法/属性可直接使用，无需其他配置
+### 4. 配置参数
+
+| 参数                | 说明                                                                                                    | 类型         | 是否必须 |
+| :------------------ | :------------------------------------------------------------------------------------------------------ | :----------- | :------- |
+| refObj              | form 表单校验规则方法 （可以参考 elementUI Form 表单方法中的 validate）                                 | obj          | 是       |
+| className           | 自定义类名                                                                                              | String       | 否       |
+| labelPosition       | 改变表单项 label 与输入框的布局方式(默认：right) /top                                                   | String       | 否       |
+| widthSize           | 每行显示几个输入项（默认两项） 最大值 4                                                                 | Number       | 否       |
+| formOpts            | 表单配置项                                                                                              | Object       | 否       |
+| ---listTypeInfo     | 下拉选择数据源（type:'select'有效）                                                                     | Object       | 否       |
+| ---fieldList        | form 表单每项 list                                                                                      | Array        | 是       |
+| ------slotName      | 自定义表单某一项输入框                                                                                  | slot         | 否       |
+| ------childSlotName | 自定义表单某一下拉选择项子组件插槽（el-option）                                                         | slot         | 否       |
+| ------comp          | form 表单每一项组件是输入框还是下拉选择等（可使用第三方 UI 如 el-select/el-input 也可以使用自定义组件） | String       | 是       |
+| ------bind          | 表单每一项属性（继承第三方 UI 的 Attributes，如 el-input 中的 clearable 清空功能）默认清空及下拉过滤    | Object       | 否       |
+| ------type          | form 表单每一项类型                                                                                     | String       | 是       |
+| ------widthSize     | form 表单某一项所占比例(如果占一整行则设置 1)                                                           | Number       | 否       |
+| ------width         | form 表单某一项所占实际宽度                                                                             | String       | 否       |
+| ------arrLabel      | type=select-arr 时，每个下拉显示的中文                                                                  | String       | 否       |
+| ------arrKey        | type=select-arr 时，每个下拉显示的中文传后台的数字                                                      | String       | 否       |
+| ------label         | form 表单每一项 title                                                                                   | String       | 是       |
+| ------labelRender   | 自定义某一项 title                                                                                      | function     | 是       |
+| ------value         | form 表单每一项传给后台的参数                                                                           | String       | 是       |
+| ------rules         | 每一项输入框的表单校验规则                                                                              | Object/Array | 否       |
+| ------list          | 下拉选择数据源（仅仅对 type:'select'有效）                                                              | String       | 否       |
+| ------event         | 表单每一项事件标志（handleEvent 事件）                                                                  | Array        | 否       |
+| ------className     | 如果某一项需要一行显示则设置：className:'t-form-block'                                                  | String       | 否       |
+| ---formData         | 表单提交数据(对应 fieldList 每一项的 value 值)                                                          | Object       | 是       |
+| ---labelWidth       | label 宽度                                                                                              | String       | 否       |
+| ---rules            | 规则（可依据 elementUI el-form 配置————对应 formData 的值）                                             | Object/Array | 否       |
+| ---operatorList     | 操作按钮 list                                                                                           | Array        | 否       |
+
+### 5. 关于 element-ui el-form/el-form-item 提供的一些方法/属性可直接使用，无需其他配置

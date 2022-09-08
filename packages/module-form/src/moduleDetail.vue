@@ -25,11 +25,11 @@
             <div v-else>
               <el-tooltip v-bind="$attrs" v-if="item.tooltip">
                 <span>
-                  {{ item.value }}
-                  <i
-                    :class="item.iconClass||'el-icon-warning-outline'"
-                    style="cursor: pointer;"
-                  />
+                  <span
+                    v-if="item.filters&&item.filters.list"
+                  >{{dataList[item.fieldName] |constantEscape(listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</span>
+                  <span v-else>{{ item.value }}</span>
+                  <i :class="item.iconClass||'el-icon-warning-outline'" style="cursor: pointer;" />
                 </span>
                 <template #content v-if="item.tooltip">
                   <span v-if="typeof item.tooltip === 'string'">{{item.tooltip}}</span>
@@ -38,7 +38,12 @@
                   </template>
                 </template>
               </el-tooltip>
-              <span v-else>{{ item.value }}</span>
+              <span v-else>
+                <span
+                  v-if="item.filters&&item.filters.list"
+                >{{dataList[item.fieldName] |constantEscape(listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</span>
+                <span v-else>{{ item.value }}</span>
+              </span>
             </div>
           </el-descriptions-item>
         </el-descriptions>
@@ -57,6 +62,16 @@ export default {
     descColumn: {
       type: Number,
       default: 4
+    },
+    // 后台数据源
+    dataList: {
+      type: Object,
+      default: () => ({})
+    },
+    // 需要解析的下拉数据
+    listTypeInfo: {
+      type: Object,
+      default: () => ({})
     },
     descData: {
       type: Object,

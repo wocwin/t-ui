@@ -1,222 +1,213 @@
 <template>
   <el-form
-    ref="form"
     class="t-form"
+    ref="form"
     :class="className"
-    :model="formData"
-    :rules="rules"
-    :label-width="labelWidth"
+    :model="formOpts.formData"
+    :rules="formOpts.rules"
+    :label-width="formOpts.labelWidth||'120px'"
+    :label-position="formOpts.labelPosition||'right'"
     v-bind="$attrs"
     v-on="$listeners"
   >
     <el-form-item
-      v-for="(item, index) in getConfigList()"
+      v-for="(item, index) in formOpts.fieldList"
       :key="index"
       :prop="item.value"
       :label="item.label"
-      :class="item.className"
+      :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName},{'render_laber_position':formOpts.labelPosition}]"
       :rules="item.rules"
+      :style="getChildWidth(item)"
       v-bind="$attrs"
       v-on="$listeners"
     >
-      <!-- solt -->
-      <template v-if="item.type === 'slot'">
-        <slot :name="'form-' + item.value" />
+      <!-- 自定义label -->
+      <template #label v-if="item.labelRender">
+        <render-comp :createElementFunc="item.labelRender" />
       </template>
-      <!-- 普通输入框 -->
-      <el-input
-        v-if="item.type === 'input' || item.type === 'password'"
-        v-model="formData[item.value]"
+      <!-- 自定义输入框插槽 -->
+      <template v-if="item.slotName">
+        <slot :name="item.slotName"></slot>
+      </template>
+      <!-- 文本展示值 -->
+      <template v-if="item.textShow">
+        <span>{{item.textValue||formOpts.formData[item.value]}}</span>
+      </template>
+      <component
+        v-if="!item.slotName&&!item.textShow"
+        :is="item.comp"
+        v-model="formOpts.formData[item.value]"
         :type="item.type"
-        :disabled="item.disabled"
-        :clearable="item.clearable === false ? item.clearable : true"
-        :placeholder="getPlaceholder(item)"
-        @change="handleEvent(item.event, formData[item.value])"
+        :placeholder="item.placeholder||getPlaceholder(item)"
+        @change="handleEvent(item.event, formOpts.formData[item.value])"
+        v-bind="{clearable:true,filterable:true,...item.bind}"
+        :style="{width: item.width||'100%'}"
       >
         <!-- 前置文本 -->
-        <template #prepend v-if="item.prepend">{{item.prepend}}</template>
+        <template #prepend v-if="item.prepend">{{ item.prepend }}</template>
         <!-- 后置文本 -->
-        <template #append v-if="item.append">{{item.append}}</template>
-      </el-input>
-      <!-- 文本输入框 -->
-      <el-input
-        v-if="item.type === 'textarea'"
-        v-model.trim="formData[item.value]"
-        :type="item.type"
-        :disabled="item.disabled"
-        :placeholder="getPlaceholder(item)"
-        :autosize="item.autosize || {minRows: 2, maxRows: 10}"
-        @change="handleEvent(item.event, formData[item.value])"
-      />
-      <!-- 计数器 -->
-      <el-input-number
-        v-if="item.type === 'inputNumber'"
-        v-model="formData[item.value]"
-        size="small"
-        :clearable="item.clearable === false ? item.clearable : true"
-        :min="item.min"
-        :max="item.max"
-        @change="handleEvent(item.event, formData[item.value])"
-      />
-      <!-- 复选框 -->
-      <el-checkbox-group
-        class="flex-box"
-        v-if="item.type === 'checkbox'"
-        v-model="formData[item.value]"
-        @change="handleEvent(item.event, formData[item.value])"
-      >
-        <el-checkbox
-          v-for="val in listTypeInfo[item.list]"
-          :key="val.value"
-          :label="val.value"
-          :disabled="val.disabled"
-        >{{val.label}}</el-checkbox>
-      </el-checkbox-group>
-      <!-- 选择框数组 -->
-      <el-select
-        v-if="item.type === 'select'"
-        v-model="formData[item.value]"
-        :disabled="item.disabled"
-        :clearable="item.clearable === false ? item.clearable : true"
-        :filterable="item.filterable === false ? item.filterable : true"
-        :placeholder="getPlaceholder(item)"
-        @change="handleEvent(item.event, formData[item.value])"
-        style="width:100%;"
-      >
-        <el-option
-          v-for="(childItem, childIndex) in listTypeInfo[item.list]"
-          :key="childIndex"
-          :label="childItem[item.arrLabel]"
-          :value="childItem[item.arrKey]"
-        />
-      </el-select>
-      <!-- 选择框 对象-->
-      <el-select
-        v-if="item.type === 'select-obj'"
-        v-model="formData[item.value]"
-        :disabled="item.disabled"
-        :clearable="item.clearable === false ? item.clearable : true"
-        :filterable="item.filterable === false ? item.filterable : true"
-        :placeholder="getPlaceholder(item)"
-        @change="handleEvent(item.event, formData[item.value])"
-        style="width:100%;"
-      >
-        <el-option
-          v-for="(value, key ,index) in listTypeInfo[item.list]"
+        <template #append v-if="item.append">{{ item.append }}</template>
+        <!-- 子组件自定义插槽 -->
+        <template v-if="item.childSlotName">
+          <slot :name="item.childSlotName"></slot>
+        </template>
+        <component
+          v-else
+          :is="compChildName(item)"
+          v-for="(value, key, index) in selectListType(item)"
           :key="index"
-          :label="value"
-          :value="key"
-        ></el-option>
-      </el-select>
-      <!-- 单个日期选择框 -->
-      <el-date-picker
-        v-if="item.type === 'date'"
-        v-model="formData[item.value]"
-        :type="item.dateType"
-        :picker-options="item.TimePickerOptions"
-        :clearable="item.clearable === false ? item.clearable : true"
-        :disabled="item.disabled"
-        :value-format="item.format||'yyyy-MM-dd'"
-        :placeholder="getPlaceholder(item)"
-        @change="handleEvent(item.event,$event,item.value)"
-      />
-      <!-- 开始——结束日期选择框 -->
-      <t-date-picker
-        v-if="item.type === 't-date'"
-        :plusTime="item.plusTime === true ? item.plusTime : false"
-        :clearable="item.clearable === false ? item.clearable : true"
-        :dispaysType="item.dispaysType === 'two' ? item.dispaysType : 'one'"
-        :startDate="formData[item.startDate]"
-        :endDate="formData[item.endDate]"
-        @startChange="handleEvent(item.event,$event,item.startDate)"
-        @endChange="handleEvent(item.event,$event,item.endDate)"
-      />
+          :disabled="value.disabled"
+          :label="compChildLabel(item,value)"
+          :value="compChildValue(item,value,key)"
+        >{{compChildShowLabel(item,value)}}</component>
+      </component>
     </el-form-item>
     <!-- 按钮 -->
-    <div class="flex-box flex-ver t-margin-top-5" v-if="isOperator">
-      <el-button
-        v-for="val in getOperatorList()"
-        :key="val.label"
-        @click="val.fun(val)"
-        :type="val.type"
-        :icon="val.icon"
-        :size="val.size||'medium'"
-      >{{val.label}}</el-button>
+    <div class="footer_btn flex-box flex-ver t-margin-top-5">
+      <template v-if="formOpts.btnSlotName">
+        <slot :name="formOpts.btnSlotName"></slot>
+      </template>
+      <template v-if="!formOpts.btnSlotName&&formOpts.operatorList&&formOpts.operatorList.length>0">
+        <el-button
+          v-for="(val,index) in formOpts.operatorList"
+          :key="index"
+          @click="val.fun(val)"
+          :type="val.type||'primary'"
+          :icon="val.icon"
+          :size="val.size || 'small'"
+          :disabled="val.disabled"
+        >{{ val.label }}</el-button>
+      </template>
     </div>
   </el-form>
 </template>
-
 <script>
-import TDatePicker from '../../date-picker'
+import RenderComp from './renderComp'
 export default {
   name: 'TForm',
-  components: { TDatePicker },
+  components: {
+    RenderComp
+  },
   props: {
     // 自定义类名
     className: {
       type: String
     },
-    // 表单提交数据
-    formData: {
+    /** 表单配置项说明
+     * formData object 表单提交数据
+     * rules object 验证规则
+     * fieldList Array 表单渲染数据
+     * operatorList Array 操作按钮list
+     * listTypeInfo object 下拉选项数据
+     * labelWidth  String label宽度
+     */
+    formOpts: {
       type: Object,
-      default: () => {
-        return {}
-      }
+      default: () => ({})
     },
-    // 表单渲染数据
-    fieldList: {
-      type: Array,
-      default: () => {
-        return []
+    // 一行显示几个输入项;最大值4
+    widthSize: {
+      type: Number,
+      default: 2,
+      validator: (value) => {
+        return value <= 4
       }
-    },
-    // 验证规则
-    rules: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    },
-    // 操作按钮list
-    operatorList: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    },
-    // 下拉选项数据
-    listTypeInfo: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    },
-    // label宽度
-    labelWidth: {
-      type: String,
-      default: '120px'
     },
     // ref
     refObj: {
       type: Object
+    }
+  },
+  computed: {
+    selectListType () {
+      return ({ list }) => {
+        if (this.formOpts.listTypeInfo) {
+          return this.formOpts.listTypeInfo[list]
+        } else {
+          return []
+        }
+      }
     },
-    // 是否显示操作按钮
-    isOperator: {
-      type: Boolean,
-      default: true
+    // 子组件名称
+    compChildName () {
+      return ({ type }) => {
+        switch (type) {
+          case 'checkbox':
+            return 'el-checkbox'
+          case 'radio':
+            return 'el-radio'
+          case 'select-arr':
+          case 'select-obj':
+            return 'el-option'
+        }
+      }
+    },
+    // 子子组件label
+    compChildLabel () {
+      return ({ type, arrLabel }, value) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.value
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrLabel || 'dictLabel']
+          case 'select-obj':
+            return value
+        }
+      }
+    },
+    // 子子组件value
+    compChildValue () {
+      return ({ type, arrKey }, value, key) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.value
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrKey || 'dictValue']
+          case 'select-obj':
+            return key
+        }
+      }
+    },
+    // 子子组件文字展示
+    compChildShowLabel () {
+      return ({ type, arrLabel }, value) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.label
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrLabel || 'dictLabel']
+          case 'select-obj':
+            return value
+        }
+      }
     }
   },
   data () {
     return {
+      colSize: this.widthSize
     }
   },
   watch: {
-    formData: {
+    'formOpts.formData': {
       handler (val) {
         // 将form实例返回到父级
         this.$emit('update:refObj', this.$refs.form)
       },
       deep: true // 深度监听
+    },
+    widthSize (val) {
+      if (val > 4) {
+        this.$message.warning('widthSize值不能大于4！')
+        this.colSize = 4
+      } else {
+        this.colSize = val
+      }
     }
   },
   mounted () {
@@ -224,23 +215,21 @@ export default {
     this.$emit('update:refObj', this.$refs.form)
   },
   methods: {
-    // 获取字段列表
-    getConfigList () {
-      // eslint-disable-next-line no-prototype-builtins
-      return this.fieldList.filter(item => !item.hasOwnProperty('show') || (item.hasOwnProperty('show') && item.show))
-    },
-    // 获取操作按钮
-    getOperatorList () {
-      // eslint-disable-next-line no-prototype-builtins
-      return this.operatorList.filter(item => !item.hasOwnProperty('show') || (item.hasOwnProperty('show') && item.show))
+    // label与输入框的布局方式
+    getChildWidth (item) {
+      if (this.formOpts.labelPosition === 'top') {
+        return `flex: 0 1 calc((${100 / (item.widthSize || this.colSize)}% - 10px));margin-right:10px;`
+      } else {
+        return `flex: 0 1 ${100 / (item.widthSize || this.colSize)}%;`
+      }
     },
     // 得到placeholder的显示
     getPlaceholder (row) {
       let placeholder
       // 请输入type
-      const inputArr = ['input', 'textarea']
+      const inputArr = ['input', 'textarea', 'inputNumber']
       // 请选择type
-      const selectArr = ['select', 'time', 'select-obj', 'date', 't-date']
+      const selectArr = ['select-arr', 'time', 'select-obj', 'date']
       if (inputArr.includes(row.type)) {
         placeholder = '请输入' + row.label
       } else if (selectArr.includes(row.type)) {
@@ -251,8 +240,28 @@ export default {
       return placeholder
     },
     // 绑定的相关事件
-    handleEvent (type, val, key) {
-      this.$emit('handleEvent', type, val, key)
+    handleEvent (type, val) {
+      // console.log('组件', type, val)
+      this.$emit('handleEvent', type, val)
+    },
+    // 校验
+    validate () {
+      return new Promise((resolve, reject) => {
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            resolve({
+              valid,
+              formData: this.formOpts.formData
+            })
+          } else {
+            // eslint-disable-next-line prefer-promise-reject-errors
+            reject({
+              valid,
+              formData: null
+            })
+          }
+        })
+      })
     },
     // 重置表单
     resetFields () {
@@ -265,15 +274,18 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-// 自定义form相关
+
+<style lang="scss">
 .t-form {
+  display: flex;
+  flex-wrap: wrap;
   .el-form-item {
     display: inline-block;
-    width: 48%;
+    width: 50%;
     .el-form-item__content {
       .el-input,
       .el-select,
+      .el-date-editor,
       .el-textarea {
         width: 100%;
       }
@@ -281,43 +293,65 @@ export default {
         .el-input {
           width: inherit;
         }
+      }
+    }
+  }
+  .t-margin-top-5 {
+    margin-top: calc(5px);
+  }
+  .el-input-number {
+    .el-input {
+      .el-input__inner {
+        text-align: left;
       }
     }
   }
   .t-form-block {
     display: block;
-    width: 100%;
-    .el-form-item__content {
-      .el-textarea {
-        width: 100%;
-      }
-    }
-  }
-}
-.t-form-block {
-  .el-form-item {
-    display: block;
+    width: 100% !important;
     .el-form-item__content {
       .el-input,
       .el-select,
-      .el-textarea {
-        width: inherit;
-      }
-      .el-input-number {
-        .el-input {
-          width: inherit;
-        }
-      }
-    }
-  }
-  .el-form-block {
-    display: block;
-    width: 100%;
-    .el-form-item__content {
+      .el-date-editor,
       .el-textarea {
         width: 100%;
       }
     }
+  }
+  .render_label {
+    .el-form-item__label {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      &::before {
+        margin-top: 1px;
+      }
+    }
+  }
+  .render_laber_position {
+    .el-form-item__label {
+      justify-content: flex-start;
+    }
+  }
+  .label_render {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .slot_label {
+    // margin-bottom: 0 !important;
+    .el-form-item__content {
+      // margin-left: 0 !important;
+      label {
+        min-width: 108px;
+        color: #606266;
+        text-align: right;
+        margin-right: 12px;
+      }
+    }
+  }
+  .footer_btn {
+    width: 100%;
   }
 }
 </style>

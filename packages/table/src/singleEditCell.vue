@@ -9,7 +9,7 @@
       :is="configEdit.editComponent||'el-input'"
       v-model="record.row[prop]"
       :type="configEdit.type"
-      :placeholder="getPlaceholder(configEdit)"
+      :placeholder="configEdit.placeholder||getPlaceholder(configEdit)"
       ref="parentCom"
       @change="handleEvent(configEdit.event, record.row[prop],configEdit.editComponent)"
       :style="{width: configEdit.width||'100%'}"

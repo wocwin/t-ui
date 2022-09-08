@@ -1,9 +1,6 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" highlight-current-row :columns="columns">
-      <!-- 必须要有toolbar插槽 -->
-      <template #toolbar></template>
-    </t-table>
+    <t-table :table="table" highlight-current-row :columns="columns" />
   </div>
 </template>
 
@@ -64,11 +61,11 @@ export default {
         ]
       },
       columns: [
-        { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
-        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
-        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
-        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
-        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
+        { prop: 'name', label: '姓名', minWidth: '100' },
+        { prop: 'date', label: '日期', minWidth: '180' },
+        { prop: 'address', label: '地址', minWidth: '220' },
+        { prop: 'date', label: '日期', minWidth: '180' },
+        { prop: 'address', label: '地址', minWidth: '220' }
       ],
     }
   },

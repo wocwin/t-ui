@@ -1,8 +1,6 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" isCopy>
-      <template #amount="{param}">{{param.row.amount|currencyFilter}}</template>
-    </t-table>
+    <t-table :table="table" :columns="table.columns" />
   </div>
 </template>
 
@@ -17,7 +15,7 @@ export default {
             id: '1',
             date: '2019-09-25',
             name: '张三',
-            status: '2',
+            status: '1',
             amount: 3000,
             address: '广东省广州市天河区'
           },
@@ -37,22 +35,40 @@ export default {
             amount: 4000,
             address: '广东省广州市天河区3'
           }
-        ]
+        ],
+        columns: [
+          { prop: 'name', label: '姓名', minWidth: '100' },
+          { prop: 'date', label: '日期', minWidth: '160' },
+          {
+            prop: 'status', label: '字典过滤', minWidth: '100',
+            filters: {
+              list: 'statusList',
+              key: 'id',
+              label: 'label'
+            }
+          },
+          { prop: 'address', label: '地址', minWidth: '220' },
+          { prop: 'amount', label: '金额', minWidth: '160' },
+          { prop: 'address', label: '地址', minWidth: '220' },
+        ],
+        listTypeInfo: {
+          statusList: [
+            {
+              id: '1',
+              label: '待办'
+            },
+            {
+              id: '2',
+              label: '待审批'
+            },
+            {
+              id: '3',
+              label: '报废'
+            }
+          ]
+        }
       },
-      columns: [
-        { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
-        { prop: 'date', label: '日期', minWidth: '160', noShowColumn: true },
-        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
-        { prop: 'status', label: '状态', minWidth: '100', filters: { param: 'PROTOCOL_BUSS_TYPE' }, noShowColumn: true },
-        { prop: 'amount', label: '金额', minWidth: '160', slotName: 'amount', noShowColumn: true },
-        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
-        { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
-        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
-        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
-        { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
-        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
-        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
-      ]
+
     }
   }
 }

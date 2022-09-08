@@ -6,6 +6,8 @@
         v-for="(item,index) in stepData"
         :key="index"
         :title="`${index+1} ${item.title}`"
+        :icon="item.icon?item.icon:''"
+        :description="item.description?item.description:''"
       ></el-step>
     </el-steps>
     <div class="content-step-main step-content">

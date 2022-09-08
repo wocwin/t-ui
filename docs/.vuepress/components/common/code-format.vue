@@ -278,7 +278,7 @@ export default {
   @media (max-width: 1500px) {
     .code-format-control {
       &.is-fixed {
-        width: 940px;
+        width: 916px;
       }
     }
   }

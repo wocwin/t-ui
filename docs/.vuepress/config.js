@@ -18,7 +18,7 @@ module.exports = {
     nav: [
       { text: '主页', link: '/' },
       { text: '实际项目问题', link: '/projectProblem/permission' },
-      { text: '基础组件', link: '/baseComponents/ElementUi/TInput/base' },
+      { text: '基础组件', link: '/baseComponents/ElementUi/TQueryCondition/base' },
       // { text: '更新日志', link: '/changeLog/log' },
       { text: "Gitee码云", link: "https://gitee.com/wocwin/t-ui" }
     ],
@@ -45,6 +45,7 @@ module.exports = {
               children: [
                 'ElementUi/TQueryCondition/base', // 查询条件组件
                 'ElementUi/TInput/base', // input组件
+                'ElementUi/TButton/base', // button组件
                 'ElementUi/TSearch/base', // 下拉搜索查询组件
                 'ElementUi/TLayout/base', // 布局组件
                 'ElementUi/TLayoutPage/base', // 局部布局组件
@@ -62,10 +63,8 @@ module.exports = {
               title: '表单组件',
               collapsable: false,
               children: [
-                // 'ElementUi/TForm/base', // 基本
-                // 'ElementUi/TForm/help', // 使用帮助(Attributes)
-                'ElementUi/TSimpleForm/base', // 基本
-                'ElementUi/TSimpleForm/help', // 使用帮助(Attributes)
+                'ElementUi/TForm/base', // 基本
+                'ElementUi/TForm/help', // 使用帮助(Attributes)
                 'ElementUi/TModuleForm/base', // 基本
                 'ElementUi/TModuleForm/detail', // detail
                 'ElementUi/TModuleForm/help' // 使用帮助(Attributes)
@@ -77,9 +76,11 @@ module.exports = {
               children: [
                 'ElementUi/TTable/base', // 基本
                 'ElementUi/TTable/pagination', // 分页
+                'ElementUi/TTable/notSort', // 指定列不需要排序
                 'ElementUi/TTable/mergedCell', // 合并单元格
                 'ElementUi/TTable/headerGroup', // 表头合并
                 'ElementUi/TTable/renderCol', // render列渲染
+                'ElementUi/TTable/filters', // 字典过滤
                 'ElementUi/TTable/objRenderPorp', // 对象模式渲染
                 'ElementUi/TTable/renderHeader', // 自定义列标题 label
                 'ElementUi/TTable/radio', // 单选

@@ -5,9 +5,9 @@ const isProduction = process.env.NODE_ENV === 'production'
 //   return path.join(__dirname, dir)
 // }
 module.exports = {
-  transpileDependencies: ['element-ui'], // 解决IE浏览器本地启动白屏现象
+  // transpileDependencies: ['element-ui'], // 解决IE浏览器本地启动白屏现象
   // outputDir: process.env.outputDir || 'dist', // 输出文件名称
-  // publicPath: '/',//部署应用包时的基本 URL
+  publicPath: './', // 部署应用包时的基本 URL
   productionSourceMap: !isProduction, // 解决vue项目打包后浏览器F12查看到项目源代码false不能看到
   // productionSourceMap: true, // 测试调试打断点
   // lintOnSave: false,// 去掉eslint校验
@@ -33,6 +33,12 @@ module.exports = {
       filename: 'index.html'
     }
   },
+  // output: {
+  //   filename: 'index.js',
+  //   path: path.resolve(__dirname, './lib'),
+  //   library: '@wocwin/t-ui', // 指定类库名,主要用于直接引用的方式
+  //   libraryTarget: 'umd' // 定义打包方式Universal Module Definition,同时支持在CommonJS、AMD和全局变量使用
+  // },
   // 强制内联CSS
   css: {
     extract: false
@@ -40,8 +46,8 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './examples')
-        // 'vue$': path.resolve(__dirname, './node_modules/vue/dist/vue.runtime.esm.js')
+        '@': path.resolve(__dirname, './examples'),
+        '~': path.resolve(__dirname, './packages')
       }
     }
   },
@@ -50,8 +56,32 @@ module.exports = {
     // 配置兼容IE浏览器
     // config.entry.app = ['babel-polyfill', './src/main.js']
     // 配置别名
-    // config.resolve.alias
-    //   .set('@', resolve('examples'))
+    // vue默认@指向src目录，这里要修正为examples，另外新增一个~指向packages
+    config.resolve.alias
+      .set('@', path.resolve('examples'))
+      .set('~', path.resolve('packages'))
+    // lib目录是组件库最终打包好存放的地方，不需要eslint检查
+    // examples/docs是存放md文档的地方，也不需要eslint检查
+    // config.module
+    //   .rule('eslint')
+    //   .exclude.add(path.resolve('lib'))
+    //   .end()
+    // packages和examples目录需要加入编译
+    config.module
+      .rule('eslint')
+      .exclude.add(path.resolve('lib'))
+      .end()
+      .rule('js')
+      .include.add('/packages/')
+      .end()
+      //   .include.add('/examples/')
+      //   .end()
+      .use('babel')
+      .loader('babel-loader')
+      .tap(options => {
+        // 修改它的选项...
+        return options
+      })
     // 生产环境配置
     if (isProduction) {
       // 删除预加载

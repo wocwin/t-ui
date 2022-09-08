@@ -5,7 +5,7 @@ dist
 lib
 # 忽略目录
 examples/
-packages/
+# packages/
 public/
 
 # 忽略指定文件

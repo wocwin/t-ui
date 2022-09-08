@@ -1,7 +1,7 @@
 <template>
   <a-form-model
     ref="form"
-    class="dh_config_form"
+    class="t_ant_config_form"
     :style="{'grid-template-areas': gridAreas, 'grid-template-columns': `repeat(${colLength}, minmax(220px, ${100 / colLength}%))`}"
     :model="form"
     :rules="rules"
@@ -160,7 +160,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.dh_config_form {
+.t_ant_config_form {
   display: grid;
   grid-gap: 0 16px;
   // @media screen and (min-width: 1440px) {

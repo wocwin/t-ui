@@ -1,6 +1,6 @@
 <template>
   <div class="t-detail-demo" style="width:100%;min-height:100px;padding:15px;">
-    <t-detail :descData="descData" />
+    <t-detail :listTypeInfo="listTypeInfo" :dataList="dataList" :descData="descData" />
   </div>
 </template>
 <script>
@@ -32,8 +32,13 @@ export default {
         },
         {
           label: '盘点类型',
-          fieldName: 'stocktakeTypeLabel',
-          value: ''
+          fieldName: 'stocktakeJobStatus',
+          value: '',
+          filters: {
+            list: 'stockTakeTypeList',
+            // key: 'id',
+            // label: 'label'
+          },
         },
         {
           label: '车间',
@@ -57,6 +62,27 @@ export default {
           span: 4
         }
       ],
+      listTypeInfo: {
+        stockTakeTypeList: [
+          {
+            dictLabel: '在制品',
+            dictValue: 1,
+          },
+          {
+            dictLabel: '待检品',
+            dictValue: 2,
+          },
+          {
+            dictLabel: '合格品',
+            dictValue: 3,
+          },
+          {
+            dictLabel: '报废品',
+            dictValue: 4,
+          }
+        ], // 盘点类型
+      },
+      dataList: {}
     }
   },
   created () {
@@ -68,6 +94,7 @@ export default {
       const res = await data
       // console.log('头部信息', res)
       if (res.success) {
+        this.dataList = res.data
         // 回显基础信息
         this.descData.map(item => {
           item.value = res.data[item.fieldName]

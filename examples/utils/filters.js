@@ -212,7 +212,19 @@ export function constantKey2Value (status, constantName) {
   const statusMap = GlobalConstant[constantName]
   return statusMap[status] || ''
 }
-
+/**
+ * 下拉数据回显中文过滤器
+ * @param [String,Number] value 需要转中文的key值
+ * @param {String} list  数据源
+ * @param [String,Number] key  数据源的key字段（默认：dictValue）
+ * @param {String} label  数据源的label字段（默认：dictLabel）
+ */
+export function constantEscape (value, list, key, label) {
+  const res = list.find((item) => {
+    return item[key] === value
+  })
+  return res && res[label]
+}
 /**
  * 显示上传文件名过滤器
  * @param {String} cellValue

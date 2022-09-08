@@ -26,7 +26,7 @@ export default {
       default: () => ({})
     },
     bind: {
-      type: [Object, Function],
+      type: [Object, Function]
     },
     event: {
       type: Object,
@@ -41,7 +41,7 @@ export default {
       default: () => ([])
     },
     placeholder: {
-      type: String,
+      type: String
     },
     value: {
       type: [String, Number, Array, Date],
@@ -70,7 +70,7 @@ export default {
     getPlaceholder (row) {
       // console.log(222, row, form)
       let placeholder
-      if (typeof row.comp == 'string' && row.comp) {
+      if (typeof row.comp === 'string' && row.comp) {
         if (row.comp.includes('input')) {
           placeholder = '请输入' + row.label
         } else if (row.comp.includes('select') || row.comp.includes('date')) {

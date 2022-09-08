@@ -17,7 +17,7 @@
         <template v-if="formOpt.slotName">
           <slot :name="formOpt.slotName"></slot>
         </template>
-        <t-simple-form
+        <t-form
           :ref="formIndex"
           :formOpts="formOpt.opts"
           :ref-obj.sync="formOpt.ref"
@@ -28,7 +28,7 @@
           <template v-for="(index, name) in $slots" :slot="name">
             <slot :name="name" />
           </template>
-        </t-simple-form>
+        </t-form>
       </el-collapse-item>
     </el-collapse>
   </div>

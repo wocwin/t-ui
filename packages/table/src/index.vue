@@ -7,39 +7,37 @@
       </div>
       <div class="toolbar_top">
         <!-- 表格外操作 -->
-        <div v-if="isShow('toolbar')">
-          <slot name="toolbar"></slot>
-          <div class="toolbar">
-            <el-button
-              v-for="(item, index) in getToolbarBtn"
-              :key="index"
-              @click="toolbarFun(item)"
-              :icon="item.icon?item.icon:''"
-              :type="item.type||'primary'"
-              size="small"
-            >{{item.text}}</el-button>
-            <el-popover
-              ref="popoverClose"
-              popper-class="operator_popover operator_pop"
-              class="operator_popover operator_pop"
-              placement="bottom-start"
-              trigger="hover"
-              v-if="getToolbarDown.length"
-            >
-              <ul class="ulClose">
-                <li
-                  v-for="(item, index) in getToolbarDown"
-                  :key="index"
-                  @click="toolbarFun(item)"
-                >{{item.text}}</li>
-              </ul>
-              <el-button size="small" type="primary" icon="el-icon-setting" slot="reference">
-                操作
-                <i class="el-icon-arrow-down"></i>
-              </el-button>
-            </el-popover>
-          </div>
+        <div class="toolbar">
+          <el-button
+            v-for="(item, index) in getToolbarBtn"
+            :key="index"
+            @click="toolbarFun(item)"
+            :icon="item.icon?item.icon:''"
+            :type="item.type||'primary'"
+            size="small"
+          >{{item.text}}</el-button>
+          <el-popover
+            ref="popoverClose"
+            popper-class="operator_popover operator_pop"
+            class="operator_popover operator_pop"
+            placement="bottom-start"
+            trigger="hover"
+            v-if="getToolbarDown.length"
+          >
+            <ul class="ulClose">
+              <li
+                v-for="(item, index) in getToolbarDown"
+                :key="index"
+                @click="toolbarFun(item)"
+              >{{item.text}}</li>
+            </ul>
+            <el-button size="small" type="primary" icon="el-icon-setting" slot="reference">
+              操作
+              <i class="el-icon-arrow-down"></i>
+            </el-button>
+          </el-popover>
         </div>
+        <slot name="toolbar"></slot>
         <!--列设置按钮-->
         <div class="header_right_wrap" :style="{marginLeft:isShow('toolbar')?'12px':0}">
           <slot name="btn" />
@@ -62,6 +60,7 @@
       :border="table.border||isTableBorder"
       :span-method="spanMethod||objectSpanMethod"
       :cell-class-name="cellClassNameFuc"
+      @sort-change="soltHandle"
       @row-click="rowClick"
       @cell-dblclick="cellDblclick"
     >
@@ -73,6 +72,7 @@
           :width="table.firstColumn.width||50"
           :label="table.firstColumn.label"
           :fixed="table.firstColumn.fixed"
+          :reserve-selection="table.firstColumn.isPaging||false"
           :align="table.firstColumn.align||'center'"
           v-if="table.firstColumn.type==='selection'"
         ></el-table-column>
@@ -88,8 +88,8 @@
           <template slot-scope="scope">
             <el-radio
               v-model="radioVal"
-              :label="scope.$index"
-              @click.native="radioChange(scope.row)"
+              :label="scope.$index+1"
+              @click.native.prevent="radioChange(scope.row,scope.$index+1)"
             ></el-radio>
           </template>
         </el-table-column>
@@ -97,7 +97,6 @@
         <el-table-column
           :type="table.firstColumn.type"
           :width="table.firstColumn.width||50"
-          :reserve-selection="table.firstColumn.isPaging||false"
           :label="table.firstColumn.label"
           :fixed="table.firstColumn.fixed"
           :align="table.firstColumn.align||'center'"
@@ -110,91 +109,97 @@
       </div>
       <!-- 主体内容 -->
       <template v-for="(item,index) in renderColumns">
-        <!-- 常规表头-->
-        <el-table-column
-          v-if="!item.children"
-          :key="index+'i'"
-          :type="item.type"
-          :label="item.label"
-          :prop="item.prop"
-          :min-width="item['min-width'] || item.minWidth || item.width"
-          :sortable="item.sort"
-          :render-header="item.renderHeader||(item.headerRequired&&renderHeader)"
-          :align="item.align || 'center'"
-          :fixed="item.fixed"
-          :show-overflow-tooltip="item.noShowTip"
-          v-bind="{...item.bind,...$attrs}"
-          v-on="$listeners"
-        >
-          <template slot-scope="scope">
-            <template v-if="!isEditCell">
-              <!-- render渲染 -->
-              <template v-if="item.render">
-                <render-col
-                  :column="item"
-                  :row="scope.row"
-                  :render="item.render"
-                  :index="scope.$index"
-                />
-              </template>
-              <!-- customRender渲染 -->
-              <template v-if="item.customRender">
-                <OptComponent
-                  v-for="(comp, i) in item.customRender.comps"
-                  :key="scope.$index + i.toString()"
-                  v-bind="comp"
-                  :scope="scope"
-                />
-              </template>
-              <!-- 自定义插槽 -->
-              <template v-if="item.slotName">
-                <slot :name="item.slotName" :param="scope"></slot>
-              </template>
-              <!-- 单个单元格编辑 -->
-              <template v-if="item.canEdit">
-                <single-edit-cell
-                  :canEdit="item.canEdit"
-                  :configEdit="item.configEdit"
-                  v-model="scope.row[scope.column.property]"
-                  :prop="item.prop"
-                  :record="scope"
-                  @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
-                  v-bind="$attrs"
-                  ref="editCell"
-                >
-                  <slot
-                    v-if="item.configEdit&&item.configEdit.editSlotName"
-                    :name="item.configEdit.editSlotName"
+        <template v-if="!item.children">
+          <!-- 常规表头-->
+          <el-table-column
+            v-if="item.isShowCol===false?item.isShowCol:true"
+            :key="index+'i'"
+            :type="item.type"
+            :label="item.label"
+            :prop="item.prop"
+            :min-width="item['min-width'] || item.minWidth || item.width"
+            :sortable="item.sort||sortable"
+            :render-header="item.renderHeader||(item.headerRequired&&renderHeader)"
+            :align="item.align || 'center'"
+            :fixed="item.fixed"
+            :show-overflow-tooltip="item.noShowTip"
+            v-bind="{...item.bind,...$attrs}"
+            v-on="$listeners"
+          >
+            <template slot-scope="scope">
+              <template v-if="!isEditCell">
+                <!-- render渲染 -->
+                <template v-if="item.render">
+                  <render-col
+                    :column="item"
+                    :row="scope.row"
+                    :render="item.render"
+                    :index="scope.$index"
+                  />
+                </template>
+                <!-- customRender渲染 -->
+                <template v-if="item.customRender">
+                  <OptComponent
+                    v-for="(comp, i) in item.customRender.comps"
+                    :key="scope.$index + i.toString()"
+                    v-bind="comp"
                     :scope="scope"
                   />
-                </single-edit-cell>
-              </template>
-              <div
-                v-if="!item.render&&!item.slotName&&!item.customRender&&!item.canEdit"
-                :style="{color:txtChangeColor(scope)}"
-              >
-                <span
-                  v-if="isObjShowProp"
-                >{{item.prop.includes('.')?scope.row[item.prop.split('.')[0]][item.prop.split('.')[1]]:scope.row[item.prop]}}</span>
-                <span v-else>{{scope.row[item.prop]}}</span>
-              </div>
-            </template>
-            <template v-else>
-              <!-- 整行编辑 -->
-              <edit-cell
-                :configEdit="item.configEdit"
-                v-model="scope.row[scope.column.property]"
-                v-bind="$attrs"
-                v-on="$listeners"
-                ref="editCell"
-              >
-                <template v-for="(index, name) in $slots" :slot="name">
-                  <slot :name="name" />
                 </template>
-              </edit-cell>
+                <!-- 自定义插槽 -->
+                <template v-if="item.slotName">
+                  <slot :name="item.slotName" :param="scope"></slot>
+                </template>
+                <!-- 单个单元格编辑 -->
+                <template v-if="item.canEdit">
+                  <single-edit-cell
+                    :canEdit="item.canEdit"
+                    :configEdit="item.configEdit"
+                    v-model="scope.row[scope.column.property]"
+                    :prop="item.prop"
+                    :record="scope"
+                    @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
+                    v-bind="$attrs"
+                    ref="editCell"
+                  >
+                    <slot
+                      v-if="item.configEdit&&item.configEdit.editSlotName"
+                      :name="item.configEdit.editSlotName"
+                      :scope="scope"
+                    />
+                  </single-edit-cell>
+                </template>
+                <!-- 字典过滤 -->
+                <template
+                  v-if="item.filters&&item.filters.list"
+                >{{scope.row[item.prop] |constantEscape(table.listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</template>
+                <div
+                  v-if="!item.render&&!item.slotName&&!item.customRender&&!item.canEdit&&!item.filters"
+                  :style="{color:txtChangeColor(scope)}"
+                >
+                  <span
+                    v-if="isObjShowProp"
+                  >{{item.prop.includes('.')?scope.row[item.prop.split('.')[0]][item.prop.split('.')[1]]:scope.row[item.prop]}}</span>
+                  <span v-else>{{scope.row[item.prop]}}</span>
+                </div>
+              </template>
+              <template v-else>
+                <!-- 整行编辑 -->
+                <edit-cell
+                  :configEdit="item.configEdit"
+                  v-model="scope.row[scope.column.property]"
+                  v-bind="$attrs"
+                  v-on="$listeners"
+                  ref="editCell"
+                >
+                  <template v-for="(index, name) in $slots" :slot="name">
+                    <slot :name="name" />
+                  </template>
+                </edit-cell>
+              </template>
             </template>
-          </template>
-        </el-table-column>
+          </el-table-column>
+        </template>
         <!-- 表头合并单元格 -->
         <t-table-column v-else :key="index+'i'" :item="item" />
       </template>
@@ -294,8 +299,16 @@ export default {
       type: Object,
       default: () => {
         return {}
-      },
-      required: true
+      }
+      // required: true
+    },
+    // 表格数据
+    tableList: {
+      type: Array,
+      default: () => {
+        return []
+      }
+      // required: true
     },
     // 表头数据
     columns: {
@@ -383,12 +396,26 @@ export default {
     isTableColumnHidden: {
       type: Boolean,
       default: false
+    },
+    // 如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件
+    sortable: {
+      type: [Boolean, String]
+    },
+    // 是否开启组件sort-change 事件
+    isSortable: {
+      type: Boolean,
+      default: false
+    },
+    // 不排序条件判断规则
+    notSortJudge: {
+      type: String
     }
   },
   data () {
     return {
       radioVal: '',
-      tableData: this.table.data,
+      forbidden: true, // 判断单选选中及取消选中
+      tableData: this.table?.data || this.tableList,
       rowData: '',
       columnSet: []
     }
@@ -399,7 +426,17 @@ export default {
         this.tableData = val
       },
       deep: true // 深度监听
+    },
+    tableList: {
+      handler (val) {
+        this.tableData = val
+      },
+      deep: true // 深度监听
     }
+  },
+  activated () {
+    // 缓存激活时可能出现冻结列行高不一致问题，强制刷新
+    this.$refs['el-table'] && this.$refs['el-table'].$forceUpdate()
   },
   computed: {
     columnByProp () {
@@ -477,13 +514,71 @@ export default {
       }
       return spanArr
     },
+    // 排序事件
+    soltHandle (column) {
+      this.$emit('sort-change', column)
+      if (!this.isSortable) {
+        return
+      }
+      // 不参与排序的数组
+      let freeGood = []
+      // 参与排序的数组
+      let elseFree = []
+      // fieldName 为对应列的prop
+      let fieldName = column.prop
+      let sortingType = column.order
+      // 降序
+      if (sortingType === 'descending') {
+        this.tableData.forEach(item => {
+          // 在整个tableData中找到不参与排序的所有数据
+          // eslint-disable-next-line no-eval
+          if (eval(this.notSortJudge)) {
+            // 不参与排序的所有数据加到数组中
+            freeGood.push(item)
+          } else {
+            // 参与排序的数据
+            elseFree.push(item)
+          }
+        })
+        this.tableData = elseFree.sort((a, b) => {
+          // console.log(555, typeof a[fieldName])
+          if (typeof a[fieldName] === 'string') {
+            return b[fieldName].localeCompare(a[fieldName])
+          } else if (typeof a[fieldName] === 'number') {
+            return b[fieldName] - a[fieldName]
+          }
+        })
+        this.tableData = [...this.tableData, ...freeGood]
+      } else {
+        this.tableData.forEach(item => {
+          // eslint-disable-next-line no-eval
+          if (eval(this.notSortJudge)) {
+            freeGood.push(item)
+          } else {
+            elseFree.push(item)
+          }
+        })
+        this.tableData = elseFree.sort((a, b) => {
+          if (typeof a[fieldName] === 'string') {
+            return a[fieldName].localeCompare(b[fieldName])
+          } else if (typeof a[fieldName] === 'number') {
+            return a[fieldName] - b[fieldName]
+          }
+        })
+        this.tableData = [...this.tableData, ...freeGood]
+      }
+    },
+    // 清空排序条件
+    clearSort () {
+      this.$refs['el-table'].clearSort()
+    },
     // 对 Table 进行重新布局
     doLayout () {
       this.$refs['el-table'].doLayout()
     },
-    // 取消某一项选中项
-    toggleRowSelection (row) {
-      this.$refs['el-table'].toggleRowSelection(row, false)
+    // 取消/开启某一项是否选中
+    toggleRowSelection (row, selected = false) {
+      this.$refs['el-table'].toggleRowSelection(row, selected)
     },
     // 清空复选框
     clearSelection () {
@@ -555,17 +650,43 @@ export default {
     handlesCurrentChange (val) {
       this.$emit('page-change', val)
     },
-    // 点击某个单元格触发事件
-    radioChange (row) {
+    // 点击单选框单元格触发事件
+    radioChange (row, index) {
       // console.log('radioChange', row)
-      this.radioVal = this.table.data.indexOf(row)
-      this.$emit('radioChange', row, this.radioVal)
+      // this.radioVal = this.table.data.indexOf(row)
+      // this.$emit('radioChange', row, this.radioVal)
+      this.radioClick(row, index)
+    },
+    // forbidden取值
+    isForbidden () {
+      this.forbidden = false
+      setTimeout(() => {
+        this.forbidden = true
+      }, 0)
+    },
+    // 单选抛出事件radioChange
+    radioClick (row, index) {
+      this.forbidden = !!this.forbidden
+      if (this.radioVal) {
+        if (this.radioVal === index) {
+          this.radioVal = ''
+          this.isForbidden()
+          this.$emit('radioChange', {}, this.radioVal) // 取消勾选就把回传数据清除
+        } else {
+          this.isForbidden()
+          this.radioVal = index
+          this.$emit('radioChange', row, this.radioVal)
+        }
+      } else {
+        this.isForbidden()
+        this.radioVal = index
+        this.$emit('radioChange', row, this.radioVal)
+      }
     },
     // 点击某行
     rowClick (row) {
       if (this.rowClickRadio) {
-        this.radioVal = this.table.data.indexOf(row)
-        this.$emit('radioChange', row, this.radioVal)
+        this.radioClick(row, this.table.data.indexOf(row) + 1)
       }
       this.rowData = row
       row.selectFlag = !row.selectFlag
@@ -657,6 +778,18 @@ export default {
   .marginBttom {
     margin-bottom: -8px;
   }
+  // 表头背景颜色
+  ::v-deep .el-table {
+    .el-table__header-wrapper {
+      th {
+        word-break: break-word;
+        background-color: #f8f8f9;
+        color: #515a6e;
+        height: 40px;
+        font-size: 13px;
+      }
+    }
+  }
   // 合并行隐藏复选框/单选框
   ::v-deep .el-table {
     .el-table__row {
@@ -683,6 +816,10 @@ export default {
       //   margin-right: 0;
       // }
     }
+  }
+  // 页面缓存时，表格内操作栏每行高度撑满
+  ::v-deep .el-table__fixed-right {
+    height: 100% !important;
   }
   // 复制功能样式
   .cursor {

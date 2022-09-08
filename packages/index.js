@@ -17,9 +17,8 @@ import TLayout from './layout'
 import TPhone from './phone'
 import TProtocol from './protocol'
 import TQueryCondition from './query-condition'
-import TRemark from './remark'
 import TSearch from './search'
-import TSimpleForm from './simple-form'
+// import TSimpleForm from './simple-form'
 import TStepWizard from './step-wizard'
 import TSticky from './sticky'
 import TTable from './table'
@@ -36,6 +35,7 @@ import TPaginationSelect from './pagination-select'
 import TDetail from './detail'
 import { TAntModal, TAntProtocol } from './modal'
 import TSelectTable from './select-table'
+import TButton from './button'
 
 // 存储组件列表
 const components = [
@@ -56,9 +56,8 @@ const components = [
   TPhone,
   TProtocol,
   TQueryCondition,
-  TRemark,
   TSearch,
-  TSimpleForm,
+  // TSimpleForm,
   TStepWizard,
   TSticky,
   TTable,
@@ -77,7 +76,8 @@ const components = [
   TSelect,
   TPaginationSelect,
   TDetail,
-  TSelectTable
+  TSelectTable,
+  TButton
 ]
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册

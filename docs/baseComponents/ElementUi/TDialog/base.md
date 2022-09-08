@@ -12,7 +12,7 @@
 
 `@update:visible` 右上删除或取消事件
 
-新增`v-dialogDrag`指令可按头部拖拽弹窗
+`isShowDialogDrag`属性可以取消头部拖拽功能
 
 `ElementUI`中`el-dialog`的属性皆可用(如：`close-on-click-modal`属性——点击空白区域是否关闭弹窗)
 

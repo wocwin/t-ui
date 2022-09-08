@@ -1,6 +1,6 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" @radioChange="radioChange" />
+    <t-table :table="table" rowClickRadio :columns="columns" @radioChange="radioChange" />
   </div>
 </template>
 

@@ -1,9 +1,8 @@
 <template>
-  <div style="width:100%;">
+  <div style="width: 100%">
     <t-step-wizard
-      style="min-height:400px;"
+      style="min-height: 400px"
       :stepData="stepData"
-      :lastBtnTitle="lastBtnTitle"
       :active="active"
       :successTitle="successTitle"
       @complete="complete"
@@ -17,113 +16,114 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       active: 0,
       stepData: [
         {
           id: 1,
-          title: '创建账户',
-          slotName: 'first',
+          title: "创建账户",
+          slotName: "first",
           btnArr: [
             {
-              btnTitle: '下一步',
+              btnTitle: "下一步",
               params: 1,
-              fn: this.next
-            }
-          ]
+              fn: this.next,
+            },
+          ],
         },
         {
           id: 2,
-          title: '填写基础信息',
-          slotName: 'second',
+          title: "填写基础信息",
+          slotName: "second",
           btnArr: [
             {
-              btnTitle: '上一步',
+              btnTitle: "上一步",
               params: 2,
-              fn: this.back
+              fn: this.back,
             },
             {
-              btnTitle: '下一步',
+              btnTitle: "下一步",
               params: 2,
-              fn: this.next
-            }
-          ]
+              fn: this.next,
+            },
+          ],
         },
         {
           id: 3,
-          title: '填写用户信息',
-          slotName: 'third',
+          title: "填写用户信息",
+          slotName: "third",
           btnArr: [
             {
-              btnTitle: '上一步',
+              btnTitle: "上一步",
               params: 3,
-              fn: this.back
+              fn: this.back,
             },
             {
-              btnTitle: '下一步',
+              btnTitle: "下一步",
               params: 3,
-              fn: this.next
-            }
-          ]
+              fn: this.next,
+            },
+          ],
         },
         {
           id: 4,
-          title: '注册成功',
-          lastBtnArr: [
-            {
-              btnTitle: '上一步',
-              params: 4,
-              fn: this.back
-            },
-            {
-              btnTitle: '下一步',
-              params: 4,
-              fn: this.next
-            }
-          ]
-        }
+          title: "注册成功",
+          // lastBtnArr: [
+          //   {
+          //     btnTitle: '上一步',
+          //     params: 4,
+          //     fn: this.back
+          //   },
+          //   {
+          //     btnTitle: '下一步',
+          //     params: 4,
+          //     fn: this.next
+          //   }
+          // ]
+        },
       ],
-      lastBtnTitle: '提交资料',
-      successTitle: '企业信息填写完成，等待提交认证资料，经*****平台审核通过后即可办理业务'
-    }
+      // lastBtnTitle: '提交资料',
+      successTitle:
+        "企业信息填写完成，等待提交认证资料，经*****平台审核通过后即可办理业务",
+    };
   },
   methods: {
     // 下一步
-    next (val) {
+    next(val) {
       switch (val.params) {
         case 1:
-          this.active += 1
-          break
+          this.active += 1;
+          break;
         case 2:
-          this.active += 1
-          break
+          this.active += 1;
+          break;
         case 3:
-          this.active += 2
-          break
+          this.active += 2;
+          break;
         case 4:
-          console.log(22222222222)
-          break
+          console.log(22222222222);
+          break;
       }
     },
     // 上一步
-    back (val) {
+    back(val) {
       switch (val.params) {
         case 2:
-          this.active -= 1
-          break
+          this.active -= 1;
+          break;
         case 3:
-          this.active -= 1
-          break
+          this.active -= 1;
+          break;
         case 4:
-          console.log(111111111)
-          break
+          console.log(111111111);
+          break;
       }
     },
     // 完成
-    complete () {
-      this.active = 0
-    }
-  }
-}
+    complete() {
+      this.active = 0;
+    },
+  },
+};
 </script>

@@ -63,6 +63,23 @@ export default {
               )
             }
           },
+          {
+            prop: 'status',
+            label: '状态',
+            minWidth: '180',
+            render: (text, record) => {
+              return (
+                <el-switch
+                  active-value={'1'}
+                  inactive-value={'2'}
+                  v-model={record.enableStatus}
+                  onChange={() => this.handleStatusChange(record)}
+                >
+                  {text}
+                </el-switch>
+              )
+            },
+          },
           { prop: 'address', label: '地址', minWidth: '220' },
           { prop: 'date', label: '日期', minWidth: '180' },
           { prop: 'address', label: '地址', minWidth: '220' }
@@ -71,6 +88,20 @@ export default {
     }
   },
   methods: {
+    // 状态修改
+    handleStatusChange (row) {
+      let text = row.status === '1' ? '启用' : '废止'
+      this.$confirm(`确认要${text}这条数据吗？`, '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message.success(`点击确定`)
+      }).catch(() => {
+        console.log('取消')
+        row.status = row.status === '1' ? '2' : '1'
+      })
+    },
     // 新增
     add (val) {
       console.log('新增', val)

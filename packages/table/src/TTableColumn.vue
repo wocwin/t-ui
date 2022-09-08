@@ -4,6 +4,8 @@
     :label="item.label"
     :type="item.type"
     :align="item.align || 'center'"
+    :fixed="item.fixed"
+    :min-width="item['min-width'] || item.minWidth || item.width"
   >
     <template v-for="(val, index) of item.children">
       <t-table-column v-if="val.children" :key="index" :item="val"></t-table-column>
@@ -16,6 +18,7 @@
         :sortable="val.sort"
         :render-header="val.renderHeader||(val.headerRequired&&renderHeader)"
         :align="val.align || 'center'"
+        :fixed="val.fixed"
         :show-overflow-tooltip="val.noShowTip"
         v-bind="{...val.bind,...$attrs}"
         v-on="$listeners"

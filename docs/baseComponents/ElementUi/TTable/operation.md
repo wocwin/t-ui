@@ -7,9 +7,7 @@
   在组件中需配置: `toolbar数组`
   
   `toolbar`数组超过3个按钮，第4个按钮会以下拉的方式展示(`icon`的配置需以`ElementUI`内置`icon`为准)
-  
-  **前提条件是，必须使用插槽`toolbar`**
-  
+    
   新增`highlight-current-row`可以高亮选中行的颜色
   
   按钮的颜色是以`ElementUI`内置`button`的`type`为准

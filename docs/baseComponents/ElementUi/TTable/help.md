@@ -93,16 +93,20 @@
 
 使用插槽 toolbar 传入即可
 
-```
+```html
 <template #toolbar>
-  <el-select v-model="optValue"
-              placeholder="请选择"
-              size="small"
-              @change="optionChange">
-    <el-option v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+  <el-select
+    v-model="optValue"
+    placeholder="请选择"
+    size="small"
+    @change="optionChange"
+  >
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    >
     </el-option>
   </el-select>
 </template>
@@ -112,22 +116,22 @@
 
 配置 toolbar 即可（前提条件是，必须使用插槽 toolbar）
 
-```
+```js
 toolbar: [
-        {
-          text: '返回上一个页面',
-          icon: 'el-icon-circle-plus-outline',
-          type: 'danger',
-          fun: this.getBack
-        }
-]
+  {
+    text: "返回上一个页面",
+    icon: "el-icon-circle-plus-outline",
+    type: "danger",
+    fun: this.getBack,
+  },
+];
 ```
 
 ### 4.2 关于表格内操作栏
 
 配置 operator 即可
 
-```
+```js
 operator: [
   {
     text: '预览',
@@ -151,23 +155,27 @@ operator: [
 
 #### 补充说明：多种状态控制按钮的显示与隐藏
 
-```
+```js
 operator: [
   {
-    text: '预览',
-    type: 'primary',
+    text: "预览",
+    type: "primary",
     fun: this.preview,
-    noshow:[{key:'fields',val:'isHasVal'},{key:'status',val:[0,1,99]},{key:'channelCode',val:['bank']}]
+    noshow: [
+      { key: "fields", val: "isHasVal" },
+      { key: "status", val: [0, 1, 99] },
+      { key: "channelCode", val: ["bank"] },
+    ],
     // noshow中的key值(fields/status/channelCode)是表格后台返回的字段
     // 当val等于字符串'isHasVal'时,字段'fields'返回为空时，此行操作按钮隐藏
     // 以上综合：当'status'为0/1/99并且'channelCode'为'bank'及'fields'为空时,隐藏按钮
-  }
-]
+  },
+];
 ```
 
 ### 4.3 关于表格操作栏样式，如固定右侧，宽度
 
-```
+```js
 operatorConfig: {
   fixed: 'right',
   width: 200,
@@ -177,7 +185,7 @@ operatorConfig: {
 
 ### 4.4 关于表格某行文字颜色
 
-```
+```js
 changeColor: {
   key: 'status', // 状态
   val: '0',  // 状态值
@@ -185,32 +193,23 @@ changeColor: {
 }
 ```
 
-### 4.5 关于表格状态 filters 方法使用（在表头 column 对象里添加如下字段）
-
-```
-{ prop: 'loanInterest', label: '利息', width: '120' , filters: { method: '%' }},
-filters: { method: '%' }：表显示百分比
-filters: { method: '￥' }：表显示金额
-filters: { param: 'REPAYMENT_STATES' } ：表状态对应的canstants对应的字段
-```
-
 ### 4.6 新增翻页选中功能（2020-02-27 添加）
 
 **页面代码新增：:row-key 属性和 selection-change 复选框事件**
 
-```
+```html
 <t-table
-        :table="table"
-        @size-change="handlesSizeChange"
-        @page-change="handlesCurrentChange"
-        :row-key="getRowKey"
-        @selection-change="handlesSelectionChange"
-      />
+  :table="table"
+  @size-change="handlesSizeChange"
+  @page-change="handlesCurrentChange"
+  :row-key="getRowKey"
+  @selection-change="handlesSelectionChange"
+/>
 ```
 
 **js 代码**
 
-```
+```js
 // 获取列表数据的唯一标识
  getRowKey (row) {
    return row.id
@@ -228,7 +227,7 @@ isPaging: true 表可以跨页勾选
 
 ### 4.7 新增隐藏某列及某单元格内容过长是否换行（还是隐藏并有 tip 提示）
 
-```
+```js
 { prop: 'name', label: '姓名', minWidth: '100', sort: true, noShowColumn: true },
 // 设置noShowColumn为true时，表格隐藏当前列
 { prop: 'address', label: '地址', minWidth: '220', sort: true, noShowTip: true },
@@ -237,7 +236,7 @@ isPaging: true 表可以跨页勾选
 
 ### 4.8 新增行内操作按钮权限配置
 
-```
+```js
 operator: [
         {
           text: '编辑',

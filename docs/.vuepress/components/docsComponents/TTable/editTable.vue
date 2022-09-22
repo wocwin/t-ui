@@ -1,15 +1,8 @@
 <template>
   <div class="t-table-edit-cell" style="width:100%;">
-    <t-table
-      isEdit
-      isEditCell
-      :table="editConfig.table"
-      :columns="editConfig.table.columns"
-      :listTypeInfo="editConfig.listTypeInfo"
-      @handleEvent="handleEvent"
-      @save="save"
-      @add="editAdd"
-    />
+    <t-table isEdit isEditCell isShowFooterBtn :table="editConfig.table" :columns="editConfig.table.columns"
+      :listTypeInfo="editConfig.listTypeInfo" @handleEvent="handleEvent" @save="save" @add="editAdd"
+      cellEditBtnTxt="新增一行" />
   </div>
 </template>
 

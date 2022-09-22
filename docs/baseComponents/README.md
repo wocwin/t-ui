@@ -17,12 +17,10 @@ yarn add @wocwin/t-ui -S
 ## Usage
 
 ```js
-// main.ts
-import TuiPlus from "@wocwin/t-ui"
+// main.js
+import Tui from "@wocwin/t-ui"
 
-const app = createApp(App)
-app.use(TuiPlus)
-app.mount("#app")
+Vue.use(TuiPlus)
 ```
 ## [Vue3 基础组件码云地址](https://gitee.com/wocwin/t-ui-plus)
 ## [Vue3 基础组件GitHub地址](https://github.com/wocwin/t-ui-plus)

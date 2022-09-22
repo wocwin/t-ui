@@ -8,28 +8,12 @@
       <div class="toolbar_top">
         <!-- 表格外操作 -->
         <div class="toolbar">
-          <el-button
-            v-for="(item, index) in getToolbarBtn"
-            :key="index"
-            @click="toolbarFun(item)"
-            :icon="item.icon?item.icon:''"
-            :type="item.type||'primary'"
-            size="small"
-          >{{item.text}}</el-button>
-          <el-popover
-            ref="popoverClose"
-            popper-class="operator_popover operator_pop"
-            class="operator_popover operator_pop"
-            placement="bottom-start"
-            trigger="hover"
-            v-if="getToolbarDown.length"
-          >
+          <el-button v-for="(item, index) in getToolbarBtn" :key="index" @click="toolbarFun(item)"
+            :icon="item.icon?item.icon:''" :type="item.type||'primary'" size="small">{{item.text}}</el-button>
+          <el-popover ref="popoverClose" popper-class="operator_popover operator_pop"
+            class="operator_popover operator_pop" placement="bottom-start" trigger="hover" v-if="getToolbarDown.length">
             <ul class="ulClose">
-              <li
-                v-for="(item, index) in getToolbarDown"
-                :key="index"
-                @click="toolbarFun(item)"
-              >{{item.text}}</li>
+              <li v-for="(item, index) in getToolbarDown" :key="index" @click="toolbarFun(item)">{{item.text}}</li>
             </ul>
             <el-button size="small" type="primary" icon="el-icon-setting" slot="reference">
               操作
@@ -41,69 +25,38 @@
         <!--列设置按钮-->
         <div class="header_right_wrap" :style="{marginLeft:isShow('toolbar')?'12px':0}">
           <slot name="btn" />
-          <column-set
-            v-if="columnSetting"
-            v-bind="$attrs"
-            :columns="columns"
-            @columnSetting="v => columnSet = v"
-          />
+          <column-set v-if="columnSetting" v-bind="$attrs" :columns="columns" @columnSetting="v => columnSet = v" />
         </div>
       </div>
     </div>
-    <el-table
-      ref="el-table"
-      :data="tableData"
+    <el-table ref="el-table" :data="tableData"
       :class="{'cursor':isCopy,'highlightCurrentRow':highlightCurrentRow,'radioStyle':(table.firstColumn&&table.firstColumn.type==='radio')}"
-      v-bind="$attrs"
-      v-on="$listeners"
-      :highlight-current-row="highlightCurrentRow"
-      :border="table.border||isTableBorder"
-      :span-method="spanMethod||objectSpanMethod"
-      :cell-class-name="cellClassNameFuc"
-      @sort-change="soltHandle"
-      @row-click="rowClick"
-      @cell-dblclick="cellDblclick"
-    >
+      v-bind="$attrs" v-on="$listeners" :highlight-current-row="highlightCurrentRow"
+      :border="table.border||isTableBorder" :span-method="spanMethod||objectSpanMethod"
+      :cell-class-name="cellClassNameFuc" @sort-change="soltHandle" @row-click="rowClick" @cell-dblclick="cellDblclick">
       <!-- 首列之 序列号/单选框/复选框 -->
       <div v-if="table.firstColumn">
         <!-- 复选框 -->
-        <el-table-column
-          :type="table.firstColumn.type"
-          :width="table.firstColumn.width||50"
-          :label="table.firstColumn.label"
-          :fixed="table.firstColumn.fixed"
-          :reserve-selection="table.firstColumn.isPaging||false"
-          :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='selection'"
-        ></el-table-column>
+        <el-table-column :type="table.firstColumn.type" :width="table.firstColumn.width||50"
+          :label="table.firstColumn.label" :fixed="table.firstColumn.fixed"
+          :reserve-selection="table.firstColumn.isPaging||false" :align="table.firstColumn.align||'center'"
+          v-if="table.firstColumn.type==='selection'"></el-table-column>
         <!-- 单选框 -->
-        <el-table-column
-          :type="table.firstColumn.type"
-          :width="table.firstColumn.width||50"
-          :label="table.firstColumn.label"
-          :fixed="table.firstColumn.fixed"
-          :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='radio'"
-        >
+        <el-table-column :type="table.firstColumn.type" :width="table.firstColumn.width||50"
+          :label="table.firstColumn.label" :fixed="table.firstColumn.fixed" :align="table.firstColumn.align||'center'"
+          v-if="table.firstColumn.type==='radio'">
           <template slot-scope="scope">
-            <el-radio
-              v-model="radioVal"
-              :label="scope.$index+1"
-              @click.native.prevent="radioChange(scope.row,scope.$index+1)"
-            ></el-radio>
+            <el-radio v-model="radioVal" :label="scope.$index+1"
+              @click.native.prevent="radioChange(scope.row,scope.$index+1)"></el-radio>
           </template>
         </el-table-column>
         <!-- 序列号 -->
-        <el-table-column
-          :type="table.firstColumn.type"
-          :width="table.firstColumn.width||50"
-          :label="table.firstColumn.label"
-          :fixed="table.firstColumn.fixed"
-          :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='index'"
-        >
+        <el-table-column :type="table.firstColumn.type" :width="table.firstColumn.width||50"
+          :label="table.firstColumn.label" :fixed="table.firstColumn.fixed" :align="table.firstColumn.align||'center'"
+          v-if="table.firstColumn.type==='index'">
           <template slot-scope="scope">
-            <span>{{isShowPagination?((table.currentPage - 1) * table.pageSize + scope.$index + 1):scope.$index + 1}}</span>
+            <span>{{isShowPagination?((table.currentPage - 1) * table.pageSize + scope.$index + 1):scope.$index +
+            1}}</span>
           </template>
         </el-table-column>
       </div>
@@ -111,40 +64,21 @@
       <template v-for="(item,index) in renderColumns">
         <template v-if="!item.children">
           <!-- 常规表头-->
-          <el-table-column
-            v-if="item.isShowCol===false?item.isShowCol:true"
-            :key="index+'i'"
-            :type="item.type"
-            :label="item.label"
-            :prop="item.prop"
-            :min-width="item['min-width'] || item.minWidth || item.width"
-            :sortable="item.sort||sortable"
-            :render-header="item.renderHeader||(item.headerRequired&&renderHeader)"
-            :align="item.align || 'center'"
-            :fixed="item.fixed"
-            :show-overflow-tooltip="item.noShowTip"
-            v-bind="{...item.bind,...$attrs}"
-            v-on="$listeners"
-          >
+          <el-table-column v-if="item.isShowCol===false?item.isShowCol:true" :key="index+'i'" :type="item.type"
+            :label="item.label" :prop="item.prop" :min-width="item['min-width'] || item.minWidth || item.width"
+            :sortable="item.sort||sortable" :render-header="item.renderHeader||(item.headerRequired&&renderHeader)"
+            :align="item.align || 'center'" :fixed="item.fixed" :show-overflow-tooltip="item.noShowTip"
+            v-bind="{...item.bind,...$attrs}" v-on="$listeners">
             <template slot-scope="scope">
               <template v-if="!isEditCell">
                 <!-- render渲染 -->
                 <template v-if="item.render">
-                  <render-col
-                    :column="item"
-                    :row="scope.row"
-                    :render="item.render"
-                    :index="scope.$index"
-                  />
+                  <render-col :column="item" :row="scope.row" :render="item.render" :index="scope.$index" />
                 </template>
                 <!-- customRender渲染 -->
                 <template v-if="item.customRender">
-                  <OptComponent
-                    v-for="(comp, i) in item.customRender.comps"
-                    :key="scope.$index + i.toString()"
-                    v-bind="comp"
-                    :scope="scope"
-                  />
+                  <OptComponent v-for="(comp, i) in item.customRender.comps" :key="scope.$index + i.toString()"
+                    v-bind="comp" :scope="scope" />
                 </template>
                 <!-- 自定义插槽 -->
                 <template v-if="item.slotName">
@@ -152,46 +86,28 @@
                 </template>
                 <!-- 单个单元格编辑 -->
                 <template v-if="item.canEdit">
-                  <single-edit-cell
-                    :canEdit="item.canEdit"
-                    :configEdit="item.configEdit"
-                    v-model="scope.row[scope.column.property]"
-                    :prop="item.prop"
-                    :record="scope"
-                    @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
-                    v-bind="$attrs"
-                    ref="editCell"
-                  >
-                    <slot
-                      v-if="item.configEdit&&item.configEdit.editSlotName"
-                      :name="item.configEdit.editSlotName"
-                      :scope="scope"
-                    />
+                  <single-edit-cell :canEdit="item.canEdit" :configEdit="item.configEdit"
+                    v-model="scope.row[scope.column.property]" :prop="item.prop" :record="scope"
+                    @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)" v-bind="$attrs"
+                    ref="editCell">
+                    <slot v-if="item.configEdit&&item.configEdit.editSlotName" :name="item.configEdit.editSlotName"
+                      :scope="scope" />
                   </single-edit-cell>
                 </template>
                 <!-- 字典过滤 -->
-                <template
-                  v-if="item.filters&&item.filters.list"
-                >{{scope.row[item.prop] |constantEscape(table.listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</template>
-                <div
-                  v-if="!item.render&&!item.slotName&&!item.customRender&&!item.canEdit&&!item.filters"
-                  :style="{color:txtChangeColor(scope)}"
-                >
+                <template v-if="item.filters&&item.filters.list">{{scope.row[item.prop]
+                |constantEscape(table.listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</template>
+                <div v-if="!item.render&&!item.slotName&&!item.customRender&&!item.canEdit&&!item.filters"
+                  :style="{color:txtChangeColor(scope)}">
                   <span
-                    v-if="isObjShowProp"
-                  >{{item.prop.includes('.')?scope.row[item.prop.split('.')[0]][item.prop.split('.')[1]]:scope.row[item.prop]}}</span>
+                    v-if="isObjShowProp">{{item.prop.includes('.')?scope.row[item.prop.split('.')[0]][item.prop.split('.')[1]]:scope.row[item.prop]}}</span>
                   <span v-else>{{scope.row[item.prop]}}</span>
                 </div>
               </template>
               <template v-else>
                 <!-- 整行编辑 -->
-                <edit-cell
-                  :configEdit="item.configEdit"
-                  v-model="scope.row[scope.column.property]"
-                  v-bind="$attrs"
-                  v-on="$listeners"
-                  ref="editCell"
-                >
+                <edit-cell :configEdit="item.configEdit" v-model="scope.row[scope.column.property]" v-bind="$attrs"
+                  v-on="$listeners" ref="editCell">
                   <template v-for="(index, name) in $slots" :slot="name">
                     <slot :name="name" />
                   </template>
@@ -205,44 +121,24 @@
       </template>
       <slot></slot>
       <!-- 操作按钮 -->
-      <el-table-column
-        v-if="table.operator"
-        :fixed="table.operatorConfig && table.operatorConfig.fixed"
+      <el-table-column v-if="table.operator" :fixed="table.operatorConfig && table.operatorConfig.fixed"
         :label="(table.operatorConfig && table.operatorConfig.label) || '操作'"
         :min-width="(table.operatorConfig && (table.operatorConfig.width || table.operatorConfig.minWidth)) || 100"
-        :align="table.operatorConfig && table.operatorConfig.align||'center'"
-        class-name="operator"
-      >
+        :align="table.operatorConfig && table.operatorConfig.align||'center'" class-name="operator">
         <template slot-scope="scope">
           <div class="operator_btn" :style="table.operatorConfig && table.operatorConfig.style">
-            <el-button
-              v-for="(item, index) in table.operator"
-              :key="index"
-              @click="item.fun&&item.fun(scope.row,scope.$index,tableData)"
-              :type="item.type||'text'"
-              :style="item.style"
-              :icon="item.icon?item.icon:''"
-              :disabled="item.disabled"
-              size="small"
-              v-show="checkIsShow(scope,item)"
-            >
+            <el-button v-for="(item, index) in table.operator" :key="index"
+              @click="item.fun&&item.fun(scope.row,scope.$index,tableData)" :type="item.type||'text'"
+              :style="item.style" :icon="item.icon?item.icon:''" :disabled="item.disabled" size="small"
+              v-show="checkIsShow(scope,item)">
               <!-- customRender渲染 -->
               <template v-if="item.customRender">
-                <OptComponent
-                  v-for="(comp, i) in item.customRender.comps"
-                  :key="scope.$index + i.toString()"
-                  v-bind="comp"
-                  :scope="scope"
-                />
+                <OptComponent v-for="(comp, i) in item.customRender.comps" :key="scope.$index + i.toString()"
+                  v-bind="comp" :scope="scope" />
               </template>
               <!-- render渲染 -->
               <template v-if="item.render">
-                <render-col
-                  :column="item"
-                  :row="scope.row"
-                  :render="item.render"
-                  :index="scope.$index"
-                />
+                <render-col :column="item" :row="scope.row" :render="item.render" :index="scope.$index" />
               </template>
               <span v-if="!item.render&&!item.customRender">{{item.text}}</span>
             </el-button>
@@ -251,21 +147,13 @@
       </el-table-column>
     </el-table>
     <div v-if="isEdit" class="edit_cell">
-      <el-button type="dashed" block size="small" @click="() => $emit('add')">添加</el-button>
+      <el-button type="dashed" block size="small" @click="() => $emit('add')">{{cellEditBtnTxt}}</el-button>
     </div>
     <!-- 分页器 -->
-    <el-pagination
-      v-show="(tableData && tableData.length) && isShowPagination"
-      :current-page="table.currentPage"
-      @current-change="handlesCurrentChange"
-      :page-sizes="[10, 20, 50, 100]"
-      :page-size="table.pageSize"
-      :layout="size?'total, prev, pager, next':'total, sizes, prev, pager, next, jumper'"
-      :total="table.total"
-      v-bind="$attrs"
-      v-on="$listeners"
-      background
-    ></el-pagination>
+    <el-pagination v-show="(tableData && tableData.length) && isShowPagination" :current-page="table.currentPage"
+      @current-change="handlesCurrentChange" :page-sizes="[10, 20, 50, 100]" :page-size="table.pageSize"
+      :layout="size?'total, prev, pager, next':'total, sizes, prev, pager, next, jumper'" :total="table.total"
+      v-bind="$attrs" v-on="$listeners" background></el-pagination>
     <!-- 表格底部按钮 -->
     <footer class="handle_wrap" v-if="isShowFooterBtn&&(tableData&&tableData.length>0)">
       <slot name="footer" />
@@ -328,10 +216,15 @@ export default {
       type: Boolean,
       default: false
     },
-    // 是否开启编辑保存按钮
+    // 是否开启编辑保存按钮(整行编辑)
     isShowFooterBtn: {
       type: Boolean,
       default: false
+    },
+    // 整行编辑按钮文案
+    cellEditBtnTxt: {
+      type: String,
+      default: '添加'
     },
     // 是否显示添加按钮
     isEdit: {
@@ -718,6 +611,7 @@ export default {
 .t-table {
   z-index: 0;
   background-color: #fff;
+
   // padding: 10px;
   // border-radius: 4px;
   ::v-deep .el-pagination {
@@ -728,42 +622,52 @@ export default {
     margin-right: calc(2% - 20px);
     background-color: #fff;
   }
+
   .el-table th,
   .el-table td {
     padding: 8px 0;
   }
+
   .el-table--border th:first-child .cell,
   .el-table--border td:first-child .cell {
     padding-left: 5px;
   }
+
   .el-table .cell {
     padding: 0 5px;
   }
+
   .el-table--scrollable-y .el-table__fixed-right {
     right: 8px !important;
   }
+
   .header_wrap {
     display: flex;
     align-items: center;
+
     .toolbar_top {
       flex: 0 70%;
       display: flex;
       padding: 10px 0;
       align-items: center;
       justify-content: flex-end;
+
       .toolbar {
         display: flex;
         justify-content: flex-end;
         width: 100%;
       }
+
       .el-button--small {
         height: 32px;
       }
+
       .el-button--success {
         background-color: #53a8ff;
         border: 1px solid #53a8ff;
       }
     }
+
     .header_title {
       display: flex;
       align-items: center;
@@ -775,9 +679,11 @@ export default {
       margin-left: 10px;
     }
   }
+
   .marginBttom {
     margin-bottom: -8px;
   }
+
   // 表头背景颜色
   ::v-deep .el-table {
     .el-table__header-wrapper {
@@ -790,24 +696,29 @@ export default {
       }
     }
   }
+
   // 合并行隐藏复选框/单选框
   ::v-deep .el-table {
     .el-table__row {
       .table_column_hidden {
         .cell {
+
           .el-radio__input,
           .el-checkbox__input {
             display: none;
           }
-          & > span {
+
+          &>span {
             display: none;
           }
         }
       }
     }
   }
+
   // 操作样式
   .operator_btn {
+
     // text-align: left;
     .el-button {
       margin: 0;
@@ -817,10 +728,12 @@ export default {
       // }
     }
   }
+
   // 页面缓存时，表格内操作栏每行高度撑满
   ::v-deep .el-table__fixed-right {
     height: 100% !important;
   }
+
   // 复制功能样式
   .cursor {
     ::v-deep tbody {
@@ -829,28 +742,33 @@ export default {
       }
     }
   }
+
   // 单选样式
   .radioStyle {
     ::v-deep .el-radio {
       .el-radio__label {
         display: none;
       }
+
       &:focus:not(.is-focus):not(:active):not(.is-disabled) .el-radio__inner {
         box-shadow: none;
       }
     }
+
     ::v-deep tbody {
       .el-table__row {
         cursor: pointer;
       }
     }
   }
+
   // 选中行样式
   .highlightCurrentRow {
     ::v-deep tbody {
       .el-table__row {
         cursor: pointer;
       }
+
       .current-row td {
         cursor: pointer;
         color: #fff;
@@ -858,9 +776,11 @@ export default {
       }
     }
   }
+
   .el-table--scrollable-y .el-table__body-wrapper {
     overflow-x: auto;
   }
+
   .handle_wrap {
     position: sticky;
     z-index: 10;
@@ -871,30 +791,36 @@ export default {
     background-color: #fff;
     border-top: 1px solid #ebeef5;
     text-align: right;
+
     .el-btn {
       margin-left: 8px;
     }
   }
+
   // 整行编辑按钮样式
   .edit_cell {
     width: 100%;
     text-align: center;
     margin-top: 10px;
+
     ::v-deep .el-button {
       border-color: #355db4;
       color: #355db4;
     }
   }
 }
+
 // 表格外操作样式
 .operator_pop {
   margin-left: 10px;
   min-width: 70px;
   padding: 0;
+
   .ulClose {
     font-size: 14px;
     padding: 0;
     margin: 5px 0;
+
     li {
       padding: 0 10px;
       text-align: center !important;
@@ -905,32 +831,39 @@ export default {
       line-height: 32px;
       cursor: pointer;
     }
+
     li:hover {
       color: #66b1ff;
       background: #ecf5ff;
     }
   }
+
   .el-popoverbtn {
     border: none;
     padding: 0 3px;
     padding-left: 6px;
   }
+
   .el-popoverbtn:hover {
     color: #66b1ff;
     background: #fff;
   }
 }
+
 .el-dropdown-menu {
   padding: 10px 20px 15px;
   font-size: 14px;
+
   .title {
     font-weight: bold;
   }
+
   ::v-deep .el-tree {
     .el-tree-node {
       .el-tree-node__content {
         .el-icon-caret-right {
           padding: 0 !important;
+
           &::before {
             content: '' !important;
           }

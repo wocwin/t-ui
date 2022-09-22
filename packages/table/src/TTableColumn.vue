@@ -26,7 +26,7 @@
         <template slot-scope="scope">
           <!-- render渲染 -->
           <template v-if="val.render">
-            <render-col :column="val" :row="val.row" :render="val.render" :index="scope.$index" />
+            <render-col :column="val" :row="scope.row" :render="val.render" :index="scope.$index" />
           </template>
           <!-- customRender渲染 -->
           <template v-if="val.customRender">

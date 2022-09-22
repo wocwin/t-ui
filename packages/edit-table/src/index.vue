@@ -8,55 +8,26 @@
         </div>
       </div>
     </div>
-    <el-table
-      ref="el-table"
-      :data="tableData"
-      v-bind="$attrs"
-      v-on="$listeners"
-      :border="table.border"
-    >
+    <el-table ref="el-table" :data="tableData" v-bind="$attrs" v-on="$listeners" :border="table.border">
       <!-- 序列号/复选框 -->
       <div v-if="table.firstColumn">
-        <el-table-column
-          :type="table.firstColumn.type"
-          :width="table.firstColumn.width||50"
-          :label="table.firstColumn.label"
-          :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type!=='index'"
-        ></el-table-column>
-        <el-table-column
-          :type="table.firstColumn.type"
-          :width="table.firstColumn.width||50"
-          :label="table.firstColumn.label"
-          :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='index'"
-        >
+        <el-table-column :type="table.firstColumn.type" :width="table.firstColumn.width||50"
+          :label="table.firstColumn.label" :align="table.firstColumn.align||'center'"
+          v-if="table.firstColumn.type!=='index'"></el-table-column>
+        <el-table-column :type="table.firstColumn.type" :width="table.firstColumn.width||50"
+          :label="table.firstColumn.label" :align="table.firstColumn.align||'center'"
+          v-if="table.firstColumn.type==='index'">
           <template slot-scope="scope">
             <span>{{scope.$index + 1}}</span>
           </template>
         </el-table-column>
       </div>
-      <el-table-column
-        v-for="(item,index) in table.columns"
-        :key="index+'i'"
-        :type="item.type"
-        :label="item.label"
-        :prop="item.prop"
-        :min-width="item['min-width'] || item.minWidth || item.width"
-        :sortable="item.sort"
-        :align="item.align || 'center'"
-        :show-overflow-tooltip="item.noShowTip"
-        v-bind="$attrs"
-        v-on="$listeners"
-      >
+      <el-table-column v-for="(item,index) in table.columns" :key="index+'i'" :type="item.type" :label="item.label"
+        :prop="item.prop" :min-width="item['min-width'] || item.minWidth || item.width" :sortable="item.sort"
+        :align="item.align || 'center'" :show-overflow-tooltip="item.noShowTip" v-bind="$attrs" v-on="$listeners">
         <template slot-scope="scope">
-          <edit-cell
-            :configEdit="item.configEdit"
-            v-model="scope.row[scope.column.property]"
-            v-bind="$attrs"
-            v-on="$listeners"
-            ref="editCell"
-          >
+          <edit-cell :configEdit="item.configEdit" v-model="scope.row[scope.column.property]" v-bind="$attrs"
+            v-on="$listeners" ref="editCell">
             <template v-for="(index, name) in $slots" :slot="name">
               <slot :name="name" />
             </template>
@@ -64,21 +35,13 @@
         </template>
       </el-table-column>
       <slot></slot>
-      <el-table-column
-        v-if="table.operator"
-        :fixed="table.operatorConfig && table.operatorConfig.fixed"
+      <el-table-column v-if="table.operator" :fixed="table.operatorConfig && table.operatorConfig.fixed"
         :label="(table.operatorConfig && table.operatorConfig.label) || '操作'"
         :min-width="(table.operatorConfig && (table.operatorConfig.width || table.operatorConfig.minWidth)) || 100"
-        align="center"
-      >
+        align="center">
         <template slot-scope="scope">
-          <el-button
-            v-for="(item, index) in table.operator"
-            :key="index"
-            @click="item.fun(scope.$index,tableData)"
-            :type="item.type"
-            size="small"
-          >{{item.text}}</el-button>
+          <el-button v-for="(item, index) in table.operator" :key="index" @click="item.fun(scope.$index,tableData)"
+            :type="item.type" size="small">{{item.text}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -123,6 +86,7 @@ export default {
   z-index: 0;
   background-color: #fff;
   padding: 10px;
+
   // border-radius: 4px;
   ::v-deep .el-pagination {
     display: flex;
@@ -132,23 +96,29 @@ export default {
     margin-right: calc(2% - 20px);
     background-color: #fff;
   }
+
   .el-table th,
   .el-table td {
     padding: 8px 0;
   }
+
   .el-table--border th:first-child .cell,
   .el-table--border td:first-child .cell {
     padding-left: 5px;
   }
+
   .el-table .cell {
     padding: 0 5px;
   }
+
   .el-table--scrollable-y .el-table__fixed-right {
     right: 8px !important;
   }
+
   .header_wrap {
     display: flex;
     align-items: center;
+
     .header_btn {
       display: flex;
       align-items: center;
@@ -160,9 +130,11 @@ export default {
       margin-left: 10px;
     }
   }
+
   .el-table--scrollable-y .el-table__body-wrapper {
     overflow-x: auto;
   }
+
   .handle_wrap {
     position: sticky;
     z-index: 10;
@@ -173,6 +145,7 @@ export default {
     background-color: #fff;
     border-top: 1px solid #ebeef5;
     text-align: right;
+
     .el-btn {
       margin-left: 8px;
     }

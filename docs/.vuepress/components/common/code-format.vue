@@ -28,13 +28,13 @@
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
       </transition>
-      <el-button
+      <!-- <el-button
         class="qr_code"
         size="small"
         type="text"
         @click.stop="qrCodeDialog = true"
         >微信二维码</el-button
-      >
+      > -->
       <div class="control-button-container">
         <el-button
           v-show="isExpanded"

@@ -1,6 +1,6 @@
 module.exports = {
-  title: 'wocwin前端文档库',
-  description: '技术分享及基础组件使用',
+  title: 'Tui基础组件文档库',
+  description: '基于Element-ui和ant-design-vue二次封装基础组件示例',
   base: '/t-ui/',
   // port: 6666,
   // dest: './dist',   // 设置输出目录
@@ -18,7 +18,7 @@ module.exports = {
     nav: [
       { text: '主页', link: '/' },
       { text: '实际项目问题', link: '/projectProblem/permission' },
-      { text: '基础组件', link: '/baseComponents/ElementUi/TQueryCondition/base' },
+      { text: '基础组件', link: '/baseComponents/' },
       // { text: '更新日志', link: '/changeLog/log' },
       { text: "Gitee码云", link: "https://gitee.com/wocwin/t-ui" }
     ],

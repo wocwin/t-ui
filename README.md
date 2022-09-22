@@ -1,4 +1,8 @@
-# t-ui
+# T-ui
+
+## [Vue3 基础组件传送门](https://gitee.com/wocwin/t-ui-plus)
+
+> 基于 Element-plus 二次封装基础组件地址
 
 ## 介绍
 
@@ -10,7 +14,7 @@
 
 <p align="center">
   <a href="https://github.com/vuejs/vue">
-    <img src="https://img.shields.io/badge/vue-2.6.11-brightgreen.svg" alt="vue">
+    <img src="https://img.shields.io/badge/vue-2.6.14-brightgreen.svg" alt="vue">
   </a>
   <a href="https://gitee.com/wocwin/t-ui/stargazers">
     <img src="https://gitee.com/wocwin/t-ui/badge/star.svg?theme=dark" alt="t-ui">
@@ -23,7 +27,7 @@
     </a>
 </p>
 
-## npm方式安装使用
+## npm 方式安装使用
 
 ```js
 // 先安装

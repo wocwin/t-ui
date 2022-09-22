@@ -24,6 +24,7 @@ const app = createApp(App)
 app.use(TuiPlus)
 app.mount("#app")
 ```
-## [Vue3 基础组件传送门](https://gitee.com/wocwin/t-ui-plus)
+## [Vue3 基础组件码云地址](https://gitee.com/wocwin/t-ui-plus)
+## [Vue3 基础组件GitHub地址](https://github.com/wocwin/t-ui-plus)
 
 > 基于 Element-plus 二次封装基础组件地址

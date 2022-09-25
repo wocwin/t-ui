@@ -20,6 +20,8 @@ import 'ant-design-vue/dist/antd.css'
 import Element from 'element-ui'
 import '@/assets/css/element-variables.scss'
 import Tui from '../packages' // 二次封装组件
+import vueSeamlessScroll from 'vue-seamless-scroll' // 循环滚动
+Vue.use(vueSeamlessScroll)
 Vue.use(Element)
 Vue.use(Antd)
 Vue.use(Tui)

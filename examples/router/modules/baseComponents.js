@@ -42,6 +42,8 @@ const TModuleDetail = () => import('@/views/components/TForm/t-module-detail')
 
 const TUploadExcel = () => import('@/views/components/TUploadExcel')
 
+const ScrollTable = () => import('@/views/components/scrollTable')
+
 const baseComponentsRouter = {
   path: '/base-components',
   isStatic: true,
@@ -100,6 +102,12 @@ const baseComponentsRouter = {
           meta: { title: '步骤组件' }
         }
       ]
+    },
+    {
+      path: 'scroll-table',
+      name: '自动轮询滚动组件',
+      component: ScrollTable,
+      meta: { title: '自动轮询滚动组件' }
     },
     {
       path: 't-query-condition',

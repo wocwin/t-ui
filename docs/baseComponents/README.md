@@ -20,7 +20,7 @@ yarn add @wocwin/t-ui -S
 // main.js
 import Tui from "@wocwin/t-ui"
 
-Vue.use(TuiPlus)
+Vue.use(Tui)
 ```
 ## [Vue3 基础组件码云地址](https://gitee.com/wocwin/t-ui-plus)
 ## [Vue3 基础组件GitHub地址](https://github.com/wocwin/t-ui-plus)

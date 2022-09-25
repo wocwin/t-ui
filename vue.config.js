@@ -7,7 +7,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 module.exports = {
   // transpileDependencies: ['element-ui'], // 解决IE浏览器本地启动白屏现象
   // outputDir: process.env.outputDir || 'dist', // 输出文件名称
-  publicPath: './', // 部署应用包时的基本 URL
+  // publicPath: './', // 部署应用包时的基本 URL
   productionSourceMap: !isProduction, // 解决vue项目打包后浏览器F12查看到项目源代码false不能看到
   // productionSourceMap: true, // 测试调试打断点
   // lintOnSave: false,// 去掉eslint校验

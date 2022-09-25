@@ -1,6 +1,6 @@
 {
   "name": "@wocwin/t-ui",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Vue 中基于Element-ui和ant-design-vue二次封装基础组件文档",
   "author": "wocwin <wocwin@163.com>",
   "license": "ISC",
@@ -29,11 +29,13 @@
     "moment": "^2.29.3",
     "path-to-regexp": "2.4.0",
     "screenfull": "^4.2.0",
-    "vue": "^2.6.11",
+    "vue": "2.6.14",
     "vue-clipboard2": "^0.3.1",
     "vue-draggable-resizable": "^2.3.0",
     "vue-highlight.js": "^3.1.0",
     "vue-router": "^3.4.3",
+    "vue-seamless-scroll": "^1.1.23",
+    "vue-server-renderer": "2.6.14",
     "vuedraggable": "^2.24.3",
     "vuepress": "^1.5.2",
     "vuepress-plugin-gotop-plus": "^1.0.4",
@@ -54,12 +56,12 @@
     "sass": "^1.26.10",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-element": "^1.0.1",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "2.6.14",
     "vuepress-plugin-typescript": "^0.3.1"
   },
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/wocwin/t-ui.git"
+    "url": "https://github.com/wocwin/t-ui.git"
   },
   "homepage": "https://wocwin.github.io/t-ui/",
   "keywords": [

@@ -72,9 +72,7 @@ export default {
           let styT = getStyle(dragDom, 'top')
 
           if (styL.includes('%')) {
-            // eslint-disable-next-line no-useless-escape
             styL = +document.body.clientWidth * (+styL.replace(/\%/g, '') / 100)
-            // eslint-disable-next-line no-useless-escape
             styT = +document.body.clientHeight * (+styT.replace(/\%/g, '') / 100)
           } else {
             styL = +styL.replace(/\px/g, '')

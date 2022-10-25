@@ -209,35 +209,49 @@ export default {
       })
     },
     checkHandle (flagText) {
-      this.$emit('submit', this.form, flagText)
-    }
-  },
-  mounted () {
-    this.colLength = this.getColLength()
-    if (this.boolEnter) {
-      let lett = this
-      document.onkeydown = function (e) {
-        let key = window.event.keyCode
-        let pagination = document.querySelectorAll('.el-pagination')
-        let isPaginationInputFocus = false
-        if (pagination) {
-          pagination.forEach(ele => {
-            let paginationInputList = ele.getElementsByTagName('input')
-            let paginationInput = paginationInputList[paginationInputList.length - 1]
-            // 判断是否有分页器筛选输入框获取焦点
-            if (paginationInput === document.activeElement) {
-              isPaginationInputFocus = true
-            }
-          })
+      const formData = Object.keys(this.form).reduce((acc, field) => {
+        if (typeof this.form[field] === 'string') { // 去除前后空格
+          this.form[field] = this.form[field].trim()
         }
-        if (isPaginationInputFocus) {
-          return
-        }
-        if (key === 13) {
-          lett.checkHandle()
+        acc[field] = this.form[field]
+        return acc
+      }, {})
+      this.$emit('submit', formData, flagText)
+    },
+    // 键盘事件
+    keyEvent () {
+      if (this.boolEnter) {
+        let lett = this
+        document.onkeyup = function (e) {
+          let key = window.event.keyCode
+          let pagination = document.querySelectorAll('.el-pagination')
+          let isPaginationInputFocus = false
+          if (pagination) {
+            pagination.forEach(ele => {
+              let paginationInputList = ele.getElementsByTagName('input')
+              let paginationInput = paginationInputList[paginationInputList.length - 1]
+              // 判断是否有分页器筛选输入框获取焦点
+              if (paginationInput === document.activeElement) {
+                isPaginationInputFocus = true
+              }
+            })
+          }
+          if (isPaginationInputFocus) {
+            return
+          }
+          if (key === 13) {
+            lett.checkHandle()
+          }
         }
       }
     }
+  },
+  activated () {
+    this.keyEvent()
+  },
+  mounted () {
+    this.colLength = this.getColLength()
+    this.keyEvent()
   }
 }
 </script>

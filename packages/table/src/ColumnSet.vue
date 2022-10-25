@@ -55,7 +55,14 @@ export default {
   },
   methods: {
     getColumnSetCache () {
-      const value = localStorage.getItem(`t-ui:TTable.columnSet-${this.name || this.title}`)
+      let value = localStorage.getItem(`t-ui:TTable.columnSet-${this.name || this.title}`)
+      let columnOption = this.initColumnSet()
+      let valueArr = JSON.parse(value) || []
+      columnOption.map(item => {
+        let findEle = valueArr.find(ele => ele.label === item.label && ele.prop === item.prop)
+        item.hidden = findEle ? findEle.hidden : false
+      })
+      value = JSON.stringify(columnOption)
       return value ? JSON.parse(value) : this.initColumnSet()
     },
     initColumnSet () {

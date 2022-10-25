@@ -6,7 +6,7 @@ lib
 # 忽略目录
 examples/
 # packages/
-public/
+# public/
 
 # 忽略指定文件
 vue.config.js

@@ -1,12 +1,14 @@
 <template>
-  <el-select @change="change" class="t-select" popper-class="t-select" ref="tSelect" v-bind="attrs" v-on="$listeners" :value-key="returnObj? configure.keywords.value :''">
+  <el-select @change="change" class="t-select" popper-class="t-select-table" ref="tSelect" v-bind="attrs"
+    v-on="$listeners" :value-key="returnObj? configure.keywords.value :''">
     <!-- 表头 -->
     <div class="t-table-header">
       <table cellspacing="0" cellpadding="0" border="0" class="t-table-wrapper" style="width: 100%;">
         <thead>
-          <tr :class="{ hasBorder:thBorder}">
-            <th v-for="item in configure.columns" :key="String(item.title)" :style="{width:item.width || '110px',minWidth:item.width || '110px'}" class="t-th">
-              <div class="t-header-txt">{{item.title}}</div>
+          <tr :class="{ hasBorder: thBorder }">
+            <th v-for="item in configure.columns" :key="String(item.title)"
+              :style="{ width: item.width || '110px', minWidth: item.width || '110px' }" class="t-th">
+              <div class="t-header-txt">{{ item.title }}</div>
             </th>
           </tr>
         </thead>
@@ -15,9 +17,12 @@
     <!-- 选项 -->
     <div style="height: 44px;width: 100%;"></div>
     <div class="t-select-option">
-      <el-option class="select_option" v-for="(item, i) in list" :key="i" :label="item[configure.keywords.label]" :value="configure.keywords.value == 'item'? item : item[configure.keywords.value]">
-        <tr :class="[{ hasBorder:tdBorder},'t-tr']">
-          <td class="t-ceil" :style="{maxWidth:child.width,width:child.width || '110px',minWidth:child.width || '110px'}" v-for="(child,j) in configure.columns" :key="j">
+      <el-option class="select_option" v-for="(item, i) in list" :key="i" :label="item[configure.keywords.label]"
+        :value="configure.keywords.value == 'item' ? item : item[configure.keywords.value]">
+        <tr :class="[{ hasBorder: tdBorder }, 't-tr']">
+          <td class="t-ceil"
+            :style="{ maxWidth: child.width, width: child.width || '110px', minWidth: child.width || '110px' }"
+            v-for="(child, j) in configure.columns" :key="j">
             {{ item[child.prop] }}
           </td>
         </tr>
@@ -25,13 +30,14 @@
     </div>
     <!-- 无匹配数据 -->
     <template #empty>
-      <div :style="{width:minWidth + 'px'}" class="empty-box">
+      <div :style="{ width: minWidth + 'px' }" class="empty-box">
         无匹配数据
       </div>
     </template>
     <!-- 分页 -->
     <div class="t-bottom-page" v-if="isShowPagination">
-      <el-pagination v-bind="pageAttrs" v-on="$listeners" :current-page="configure.tablePagination.currentPage" :page-size="configure.tablePagination.pageSize" :total="configure.tablePagination.total">
+      <el-pagination v-bind="pageAttrs" v-on="$listeners" :current-page="configure.tablePagination.currentPage"
+        :page-size="configure.tablePagination.pageSize" :total="configure.tablePagination.total">
       </el-pagination>
     </div>
   </el-select>
@@ -99,15 +105,15 @@ export default {
     // 属性
     attrs () {
       return {
-        'clearable': true,
-        'filterable': true,
+        clearable: true,
+        filterable: true,
         'popper-append-to-body': true,
         ...this.$attrs
       }
     },
     pageAttrs () {
       return {
-        'layout': 'total,  prev, pager, next, jumper',
+        layout: 'total,  prev, pager, next, jumper',
         'page-sizes': [10, 20, 50, 100],
         'pager-count': 5,
         ...this.$attrs
@@ -154,37 +160,52 @@ export default {
 </script>
 
 <style lang="scss">
-.t-select {
+.t-select-table {
+
   // 表头
   &.el-popper {
     .t-table-header {
       position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
       height: 44px;
       font-size: 13px;
       font-weight: 600;
       z-index: 999;
       color: #515a6e;
       background-color: #f8f8f9;
+
       .t-table-wrapper {
         height: 100%;
-        .hasBorder .t-th {
-          border: 1px solid #dfe6ec;
+
+        .hasBorder {
+          .t-th {
+            border: 1px solid #dfe6ec;
+            border-left: none;
+            border-top: none;
+          }
+          .t-th:last-child{
+            border-right: none;
+          }
         }
       }
     }
   }
+
   // 隐藏滚动条
   .el-scrollbar__wrap {
     overflow: scroll;
   }
+
   .el-scrollbar__thumb {
     display: none; //去掉右侧滚动条
   }
+
   // 表体
   .el-select-dropdown__list {
     padding: 0;
+
     .select_option {
       padding: 0;
       border-bottom: 1px solid #dfe6ec;
@@ -194,23 +215,28 @@ export default {
       height: auto;
       line-height: 100%;
       vertical-align: middle;
+
       .el-select-dropdown__item {
         padding: 0;
       }
+
       .hasBorder .t-ceil {
         border-left: 1px solid #dfe6ec;
       }
+
       .t-ceil {
-        height: 28px;
-        padding: 10px 12px;
+        height: 44px;
+        // padding: 10px 12px;
         text-align: center;
-        line-height: 18px;
+        // line-height: 18px;
+
         &:first-child {
           border-left: 0;
         }
       }
     }
   }
+
   // 无匹配数据
   .empty-box {
     display: flex;
@@ -218,6 +244,7 @@ export default {
     align-items: center;
     color: #a7a7a7;
   }
+
   // 分页
   .el-scrollbar {
     .el-select-dropdown__wrap {
@@ -225,6 +252,7 @@ export default {
       overflow-x: hidden;
     }
   }
+
   .t-bottom-page {
     position: absolute;
     bottom: 0px;

@@ -71,6 +71,7 @@ export default {
   .el-descriptions {
     ::v-deep.el-descriptions-item__label {
       font-weight: bold;
+      min-width: 65px;
     }
   }
 }

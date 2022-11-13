@@ -53,6 +53,7 @@ module.exports = {
                 'ElementUi/TDatePicker/base', // 日期组件
                 'ElementUi/TDialog/base', // 弹窗组件
                 'ElementUi/TDetail/base', // 详情组件
+                'ElementUi/TTreeSelect/base', // 下拉选择树形及结构组件
                 'ElementUi/TSelect/base', // 下拉选择组件
                 'ElementUi/TPaginationSelect/base', // 下拉选择分页组件
                 'ElementUi/TSelectTable/base', // 下拉选择表格组件
@@ -74,6 +75,7 @@ module.exports = {
               title: 'TTable组件',
               collapsable: false,
               children: [
+                'ElementUi/TTable/scroll', // 轮询滚动
                 'ElementUi/TTable/base', // 基本
                 'ElementUi/TTable/pagination', // 分页
                 'ElementUi/TTable/notSort', // 指定列不需要排序
@@ -137,7 +139,7 @@ module.exports = {
       ]
     }
   },
-  chainWebpack (config) {
+  chainWebpack(config) {
     config.resolve.alias.set('core-js/library/fn', 'core-js/features');
   },
   configureWebpack: {

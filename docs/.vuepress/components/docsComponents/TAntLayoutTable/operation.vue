@@ -21,7 +21,7 @@
 <script>
 export default {
   name: 'operation',
-  data () {
+  data() {
     return {
       // 分页器参数
       pageOpt: {
@@ -122,6 +122,7 @@ export default {
           title: '操作',
           dataIndex: 'handler',
           width: '120px',
+          fixed: 'right',
           isCustomRender: true,
           customRender: (text, record) => {
             return {
@@ -189,37 +190,37 @@ export default {
   // 方法
   methods: {
     // switch 改变状态
-    onStatusChange (value, record) {
+    onStatusChange(value, record) {
       console.log(value, record)
     },
     // 获取当前选择页数
-    handleTableChange (val) {
+    handleTableChange(val) {
       console.log(1212, val)
     },
     /**
      * 表格外操作
      */
     // 新增
-    creat () {
+    creat() {
       console.log('新增操作')
     },
     // 重新处理操作
-    anew () {
+    anew() {
       console.log('重新处理操作')
     },
     // 作废操作
-    toVoids () {
+    toVoids() {
       console.log('作废操作')
     },
     /**
      * 表格内操作
      */
     // 删除
-    del (row) {
+    del(row) {
       console.log('删除操作', row)
     },
     // 编辑
-    edit (row) {
+    edit(row) {
       console.log('编辑操作', row)
     }
   }

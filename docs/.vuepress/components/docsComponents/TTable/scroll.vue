@@ -2,18 +2,8 @@
   <div class="scroll_table">
     <div style="display: inline-block; width: 100%">
       <t-table class="table" :table="table" :columns="table.columns" :isShowPagination="false" />
-      <vue-seamless-scroll
-        :data="table.data"
-        class="seamless-warp"
-        style="width: 100%"
-        :class-option="classOption"
-      >
-        <t-table
-          class="table_scroll"
-          :table="table"
-          :columns="table.columns"
-          :isShowPagination="false"
-        />
+      <vue-seamless-scroll :data="table.data" class="seamless-warp" style="width: 100%" :class-option="classOption">
+        <t-table class="table_scroll" :table="table" :columns="table.columns" :isShowPagination="false" />
       </vue-seamless-scroll>
     </div>
   </div>
@@ -60,11 +50,11 @@ export default {
           }
         ],
         columns: [
-          { prop: 'name', label: '姓名', minWidth: '100' },
-          { prop: 'date', label: '日期', minWidth: '180' },
-          { prop: 'age', label: '年龄', minWidth: '180' },
-          { prop: 'status', label: '状态', minWidth: '180' },
-          { prop: 'address', label: '地址', minWidth: '220' }
+          { prop: 'name', label: '姓名', },
+          { prop: 'date', label: '日期' },
+          { prop: 'age', label: '年龄' },
+          { prop: 'status', label: '状态' },
+          { prop: 'address', label: '地址' }
         ],
         // 表格内操作列
         operator: [
@@ -105,13 +95,16 @@ export default {
 .scroll_table {
   margin: 15px;
   display: flex;
+
   ::v-deep .table .el-table__body-wrapper {
     display: none;
   }
+
   // 重点注意这段样式
   .seamless-warp {
     height: 200px;
     overflow: hidden;
+
     ::v-deep .table_scroll .el-table__header-wrapper {
       display: none;
     }

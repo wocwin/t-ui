@@ -1,265 +1,373 @@
 <template>
-  <el-select @change="change" class="t-select" popper-class="t-select-table" ref="tSelect" v-bind="attrs"
-    v-on="$listeners" :value-key="returnObj? configure.keywords.value :''">
-    <!-- 表头 -->
-    <div class="t-table-header">
-      <table cellspacing="0" cellpadding="0" border="0" class="t-table-wrapper" style="width: 100%;">
-        <thead>
-          <tr :class="{ hasBorder: thBorder }">
-            <th v-for="item in configure.columns" :key="String(item.title)"
-              :style="{ width: item.width || '110px', minWidth: item.width || '110px' }" class="t-th">
-              <div class="t-header-txt">{{ item.title }}</div>
-            </th>
-          </tr>
-        </thead>
-      </table>
-    </div>
-    <!-- 选项 -->
-    <div style="height: 44px;width: 100%;"></div>
-    <div class="t-select-option">
-      <el-option class="select_option" v-for="(item, i) in list" :key="i" :label="item[configure.keywords.label]"
-        :value="configure.keywords.value == 'item' ? item : item[configure.keywords.value]">
-        <tr :class="[{ hasBorder: tdBorder }, 't-tr']">
-          <td class="t-ceil"
-            :style="{ maxWidth: child.width, width: child.width || '110px', minWidth: child.width || '110px' }"
-            v-for="(child, j) in configure.columns" :key="j">
-            {{ item[child.prop] }}
-          </td>
-        </tr>
-      </el-option>
-    </div>
-    <!-- 无匹配数据 -->
+  <el-select
+    ref="select"
+    v-model="defaultValue"
+    popper-class="t-select-table"
+    :multiple="multiple"
+    v-bind="selectAttr"
+    v-on="$listeners"
+    :value-key="keywords.value"
+    @visible-change="visibleChange"
+    @remove-tag="removeTag"
+    @clear="clear"
+  >
     <template #empty>
-      <div :style="{ width: minWidth + 'px' }" class="empty-box">
-        无匹配数据
+      <div class="t-table-select__table" :style="{ width: `${tableWidth}px` }">
+        <el-table
+          ref="el-table"
+          :data="tableData"
+          class="radioStyle"
+          border
+          @row-click="rowClick"
+          @cell-dblclick="cellDblclick"
+          @selection-change="selectionChange"
+          v-bind="$attrs"
+          v-on="$listeners"
+        >
+          <el-table-column v-if="multiple" type="selection" width="45" fixed></el-table-column>
+          <el-table-column type="radio" width="50" :label="radioTxt" fixed v-else>
+            <template slot-scope="scope">
+              <el-radio
+                v-model="radioVal"
+                :label="scope.$index+1"
+                @click.native.prevent="radioChange(scope.row,scope.$index+1)"
+              ></el-radio>
+            </template>
+          </el-table-column>
+          <template v-for="(item,index) in columns">
+            <el-table-column
+              :key="index+'i'"
+              :type="item.type"
+              :label="item.label"
+              :prop="item.prop"
+              :min-width="item['min-width'] || item.minWidth || item.width"
+              :align="item.align || 'center'"
+              :fixed="item.fixed"
+              :show-overflow-tooltip="item.noShowTip"
+              v-bind="{...item.bind,...$attrs}"
+              v-on="$listeners"
+            >
+              <template slot-scope="scope">
+                <!-- render方式 -->
+                <template v-if="item.render">
+                  <render-col
+                    :column="item"
+                    :row="scope.row"
+                    :render="item.render"
+                    :index="scope.$index"
+                  />
+                </template>
+                <!-- 作用域插槽 -->
+                <template v-if="item.slotName">
+                  <slot :name="item.slotName" :scope="scope"></slot>
+                </template>
+                <div v-if="!item.render&&!item.slotName">
+                  <span>{{scope.row[item.prop]}}</span>
+                </div>
+              </template>
+            </el-table-column>
+          </template>
+          <slot></slot>
+        </el-table>
+        <div class="t-table-select__page">
+          <el-pagination
+            v-show="(tableData && tableData.length) && isShowPagination"
+            :current-page="table.currentPage"
+            @current-change="handlesCurrentChange"
+            :page-sizes="[10, 20, 50, 100]"
+            :pager-count="5"
+            :page-size="table.pageSize"
+            layout="total,  prev, pager, next, jumper"
+            :total="table.total"
+            v-bind="$attrs"
+            v-on="$listeners"
+            background
+          ></el-pagination>
+        </div>
       </div>
     </template>
-    <!-- 分页 -->
-    <div class="t-bottom-page" v-if="isShowPagination">
-      <el-pagination v-bind="pageAttrs" v-on="$listeners" :current-page="configure.tablePagination.currentPage"
-        :page-size="configure.tablePagination.pageSize" :total="configure.tablePagination.total">
-      </el-pagination>
-    </div>
   </el-select>
 </template>
 
 <script>
+import RenderCol from './renderCol.vue'
 export default {
   name: 'TSelectTable',
+  components: {
+    RenderCol
+  },
   props: {
-    // 配置
-    configure: {
+    // 选择值
+    value: {
+      type: [String, Number, Array]
+    },
+    // table所需数据
+    table: {
       type: Object,
-      default: () => ({})
+      default: () => {
+        return {}
+      }
     },
-    // 下拉菜单数组
-    list: {
+    // 表头数据
+    columns: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
-    returnObj: {
-      type: Boolean,
-      default: false
+    // 单选文案
+    radioTxt: {
+      type: String,
+      default: '单选'
     },
-    // 开启分页
+    // 是否显示分页
     isShowPagination: {
       type: Boolean,
       default: false
     },
-    // 最大高度
-    maxHeight: {
-      type: String,
-      default: ''
+    // 下拉数据指向的label/value
+    keywords: {
+      type: Object,
+      default: () => {
+        return {
+          label: 'label',
+          value: 'value'
+        }
+      }
     },
-    // 开启表头边框
-    thBorder: {
+    // 多选
+    multiple: {
       type: Boolean,
-      default: true
+      default: false
     },
-    // 开启表体边框
-    tdBorder: {
-      type: Boolean,
-      default: true
-    }
-  },
-  mounted () {
-    this.setPadding()
-    this.setMaxHeight()
-  },
-  data () {
-    return {
+    // table宽度
+    tableWidth: {
+      type: Number,
+      default: 550
     }
   },
   computed: {
-    minWidth () {
-      // 计算宽度
-      let width = 0
-      const temp = this.configure.columns
-      temp.map((item) => {
-        if (item.width) {
-          width += Number(item.width.substring(0, item.width.length - 2))
-        }
-      })
-      return width
-    },
-    // 属性
-    attrs () {
+    selectAttr() {
       return {
         clearable: true,
         filterable: true,
-        'popper-append-to-body': true,
-        ...this.$attrs
-      }
-    },
-    pageAttrs () {
-      return {
-        layout: 'total,  prev, pager, next, jumper',
-        'page-sizes': [10, 20, 50, 100],
-        'pager-count': 5,
         ...this.$attrs
       }
     }
   },
-  methods: {
-    change (val) {
-      if (this.returnObj) {
-        this.list.map(item => {
-          if (item[this.configure.keywords.value] === val) {
-            this.$emit('selectChange', item)
+  data() {
+    return {
+      radioVal: '',
+      forbidden: true, // 判断单选选中及取消选中
+      tableData: this.table?.data, // table数据
+      defaultValue: this.value,
+      ids: [], // 多选id集合
+      tabularMap: {} // 存储下拉tale的所有name
+    }
+  },
+  watch: {
+    value: {
+      handler() {
+        this.$nextTick(() => {
+          // 多选
+          if (this.multiple) {
+            this.defaultValue = Array.isArray(this.value) ? this.value : this.value ? this.value.split(',') : []
+            this.defaultValue = (this.defaultValue || []).map(item => {
+              return item
+            })
+          } else {
+            this.defaultValue = this.value ? { [this.keywords.value]: this.value } : ''
           }
+          this.findLabel()
         })
+      },
+      deep: true,
+      immediate: true
+    },
+    'table.data': {
+      handler(val) {
+        // console.log(789, val)
+        this.tableData = val
+        this.$nextTick(() => {
+          this.tableData && this.tableData.length > 0 && this.tableData.forEach(item => {
+            this.tabularMap[item[this.keywords.value]] = item[this.keywords.label]
+          })
+          this.findLabel()
+        })
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    // 当前页码
+    handlesCurrentChange(val) {
+      this.$emit('page-change', val)
+    },
+    // 表格显示隐藏回调
+    visibleChange(visible) {
+      // console.log('表格显示隐藏回调', visible)
+      if (visible) {
+        this.initTableData()
       } else {
-        this.$emit('selectChange', val)
+        this.findLabel()
       }
     },
-    // 有分页增加底部padding
-    setPadding () {
-      if (this.isShowPagination) {
-        this.$refs.tSelect.$el.getElementsByClassName('el-select-dropdown__wrap')[0].style.paddingBottom = '50px'
+    // 复选框(多选)
+    selectionChange(val) {
+      // console.log('复选框', val)
+      this.defaultValue = val.map(item => item[this.keywords.label])
+      this.ids = val.map(item => item[this.keywords.value])
+      this.$emit('selectionChange', val, this.ids)
+    },
+    // 获取表格数据
+    initTableData() {
+      // 表格默认赋值
+      this.$nextTick(() => {
+        if (this.multiple) {
+          this.defaultValue.forEach(row => {
+            const arr = this.tableData.filter(item => item[this.keywords.value] === row[this.keywords.value])
+            if (arr.length > 0) {
+              this.$refs['el-table'].toggleRowSelection(arr[0], true)
+            }
+          })
+        } else {
+          const arr = this.tableData.filter(item => item[this.keywords.value] === this.defaultValue[this.keywords.value])
+          this.$refs['el-table'].setCurrentRow(arr[0])
+        }
+      })
+    },
+    // 赋值
+    findLabel() {
+      this.$nextTick(() => {
+        if (this.multiple) {
+          this.$refs.select.selected.forEach((item) => {
+            item.currentLabel = item.value
+            // this.tableData.map(val => {
+            //   if (val[this.keywords.label] === item.value) {
+            //     item.value = val[this.keywords.value]
+            //   }
+            // })
+          })
+        } else {
+          this.$refs.select.selectedLabel = this.defaultValue[this.keywords.label] || ''
+        }
+      })
+    },
+    // 双击复制单元格内容
+    cellDblclick(row, column) {
+      let label = row[column.property]
+      this.$copyText(label).then(() => {
+        this.$message.success('已复制')
+      }, () => {
+        this.$message.error('复制失败')
+      })
+    },
+    // 点击单选框单元格触发事件
+    radioChange(row, index) {
+      this.radioClick(row, index)
+    },
+    // forbidden取值
+    isForbidden() {
+      this.forbidden = false
+      setTimeout(() => {
+        this.forbidden = true
+      }, 0)
+    },
+    // 单选抛出事件radioChange
+    radioClick(row, index) {
+      this.forbidden = !!this.forbidden
+      if (this.radioVal) {
+        if (this.radioVal === index) {
+          this.radioVal = ''
+          this.isForbidden()
+          this.defaultValue = {}
+          this.$emit('radioChange', {}, null) // 取消勾选就把回传数据清除
+          this.blur()
+        } else {
+          this.isForbidden()
+          this.radioVal = index
+          this.defaultValue = row
+          this.$emit('radioChange', row, row[this.keywords.value])
+          this.blur()
+        }
       } else {
-        this.$refs.tSelect.$el.getElementsByClassName('el-select-dropdown__wrap')[0].style.paddingBottom = '20px'
+        this.isForbidden()
+        this.radioVal = index
+        this.defaultValue = row
+        this.$emit('radioChange', row, row[this.keywords.value])
+        this.blur()
       }
     },
-    // 计算最大高度
-    setMaxHeight () {
-      if (this.maxHeight) {
-        this.$refs.tSelect.$el.getElementsByClassName('el-select-dropdown__wrap')[0].style.maxHeight = this.maxHeight
+    // 单击行
+    rowClick(row) {
+      if (this.multiple) {
+
+      } else {
+        this.radioClick(row, this.tableData.indexOf(row) + 1)
       }
     },
-    // 使 input 获取焦点
-    focus () {
-      this.$refs.tSelect.focus()
+    // tags删除后回调
+    removeTag(tag) {
+      const row = this.tableData.find(item => item[this.keywords.label] === tag)
+      this.$refs['el-table'].toggleRowSelection(row, false)
     },
-    // 使 input 失去焦点，并隐藏下拉框
-    blur () {
-      this.$refs.tSelect.blur()
+    // 清空后的回调
+    clear() {
+      if (this.multiple) {
+        this.$refs['el-table'].clearSelection()
+      } else {
+        this.radioVal = ''
+        this.forbidden = false
+      }
+    },
+    // 触发select隐藏
+    blur() {
+      this.$refs.select.blur()
+    },
+    // 触发select显示
+    focus() {
+      this.$refs.select.focus()
     }
   }
-
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .t-select-table {
-
-  // 表头
-  &.el-popper {
-    .t-table-header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 44px;
-      font-size: 13px;
-      font-weight: 600;
-      z-index: 999;
-      color: #515a6e;
-      background-color: #f8f8f9;
-
-      .t-table-wrapper {
-        height: 100%;
-
-        .hasBorder {
-          .t-th {
-            border: 1px solid #dfe6ec;
-            border-left: none;
-            border-top: none;
-          }
-          .t-th:last-child{
-            border-right: none;
-          }
-        }
-      }
-    }
-  }
-
-  // 隐藏滚动条
-  .el-scrollbar__wrap {
-    overflow: scroll;
-  }
-
-  .el-scrollbar__thumb {
-    display: none; //去掉右侧滚动条
-  }
-
-  // 表体
-  .el-select-dropdown__list {
-    padding: 0;
-
-    .select_option {
-      padding: 0;
-      border-bottom: 1px solid #dfe6ec;
-      white-space: normal; // 换行
-      word-wrap: break-word;
-      text-overflow: initial;
-      height: auto;
-      line-height: 100%;
-      vertical-align: middle;
-
-      .el-select-dropdown__item {
-        padding: 0;
-      }
-
-      .hasBorder .t-ceil {
-        border-left: 1px solid #dfe6ec;
-      }
-
-      .t-ceil {
-        height: 44px;
-        // padding: 10px 12px;
+  // 单选样式
+  .radioStyle {
+    ::v-deep .el-table__cell {
+      .cell {
         text-align: center;
-        // line-height: 18px;
+      }
+    }
+    ::v-deep .el-radio {
+      .el-radio__label {
+        display: none;
+      }
 
-        &:first-child {
-          border-left: 0;
-        }
+      &:focus:not(.is-focus):not(:active):not(.is-disabled) .el-radio__inner {
+        box-shadow: none;
+      }
+    }
+
+    ::v-deep tbody {
+      .el-table__row {
+        cursor: pointer;
       }
     }
   }
-
-  // 无匹配数据
-  .empty-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #a7a7a7;
+  .t-table-select__table {
+    padding: 10px;
   }
-
-  // 分页
-  .el-scrollbar {
-    .el-select-dropdown__wrap {
-      max-height: 350px;
-      overflow-x: hidden;
+  .t-table-select__page {
+    padding-top: 5px;
+    ::v-deep .el-pagination {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-right: calc(2% - 20px);
+      background-color: #fff;
     }
-  }
-
-  .t-bottom-page {
-    position: absolute;
-    bottom: 0px;
-    left: 0;
-    width: 100%;
-    background-color: #f8f8f9;
-    z-index: 99;
   }
 }
 </style>

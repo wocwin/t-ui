@@ -36,6 +36,14 @@ npm i @wocwin/t-ui
 import Tui from '@wocwin/t-ui'
 Vue.use(Tui)
 ```
+## 直接在项目中全局使用（前提是已全局安装了 Element-ui 并已引入其样式）
+
+```js
+// 1、把packages文件夹复制，放在自己项目中
+// 2、假设 packages 与 src是同级，那么src下 main.js 如下操作即可全局使用t-ui
+import Tui from '../packages'
+Vue.use(Tui)
+```
 
 ## 安装依赖 **如果总报错就用 cnpm install**
 

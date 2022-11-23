@@ -1,11 +1,12 @@
 <template>
   <t-tree-select
     :options="treeList"
-    placeholder="请选择tree结构"
+    placeholder="请选择tree多选结构"
     width="50%"
-    :defaultData="defaultValue"
+    :defaultValue="defaultValue"
     :treeProps="treeProps"
     @handleNodeClick="selectDrop"
+    multiple
   />
 </template>
 <script>
@@ -13,7 +14,7 @@ export default {
   name: 'TTreeSelectDemo',
   data() {
     return {
-      defaultValue: { id: '1', label: '一级 1菈妮' },
+      defaultValue: ['1', '2'], // 默认值
       treeProps: {
         value: 'id',
         children: 'children',

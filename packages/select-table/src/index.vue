@@ -1,27 +1,61 @@
 <template>
-  <el-select ref="select" v-model="defaultValue" popper-class="t-select-table" :multiple="multiple" v-bind="selectAttr"
-    v-on="$listeners" :value-key="keywords.value" @visible-change="visibleChange" @remove-tag="removeTag"
-    @clear="clear">
+  <el-select
+    ref="select"
+    v-model="defaultValue"
+    popper-class="t-select-table"
+    :multiple="multiple"
+    v-bind="selectAttr"
+    v-on="$listeners"
+    :value-key="keywords.value"
+    @visible-change="visibleChange"
+    @remove-tag="removeTag"
+    @clear="clear"
+  >
     <template #empty>
       <div class="t-table-select__table" :style="{ width: `${tableWidth}px` }">
-        <el-table ref="el-table" :data="tableData" class="radioStyle" border @row-click="rowClick"
-          @cell-dblclick="cellDblclick" @selection-change="selectionChange" v-bind="$attrs" v-on="$listeners">
+        <el-table
+          ref="el-table"
+          :data="tableData"
+          class="radioStyle"
+          border
+          @row-click="rowClick"
+          @cell-dblclick="cellDblclick"
+          @selection-change="selectionChange"
+          v-bind="$attrs"
+          v-on="$listeners"
+        >
           <el-table-column v-if="multiple" type="selection" width="45" fixed></el-table-column>
           <el-table-column type="radio" width="50" :label="radioTxt" fixed v-else>
             <template slot-scope="scope">
-              <el-radio v-model="radioVal" :label="scope.$index + 1"
-                @click.native.prevent="radioChange(scope.row, scope.$index + 1)"></el-radio>
+              <el-radio
+                v-model="radioVal"
+                :label="scope.$index + 1"
+                @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
+              ></el-radio>
             </template>
           </el-table-column>
           <template v-for="(item, index) in columns">
-            <el-table-column :key="index + 'i'" :type="item.type" :label="item.label" :prop="item.prop"
-              :min-width="item['min-width'] || item.minWidth || item.width" :align="item.align || 'center'"
-              :fixed="item.fixed" :show-overflow-tooltip="item.noShowTip" v-bind="{ ...item.bind, ...$attrs }"
-              v-on="$listeners">
+            <el-table-column
+              :key="index + 'i'"
+              :type="item.type"
+              :label="item.label"
+              :prop="item.prop"
+              :min-width="item['min-width'] || item.minWidth || item.width"
+              :align="item.align || 'center'"
+              :fixed="item.fixed"
+              :show-overflow-tooltip="item.noShowTip"
+              v-bind="{ ...item.bind, ...$attrs }"
+              v-on="$listeners"
+            >
               <template slot-scope="scope">
                 <!-- render方式 -->
                 <template v-if="item.render">
-                  <render-col :column="item" :row="scope.row" :render="item.render" :index="scope.$index" />
+                  <render-col
+                    :column="item"
+                    :row="scope.row"
+                    :render="item.render"
+                    :index="scope.$index"
+                  />
                 </template>
                 <!-- 作用域插槽 -->
                 <template v-if="item.slotName">
@@ -36,10 +70,19 @@
           <slot></slot>
         </el-table>
         <div class="t-table-select__page">
-          <el-pagination v-show="(tableData && tableData.length) && isShowPagination" :current-page="table.currentPage"
-            @current-change="handlesCurrentChange" :page-sizes="[10, 20, 50, 100]" :pager-count="5"
-            :page-size="table.pageSize" layout="total,  prev, pager, next, jumper" :total="table.total" v-bind="$attrs"
-            v-on="$listeners" background></el-pagination>
+          <el-pagination
+            v-show="(tableData && tableData.length) && isShowPagination"
+            :current-page="table.currentPage"
+            @current-change="handlesCurrentChange"
+            :page-sizes="[10, 20, 50, 100]"
+            :pager-count="5"
+            :page-size="table.pageSize"
+            layout="total,  prev, pager, next, jumper"
+            :total="table.total"
+            v-bind="$attrs"
+            v-on="$listeners"
+            background
+          ></el-pagination>
         </div>
       </div>
     </template>
@@ -294,7 +337,6 @@ export default {
 
 <style lang="scss" scoped>
 .t-select-table {
-
   // 单选样式
   .radioStyle {
     ::v-deep .el-table__cell {

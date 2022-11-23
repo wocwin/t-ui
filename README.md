@@ -36,6 +36,7 @@ npm i @wocwin/t-ui
 import Tui from '@wocwin/t-ui'
 Vue.use(Tui)
 ```
+
 ## 直接在项目中全局使用（前提是已全局安装了 Element-ui 并已引入其样式）
 
 ```js

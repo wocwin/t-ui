@@ -1,6 +1,6 @@
 # 使用帮助
 
-## 配置参数（Table Attributes）
+## 配置参数（Table Attributes）继承 el-table 及 el-table-column 的属性
 
 | 参数                    | 说明                                                                          | 类型           | 默认值      |
 | :---------------------- | :---------------------------------------------------------------------------- | :------------- | :---------- |
@@ -52,6 +52,7 @@
 | isShowTips              | 开启单元格编辑时鼠标移入是否显示“单击可编辑”tips                              | Boolean        | false       |
 | columnSetting           | 是否显示设置（隐藏/显示列）                                                   | Boolean        | false       |
 | name                    | 与 columnSetting 配合使用标记隐藏/显示列唯一性                                | String         | title       |
+| isShowTreeStyle         | 是否开启 tree 树形结构样式                                                    | Boolean        | false       |
 | isMergedCell            | 是否开启合并单元格                                                            | Boolean        | false       |
 | comparisonOperator      | 多列行合并比较运算符                                                          | String         | ==          |
 | mergeCol                | 第几列合并进行行合并（默认第一列）                                            | Number         | 0           |
@@ -119,12 +120,12 @@
 ```js
 toolbar: [
   {
-    text: "返回上一个页面",
-    icon: "el-icon-circle-plus-outline",
-    type: "danger",
-    fun: this.getBack,
-  },
-];
+    text: '返回上一个页面',
+    icon: 'el-icon-circle-plus-outline',
+    type: 'danger',
+    fun: this.getBack
+  }
+]
 ```
 
 ### 4.2 关于表格内操作栏
@@ -158,19 +159,19 @@ operator: [
 ```js
 operator: [
   {
-    text: "预览",
-    type: "primary",
+    text: '预览',
+    type: 'primary',
     fun: this.preview,
     noshow: [
-      { key: "fields", val: "isHasVal" },
-      { key: "status", val: [0, 1, 99] },
-      { key: "channelCode", val: ["bank"] },
-    ],
+      { key: 'fields', val: 'isHasVal' },
+      { key: 'status', val: [0, 1, 99] },
+      { key: 'channelCode', val: ['bank'] }
+    ]
     // noshow中的key值(fields/status/channelCode)是表格后台返回的字段
     // 当val等于字符串'isHasVal'时,字段'fields'返回为空时，此行操作按钮隐藏
     // 以上综合：当'status'为0/1/99并且'channelCode'为'bank'及'fields'为空时,隐藏按钮
-  },
-];
+  }
+]
 ```
 
 ### 4.3 关于表格操作栏样式，如固定右侧，宽度

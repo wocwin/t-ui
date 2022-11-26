@@ -93,6 +93,7 @@ module.exports = {
                 'ElementUi/TTable/columnSet', // 显示隐藏列
                 'ElementUi/TTable/operation', // 操作栏
                 'ElementUi/TTable/customRender', // customRender操作自定义渲染
+                'ElementUi/TTable/tree', // TreeTable组件
                 'ElementUi/TTable/help' // 使用帮助(Attributes)
               ]
             },
@@ -103,13 +104,13 @@ module.exports = {
             //     'ElementUi/TEditTable/base', // 编辑table组件
             //   ]
             // },
-            {
-              title: 'TTreeTable组件',
-              collapsable: false,
-              children: [
-                'ElementUi/TTable/tree' // TreeTable组件
-              ]
-            },
+            // {
+            //   title: 'TTreeTable组件',
+            //   collapsable: false,
+            //   children: [
+            //     'ElementUi/TTable/tree' // TreeTable组件
+            //   ]
+            // },
             {
               title: '图片/文件上传组件',
               collapsable: false,

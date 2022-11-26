@@ -8,12 +8,28 @@
       <div class="toolbar_top">
         <!-- 表格外操作 -->
         <div class="toolbar">
-          <el-button v-for="(item, index) in getToolbarBtn" :key="index" @click="toolbarFun(item)"
-            :icon="item.icon?item.icon:''" :type="item.type||'primary'" size="small">{{item.text}}</el-button>
-          <el-popover ref="popoverClose" popper-class="operator_popover operator_pop"
-            class="operator_popover operator_pop" placement="bottom-start" trigger="hover" v-if="getToolbarDown.length">
+          <el-button
+            v-for="(item, index) in getToolbarBtn"
+            :key="index"
+            @click="toolbarFun(item)"
+            :icon="item.icon?item.icon:''"
+            :type="item.type||'primary'"
+            size="small"
+          >{{item.text}}</el-button>
+          <el-popover
+            ref="popoverClose"
+            popper-class="operator_popover operator_pop"
+            class="operator_popover operator_pop"
+            placement="bottom-start"
+            trigger="hover"
+            v-if="getToolbarDown.length"
+          >
             <ul class="ulClose">
-              <li v-for="(item, index) in getToolbarDown" :key="index" @click="toolbarFun(item)">{{item.text}}</li>
+              <li
+                v-for="(item, index) in getToolbarDown"
+                :key="index"
+                @click="toolbarFun(item)"
+              >{{item.text}}</li>
             </ul>
             <el-button size="small" type="primary" icon="el-icon-setting" slot="reference">
               操作
@@ -25,38 +41,72 @@
         <!--列设置按钮-->
         <div class="header_right_wrap" :style="{marginLeft:isShow('toolbar')?'12px':0}">
           <slot name="btn" />
-          <column-set v-if="columnSetting" v-bind="$attrs" :columns="columns" @columnSetting="v => columnSet = v" />
+          <column-set
+            v-if="columnSetting"
+            v-bind="$attrs"
+            :columns="columns"
+            @columnSetting="v => columnSet = v"
+          />
         </div>
       </div>
     </div>
-    <el-table ref="el-table" :data="tableData"
-      :class="{'cursor':isCopy,'highlightCurrentRow':highlightCurrentRow,'radioStyle':(table.firstColumn&&table.firstColumn.type==='radio')}"
-      v-bind="$attrs" v-on="$listeners" :highlight-current-row="highlightCurrentRow"
-      :border="table.border||isTableBorder" :span-method="spanMethod||objectSpanMethod"
-      :cell-class-name="cellClassNameFuc" @sort-change="soltHandle" @row-click="rowClick" @cell-dblclick="cellDblclick">
+    <el-table
+      ref="el-table"
+      :data="tableData"
+      :class="{'cursor':isCopy,'highlightCurrentRow':highlightCurrentRow,'radioStyle':(table.firstColumn&&table.firstColumn.type==='radio'),'treeProps':isShowTreeStyle}"
+      v-bind="$attrs"
+      v-on="$listeners"
+      :highlight-current-row="highlightCurrentRow"
+      :border="table.border||isTableBorder"
+      :span-method="spanMethod||objectSpanMethod"
+      :cell-class-name="cellClassNameFuc"
+      @sort-change="soltHandle"
+      @row-click="rowClick"
+      @cell-dblclick="cellDblclick"
+    >
       <!-- 首列之 序列号/单选框/复选框 -->
       <div v-if="table.firstColumn">
         <!-- 复选框 -->
-        <el-table-column :type="table.firstColumn.type" :width="table.firstColumn.width||50"
-          :label="table.firstColumn.label" :fixed="table.firstColumn.fixed"
-          :reserve-selection="table.firstColumn.isPaging||false" :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='selection'"></el-table-column>
+        <el-table-column
+          :type="table.firstColumn.type"
+          :width="table.firstColumn.width||50"
+          :label="table.firstColumn.label"
+          :fixed="table.firstColumn.fixed"
+          :reserve-selection="table.firstColumn.isPaging||false"
+          :align="table.firstColumn.align||'center'"
+          v-if="table.firstColumn.type==='selection'"
+        ></el-table-column>
         <!-- 单选框 -->
-        <el-table-column :type="table.firstColumn.type" :width="table.firstColumn.width||50"
-          :label="table.firstColumn.label" :fixed="table.firstColumn.fixed" :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='radio'">
+        <el-table-column
+          :type="table.firstColumn.type"
+          :width="table.firstColumn.width||50"
+          :label="table.firstColumn.label"
+          :fixed="table.firstColumn.fixed"
+          :align="table.firstColumn.align||'center'"
+          v-if="table.firstColumn.type==='radio'"
+        >
           <template slot-scope="scope">
-            <el-radio v-model="radioVal" :label="scope.$index+1"
-              @click.native.prevent="radioChange(scope.row,scope.$index+1)"></el-radio>
+            <el-radio
+              v-model="radioVal"
+              :label="scope.$index+1"
+              @click.native.prevent="radioChange(scope.row,scope.$index+1)"
+            ></el-radio>
           </template>
         </el-table-column>
         <!-- 序列号 -->
-        <el-table-column :type="table.firstColumn.type" :width="table.firstColumn.width||50"
-          :label="table.firstColumn.label" :fixed="table.firstColumn.fixed" :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='index'">
+        <el-table-column
+          :type="table.firstColumn.type"
+          :width="table.firstColumn.width||50"
+          :label="table.firstColumn.label"
+          :fixed="table.firstColumn.fixed"
+          :align="table.firstColumn.align||'center'"
+          v-if="table.firstColumn.type==='index'"
+        >
           <template slot-scope="scope">
-            <span>{{isShowPagination?((table.currentPage - 1) * table.pageSize + scope.$index + 1):scope.$index +
-            1}}</span>
+            <span>
+              {{isShowPagination?((table.currentPage - 1) * table.pageSize + scope.$index + 1):scope.$index +
+              1}}
+            </span>
           </template>
         </el-table-column>
       </div>
@@ -64,21 +114,40 @@
       <template v-for="(item,index) in renderColumns">
         <template v-if="!item.children">
           <!-- 常规表头-->
-          <el-table-column v-if="item.isShowCol===false?item.isShowCol:true" :key="index+'i'" :type="item.type"
-            :label="item.label" :prop="item.prop" :min-width="item['min-width'] || item.minWidth || item.width"
-            :sortable="item.sort||sortable" :render-header="item.renderHeader||(item.headerRequired&&renderHeader)"
-            :align="item.align || 'center'" :fixed="item.fixed" :show-overflow-tooltip="item.noShowTip"
-            v-bind="{...item.bind,...$attrs}" v-on="$listeners">
+          <el-table-column
+            v-if="item.isShowCol===false?item.isShowCol:true"
+            :key="index+'i'"
+            :type="item.type"
+            :label="item.label"
+            :prop="item.prop"
+            :min-width="item['min-width'] || item.minWidth || item.width"
+            :sortable="item.sort||sortable"
+            :render-header="item.renderHeader||(item.headerRequired&&renderHeader)"
+            :align="item.align || 'center'"
+            :fixed="item.fixed"
+            :show-overflow-tooltip="item.noShowTip"
+            v-bind="{...item.bind,...$attrs}"
+            v-on="$listeners"
+          >
             <template slot-scope="scope">
               <template v-if="!isEditCell">
                 <!-- render渲染 -->
                 <template v-if="item.render">
-                  <render-col :column="item" :row="scope.row" :render="item.render" :index="scope.$index" />
+                  <render-col
+                    :column="item"
+                    :row="scope.row"
+                    :render="item.render"
+                    :index="scope.$index"
+                  />
                 </template>
                 <!-- customRender渲染 -->
                 <template v-if="item.customRender">
-                  <OptComponent v-for="(comp, i) in item.customRender.comps" :key="scope.$index + i.toString()"
-                    v-bind="comp" :scope="scope" />
+                  <OptComponent
+                    v-for="(comp, i) in item.customRender.comps"
+                    :key="scope.$index + i.toString()"
+                    v-bind="comp"
+                    :scope="scope"
+                  />
                 </template>
                 <!-- 自定义插槽 -->
                 <template v-if="item.slotName">
@@ -86,28 +155,47 @@
                 </template>
                 <!-- 单个单元格编辑 -->
                 <template v-if="item.canEdit">
-                  <single-edit-cell :canEdit="item.canEdit" :configEdit="item.configEdit"
-                    v-model="scope.row[scope.column.property]" :prop="item.prop" :record="scope"
-                    @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)" v-bind="$attrs"
-                    ref="editCell">
-                    <slot v-if="item.configEdit&&item.configEdit.editSlotName" :name="item.configEdit.editSlotName"
-                      :scope="scope" />
+                  <single-edit-cell
+                    :canEdit="item.canEdit"
+                    :configEdit="item.configEdit"
+                    v-model="scope.row[scope.column.property]"
+                    :prop="item.prop"
+                    :record="scope"
+                    @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
+                    v-bind="$attrs"
+                    ref="editCell"
+                  >
+                    <slot
+                      v-if="item.configEdit&&item.configEdit.editSlotName"
+                      :name="item.configEdit.editSlotName"
+                      :scope="scope"
+                    />
                   </single-edit-cell>
                 </template>
                 <!-- 字典过滤 -->
-                <template v-if="item.filters&&item.filters.list">{{scope.row[item.prop]
-                |constantEscape(table.listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</template>
-                <div v-if="!item.render&&!item.slotName&&!item.customRender&&!item.canEdit&&!item.filters"
-                  :style="{color:txtChangeColor(scope)}">
+                <template v-if="item.filters&&item.filters.list">
+                  {{scope.row[item.prop]
+                  |constantEscape(table.listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}
+                </template>
+                <div
+                  v-if="!item.render&&!item.slotName&&!item.customRender&&!item.canEdit&&!item.filters"
+                  :style="{color:txtChangeColor(scope)}"
+                >
                   <span
-                    v-if="isObjShowProp">{{item.prop.includes('.')?scope.row[item.prop.split('.')[0]][item.prop.split('.')[1]]:scope.row[item.prop]}}</span>
+                    v-if="isObjShowProp"
+                  >{{item.prop.includes('.')?scope.row[item.prop.split('.')[0]][item.prop.split('.')[1]]:scope.row[item.prop]}}</span>
                   <span v-else>{{scope.row[item.prop]}}</span>
                 </div>
               </template>
               <template v-else>
                 <!-- 整行编辑 -->
-                <edit-cell :configEdit="item.configEdit" v-model="scope.row[scope.column.property]" v-bind="$attrs"
-                  v-on="$listeners" ref="editCell">
+                <edit-cell
+                  :configEdit="item.configEdit"
+                  v-model="scope.row[scope.column.property]"
+                  v-bind="$attrs"
+                  v-on="$listeners"
+                  ref="editCell"
+                >
                   <template v-for="(index, name) in $slots" :slot="name">
                     <slot :name="name" />
                   </template>
@@ -121,24 +209,44 @@
       </template>
       <slot></slot>
       <!-- 操作按钮 -->
-      <el-table-column v-if="table.operator" :fixed="table.operatorConfig && table.operatorConfig.fixed"
+      <el-table-column
+        v-if="table.operator"
+        :fixed="table.operatorConfig && table.operatorConfig.fixed"
         :label="(table.operatorConfig && table.operatorConfig.label) || '操作'"
         :min-width="(table.operatorConfig && (table.operatorConfig.width || table.operatorConfig.minWidth)) || 100"
-        :align="table.operatorConfig && table.operatorConfig.align||'center'" class-name="operator">
+        :align="table.operatorConfig && table.operatorConfig.align||'center'"
+        class-name="operator"
+      >
         <template slot-scope="scope">
           <div class="operator_btn" :style="table.operatorConfig && table.operatorConfig.style">
-            <el-button v-for="(item, index) in table.operator" :key="index"
-              @click="item.fun&&item.fun(scope.row,scope.$index,tableData)" :type="item.type||'text'"
-              :style="item.style" :icon="item.icon?item.icon:''" :disabled="item.disabled" size="small"
-              v-show="checkIsShow(scope,item)">
+            <el-button
+              v-for="(item, index) in table.operator"
+              :key="index"
+              @click="item.fun&&item.fun(scope.row,scope.$index,tableData)"
+              :type="item.type||'text'"
+              :style="item.style"
+              :icon="item.icon?item.icon:''"
+              :disabled="item.disabled"
+              size="small"
+              v-show="checkIsShow(scope,item)"
+            >
               <!-- customRender渲染 -->
               <template v-if="item.customRender">
-                <OptComponent v-for="(comp, i) in item.customRender.comps" :key="scope.$index + i.toString()"
-                  v-bind="comp" :scope="scope" />
+                <OptComponent
+                  v-for="(comp, i) in item.customRender.comps"
+                  :key="scope.$index + i.toString()"
+                  v-bind="comp"
+                  :scope="scope"
+                />
               </template>
               <!-- render渲染 -->
               <template v-if="item.render">
-                <render-col :column="item" :row="scope.row" :render="item.render" :index="scope.$index" />
+                <render-col
+                  :column="item"
+                  :row="scope.row"
+                  :render="item.render"
+                  :index="scope.$index"
+                />
               </template>
               <span v-if="!item.render&&!item.customRender">{{item.text}}</span>
             </el-button>
@@ -150,10 +258,18 @@
       <el-button type="dashed" block size="small" @click="() => $emit('add')">{{cellEditBtnTxt}}</el-button>
     </div>
     <!-- 分页器 -->
-    <el-pagination v-show="(tableData && tableData.length) && isShowPagination" :current-page="table.currentPage"
-      @current-change="handlesCurrentChange" :page-sizes="[10, 20, 50, 100]" :page-size="table.pageSize"
-      :layout="size?'total, prev, pager, next':'total, sizes, prev, pager, next, jumper'" :total="table.total"
-      v-bind="$attrs" v-on="$listeners" background></el-pagination>
+    <el-pagination
+      v-show="(tableData && tableData.length) && isShowPagination"
+      :current-page="table.currentPage"
+      @current-change="handlesCurrentChange"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="table.pageSize"
+      :layout="size?'total, prev, pager, next':'total, sizes, prev, pager, next, jumper'"
+      :total="table.total"
+      v-bind="$attrs"
+      v-on="$listeners"
+      background
+    ></el-pagination>
     <!-- 表格底部按钮 -->
     <footer class="handle_wrap" v-if="isShowFooterBtn&&(tableData&&tableData.length>0)">
       <slot name="footer" />
@@ -205,6 +321,11 @@ export default {
         return []
       }
       // required: true
+    },
+    // 是否开启tree树形结构样式
+    isShowTreeStyle: {
+      type: Boolean,
+      default: false
     },
     // 表格标题
     title: {
@@ -304,7 +425,7 @@ export default {
       type: String
     }
   },
-  data () {
+  data() {
     return {
       radioVal: '',
       forbidden: true, // 判断单选选中及取消选中
@@ -315,30 +436,30 @@ export default {
   },
   watch: {
     'table.data': {
-      handler (val) {
+      handler(val) {
         this.tableData = val
       },
       deep: true // 深度监听
     },
     tableList: {
-      handler (val) {
+      handler(val) {
         this.tableData = val
       },
       deep: true // 深度监听
     }
   },
-  activated () {
+  activated() {
     // 缓存激活时可能出现冻结列行高不一致问题，强制刷新
     this.$refs['el-table'] && this.$refs['el-table'].$forceUpdate()
   },
   computed: {
-    columnByProp () {
+    columnByProp() {
       return this.columns.reduce((acc, cur) => {
         acc[cur.prop] = cur
         return acc
       }, {})
     },
-    renderColumns () {
+    renderColumns() {
       return this.columnSet.length > 0 ? this.columnSet.reduce((acc, cur) => {
         if (!cur.hidden) {
           acc.push(this.columnByProp[cur.prop])
@@ -347,20 +468,20 @@ export default {
       }, []) : this.columns
     },
     // 判断如果有表头合并就自动开启单元格缩放
-    isTableBorder () {
+    isTableBorder() {
       // console.log(789, this.renderColumns.some(item => item.children))
       return this.renderColumns.some(item => item.children)
     },
-    getToolbarBtn () {
+    getToolbarBtn() {
       return this.table.toolbar ? this.table.toolbar.slice(0, 3) : []
     },
-    getToolbarDown () {
+    getToolbarDown() {
       return this.getToolbarBtn.length === 3 ? this.table.toolbar.slice(3, this.table.toolbar.length) : []
     }
   },
   methods: {
     // 合并行隐藏复选框/单选框
-    cellClassNameFuc (row) {
+    cellClassNameFuc(row) {
       if (!this.isTableColumnHidden) {
         return false
       }
@@ -369,7 +490,7 @@ export default {
       }
     },
     // 合并单元格
-    objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
       if (!this.isMergedCell) {
         return false
       }
@@ -387,7 +508,7 @@ export default {
       }
     },
     // 处理合并行的数据
-    getSpanArr (data, spanKey) {
+    getSpanArr(data, spanKey) {
       let spanArr = []
       let pos = ''
       for (let i = 0; i < data.length; i++) {
@@ -408,7 +529,7 @@ export default {
       return spanArr
     },
     // 排序事件
-    soltHandle (column) {
+    soltHandle(column) {
       this.$emit('sort-change', column)
       if (!this.isSortable) {
         return
@@ -462,28 +583,28 @@ export default {
       }
     },
     // 清空排序条件
-    clearSort () {
+    clearSort() {
       this.$refs['el-table'].clearSort()
     },
     // 对 Table 进行重新布局
-    doLayout () {
+    doLayout() {
       this.$refs['el-table'].doLayout()
     },
     // 取消/开启某一项是否选中
-    toggleRowSelection (row, selected = false) {
+    toggleRowSelection(row, selected = false) {
       this.$refs['el-table'].toggleRowSelection(row, selected)
     },
     // 清空复选框
-    clearSelection () {
+    clearSelection() {
       this.$refs['el-table'].clearSelection()
     },
     // 整行编辑返回数据
-    save () {
+    save() {
       this.$emit('save', this.tableData)
       return this.tableData
     },
     // 头部标题是否需要加头部必填*符号
-    renderHeader (h, { column }) {
+    renderHeader(h, { column }) {
       const style = {
         color: '#F56C6C',
         fontSize: '16px',
@@ -498,7 +619,7 @@ export default {
       )
     },
     // 双击复制单元格内容
-    cellDblclick (row, column) {
+    cellDblclick(row, column) {
       if (!this.isCopy) {
         return false
       }
@@ -515,7 +636,7 @@ export default {
       })
     },
     // 是否显示表格操作按钮
-    checkIsShow (scope, item) {
+    checkIsShow(scope, item) {
       let isNoShow = false
       if (item.noshow) {
         item.noshow.map(rs => {
@@ -532,7 +653,7 @@ export default {
       return (!item.show || item.show.val.includes(scope.row[item.show.key])) && isNoShow
     },
     // 控制表格字体颜色
-    txtChangeColor (scope) {
+    txtChangeColor(scope) {
       if (this.table.changeColor && scope.row[this.table.changeColor.key] === this.table.changeColor.val) {
         return this.table.changeColor.txtStyle
       } else {
@@ -540,25 +661,25 @@ export default {
       }
     },
     // 当前页码
-    handlesCurrentChange (val) {
+    handlesCurrentChange(val) {
       this.$emit('page-change', val)
     },
     // 点击单选框单元格触发事件
-    radioChange (row, index) {
+    radioChange(row, index) {
       // console.log('radioChange', row)
       // this.radioVal = this.table.data.indexOf(row)
       // this.$emit('radioChange', row, this.radioVal)
       this.radioClick(row, index)
     },
     // forbidden取值
-    isForbidden () {
+    isForbidden() {
       this.forbidden = false
       setTimeout(() => {
         this.forbidden = true
       }, 0)
     },
     // 单选抛出事件radioChange
-    radioClick (row, index) {
+    radioClick(row, index) {
       this.forbidden = !!this.forbidden
       if (this.radioVal) {
         if (this.radioVal === index) {
@@ -577,7 +698,7 @@ export default {
       }
     },
     // 点击某行
-    rowClick (row) {
+    rowClick(row) {
       if (this.rowClickRadio) {
         this.radioClick(row, this.table.data.indexOf(row) + 1)
       }
@@ -590,7 +711,7 @@ export default {
       }
     },
     // 表格头部按钮
-    toolbarFun (item) {
+    toolbarFun(item) {
       if (!this.rowData) {
         this.$message.warning('请选中行')
         return
@@ -601,7 +722,7 @@ export default {
       }
       item.fun(this.rowData)
     },
-    isShow (name) {
+    isShow(name) {
       return Object.keys(this.$slots).includes(name)
     }
   }
@@ -696,19 +817,31 @@ export default {
       }
     }
   }
-
+  // 树形结构样式
+  ::v-deep .treeProps {
+    .el-table__body-wrapper {
+      .el-table__body {
+        .cell {
+          display: flex;
+        }
+      }
+    }
+    .el-table__cell > .cell {
+      padding-left: 14px;
+      padding-right: 20px;
+    }
+  }
   // 合并行隐藏复选框/单选框
   ::v-deep .el-table {
     .el-table__row {
       .table_column_hidden {
         .cell {
-
           .el-radio__input,
           .el-checkbox__input {
             display: none;
           }
 
-          &>span {
+          & > span {
             display: none;
           }
         }
@@ -718,7 +851,6 @@ export default {
 
   // 操作样式
   .operator_btn {
-
     // text-align: left;
     .el-button {
       margin: 0;
@@ -865,7 +997,7 @@ export default {
           padding: 0 !important;
 
           &::before {
-            content: '' !important;
+            content: "" !important;
           }
         }
       }

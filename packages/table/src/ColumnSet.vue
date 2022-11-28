@@ -18,7 +18,7 @@
 </template>
 <script>
 import draggable from 'vuedraggable'
-
+import md5 from 'blueimp-md5'
 export default {
   name: 'ColumnSet',
   components: {
@@ -28,34 +28,34 @@ export default {
     columns: {
       type: Array,
       default: () => []
-    },
-    title: {
-      type: String,
-      default: ''
-    },
-    name: {
-      type: String,
-      default: ''
     }
   },
-  data () {
+  data() {
     return {
       columnSet: null
     }
   },
-  mounted () {
+  mounted() {
     this.columnSet = this.getColumnSetCache()
     this.$emit('columnSetting', this.columnSet)
+  },
+  computed: {
+    localStorageKey() {
+      // 配置数据缓存唯一标记
+      return `t-ui:TTable.columnSet-${md5(
+        this.columns.map(({ prop }) => prop).join()
+      )}`
+    }
   },
   watch: {
     columnSet: function (n) {
       this.$emit('columnSetting', n)
-      localStorage.setItem(`t-ui:TTable.columnSet-${this.name || this.title}`, JSON.stringify(n))
+      localStorage.setItem(this.localStorageKey, JSON.stringify(n))
     }
   },
   methods: {
-    getColumnSetCache () {
-      let value = localStorage.getItem(`t-ui:TTable.columnSet-${this.name || this.title}`)
+    getColumnSetCache() {
+      let value = localStorage.getItem(this.localStorageKey)
       let columnOption = this.initColumnSet()
       let valueArr = JSON.parse(value) || []
       columnOption.map(item => {
@@ -65,7 +65,7 @@ export default {
       value = JSON.stringify(columnOption)
       return value ? JSON.parse(value) : this.initColumnSet()
     },
-    initColumnSet () {
+    initColumnSet() {
       const columnSet = this.columns.map((col, index) => ({
         label: col.label,
         prop: col.prop,
@@ -74,7 +74,7 @@ export default {
       }))
       return columnSet
     },
-    checkChanged (checked, index) {
+    checkChanged(checked, index) {
       this.$set(this.columnSet, index, { ...this.columnSet[index], hidden: !checked })
       let obj = {}
       this.columnSet.map(val => {

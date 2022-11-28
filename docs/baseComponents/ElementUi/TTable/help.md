@@ -51,7 +51,6 @@
 | highlightCurrentRow     | 是否高亮选中行                                                                | Boolean        | false       |
 | isShowTips              | 开启单元格编辑时鼠标移入是否显示“单击可编辑”tips                              | Boolean        | false       |
 | columnSetting           | 是否显示设置（隐藏/显示列）                                                   | Boolean        | false       |
-| name                    | 与 columnSetting 配合使用标记隐藏/显示列唯一性                                | String         | title       |
 | isShowTreeStyle         | 是否开启 tree 树形结构样式                                                    | Boolean        | false       |
 | isMergedCell            | 是否开启合并单元格                                                            | Boolean        | false       |
 | comparisonOperator      | 多列行合并比较运算符                                                          | String         | ==          |

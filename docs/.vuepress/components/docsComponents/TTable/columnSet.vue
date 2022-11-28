@@ -1,6 +1,6 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table columnSetting name="TtableColumnSet" title="显示隐藏列" :table="table" :columns="columns">
+    <t-table columnSetting title="显示隐藏列" :table="table" :columns="columns">
       <template #amount="{param}">{{param.row.amount|currencyFilter}}</template>
     </t-table>
   </div>

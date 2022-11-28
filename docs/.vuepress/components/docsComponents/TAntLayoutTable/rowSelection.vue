@@ -2,7 +2,8 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-ant-layout-table
-        title="样品列表"
+        title="样品列表222"
+        column-setting
         :pagination="pageOpt"
         @paginationChange="handleTableChange"
         :columns="columns"

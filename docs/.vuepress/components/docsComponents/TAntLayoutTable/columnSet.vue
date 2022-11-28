@@ -2,6 +2,7 @@
   <t-layout-page>
     <!-- <t-layout-page-item> -->
     <t-ant-layout-table
+      title="列设置"
       :columns="columns"
       column-setting
       name="colWidth"

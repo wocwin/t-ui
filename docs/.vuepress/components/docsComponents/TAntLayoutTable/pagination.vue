@@ -4,6 +4,7 @@
       <t-ant-layout-table
         title="样品列表"
         :pagination="pageOpt"
+        column-setting
         @showSizeChange="onShowSizeChange"
         @paginationChange="handleTableChange"
         :columns="columns"

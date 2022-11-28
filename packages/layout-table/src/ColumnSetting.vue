@@ -9,7 +9,7 @@
           @click.native.stop
           :checked="!col.hidden"
           :disabled="col.checkBoxDisabled"
-          @change="e => checkChanged(e.target.checked, index)"
+          @change="(e) => checkChanged(e.target.checked, index)"
         >{{ col.title }}</a-checkbox>
       </draggable>
     </template>
@@ -17,7 +17,7 @@
 </template>
 <script>
 import draggable from 'vuedraggable'
-
+import md5 from 'blueimp-md5'
 export default {
   name: 'ColumnSetting',
   components: {
@@ -27,37 +27,46 @@ export default {
     columns: {
       type: Array,
       default: () => []
-    },
-    title: {
-      type: String,
-      default: ''
-    },
-    name: {
-      type: String,
-      default: ''
     }
   },
-  data () {
+  data() {
     return {
       columnSet: null
     }
   },
-  mounted () {
+  mounted() {
     this.columnSet = this.getColumnSetCache()
     this.$emit('columnSetting', this.columnSet)
+  },
+  computed: {
+    localStorageKey() {
+      // 配置数据缓存唯一标记
+      return `t-ui:TAntLayoutTable-${md5(
+        this.columns.map(({ dataIndex }) => dataIndex).join()
+      )}`
+    }
   },
   watch: {
     columnSet: function (n) {
       this.$emit('columnSetting', n)
-      localStorage.setItem(`t-ui:TAntLayoutTable.columnSet-${this.name || this.title}`, JSON.stringify(n))
+      localStorage.setItem(this.localStorageKey, JSON.stringify(n))
     }
   },
   methods: {
-    getColumnSetCache () {
-      const value = localStorage.getItem(`t-ui:TAntLayoutTable.columnSet-${this.name || this.title}`)
+    getColumnSetCache() {
+      let value = localStorage.getItem(this.localStorageKey)
+      let columnOption = this.initColumnSet()
+      let valueArr = JSON.parse(value) || []
+      if (valueArr.length > 0) {
+        columnOption.map(item => {
+          let findEle = valueArr.find(ele => ele.title === item.title && ele.dataIndex === item.dataIndex)
+          item.hidden = findEle ? findEle.hidden : false
+        })
+      }
+      value = JSON.stringify(columnOption)
       return value ? JSON.parse(value) : this.initColumnSet()
     },
-    initColumnSet () {
+    initColumnSet() {
       const columnSet = this.columns.map((col, index) => ({
         title: col.title,
         dataIndex: col.dataIndex,
@@ -66,23 +75,32 @@ export default {
       }))
       return columnSet
     },
-    checkChanged (checked, index) {
-      this.$set(this.columnSet, index, { ...this.columnSet[index], hidden: !checked })
+    checkChanged(checked, index) {
+      this.$set(this.columnSet, index, {
+        ...this.columnSet[index],
+        hidden: !checked
+      })
       let obj = {}
-      this.columnSet.map(val => {
+      this.columnSet.map((val) => {
         val.hidden in obj || (obj[val.hidden] = [])
         obj[val.hidden].push(val.hidden)
       })
       if (obj.false && obj.false.length < 2) {
         this.columnSet.map((val, key) => {
           if (!val.hidden) {
-            this.$set(this.columnSet, key, { ...this.columnSet[key], checkBoxDisabled: true })
+            this.$set(this.columnSet, key, {
+              ...this.columnSet[key],
+              checkBoxDisabled: true
+            })
           }
         })
       } else {
         this.columnSet.map((val, key) => {
           if (!val.hidden) {
-            this.$set(this.columnSet, key, { ...this.columnSet[key], checkBoxDisabled: false })
+            this.$set(this.columnSet, key, {
+              ...this.columnSet[key],
+              checkBoxDisabled: false
+            })
           }
         })
       }

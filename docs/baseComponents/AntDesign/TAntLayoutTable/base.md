@@ -105,7 +105,6 @@
     <t-layout-page-item> // 页面视图功能块容器
       <t-ant-layout-table
         title="样品列表"  // 列表title（在表格左侧）
-        isCustomScroll // 开启自定义横向滚动条
         columnSetting // 显示设置（隐藏/显示列）
         name="columnSetting" // 隐藏/显示列唯一性
         :pagination="pageOpt" // 分页器
@@ -137,7 +136,6 @@
 | tableOpt       | antd table 配置                                                                                   | {}          |     无 |
 | pagination     | 分页器配置{current: number, pageSize: number, total: number,paginationOpt:{antd pagination 配置}} | object      |     无 |
 | table          | 报表内容插槽，当使用该插槽时，默认 table 将不渲染                                                 | slot        |     无 |
-| isCustomScroll | 是否开启自定义横向滚动条                                                                          | Boolean     |  false |
 | columnSetting  | 是否显示设置（隐藏/显示列）                                                                       | Boolean     |  false |
 | name           | 组件唯一标记，类似 Key 值，用于缓存表头数据                                                       | String      |     无 |
 

@@ -2,7 +2,6 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-ant-layout-table
-        isCustomScroll
         :columns="columns"
         :dataSource="sourceData"
         :tableOpt="{bordered:true,scroll: {x: '110%'}}"

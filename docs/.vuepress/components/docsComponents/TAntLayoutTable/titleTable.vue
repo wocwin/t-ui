@@ -1,7 +1,7 @@
 <template>
   <t-layout-page>
     <t-layout-page-item>
-      <t-ant-layout-table title="样品列表" :columns="columns" :dataSource="sourceData" />
+      <t-ant-layout-table title="样品列表444" :columns="columns" :dataSource="sourceData" />
     </t-layout-page-item>
   </t-layout-page>
 </template>

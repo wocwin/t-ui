@@ -37,6 +37,7 @@ import { TAntModal, TAntProtocol } from './modal'
 import TSelectTable from './select-table'
 import TTreeSelect from './tree-select'
 import TButton from './button'
+import TTheme from './theme'
 
 // 存储组件列表
 const components = [
@@ -79,7 +80,8 @@ const components = [
   TDetail,
   TSelectTable,
   TButton,
-  TTreeSelect
+  TTreeSelect,
+  TTheme
 ]
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册

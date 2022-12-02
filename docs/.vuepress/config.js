@@ -19,7 +19,7 @@ module.exports = {
       { text: '主页', link: '/' },
       { text: '实际项目问题', link: '/projectProblem/permission' },
       { text: '基础组件', link: '/baseComponents/' },
-      // { text: '更新日志', link: '/changeLog/log' },
+      // { text: 'Tui主题', link: '/theme/base' },
       { text: "Gitee码云", link: "https://gitee.com/wocwin/t-ui" }
     ],
     sidebar: {
@@ -43,6 +43,7 @@ module.exports = {
               title: '常用组件',
               collapsable: false,
               children: [
+                'ElementUi/TTheme/base', // 主题设置
                 'ElementUi/TQueryCondition/base', // 查询条件组件
                 'ElementUi/TInput/base', // input组件
                 'ElementUi/TButton/base', // button组件
@@ -137,7 +138,16 @@ module.exports = {
             }
           ]
         },
-      ]
+      ],
+      // '/theme/': [
+      //   {
+      //     title: 'Tui主题',
+      //     collapsable: false,
+      //     children: [
+      //       'base'
+      //     ]
+      //   }
+      // ],
     }
   },
   chainWebpack(config) {

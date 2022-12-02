@@ -1,8 +1,8 @@
 <template>
   <div class="query-data">
     <t-query-condition ref="queryCondition" :opts="opts" @submit="conditionEnter">
-      <template #likeTransportNo>
-        <el-input v-model="queryData.likeTransportNo" clearable placeholder="自定义插槽输入框" />
+      <template #likeTransportNo="{param}">
+        <el-input v-model="param.likeTransportNo" clearable placeholder="自定义插槽输入框" />
       </template>
     </t-query-condition>
   </div>

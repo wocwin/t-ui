@@ -3,11 +3,14 @@
     <div class="scroll_wrap">
       <!-- 头部 -->
       <el-page-header
-        v-if="title"
+        v-if="title||titleSlot"
         :title="title"
         @back="back"
         :class="{noContent:!isShow('extra')&&!subTitle,'isShowBack':isShowBack}"
       >
+        <template #title v-if="titleSlot">
+          <slot name="title"></slot>
+        </template>
         <template #content>
           <div class="sub_title">{{subTitle}}</div>
           <div class="extra">
@@ -71,6 +74,11 @@ export default {
       type: String,
       default: 'edit' // edit表form表单操作，desc表详情页面
     },
+    // 是否使用插槽显示title
+    titleSlot: {
+      type: Boolean,
+      default: false
+    },
     // 是否显示返回箭头
     isShowBack: {
       type: Boolean,
@@ -93,7 +101,7 @@ export default {
     tabs: Array,
     submit: Function
   },
-  data () {
+  data() {
     return {
       activeName: this.tabs && this.tabs[0].key,
       loading: false
@@ -101,11 +109,11 @@ export default {
   },
   methods: {
     // 获取默认选中tab
-    setSelectedTab (key) {
+    setSelectedTab(key) {
       this.activeName = key
     },
     // 点击保存
-    async saveHandle () {
+    async saveHandle() {
       const self = this
       let form = {}
       let formError = {}
@@ -149,7 +157,7 @@ export default {
       this.loading = false
     },
     // 点击头部返回或者取消
-    back () {
+    back() {
       if (this.isShowBack) {
         return
       }
@@ -158,14 +166,14 @@ export default {
         this.$router.go(-1)
       }
     },
-    show (formType) {
+    show(formType) {
       this.$nextTick(() => {
         this.updateFormFields()
         this.formType = formType
       })
     },
     // 清空表单
-    resetFormFields () {
+    resetFormFields() {
       const self = this
       let formOpts = {}
       // 过滤非插槽表单
@@ -179,7 +187,7 @@ export default {
       })
     },
     // 清空校验规则
-    clearValidate () {
+    clearValidate() {
       const self = this
       let formOpts = {}
       // 过滤非插槽表单
@@ -192,7 +200,7 @@ export default {
         self.$refs.tForm.$refs[formIndex][0].clearValidate()
       })
     },
-    updateFormFields () {
+    updateFormFields() {
       const self = this
       let formOpts = {}
       // 过滤非插槽表单
@@ -205,7 +213,7 @@ export default {
         self.$refs.tForm.$refs[formIndex][0].updateFields(false)
       })
     },
-    isShow (name) {
+    isShow(name) {
       return Object.keys(this.$slots).includes(name)
     }
   }
@@ -235,8 +243,8 @@ export default {
       font-variant: tabular-nums;
       line-height: 1.5;
       list-style: none;
-      -webkit-font-feature-settings: 'tnum';
-      font-feature-settings: 'tnum';
+      -webkit-font-feature-settings: "tnum";
+      font-feature-settings: "tnum";
       position: relative;
       padding: 16px 24px;
       background-color: #fff;

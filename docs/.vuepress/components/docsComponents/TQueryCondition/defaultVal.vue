@@ -1,10 +1,6 @@
 <template>
   <div class="query-data">
-    <t-query-condition ref="queryCondition" :opts="opts" @submit="conditionEnter">
-      <template #likeTransportNo="{param}">
-        <el-input v-model="param.likeTransportNo" clearable placeholder="自定义插槽输入框" />
-      </template>
-    </t-query-condition>
+    <t-query-condition :opts="opts" @submit="conditionEnter" />
   </div>
 </template>
 <script>
@@ -34,8 +30,6 @@ export default {
         likeCargoName: null,
         workshopNum: null,
         workshopNum1: null,
-        date1: null,
-        date2: null,
         date: null,
       }
     }
@@ -43,39 +37,12 @@ export default {
   computed: {
     opts() {
       return {
-        likeCargoNo: {
-          label: '货源编号',
-          comp: 'el-input'
-        },
-        likeBookNo: {
-          labelRender: () => {
-            return (
-              <el-tooltip content={'自定义label'} placement="top">
-                <div>订单编号</div>
-              </el-tooltip>
-            )
-          },
-          placeholder: '自定义label',
-          comp: 'el-input'
-        },
-        likeTransportNo: {
-          label: '运单编号',
-          comp: 'el-input',
-          slotName: 'likeTransportNo',
-        },
-        likeCargoName: {
-          label: '货品名称',
-          comp: 'el-input',
-          bind: {
-          }
-        },
         workshopNum1: {
           label: '车间2',
           comp: 'el-select',
           changeEvent: 'change',
-          // defaultVal: 'W1',
-          bind: {
-          },
+          defaultVal: 'W2',
+          // span: 4,
           child: ADDRESS_TYPES.reduce((acc, cur) => {
             acc.push({
               comp: 'el-option',
@@ -92,9 +59,8 @@ export default {
           label: '车间',
           comp: 'el-select',
           changeEvent: 'change',
-          // defaultVal: 'W1',
-          bind: {
-          },
+          defaultVal: 'W1',
+          // span: 2,
           child: [
             {
               comp: 'el-option',
@@ -122,13 +88,6 @@ export default {
             }
           ]
         },
-        date1: {
-          label: '日期',
-          comp: 'el-date-picker',
-          bind: {
-            valueFormat: 'yyyy-MM-dd'
-          }
-        },
         date: {
           label: '日期范围',
           comp: 'el-date-picker',
@@ -141,12 +100,29 @@ export default {
             endPlaceholder: '结束日期',
             valueFormat: 'yyyy-MM-dd'
           }
-        }
+        },
+        likeCargoNo: {
+          label: '货源编号',
+          // span: 2,
+          comp: 'el-input',
+        },
+        likeBookNo: {
+          label: '订单编号',
+          comp: 'el-input'
+        },
+        likeTransportNo: {
+          label: '运单编号',
+          comp: 'el-input',
+        },
+        likeCargoName: {
+          label: '货品名称',
+          comp: 'el-input',
+        },
       }
     },
     // 查询条件所需参数
     getQueryData() {
-      const { likeCargoNo, likeBookNo, likeTransportNo, likeCargoName, workshopNum, workshopNum1, date1, date, } = this.queryData
+      const { likeCargoNo, likeBookNo, likeTransportNo, likeCargoName, workshopNum, workshopNum1, date } = this.queryData
       return {
         likeCargoNo,
         likeBookNo,
@@ -154,9 +130,8 @@ export default {
         likeCargoName,
         workshopNum,
         workshopNum1,
-        date1,
         beginDate: date[0] ? date[0] : null,
-        endDate: date[1] ? date[1] : null,
+        endDate: date[1] ? date[1] : null
       }
     }
   },

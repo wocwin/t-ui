@@ -35,7 +35,7 @@
       v-if="Object.keys(cOpts).length > 0"
       label-width="0"
       style="grid-area: submit_btn"
-      :class="{'flex_end': cellLength % colLength === 0}"
+      :class="['btn',{'flex_end': cellLength % colLength === 0}]"
     >
       <el-button
         type="primary"
@@ -45,6 +45,10 @@
         :loading="loading"
       >查询</el-button>
       <el-button v-if="reset" class="btn_reset" size="small" @click="resetHandle">重置</el-button>
+      <el-button v-if="originCellLength > colLength&&isShowOpen" type="text" @click="openOrHide">
+        {{ open ? '收起' : '展开'}}
+        <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+      </el-button>
       <slot name="querybar"></slot>
     </el-form-item>
   </el-form>
@@ -67,7 +71,7 @@ export default {
     },
     labelWidth: {
       type: String,
-      default: '100px'
+      default: '120px'
     },
     loading: {
       type: Boolean,
@@ -80,10 +84,21 @@ export default {
     boolEnter: {
       type: Boolean,
       default: true
+    },
+    // 最大展示数，默认4个
+    maxShow: {
+      type: Number,
+      default: 4
+    },
+    // 是否显示收起和展开
+    isShowOpen: {
+      type: Boolean,
+      default: true
     }
   },
-  data () {
+  data() {
     return {
+      open: false,
       colLength: null,
       form: Object.keys(this.opts).reduce((acc, field) => {
         acc[field] = this.opts[field].defaultVal || null
@@ -93,14 +108,14 @@ export default {
   },
   watch: {
     opts: {
-      handler (opts) {
+      handler(opts) {
         this.form = this.initForm(opts, true)
       },
       deep: true
     }
   },
   computed: {
-    cOpts () {
+    cOpts() {
       return Object.keys(this.opts).reduce((acc, field) => {
         let opt = {
           ...this.opts[field]
@@ -110,69 +125,71 @@ export default {
         return acc
       }, {})
     },
-    gridAreas () { // grid布局按钮位置
-      let template = "'. . . .'"
-      switch (this.colLength) {
-        case 3:
-          template = "'. . .'"
-          break
-        case 2:
-          template = "'. .'"
-          break
+    gridAreas() { // grid布局按钮位置
+      const { colLength, cOpts } = this
+      const fields = Object.keys(cOpts)
+      let rowIndex = 0
+      let rowSpan = 0
+      const areas = [[]]
+      for (let fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+        const field = fields[fieldIndex]
+        const opt = cOpts[field]
+        const span = Math.min(opt.span ?? 1, 4) // 最大4
+        if (rowSpan + span > colLength) {
+          if (rowSpan < colLength) {
+            areas[rowIndex].push('.')
+          }
+          rowSpan = 0
+          areas[++rowIndex] = []
+        }
+        rowSpan += span
+        for (let index = 0; index < span; index++) {
+          areas[rowIndex].push(field)
+        }
       }
-      let areas = [template]
-      Object.keys(this.opts).forEach(key => { // 根据控件描述注定占用多少列及顺序
-        let span = 1
-        if (this.opts[key].span > 1 || this.opts[key].span <= 2) { // 最多占用2列
-          span = this.opts[key].span
-        }
-        // 计算剩余多少未占用的位置
-        let count = 0
-        let scrstr = areas[areas.length - 1]
-        while (scrstr.indexOf('.') !== -1) {
-          scrstr = scrstr.replace(/\./, '')
-          count++
-        }
-        // 若剩余位置不足以放下下一个控件
-        if (count < span) {
-          areas.push(template)
-        }
-        let i = 0
-        while (i < span) {
-          areas[areas.length - 1] = areas[areas.length - 1].replace(/\./, key)
-          i++
-        }
-      })
-      // 若控件正好占满一行时，补充多一列放置btn
-      if (areas[areas.length - 1].indexOf('.') === -1) {
-        areas.push(template)
-      }
-      if (this.cellLength % this.colLength === 0) { // 正好占满一行
-        areas[areas.length - 1] = areas[areas.length - 1].replace(/\.'$/, "submit_btn'")
+      if (areas[rowIndex].length === colLength) {
+        areas.push(['submit_btn', 'submit_btn', 'submit_btn', 'submit_btn'])
       } else {
-        areas[areas.length - 1] = areas[areas.length - 1].replace(/\./, 'submit_btn')
+        while (areas[rowIndex].length < colLength) {
+          areas[rowIndex].push('submit_btn')
+        }
       }
-      return (areas + '').replace(/,/g, '')
+      return areas.reduce((acc, cur) => {
+        acc += `'${cur.join(' ')}'\n`
+        return acc
+      }, '')
     },
     // 占用单元格长度
-    span () {
+    span() {
       let span = 1
       Object.keys(this.opts).forEach(key => {
         span = this.opts[key].span > 4 ? 4 : this.opts[key].span || 1
       })
       return span
     },
-    cellLength () { // 占用单元格长度
+    cellLength() { // 占用单元格长度
       let length = 0
       Object.keys(this.opts).forEach(key => {
         let span = this.opts[key].span > 4 ? 4 : this.opts[key].span || 1
         length += span
       })
       return length
+    },
+    originCellLength() {
+      const { colLength } = this
+      let length = 0
+      Object.keys(this.opts).forEach(key => {
+        let span = this.opts[key].span || 1
+        if (length % colLength + span > colLength) {
+          length += colLength - (length % colLength)
+        }
+        length += span
+      })
+      return length
     }
   },
   methods: {
-    getColLength () { // 行列数
+    getColLength() { // 行列数
       const width = window.innerWidth
       let colLength = 4
       if (width > 768 && width < 1280) {
@@ -182,7 +199,42 @@ export default {
       }
       return colLength
     },
-    initForm (opts, keepVal = false) {
+    openOrHide() {
+      this.open = !this.open
+      this.minShowCtrol()
+    },
+    // 通过maxShow控制元素显示/折叠
+    minShowCtrol() {
+      const group = window.document.querySelectorAll(`.t-query-condition .el-form-item.el-form-item--small`)
+      const len = group?.length ? group?.length - 1 : 0
+      let j = 0
+      let k = 0
+      let g = 0
+      if (Object.keys(this.opts).length > 4) {
+        Object.keys(this.opts).splice(0, 4).forEach(key => {
+          let span = this.opts[key].span || 1
+          switch (span) {
+            case 2:
+              j = 1
+              break
+            case 3:
+              k = 1
+              break
+            case 4:
+              g = 2
+              break
+          }
+        })
+      }
+      if (this.maxShow < len) {
+        group.forEach((item, index) => {
+          if (index > (this.maxShow - 1 - j - k - g) && index < len) {
+            item.hidden = !this.open
+          }
+        })
+      }
+    },
+    initForm(opts, keepVal = false) {
       return Object.keys(opts).reduce((acc, field) => {
         if (keepVal && this.form) {
           acc[field] = this.form[field]
@@ -195,20 +247,21 @@ export default {
       }, {})
     },
     // 更新defaultVal
-    updateFields (keepVal = true) {
+    updateFields(keepVal = true) {
       this.form = this.initForm(this.opts, keepVal)
     },
-    resetHandle () {
+    resetHandle() {
       this.form = this.initForm(this.opts)
       this.checkHandle('reset')
+      this.$emit('reset', this.form)
     },
-    change (v, dataIndex) {
+    change(v, dataIndex) {
       this.form[dataIndex] = v
       this.$emit('change', {
         ...this.form
       })
     },
-    checkHandle (flagText) {
+    checkHandle(flagText) {
       const formData = Object.keys(this.form).reduce((acc, field) => {
         if (typeof this.form[field] === 'string') { // 去除前后空格
           this.form[field] = this.form[field].trim()
@@ -219,7 +272,7 @@ export default {
       this.$emit('submit', formData, flagText)
     },
     // 键盘事件
-    keyEvent () {
+    keyEvent() {
       if (this.boolEnter) {
         let lett = this
         document.onkeyup = function (e) {
@@ -246,11 +299,14 @@ export default {
       }
     }
   },
-  activated () {
+  activated() {
     this.keyEvent()
   },
-  mounted () {
+  mounted() {
     this.colLength = this.getColLength()
+    if (this.maxShow >= 4 && this.isShowOpen) {
+      this.minShowCtrol()
+    }
     this.keyEvent()
   }
 }
@@ -278,6 +334,9 @@ export default {
       overflow: visible !important;
     }
   }
+  .btn {
+    text-align: end;
+  }
   .render_label {
     .el-form-item__label {
       cursor: pointer;
@@ -300,6 +359,9 @@ export default {
     .el-form-item__content {
       flex-grow: 1;
       // overflow: hidden;
+      // display: flex;
+      // align-items: center;
+      // justify-content: flex-end;
       margin-left: 0 !important;
     }
   }
@@ -311,6 +373,9 @@ export default {
     position: relative;
     top: -1px;
     margin-left: 8px;
+  }
+  [hidden] {
+    display: none !important;
   }
 }
 </style>

@@ -9,14 +9,15 @@
 
 <script>
 // default color
-import variables from '../../../docs/.vuepress/public/css/element-variables.scss'
+// import variables from '../../../docs/.vuepress/public/css/element-variables.scss'
 const version = require('element-ui/package.json').version // element-ui version from node_modules
+const themeDefault = '#409EFF'
 export default {
   name: 'TTheme',
   props: {
     value: {
       type: String,
-      default: variables.theme
+      default: themeDefault
     }
   },
   data() {
@@ -26,9 +27,6 @@ export default {
     }
   },
   computed: {
-    variables() {
-      return variables
-    },
     theme: {
       get() {
         return this.value
@@ -55,7 +53,7 @@ export default {
 
       const getHandler = (variable, id) => {
         return () => {
-          const originalCluster = this.getThemeCluster(variables.theme.replace('#', ''))
+          const originalCluster = this.getThemeCluster(themeDefault.replace('#', ''))
           const newStyle = this.updateStyle(this[variable], originalCluster, themeCluster)
 
           let styleTag = document.getElementById(id)

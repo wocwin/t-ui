@@ -43,8 +43,7 @@ module.exports = {
               title: '常用组件',
               collapsable: false,
               children: [
-                'ElementUi/TTheme/base', // 主题设置
-                'ElementUi/TQueryCondition/base', // 查询条件组件
+                // 'ElementUi/TTheme/base', // 主题设置
                 'ElementUi/TInput/base', // input组件
                 'ElementUi/TButton/base', // button组件
                 'ElementUi/TSearch/base', // 下拉搜索查询组件
@@ -59,6 +58,19 @@ module.exports = {
                 'ElementUi/TPaginationSelect/base', // 下拉选择分页组件
                 'ElementUi/TSelectTable/base', // 下拉选择表格组件
                 // 'ElementUi/TUploadExcel/base' // 批量上传excel组件
+              ]
+            },
+            {
+              title: '查询条件组件',
+              collapsable: false,
+              children: [
+                'ElementUi/TQueryCondition/base', // 基本
+                'ElementUi/TQueryCondition/slot', // 插槽使用
+                'ElementUi/TQueryCondition/labelRender', // tsx自定义label使用
+                'ElementUi/TQueryCondition/defaultVal', // 默认值
+                'ElementUi/TQueryCondition/linkage', // 联动使用
+                'ElementUi/TQueryCondition/TSelectUse', // 结合TSelect使用
+                'ElementUi/TQueryCondition/help', // 使用帮助(Attributes)
               ]
             },
             {

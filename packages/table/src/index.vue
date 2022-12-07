@@ -743,6 +743,17 @@ export default {
     margin-right: calc(2% - 20px);
     background-color: #fff;
   }
+  // style：ttable单元格内容过长省略号
+  .el-table .el-tooltip div {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    line-height: 23px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
   .el-table th,
   .el-table td {

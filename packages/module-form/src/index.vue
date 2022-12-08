@@ -20,14 +20,24 @@
       </el-page-header>
       <!-- 表单页面 -->
       <module-form v-if="handleType==='edit'" v-bind="$attrs" v-on="$listeners" ref="tForm">
-        <template v-for="(index, name) in $slots" :slot="name">
+        <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
+        <template v-for="(index, name) in $slots" v-slot:[name]>
           <slot :name="name" />
+        </template>
+        <!-- 遍历子组件作用域插槽，并对父组件暴露 -->
+        <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+          <slot :name="name" v-bind="data"></slot>
         </template>
       </module-form>
       <!-- 详情页面 -->
       <module-detail v-else v-bind="$attrs">
-        <template v-for="(index, name) in $slots" :slot="name">
+        <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
+        <template v-for="(index, name) in $slots" v-slot:[name]>
           <slot :name="name" />
+        </template>
+        <!-- 遍历子组件作用域插槽，并对父组件暴露 -->
+        <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+          <slot :name="name" v-bind="data"></slot>
         </template>
       </module-detail>
       <!-- tabs -->

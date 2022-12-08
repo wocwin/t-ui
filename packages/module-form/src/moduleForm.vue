@@ -25,8 +25,13 @@
           v-bind="$attrs"
           @handleEvent="(val,type)=>$emit('handleEvent',val,type)"
         >
-          <template v-for="(index, name) in $slots" :slot="name">
+          <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
+          <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name" />
+          </template>
+          <!-- 遍历子组件作用域插槽，并对父组件暴露 -->
+          <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+            <slot :name="name" v-bind="data"></slot>
           </template>
         </t-form>
       </el-collapse-item>
@@ -48,11 +53,11 @@ export default {
   computed: {
     // 默认全部展开
     defaultActiveKey: {
-      get () {
+      get() {
         // console.log(333, Object.keys(this.formOpts))
         return Object.keys(this.formOpts)
       },
-      set (val) {
+      set(val) {
         return val
       }
     }

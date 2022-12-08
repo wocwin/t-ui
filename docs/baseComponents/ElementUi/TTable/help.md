@@ -64,6 +64,7 @@
 | sortable                | 是否所有 table 列都开启排序 若值 'custom'，需要监听 Table 的 sort-change 事件 | Boolean/String | -           |
 | isSortable              | 是否开启组件 sort-change 事件                                                 | Boolean        | false       |
 | notSortJudge            | 不排序条件判断规则                                                            | String         | -           |
+| isKeyup                 | 单元格编辑是否开启键盘事件(向上、向下、回车横向的下一个输入框)                | Boolean        | false       |
 
 ## Methods 方法
 

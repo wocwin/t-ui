@@ -99,6 +99,7 @@ module.exports = {
                 'ElementUi/TTable/objRenderPorp', // 对象模式渲染
                 'ElementUi/TTable/renderHeader', // 自定义列标题 label
                 'ElementUi/TTable/radio', // 单选
+                'ElementUi/TTable/singleEditKeyup', // 单元格编辑键盘事件
                 'ElementUi/TTable/singleEditTable', // 开启单个单元格编辑
                 'ElementUi/TTable/cellEditSave', // 单元格编辑保存单行操作
                 'ElementUi/TTable/editTable', // 开启整行编辑模式

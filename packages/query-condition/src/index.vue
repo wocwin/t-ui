@@ -45,11 +45,11 @@
         :loading="loading"
       >查询</el-button>
       <el-button v-if="reset" class="btn_reset" size="small" @click="resetHandle">重置</el-button>
+      <slot name="querybar"></slot>
       <el-button v-if="originCellLength > colLength&&isShowOpen" type="text" @click="openOrHide">
         {{ open ? '收起' : '展开'}}
         <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
       </el-button>
-      <slot name="querybar"></slot>
     </el-form-item>
   </el-form>
 </template>

@@ -12,7 +12,9 @@
       :type="configEdit.type"
       :placeholder="configEdit.placeholder||getPlaceholder(configEdit)"
       ref="parentCom"
-      @change="handleEvent(configEdit.event, record.row[prop],configEdit.editComponent)"
+      :class="prop"
+      @change="()=>$emit('handleEvent',configEdit.event, record.row[prop],configEdit.editComponent)"
+      @keyup.native="(event) => $emit('Keyup',event,record.$index, prop)"
       :style="{width: configEdit.width||'100%'}"
       v-bind="typeof this.configEdit.bind == 'function' ? this.configEdit.bind(record) : {clearable:true,filterable:true,...this.configEdit.bind}"
       v-on="$listeners"
@@ -157,11 +159,6 @@ export default {
         placeholder = row.label
       }
       return placeholder
-    },
-    // 绑定的相关事件
-    handleEvent(type, val) {
-      // console.log('组件', type, val, editCom)
-      this.$emit('handleEvent', type, val)
     }
   }
 }

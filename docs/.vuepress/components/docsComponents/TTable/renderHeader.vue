@@ -40,13 +40,13 @@ export default {
           renderHeader: (row) => {
             return (
               <div>
-                <span>{row.label}</span>
+                <span>姓名</span>
                 <i class="el-icon-question" />
               </div>
             )
           }
         },
-        { prop: 'date', label: '日期', headerRequired: true, minWidth: '180' },
+        { prop: 'date', label: '必选项', headerRequired: true, minWidth: '180' },
         {
           prop: 'address', label: '地址', minWidth: '220',
           renderHeader: (row) => {

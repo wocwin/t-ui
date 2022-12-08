@@ -165,6 +165,7 @@
                     :prop="item.prop"
                     :record="scope"
                     @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
+                    @Keyup="handleKeyup"
                     v-bind="$attrs"
                     ref="editCell"
                   >
@@ -390,6 +391,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 单元格编辑是否开启键盘事件
+    isKeyup: {
+      type: Boolean,
+      default: false
+    },
     // 第几列合并
     mergeCol: {
       type: Number,
@@ -444,6 +450,7 @@ export default {
       forbidden: true, // 判断单选选中及取消选中
       tableData: this.table?.data || this.tableList,
       rowData: '',
+      copyTableData: [], // 键盘事件
       columnSet: []
     }
   },
@@ -493,12 +500,82 @@ export default {
     }
   },
   methods: {
+    // 单元格编辑键盘事件
+    handleKeyup(event, index, key) {
+      if (!this.isKeyup) return
+      this.copyTableData = JSON.parse(JSON.stringify(this.tableData))
+      // 向上键
+      if (event.keyCode === 38) {
+        let doms = document.getElementsByClassName(key)
+        if (!index) {
+          index = this.copyTableData.length
+        }
+        if (doms.length) {
+          let dom
+          if (doms[index - 1].getElementsByTagName('input')[0]) {
+            dom = doms[index - 1].getElementsByTagName('input')[0]
+          } else {
+            dom = doms[index - 1].getElementsByTagName('textarea')[0]
+          }
+          dom.focus()
+          // dom.select()
+        }
+      }
+      // 向下键
+      if (event.keyCode === 40) {
+        let doms = document.getElementsByClassName(key)
+        if (+index === this.copyTableData.length - 1) {
+          index = -1
+        }
+        if (doms.length) {
+          let dom
+          if (doms[index + 1].getElementsByTagName('input')[0]) {
+            dom = doms[index + 1].getElementsByTagName('input')[0]
+          } else {
+            dom = doms[index + 1].getElementsByTagName('textarea')[0]
+          }
+          dom.focus()
+          // dom.select()
+        }
+      }
+      // 回车横向 向右移动
+      if (event.keyCode === 13) {
+        let keyName = this.columns.map(val => val.prop)
+        let num = 0
+        if (key === keyName[keyName.length - 1]) {
+          if (index === this.copyTableData.length - 1) {
+            index = 0
+          } else {
+            ++index
+          }
+        } else {
+          keyName.map((v, i) => {
+            if (v === key) {
+              num = i + 1
+            }
+          })
+        }
+        let doms = document.getElementsByClassName(keyName[num])
+        if (doms.length) {
+          let dom
+          if (doms[index].getElementsByTagName('input')[0]) {
+            dom = doms[index].getElementsByTagName('input')[0]
+          } else {
+            dom = doms[index].getElementsByTagName('textarea')[0]
+          }
+          dom.focus()
+          // dom.select()
+        }
+      }
+    },
     // 合并行隐藏复选框/单选框
-    cellClassNameFuc(row) {
+    cellClassNameFuc({ row, column, rowIndex, columnIndex }) {
+      // row.index = rowIndex
+      // column.index = columnIndex
       if (!this.isTableColumnHidden) {
         return false
       }
-      if (this.tableData.length - ((this.tableData.length - this.table.pageSize) < 0 ? 1 : (this.tableData.length - this.table.pageSize)) <= row.rowIndex) {
+      if (this.tableData.length - ((this.tableData.length - this.table.pageSize) < 0 ? 1 : (this.tableData.length - this.table.pageSize)) <= rowIndex) {
         return 'table_column_hidden'
       }
     },
@@ -711,7 +788,7 @@ export default {
       }
     },
     // 点击某行
-    rowClick(row) {
+    rowClick(row, column) {
       if (this.rowClickRadio) {
         this.radioClick(row, this.table.data.indexOf(row) + 1)
       }

@@ -7,15 +7,15 @@
 
 属性`columns`需配置<br/>
 
-`renderHeader`：列标题 `Label` 区域渲染使用的 `Function(h, { column, $index })` 可以用 jsx 方式<br/>
+`renderHeader`：列标题 `Label` 区域渲染使用的 `Function(row)` 可以用 jsx 方式<br/>
 
 #### JSX 方式如下：<br/>
 
 ```js
-renderHeader: (h, { column }) => {
+renderHeader: (row) => {
                 return (
                   <div>
-                    <span>{column.label}</span>
+                    <span>{row.label}</span>
                     <i class="el-icon-question"></i>
                   </div>
                 )

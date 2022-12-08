@@ -2,7 +2,8 @@
   <div class="single_edit_cell" :class="{'edit-enabled-cell': canEdit}">
     <!-- 编辑组件自定义插槽 -->
     <template v-if="configEdit.editSlotName">
-      <slot />
+      <!-- <slot /> -->
+      <slot :name="configEdit.editSlotName" :scope="record" />
     </template>
     <component
       v-if="!configEdit.editSlotName"
@@ -16,6 +17,14 @@
       v-bind="typeof this.configEdit.bind == 'function' ? this.configEdit.bind(record) : {clearable:true,filterable:true,...this.configEdit.bind}"
       v-on="$listeners"
     >
+      <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
+      <template v-for="(index, name) in $slots" v-slot:[name]>
+        <slot :name="name" />
+      </template>
+      <!-- 遍历子组件作用域插槽，并对父组件暴露 -->
+      <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+        <slot :name="name" v-bind="data"></slot>
+      </template>
       <!-- 前置文本 -->
       <template #prepend v-if="configEdit.prepend">{{ configEdit.prepend }}</template>
       <!-- 后置文本 -->
@@ -77,7 +86,7 @@ export default {
   },
   computed: {
     // 子组件名称
-    compChildName () {
+    compChildName() {
       return ({ type }) => {
         switch (type) {
           case 'checkbox':
@@ -90,7 +99,7 @@ export default {
       }
     },
     // 子组件label
-    compChildLabel () {
+    compChildLabel() {
       return ({ type, arrLabel }, value) => {
         switch (type) {
           case 'checkbox':
@@ -104,7 +113,7 @@ export default {
       }
     },
     // 子组件value
-    compChildValue () {
+    compChildValue() {
       return ({ type, arrKey }, value, key) => {
         switch (type) {
           case 'checkbox':
@@ -118,7 +127,7 @@ export default {
       }
     },
     // 子组件文字展示
-    compChildShowLabel () {
+    compChildShowLabel() {
       return ({ type, arrLabel }, value) => {
         switch (type) {
           case 'checkbox':
@@ -134,7 +143,7 @@ export default {
   },
   methods: {
     // 得到placeholder的显示
-    getPlaceholder (row) {
+    getPlaceholder(row) {
       let placeholder
       // 请输入type
       const inputArr = ['input', 'textarea', 'el-input-number']
@@ -150,7 +159,7 @@ export default {
       return placeholder
     },
     // 绑定的相关事件
-    handleEvent (type, val) {
+    handleEvent(type, val) {
       // console.log('组件', type, val, editCom)
       this.$emit('handleEvent', type, val)
     }

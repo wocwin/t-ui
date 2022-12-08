@@ -103,10 +103,7 @@
           v-if="table.firstColumn.type==='index'"
         >
           <template slot-scope="scope">
-            <span>
-              {{isShowPagination?((table.currentPage - 1) * table.pageSize + scope.$index + 1):scope.$index +
-              1}}
-            </span>
+            <span>{{isShowPagination?((table.currentPage - 1) * table.pageSize + scope.$index + 1):scope.$index +1}}</span>
           </template>
         </el-table-column>
       </div>
@@ -122,13 +119,19 @@
             :prop="item.prop"
             :min-width="item['min-width'] || item.minWidth || item.width"
             :sortable="item.sort||sortable"
-            :render-header="item.renderHeader||(item.headerRequired&&renderHeader)"
             :align="item.align || 'center'"
             :fixed="item.fixed"
             :show-overflow-tooltip="item.noShowTip"
             v-bind="{...item.bind,...$attrs}"
             v-on="$listeners"
           >
+            <template #header v-if="item.headerRequired||item.renderHeader">
+              <render-header v-if="item.renderHeader" :column="item" :render="item.renderHeader" />
+              <div style="display: inline" v-if="item.headerRequired">
+                <span style="color: #F56C6C;fontSize: 16px;marginRight: 3px;">*</span>
+                <span>{{item.label}}</span>
+              </div>
+            </template>
             <template slot-scope="scope">
               <template v-if="!isEditCell">
                 <!-- render渲染 -->
@@ -165,11 +168,19 @@
                     v-bind="$attrs"
                     ref="editCell"
                   >
-                    <slot
+                    <!-- <slot
                       v-if="item.configEdit&&item.configEdit.editSlotName"
                       :name="item.configEdit.editSlotName"
                       :scope="scope"
-                    />
+                    />-->
+                    <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
+                    <template v-for="(index, name) in $slots" v-slot:[name]>
+                      <slot :name="name" />
+                    </template>
+                    <!-- 遍历子组件作用域插槽，并对父组件暴露 -->
+                    <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+                      <slot :name="name" v-bind="data"></slot>
+                    </template>
                   </single-edit-cell>
                 </template>
                 <!-- 字典过滤 -->
@@ -286,6 +297,7 @@ import SingleEditCell from './singleEditCell.vue'
 import ColumnSet from './ColumnSet.vue'
 import TTableColumn from './TTableColumn.vue'
 import RenderCol from './renderCol.vue'
+import RenderHeader from './renderHeader.vue'
 import OptComponent from './OptComponent.vue'
 export default {
   name: 'TTable',
@@ -295,6 +307,7 @@ export default {
     ColumnSet,
     TTableColumn,
     RenderCol,
+    RenderHeader,
     OptComponent
   },
   props: {
@@ -613,7 +626,7 @@ export default {
       // 头部标题是否需要加头部必填*符号
       return (
         <div style="display: inline">
-          <span style={style}>*</span>
+          <span style="color: '#F56C6C',fontSize: '16px',marginRight: '3px'">*</span>
           <span>{column.label}</span>
         </div>
       )

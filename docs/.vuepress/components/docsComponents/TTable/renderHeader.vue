@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'renderHeader',
-  data () {
+  data() {
     return {
       table: {
         data: [
@@ -36,10 +36,11 @@ export default {
       },
       columns: [
         {
-          prop: 'name', label: '姓名', minWidth: '100', renderHeader: (h, { column }) => {
+          prop: 'name', label: '姓名', minWidth: '100',
+          renderHeader: (row) => {
             return (
               <div>
-                <span>{column.label}</span>
+                <span>{row.label}</span>
                 <i class="el-icon-question" />
               </div>
             )
@@ -48,10 +49,10 @@ export default {
         { prop: 'date', label: '日期', headerRequired: true, minWidth: '180' },
         {
           prop: 'address', label: '地址', minWidth: '220',
-          renderHeader: (h, { column }) => {
+          renderHeader: (row) => {
             return (
               <div>
-                <span>{column.label}</span>
+                <span>{row.label}</span>
                 <el-tooltip class="tooltip" effect="dark" placement="right">
                   <ul slot="content">
                     <li>这是第一个提示</li>

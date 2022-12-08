@@ -37,7 +37,7 @@
 <script>
 export default {
   name: 'TtableSingleEditCell',
-  data () {
+  data() {
     return {
       // 编辑某个单元格
       singleEditConfig: {
@@ -74,7 +74,7 @@ export default {
               label: '姓名',
               minWidth: '100',
               canEdit: true,
-              renderHeader: (h, { column }) => {
+              renderHeader: (row) => {
                 const style = {
                   color: '#F56C6C',
                   fontSize: '16px',
@@ -83,9 +83,21 @@ export default {
                 return (
                   <div>
                     <span style={style}>*</span>
-                    <span>{column.label}</span>
+                    <span>{row.label}</span>
                   </div>
                 )
+              }
+            },
+            {
+              prop: 'remake',
+              label: '输入框',
+              minWidth: '220',
+              canEdit: true,
+              configEdit: {
+                label: '备注',
+                append: '吨',
+                bind: { 'prefix-icon': 'el-icon-search' },
+                editComponent: 'el-input'
               }
             },
             {
@@ -108,10 +120,10 @@ export default {
               prop: 'hobby1',
               label: '编辑组件插槽',
               minWidth: '180',
-              renderHeader: (h, { column }) => {
+              renderHeader: (row) => {
                 return (
                   <div>
-                    <span>{column.label}</span>
+                    <span>{row.label}</span>
                     <i class="el-icon-question" style="color:#409eff;margin-left:5px;font-size:15px;"></i>
                   </div>
                 )
@@ -224,34 +236,34 @@ export default {
     /**
     * 自动完成组件
     */
-    querySearch (queryString, cb) {
+    querySearch(queryString, cb) {
       var restaurants = this.singleEditConfig.autoOption
       var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
       // 调用 callback 返回建议列表的数据
       cb(results)
     },
-    createFilter (queryString) {
+    createFilter(queryString) {
       return (restaurant) => {
         return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
       }
     },
     // clearable清除事件事件
-    clearSelect () {
+    clearSelect() {
       // 主要代码
       // this.$refs.parentCom.activated = true
       // document.activeElement获得了DOM中被聚焦的元素；.blur()取消聚焦
       document.activeElement.blur()
       this.$forceUpdate()
     },
-    singleSave (data) {
+    singleSave(data) {
       console.log('单个单元格编辑保存', data)
     },
-    editDel (item, index, row) {
+    editDel(item, index, row) {
       row.splice(index, 1)
       console.log('删除', item, row, index)
     },
     // 编辑每一项的change事件
-    handleEvent (type, val) {
+    handleEvent(type, val) {
       console.log('handleEvent', type, val)
     }
   }

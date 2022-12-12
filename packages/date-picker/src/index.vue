@@ -1,178 +1,301 @@
 <template>
   <div class="t-date-picker">
-    <div class="flex-box" v-if="dispaysType === 'two'">
-      <el-date-picker
-        v-model="startTime"
-        :type="pickerType"
-        class="date-pick"
-        :value-format="valueFormat"
-        :picker-options="startTimeConf"
-        placeholder="开始日期"
-        @change="startTimeChange"
-        v-bind="$attrs"
-        v-on="$listeners"
-      ></el-date-picker>
-      <div class="flex-box flex-ver" style="padding: 0 5px">-</div>
-      <el-date-picker
-        v-model="endTime"
-        :type="pickerType"
-        class="date-pick"
-        :value-format="valueFormat"
-        :picker-options="endTimeConf"
-        placeholder="结束日期"
-        v-bind="$attrs"
-        v-on="$listeners"
-        @change="endTimeChange"
-      ></el-date-picker>
-    </div>
-    <div v-if="dispaysType === 'one'">
-      <el-date-picker
-        :type="mergeType"
-        range-separator="至"
-        :value-format="valueFormat"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        v-bind="$attrs"
-        v-on="$listeners"
-        v-model="time"
-        @change="timeChange"
-        :picker-options="pickerOptions"
-      ></el-date-picker>
-    </div>
+    <el-date-picker
+      :type="type"
+      v-model="time"
+      :picker-options="dateOptions"
+      @change="dateChange"
+      v-bind="attrsBind"
+    ></el-date-picker>
   </div>
 </template>
 <script>
 export default {
   name: 'TDatePicker',
-  data () {
+  data() {
     return {
-      time: this.dateVal,
-      startTime: this.startDate,
-      endTime: this.endDate,
-      startTimeConf: this.startTimeConfig(), // 开始时间配置
-      endTimeConf: this.endTimeConfig() // 结束时间配置
+      // time: this.value,
+      dateOptions: this.pickerOptions
     }
   },
+  // model: {
+  //   prop: 'value',
+  //   event: 'change'
+  // },
   props: {
-    startDate: {
-      type: [String, Date]
-    },
-    endDate: {
-      type: [String, Date]
-    },
-    dateVal: {
+    value: {
       type: [String, Date, Array]
     },
-    plusTime: { // 日期是否显示时分秒
+    // 日期范围是否显示00:00:00 23:59:59时分秒
+    plusTime: {
       type: Boolean,
       default: false
     },
-    pickerType: {
+    // 时间类型
+    /***
+     * week周；month月；year年；dates多个日期；months多个月；years多个年；daterange日期范围；monthrange月份范围
+     * datetime日期和时间点;datetimerange日期和时间点范围
+     */
+    type: {
       type: String,
       default: 'date'
     },
-    // 合并类型
-    mergeType: {
-      type: String,
-      default: 'daterange'
-    },
-    dispaysType: {
-      type: String,
-      default: 'one'
-    },
-    valueFormat: {
-      type: String,
-      default: 'yyyy-MM-dd'
-    },
+    // 快捷配置
     pickerOptions: {
       type: Object,
       default: () => {
         return {}
       }
+    },
+    // 是否开启快捷方式
+    isPickerOptions: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    time: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
+      }
+    },
+    // 属性配置
+    attrsBind() {
+      const { type } = this
+      let attrs = {}
+      switch (type) {
+        case 'date':
+        case 'dates':
+          attrs['value-format'] = 'yyyy-MM-dd'
+          attrs['placeholder'] = '请选择日期'
+          break
+        case 'week':
+          // attrs['value-format'] = 'yyyy - WW'
+          attrs['format'] = 'yyyy 第 WW 周'
+          attrs['placeholder'] = '请选择周'
+          break
+        case 'month':
+        case 'months':
+          attrs['value-format'] = 'yyyy-MM'
+          attrs['format'] = 'yyyy-MM'
+          attrs['placeholder'] = '请选择月'
+          break
+        case 'year':
+        case 'years':
+          attrs['value-format'] = 'yyyy'
+          attrs['format'] = 'yyyy'
+          attrs['placeholder'] = '请选择年'
+          break
+        /**
+         * 日期范围
+         */
+        case 'daterange':
+          attrs['value-format'] = 'yyyy-MM-dd'
+          attrs['range-separator'] = '~'
+          attrs['start-placeholder'] = '请选择开始日期'
+          attrs['end-placeholder'] = '请选择结束日期'
+          break
+        case 'monthrange':
+          attrs['value-format'] = 'yyyy-MM'
+          attrs['range-separator'] = '~'
+          attrs['start-placeholder'] = '请选择开始月份'
+          attrs['end-placeholder'] = '请选择结束月份'
+          break
+        /**
+         * 日期和时间点
+         */
+        case 'datetime':
+          attrs['format'] = 'yyyy-MM-dd HH:mm:ss'
+          attrs['value-format'] = 'yyyy-MM-dd HH:mm:ss'
+          attrs['placeholder'] = '请选择日期时间'
+          break
+        case 'datetimerange':
+          attrs['format'] = 'yyyy-MM-dd HH:mm:ss'
+          attrs['value-format'] = 'yyyy-MM-dd HH:mm:ss'
+          attrs['range-separator'] = '~'
+          attrs['start-placeholder'] = '请选择开始日期'
+          attrs['end-placeholder'] = '请选择结束日期'
+          break
+      }
+      return {
+        ...attrs,
+        ...this.$attrs
+      }
     }
   },
   watch: {
-    startDate (val) {
-      this.startTime = val
-      if (!val) this.time = ''
-    },
-    endDate (val) {
-      this.endTime = val
-      if (!val) this.time = ''
-    },
-    dateVal (val) {
+    value(val) {
       this.time = val
+    },
+    // 快捷配置
+    pickerOptions(val) {
+      const { type, isPickerOptions } = this
+      if (isPickerOptions) {
+        let shortcuts = this.getShortcuts(type)
+        this.dateOptions = {
+          shortcuts
+        }
+      } else {
+        this.dateOptions = val
+      }
+    }
+  },
+  mounted() {
+    const { type, isPickerOptions } = this
+    if (isPickerOptions) {
+      let shortcuts = this.getShortcuts(type)
+      this.dateOptions = {
+        shortcuts
+      }
     }
   },
   methods: {
-    // 开始时间配置
-    startTimeConfig () {
-      let self = this
-      return {
-        disabledDate (time) {
-          if (self.endTime) {
-            return new Date(self.endTime).getTime() <= time.getTime()
-          }
-        }
+    // 获取快捷配置
+    getShortcuts(type) {
+      let shortcuts = []
+      switch (type) {
+        case 'date':
+          shortcuts = [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date())
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24)
+              picker.$emit('pick', date)
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', date)
+            }
+          }]
+          break
+        case 'daterange':
+          shortcuts = [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+          break
+        case 'monthrange':
+          shortcuts = [{
+            text: '本月',
+            onClick(picker) {
+              picker.$emit('pick', [new Date(), new Date()])
+            }
+          }, {
+            text: '今年至今',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date(new Date().getFullYear(), 0)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近六个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setMonth(start.getMonth() - 6)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+          break
+        case 'datetime':
+          shortcuts = [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date())
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24)
+              picker.$emit('pick', date)
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', date)
+            }
+          }]
+          break
+        case 'datetimerange':
+          shortcuts = [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+          break
       }
+      return shortcuts
     },
-    // 结束时间配置
-    endTimeConfig () {
-      let self = this
-      return {
-        disabledDate (time) {
-          if (self.startTime) {
-            return new Date(self.startTime).getTime() - 24 * 60 * 60 * 1000 >= time.getTime()
-          }
-        }
-      }
-    },
-    startTimeChange (val) {
-      let startTime = val
-      if (this.plusTime && startTime && startTime.length < 11) {
-        startTime = startTime + ' 00:00:00'
-      }
-      this.$emit('startChange', startTime)
-    },
-    endTimeChange (val) {
-      let endTime = val
-      if (this.plusTime && endTime && endTime.length < 11) {
-        endTime = endTime + ' 23:59:59'
-      }
-      this.$emit('endChange', endTime)
-    },
-    timeChange (val) {
-      if (val) {
+    dateChange(val) {
+      const { type } = this
+      if (type === 'daterange' && val) {
         let startTime = val[0]
-        if (this.plusTime && startTime.length < 11) {
-          startTime = startTime + ' 00:00:00'
-        }
-        this.time[0] = startTime
-        this.$emit('startChange', startTime)
         let endTime = val[1]
-        if (this.plusTime && endTime.length < 11) {
+        if (this.plusTime) {
+          startTime = startTime + ' 00:00:00'
           endTime = endTime + ' 23:59:59'
         }
-        this.time[1] = endTime
-        this.$emit('endChange', endTime)
+        this.time = [startTime, endTime]
+        this.$emit('change', [startTime, endTime])
       } else {
-        this.$emit('startChange', '')
-        this.$emit('endChange', '')
+        this.$emit('change', val)
       }
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-.t-date-picker {
-  .flex-ver {
-    align-items: center;
-    justify-content: center;
-  }
-}
-.flex-box {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-}
-</style>

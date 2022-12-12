@@ -70,6 +70,7 @@ module.exports = {
                 'ElementUi/TQueryCondition/defaultVal', // 默认值
                 'ElementUi/TQueryCondition/linkage', // 联动使用
                 'ElementUi/TQueryCondition/TSelectUse', // 结合TSelect使用
+                'ElementUi/TQueryCondition/TDatePickerUse', // 结合TDatePicker使用
                 'ElementUi/TQueryCondition/help', // 使用帮助(Attributes)
               ]
             },
@@ -77,7 +78,16 @@ module.exports = {
               title: '表单组件',
               collapsable: false,
               children: [
-                'ElementUi/TForm/base', // 基本
+                'ElementUi/TForm/base', // 基本模式
+                'ElementUi/TForm/labelPosition', // 对齐方式
+                'ElementUi/TForm/widthSize', // 每行展示多少项
+                'ElementUi/TForm/rules', // 表单验证
+                'ElementUi/TForm/labelRender', // 自定义label
+                'ElementUi/TForm/slotName', // 自定义输入框插槽
+                'ElementUi/TForm/textShow', // 文本展示
+                'ElementUi/TForm/comUse', // 自己组件使用
+                'ElementUi/TForm/assignment', // 赋值回显
+                'ElementUi/TForm/submit', // 切换页面获取表单数据
                 'ElementUi/TForm/help', // 使用帮助(Attributes)
                 'ElementUi/TModuleForm/base', // 基本
                 'ElementUi/TModuleForm/detail', // detail

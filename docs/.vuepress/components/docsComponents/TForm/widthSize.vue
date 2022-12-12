@@ -1,9 +1,15 @@
 <template>
   <div class="dh-form-demo">
+    <el-radio-group v-model="widthSize" size="small" style="margin-bottom:15px;">
+      <el-radio-button :label="1">一行展示</el-radio-button>
+      <el-radio-button :label="2">一行展示2项</el-radio-button>
+      <el-radio-button :label="3">一行展示3项</el-radio-button>
+      <el-radio-button :label="4">一行展示4项</el-radio-button>
+    </el-radio-group>
     <t-form
       :ref-obj.sync="formOpts.ref"
       :formOpts="formOpts"
-      :widthSize="1"
+      :widthSize="widthSize"
       @handleEvent="handleEvent"
     />
   </div>
@@ -14,8 +20,11 @@ export default {
   name: 'dhFormDemo',
   data() {
     return {
+      widthSize: 1,
       // form表单
       formOpts: {
+        labelPosition: 'right',
+        labelWidth: '80px',
         ref: null,
         formData: {
           account: '', // *用户账号

@@ -1,4 +1,4 @@
-# TForm 表单组件(component 模式)
+# 基本使用
 
 ---
 

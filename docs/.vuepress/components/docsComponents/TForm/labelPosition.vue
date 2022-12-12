@@ -1,5 +1,10 @@
 <template>
   <div class="dh-form-demo">
+    <el-radio-group v-model="formOpts.labelPosition" size="small" style="margin-bottom:15px;">
+      <el-radio-button label="left">左对齐</el-radio-button>
+      <el-radio-button label="right">右对齐</el-radio-button>
+      <el-radio-button label="top">顶部对齐</el-radio-button>
+    </el-radio-group>
     <t-form
       :ref-obj.sync="formOpts.ref"
       :formOpts="formOpts"
@@ -16,6 +21,8 @@ export default {
     return {
       // form表单
       formOpts: {
+        labelPosition: 'right',
+        labelWidth: '80px',
         ref: null,
         formData: {
           account: '', // *用户账号

@@ -37,7 +37,7 @@
         v-if="!item.slotName&&!item.textShow"
         :is="item.comp"
         v-model="formOpts.formData[item.value]"
-        :type="item.type"
+        :type="item.type||item.bind.type"
         :placeholder="item.placeholder||getPlaceholder(item)"
         @change="handleEvent(item.event, formOpts.formData[item.value])"
         v-bind="{clearable:true,filterable:true,...item.bind}"
@@ -119,7 +119,7 @@ export default {
     }
   },
   computed: {
-    selectListType () {
+    selectListType() {
       return ({ list }) => {
         if (this.formOpts.listTypeInfo) {
           return this.formOpts.listTypeInfo[list]
@@ -129,7 +129,7 @@ export default {
       }
     },
     // 子组件名称
-    compChildName () {
+    compChildName() {
       return ({ type }) => {
         switch (type) {
           case 'checkbox':
@@ -143,7 +143,7 @@ export default {
       }
     },
     // 子子组件label
-    compChildLabel () {
+    compChildLabel() {
       return ({ type, arrLabel }, value) => {
         switch (type) {
           case 'radio':
@@ -158,7 +158,7 @@ export default {
       }
     },
     // 子子组件value
-    compChildValue () {
+    compChildValue() {
       return ({ type, arrKey }, value, key) => {
         switch (type) {
           case 'radio':
@@ -173,7 +173,7 @@ export default {
       }
     },
     // 子子组件文字展示
-    compChildShowLabel () {
+    compChildShowLabel() {
       return ({ type, arrLabel }, value) => {
         switch (type) {
           case 'radio':
@@ -188,20 +188,20 @@ export default {
       }
     }
   },
-  data () {
+  data() {
     return {
       colSize: this.widthSize
     }
   },
   watch: {
     'formOpts.formData': {
-      handler (val) {
+      handler(val) {
         // 将form实例返回到父级
         this.$emit('update:refObj', this.$refs.form)
       },
       deep: true // 深度监听
     },
-    widthSize (val) {
+    widthSize(val) {
       if (val > 4) {
         this.$message.warning('widthSize值不能大于4！')
         this.colSize = 4
@@ -210,13 +210,13 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     // 将form实例返回到父级
     this.$emit('update:refObj', this.$refs.form)
   },
   methods: {
     // label与输入框的布局方式
-    getChildWidth (item) {
+    getChildWidth(item) {
       if (this.formOpts.labelPosition === 'top') {
         return `flex: 0 1 calc((${100 / (item.widthSize || this.colSize)}% - 10px));margin-right:10px;`
       } else {
@@ -224,7 +224,7 @@ export default {
       }
     },
     // 得到placeholder的显示
-    getPlaceholder (row) {
+    getPlaceholder(row) {
       let placeholder
       // 请输入type
       const inputArr = ['input', 'textarea', 'inputNumber']
@@ -240,12 +240,12 @@ export default {
       return placeholder
     },
     // 绑定的相关事件
-    handleEvent (type, val) {
+    handleEvent(type, val) {
       // console.log('组件', type, val)
       this.$emit('handleEvent', type, val)
     },
     // 校验
-    validate () {
+    validate() {
       return new Promise((resolve, reject) => {
         this.$refs.form.validate(valid => {
           if (valid) {
@@ -264,11 +264,11 @@ export default {
       })
     },
     // 重置表单
-    resetFields () {
+    resetFields() {
       return this.$refs.form.resetFields()
     },
     // 清空校验
-    clearValidate () {
+    clearValidate() {
       return this.$refs.form.clearValidate()
     }
   }

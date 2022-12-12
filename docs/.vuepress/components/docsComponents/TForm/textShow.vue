@@ -1,0 +1,31 @@
+<template>
+  <div class="dh-form-demo">
+    <t-form :ref-obj.sync="formOpts.ref" :formOpts="formOpts" :widthSize="4" />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'dhFormDemo',
+  data() {
+    return {
+      // form表单
+      formOpts: {
+        ref: null,
+        formData: {
+          account: '张三', // *用户账号
+          password: '123456', // *用户密码
+          name: '三丫子', // *用户昵称
+          sex: '男', // *性别: 0:男 1:女
+        },
+        fieldList: [
+          { label: '账号：', textShow: true, textValue: '张三' },
+          { label: '密码：', textShow: true, textValue: '123456' },
+          { label: '昵称：', textShow: true, textValue: '三丫子' },
+          { label: '性别：', textShow: true, textValue: '男' }
+        ]
+      }
+    }
+  }
+}
+</script>

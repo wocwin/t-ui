@@ -18,7 +18,6 @@
 | reset      | 是否显示“重置”按钮                              | Boolean | true    |
 | boolEnter  | 是否敲回车查询                                  | Boolean | true    |
 | labelWidth | labelWidth 宽度                                 | String  | '120px' |
-| maxShow    | 最大展示数                                      | Number  | 4       |
 | isShowOpen | 是否显示收起和展开(若查询条件少于 4 个自动隐藏) | Boolean | true    |
 
 ### 3. opts 配置参数（opts Attributes）

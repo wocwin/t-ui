@@ -46,7 +46,7 @@
       >查询</el-button>
       <el-button v-if="reset" class="btn_reset" size="small" @click="resetHandle">重置</el-button>
       <slot name="querybar"></slot>
-      <el-button v-if="originCellLength > colLength&&isShowOpen" type="text" @click="openOrHide">
+      <el-button v-if="originCellLength > colLength&&isShowOpen" type="text" @click="open = !open">
         {{ open ? '收起' : '展开'}}
         <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
       </el-button>
@@ -85,11 +85,6 @@ export default {
       type: Boolean,
       default: true
     },
-    // 最大展示数，默认4个
-    maxShow: {
-      type: Number,
-      default: 4
-    },
     // 是否显示收起和展开
     isShowOpen: {
       type: Boolean,
@@ -116,9 +111,16 @@ export default {
   },
   computed: {
     cOpts() {
-      return Object.keys(this.opts).reduce((acc, field) => {
+      const { open, opts, colLength, isShowOpen } = this
+      let renderSpan = 0
+      return Object.keys(opts).reduce((acc, field) => {
         let opt = {
-          ...this.opts[field]
+          ...opts[field]
+        }
+        // 收起、展开操作
+        if (isShowOpen) {
+          renderSpan += opt.span ?? 1
+          if (!open && renderSpan - 1 >= colLength) return acc
         }
         opt.dataIndex = field
         acc[field] = opt
@@ -199,41 +201,6 @@ export default {
       }
       return colLength
     },
-    openOrHide() {
-      this.open = !this.open
-      this.minShowCtrol()
-    },
-    // 通过maxShow控制元素显示/折叠
-    minShowCtrol() {
-      const group = window.document.querySelectorAll(`.t-query-condition .el-form-item.el-form-item--small`)
-      const len = group?.length ? group?.length - 1 : 0
-      let j = 0
-      let k = 0
-      let g = 0
-      if (Object.keys(this.opts).length > 4) {
-        Object.keys(this.opts).splice(0, 4).forEach(key => {
-          let span = this.opts[key].span || 1
-          switch (span) {
-            case 2:
-              j = 1
-              break
-            case 3:
-              k = 1
-              break
-            case 4:
-              g = 2
-              break
-          }
-        })
-      }
-      if (this.maxShow < len) {
-        group.forEach((item, index) => {
-          if (index > (this.maxShow - 1 - j - k - g) && index < len) {
-            item.hidden = !this.open
-          }
-        })
-      }
-    },
     initForm(opts, keepVal = false) {
       return Object.keys(opts).reduce((acc, field) => {
         if (keepVal && this.form) {
@@ -304,9 +271,6 @@ export default {
   },
   mounted() {
     this.colLength = this.getColLength()
-    if (this.maxShow >= 4 && this.isShowOpen) {
-      this.minShowCtrol()
-    }
     this.keyEvent()
   }
 }

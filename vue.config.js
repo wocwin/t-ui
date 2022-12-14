@@ -1,9 +1,9 @@
 const path = require('path')
 const port = 2222
 const isProduction = process.env.NODE_ENV === 'production'
-// function resolve (dir) {
-//   return path.join(__dirname, dir)
-// }
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
 module.exports = {
   // transpileDependencies: ['element-ui'], // 解决IE浏览器本地启动白屏现象
   // outputDir: process.env.outputDir || 'dist', // 输出文件名称
@@ -43,11 +43,17 @@ module.exports = {
   css: {
     extract: false
   },
-  configureWebpack: {
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './examples'),
-        '~': path.resolve(__dirname, './packages')
+  configureWebpack: config => {
+    config.resolve.alias['@'] = resolve('examples')
+    config.resolve.alias['components'] = resolve('examples/components')
+    config.resolve.alias['~'] = resolve('packages')
+    // 生产环境配置
+    if (isProduction) {
+      config.mode = 'production'
+      // 打包文件大小配置
+      config.performance = {
+        maxEntrypointSize: 10000000,
+        maxAssetSize: 30000000
       }
     }
   },
@@ -57,9 +63,9 @@ module.exports = {
     // config.entry.app = ['babel-polyfill', './src/main.js']
     // 配置别名
     // vue默认@指向src目录，这里要修正为examples，另外新增一个~指向packages
-    config.resolve.alias
-      .set('@', path.resolve('examples'))
-      .set('~', path.resolve('packages'))
+    // config.resolve.alias
+    //   .set('@', path.resolve('examples'))
+    //   .set('~', path.resolve('packages'))
     // lib目录是组件库最终打包好存放的地方，不需要eslint检查
     // examples/docs是存放md文档的地方，也不需要eslint检查
     // config.module
@@ -67,33 +73,33 @@ module.exports = {
     //   .exclude.add(path.resolve('lib'))
     //   .end()
     // packages和examples目录需要加入编译
-    config.module
-      .rule('eslint')
-      .exclude.add(path.resolve('lib'))
-      .end()
-      .rule('js')
-      .include.add('/packages/')
-      .end()
-      //   .include.add('/examples/')
-      //   .end()
-      .use('babel')
-      .loader('babel-loader')
-      .tap(options => {
-        // 修改它的选项...
-        return options
-      })
+    // config.module
+    //   .rule('eslint')
+    //   .exclude.add(path.resolve('lib'))
+    //   .end()
+    //   .rule('js')
+    //   .include.add('/packages/')
+    //   .end()
+    //   //   .include.add('/examples/')
+    //   //   .end()
+    //   .use('babel')
+    //   .loader('babel-loader')
+    //   .tap(options => {
+    //     // 修改它的选项...
+    //     return options
+    //   })
     // 生产环境配置
-    if (isProduction) {
-      // 删除预加载
-      config.plugins.delete('preload')
-      config.plugins.delete('prefetch')
-      // 压缩代码
-      config.optimization.minimize(true)
-      // 分割代码
-      config.optimization.splitChunks({
-        chunks: 'all'
-        // maxSize: 100000 // 大于100kb做二次分割
-      })
-    }
+    // if (isProduction) {
+    //   // 删除预加载
+    //   config.plugins.delete('preload')
+    //   config.plugins.delete('prefetch')
+    //   // 压缩代码
+    //   config.optimization.minimize(true)
+    //   // 分割代码
+    //   config.optimization.splitChunks({
+    //     chunks: 'all'
+    //     // maxSize: 100000 // 大于100kb做二次分割
+    //   })
+    // }
   }
 }

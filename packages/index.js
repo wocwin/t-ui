@@ -38,7 +38,7 @@ import TSelectTable from './select-table'
 import TTreeSelect from './tree-select'
 import TButton from './button'
 // import TTheme from './theme'
-
+import { version } from '../package.json'
 // 存储组件列表
 const components = [
   TAntConfigform,
@@ -98,6 +98,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
 export default {
+  version,
   ...components, // 按需引入
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install

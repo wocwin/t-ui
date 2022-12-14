@@ -1,11 +1,11 @@
 {
   "name": "@wocwin/t-ui",
-  "version": "0.0.18",
+  "version": "1.0.6",
   "description": "Vue 中基于Element-ui和ant-design-vue二次封装基础组件文档",
   "author": "wocwin <wocwin@163.com>",
   "license": "ISC",
   "private": false,
-  "main": "packages/index.js",
+  "main": "lib/t-ui.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
@@ -67,8 +67,10 @@
   "homepage": "https://wocwin.github.io/t-ui/",
   "keywords": [
     "element-ui",
+    "element-plus",
     "ant-design-vue",
     "vue",
+    "t-ui",
     "二次封装组件",
     "封装组件",
     "components"

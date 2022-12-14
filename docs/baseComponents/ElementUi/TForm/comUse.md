@@ -4,6 +4,6 @@
 
 <common-code-format>
   <docsComponents-TForm-comUse slot="source"></docsComponents-TForm-comUse>
-  
- <<< @/docs/.vuepress/components/docsComponents/TForm/comUse.vue
+
+<<< @/docs/.vuepress/components/docsComponents/TForm/comUse.vue
 </common-code-format>

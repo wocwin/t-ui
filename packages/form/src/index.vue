@@ -10,58 +10,60 @@
     v-bind="$attrs"
     v-on="$listeners"
   >
-    <el-form-item
-      v-for="(item, index) in formOpts.fieldList"
-      :key="index"
-      :prop="item.value"
-      :label="item.label"
-      :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName},{'render_laber_position':formOpts.labelPosition}]"
-      :rules="item.rules"
-      :style="getChildWidth(item)"
-      v-bind="$attrs"
-      v-on="$listeners"
-    >
-      <!-- 自定义label -->
-      <template #label v-if="item.labelRender">
-        <render-comp :createElementFunc="item.labelRender" />
-      </template>
-      <!-- 自定义输入框插槽 -->
-      <template v-if="item.slotName">
-        <slot :name="item.slotName"></slot>
-      </template>
-      <!-- 文本展示值 -->
-      <template v-if="item.textShow">
-        <span>{{item.textValue||formOpts.formData[item.value]}}</span>
-      </template>
-      <component
-        v-if="!item.slotName&&!item.textShow"
-        :is="item.comp"
-        v-model="formOpts.formData[item.value]"
-        :type="item.type||item.bind.type"
-        :placeholder="item.placeholder||getPlaceholder(item)"
-        @change="handleEvent(item.event, formOpts.formData[item.value])"
-        v-bind="{clearable:true,filterable:true,...item.bind}"
-        :style="{width: item.width||'100%'}"
+    <template v-for="(item, index) in formOpts.fieldList">
+      <el-form-item
+        v-if="!item.isHideItem"
+        :key="index"
+        :prop="item.value"
+        :label="item.label"
+        :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName},{'render_laber_position':formOpts.labelPosition}]"
+        :rules="item.rules"
+        :style="getChildWidth(item)"
+        v-bind="$attrs"
+        v-on="$listeners"
       >
-        <!-- 前置文本 -->
-        <template #prepend v-if="item.prepend">{{ item.prepend }}</template>
-        <!-- 后置文本 -->
-        <template #append v-if="item.append">{{ item.append }}</template>
-        <!-- 子组件自定义插槽 -->
-        <template v-if="item.childSlotName">
-          <slot :name="item.childSlotName"></slot>
+        <!-- 自定义label -->
+        <template #label v-if="item.labelRender">
+          <render-comp :createElementFunc="item.labelRender" />
+        </template>
+        <!-- 自定义输入框插槽 -->
+        <template v-if="item.slotName">
+          <slot :name="item.slotName"></slot>
+        </template>
+        <!-- 文本展示值 -->
+        <template v-if="item.textShow">
+          <span>{{item.textValue||formOpts.formData[item.value]}}</span>
         </template>
         <component
-          v-else
-          :is="compChildName(item)"
-          v-for="(value, key, index) in selectListType(item)"
-          :key="index"
-          :disabled="value.disabled"
-          :label="compChildLabel(item,value)"
-          :value="compChildValue(item,value,key)"
-        >{{compChildShowLabel(item,value)}}</component>
-      </component>
-    </el-form-item>
+          v-if="!item.slotName&&!item.textShow"
+          :is="item.comp"
+          v-model="formOpts.formData[item.value]"
+          :type="item.type||item.bind.type"
+          :placeholder="item.placeholder||getPlaceholder(item)"
+          @change="handleEvent(item.event, formOpts.formData[item.value])"
+          v-bind="{clearable:true,filterable:true,...item.bind}"
+          :style="{width: item.width||'100%'}"
+        >
+          <!-- 前置文本 -->
+          <template #prepend v-if="item.prepend">{{ item.prepend }}</template>
+          <!-- 后置文本 -->
+          <template #append v-if="item.append">{{ item.append }}</template>
+          <!-- 子组件自定义插槽 -->
+          <template v-if="item.childSlotName">
+            <slot :name="item.childSlotName"></slot>
+          </template>
+          <component
+            v-else
+            :is="compChildName(item)"
+            v-for="(value, key, index) in selectListType(item)"
+            :key="index"
+            :disabled="value.disabled"
+            :label="compChildLabel(item,value)"
+            :value="compChildValue(item,value,key)"
+          >{{compChildShowLabel(item,value)}}</component>
+        </component>
+      </el-form-item>
+    </template>
     <!-- 按钮 -->
     <div class="footer_btn flex-box flex-ver t-margin-top-5">
       <template v-if="formOpts.btnSlotName">
@@ -303,18 +305,6 @@ export default {
     .el-input {
       .el-input__inner {
         text-align: left;
-      }
-    }
-  }
-  .t-form-block {
-    display: block;
-    width: 100% !important;
-    .el-form-item__content {
-      .el-input,
-      .el-select,
-      .el-date-editor,
-      .el-textarea {
-        width: 100%;
       }
     }
   }

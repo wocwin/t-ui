@@ -1,8 +1,9 @@
 <template>
   <div class="dh-form-demo">
-    <el-button type="danger" @click="dialogSelectEnt=true">打开弹窗</el-button>
+    <el-button type="danger" @click="add">新增</el-button>
+    <el-button type="danger" @click="edit">编辑</el-button>
     <t-dialog
-      title="弹窗返回数据"
+      :title="title"
       width="40%"
       class="ent-choose"
       :visible="dialogSelectEnt"
@@ -24,10 +25,13 @@ export default {
   data() {
     return {
       dialogSelectEnt: false,
+      title: '新增数据',
       // form表单
       formOpts: {
         ref: null,
         formData: {
+          account: null, // 账号
+          password: null, // 密码
           sex: null, // *性别: 0:男 1:女
           hobby: null, // *爱好: 0:男 1:女
           createDate: null, // 年份
@@ -38,6 +42,8 @@ export default {
           status: null // *状态: 0：停用，1：启用(默认为1)',
         },
         fieldList: [
+          { label: '账号', value: 'account', type: 'input', comp: 'el-input', event: 'account' },
+          { label: '密码', value: 'password', type: 'password', comp: 'el-input', bind: { 'show-password': true }, isHideItem: false },
           { label: '性别', value: 'sex', placeholder: 'TSelect单选', type: 'select-arr', comp: 't-select', bind: { valueKey: 'value' } },
           { label: '状态', value: 'status', placeholder: 'TSelect单选', type: 'select-arr', comp: 't-select', bind: { valueKey: 'value' } },
           { label: '爱好', value: 'hobby', placeholder: 'TSelect多选', type: 'select-arr', comp: 't-select', list: 'hobbyList', bind: { multiple: true, valueKey: 'value' } },
@@ -49,6 +55,7 @@ export default {
         ],
         rules: {
           sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
+          password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
           hobby: [{ required: true, message: '请至少选择一个爱好', trigger: 'change' }]
         },
       },
@@ -91,6 +98,19 @@ export default {
             break
         }
       })
+    },
+    add() {
+      this.title = '新增数据'
+      this.dialogSelectEnt = true
+    },
+    edit() {
+      this.title = '编辑数据'
+      this.formOpts.fieldList.map(val => {
+        if (val.value === 'password') {
+          val.isHideItem = true
+        }
+      })
+      this.dialogSelectEnt = true
     },
     // 提交form表单
     async submit() {

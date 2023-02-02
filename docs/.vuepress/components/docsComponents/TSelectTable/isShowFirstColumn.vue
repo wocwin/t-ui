@@ -3,6 +3,7 @@
     :table="table"
     :columns="table.columns"
     :max-height="400"
+    :isShowFirstColumn="false"
     :keywords="{label:'name',value:'id'}"
     @radioChange="radioChange"
   ></t-select-table>

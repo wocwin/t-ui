@@ -16,24 +16,27 @@
         <el-table
           ref="el-table"
           :data="tableData"
-          class="radioStyle"
+          :class="{'radioStyle':!multiple,'highlightCurrentRow':isRadio}"
           border
+          :highlight-current-row="isRadio"
           @row-click="rowClick"
           @cell-dblclick="cellDblclick"
           @selection-change="selectionChange"
           v-bind="$attrs"
           v-on="$listeners"
         >
-          <el-table-column v-if="multiple" type="selection" width="45" fixed></el-table-column>
-          <el-table-column type="radio" width="50" :label="radioTxt" fixed v-else>
-            <template slot-scope="scope">
-              <el-radio
-                v-model="radioVal"
-                :label="scope.$index + 1"
-                @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
-              ></el-radio>
-            </template>
-          </el-table-column>
+          <div v-if="isShowFirstColumn">
+            <el-table-column v-if="multiple" type="selection" width="45" fixed></el-table-column>
+            <el-table-column type="radio" width="50" :label="radioTxt" fixed v-else>
+              <template slot-scope="scope">
+                <el-radio
+                  v-model="radioVal"
+                  :label="scope.$index + 1"
+                  @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
+                ></el-radio>
+              </template>
+            </el-table-column>
+          </div>
           <template v-for="(item, index) in columns">
             <el-table-column
               :key="index + 'i'"
@@ -118,6 +121,11 @@ export default {
       type: String,
       default: '单选'
     },
+    // 是否显示首列
+    isShowFirstColumn: {
+      type: Boolean,
+      default: true
+    },
     // 是否显示分页
     isShowPagination: {
       type: Boolean,
@@ -149,6 +157,7 @@ export default {
       return {
         clearable: true,
         filterable: true,
+        'highlight-current-row': this.isRadio,
         ...this.$attrs
       }
     }
@@ -156,6 +165,7 @@ export default {
   data() {
     return {
       radioVal: '',
+      isRadio: false,
       forbidden: true, // 判断单选选中及取消选中
       tableData: this.table?.data, // table数据
       defaultValue: this.value,
@@ -200,6 +210,7 @@ export default {
   methods: {
     // 当前页码
     handlesCurrentChange(val) {
+      this.clear()
       this.$emit('page-change', val)
     },
     // 表格显示隐藏回调
@@ -302,11 +313,17 @@ export default {
       }
     },
     // 单击行
-    rowClick(row) {
+    async rowClick(row) {
       if (this.multiple) {
 
       } else {
-        this.radioClick(row, this.tableData.indexOf(row) + 1)
+        await this.radioClick(row, this.tableData.indexOf(row) + 1)
+        // console.log('单击行', row, this.radioVal)
+        if (!this.isShowFirstColumn && this.radioVal) {
+          this.isRadio = true
+        } else {
+          this.isRadio = false
+        }
       }
     },
     // tags删除后回调
@@ -361,7 +378,19 @@ export default {
       }
     }
   }
+  // 选中行样式
+  .highlightCurrentRow {
+    ::v-deep tbody {
+      .el-table__row {
+        cursor: pointer;
+      }
 
+      .current-row td {
+        cursor: pointer;
+        color: #409eff;
+      }
+    }
+  }
   .t-table-select__table {
     padding: 10px;
   }

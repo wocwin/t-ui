@@ -1,6 +1,6 @@
 {
   "name": "@wocwin/t-ui",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Vue 中基于Element-ui和ant-design-vue二次封装基础组件文档",
   "author": "wocwin <wocwin@163.com>",
   "license": "ISC",

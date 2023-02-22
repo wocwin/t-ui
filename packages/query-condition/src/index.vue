@@ -37,14 +37,8 @@
       style="grid-area: submit_btn"
       :class="['btn',{'flex_end': cellLength % colLength === 0}]"
     >
-      <el-button
-        type="primary"
-        size="small"
-        class="btn_check"
-        @click="checkHandle"
-        :loading="loading"
-      >查询</el-button>
-      <el-button v-if="reset" class="btn_reset" size="small" @click="resetHandle">重置</el-button>
+      <el-button class="btn_check" @click="checkHandle" :loading="loading" v-bind="queryAttrs">查询</el-button>
+      <el-button v-if="reset" class="btn_reset" v-bind="resetAttrs" @click="resetHandle">重置</el-button>
       <slot name="querybar"></slot>
       <el-button v-if="originCellLength > colLength&&isShowOpen" type="text" @click="open = !open">
         {{ open ? '收起' : '展开'}}
@@ -77,6 +71,14 @@ export default {
       type: Boolean,
       default: false
     },
+    // 查询按钮配置
+    btnCheckBind: {
+      type: [Object]
+    },
+    // 重置按钮配置
+    btnResetBind: {
+      type: [Object]
+    },
     reset: {
       type: Boolean,
       default: true
@@ -89,11 +91,16 @@ export default {
     isShowOpen: {
       type: Boolean,
       default: true
+    },
+    // 是否默认展开
+    isExpansion: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      open: false,
+      open: !!this.isExpansion,
       colLength: null,
       form: Object.keys(this.opts).reduce((acc, field) => {
         acc[field] = this.opts[field].defaultVal || null
@@ -110,6 +117,14 @@ export default {
     }
   },
   computed: {
+    // 查询按钮配置
+    queryAttrs() {
+      return { type: 'primary', size: 'small', ...this.btnCheckBind }
+    },
+    // 重置按钮配置
+    resetAttrs() {
+      return { size: 'small', ...this.btnResetBind }
+    },
     cOpts() {
       const { open, opts, colLength, isShowOpen } = this
       let renderSpan = 0

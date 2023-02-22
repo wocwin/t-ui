@@ -1,6 +1,12 @@
 <template>
   <div class="query-data">
-    <t-query-condition ref="queryCondition" :opts="opts" @submit="conditionEnter">
+    <t-query-condition
+      ref="queryCondition"
+      :opts="opts"
+      isExpansion
+      :loading="loading"
+      @submit="conditionEnter"
+    >
       <template #likeTransportNo="{param}">
         <el-input v-model="param.likeTransportNo" clearable placeholder="自定义插槽输入框" />
       </template>
@@ -27,6 +33,7 @@ export default {
   name: 'queryData',
   data() {
     return {
+      loading: false,
       queryData: {
         likeCargoNo: null,
         likeBookNo: null,
@@ -165,8 +172,12 @@ export default {
     // 点击查询按钮
     conditionEnter(data) {
       console.log('查询条件', data)
+      this.loading = true
       this.queryData = data
       console.log('最终条件', this.getQueryData)
+      setTimeout(() => {
+        this.loading = false
+      }, 2000)
     }
   }
 }

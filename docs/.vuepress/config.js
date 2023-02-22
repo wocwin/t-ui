@@ -46,6 +46,7 @@ module.exports = {
                 // 'ElementUi/TTheme/base', // 主题设置
                 'ElementUi/TInput/base', // input组件
                 'ElementUi/TButton/base', // button组件
+                'ElementUi/TTimerBtn/base', // 获取验证码倒计时组件
                 'ElementUi/TSearch/base', // 下拉搜索查询组件
                 'ElementUi/TLayout/base', // 布局组件
                 'ElementUi/TLayoutPage/base', // 局部布局组件

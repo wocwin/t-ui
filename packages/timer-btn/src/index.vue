@@ -19,28 +19,28 @@ export default {
       default: 60
     }
   },
-  data () {
+  data() {
     return {
       time: 0,
       disabled: false
     }
   },
   computed: {
-    text () {
+    text() {
       return this.time > 0 ? `${this.time}s 后重获取` : '获取验证码'
     }
   },
   methods: {
-    run () {
+    run() {
       this.$emit('click')
-      // this.start()
+      this.start()
     },
-    start () {
+    start() {
       this.time = this.second
       this.disabled = true
       this.timer()
     },
-    timer () {
+    timer() {
       if (this.time > 0) {
         this.time--
         setTimeout(this.timer, 1000)

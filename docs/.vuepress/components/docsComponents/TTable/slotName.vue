@@ -1,6 +1,15 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="table.columns" />
+    <t-table :table="table" :columns="table.columns">
+      <template #enableStatus="{param}">
+        <el-switch
+          v-model="param.row.enableStatus"
+          :active-value="1"
+          :inactive-value="2"
+          @change="handleStatusChange(param.row)"
+        ></el-switch>
+      </template>
+    </t-table>
   </div>
 </template>
 
@@ -15,6 +24,7 @@ export default {
             date: '2019-09-25',
             name: '张三',
             status: '2',
+            enableStatus: 1,
             address: '广东省广州市天河区'
           },
           {
@@ -22,6 +32,7 @@ export default {
             date: '2019-09-26',
             name: '张三1',
             status: '1',
+            enableStatus: 2,
             address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
           },
           {
@@ -29,6 +40,7 @@ export default {
             date: '2019-09-27',
             name: '张三2',
             status: '3',
+            enableStatus: 1,
             address: '广东省广州市天河区3'
           }
         ],
@@ -36,7 +48,7 @@ export default {
           { prop: 'name', label: '姓名', minWidth: '100' },
           {
             prop: 'status',
-            label: 'render渲染1',
+            label: 'render渲染',
             minWidth: '180',
             render: (text, row, index) => {
               // console.log(777, text, row, index)
@@ -64,21 +76,10 @@ export default {
             }
           },
           {
-            prop: 'status',
-            label: 'render渲染2',
+            prop: 'enableStatus',
+            label: '插槽渲染',
             minWidth: '180',
-            render: (text, record) => {
-              return (
-                <el-switch
-                  active-value={'1'}
-                  inactive-value={'2'}
-                  v-model={record.enableStatus}
-                  onChange={() => this.handleStatusChange(record)}
-                >
-                  {text}
-                </el-switch>
-              )
-            },
+            slotName: 'enableStatus'
           },
           { prop: 'address', label: '地址', minWidth: '220' },
           { prop: 'date', label: '日期', minWidth: '180' },
@@ -90,7 +91,7 @@ export default {
   methods: {
     // 状态修改
     handleStatusChange(row) {
-      let text = row.status === '1' ? '启用' : '废止'
+      let text = row.status === 1 ? '启用' : '废止'
       this.$confirm(`确认要${text}这条数据吗？`, '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -99,7 +100,7 @@ export default {
         this.$message.success(`点击确定`)
       }).catch(() => {
         console.log('取消')
-        row.status = row.status === '1' ? '2' : '1'
+        row.status = row.status === 1 ? 2 : 1
       })
     },
     // 新增

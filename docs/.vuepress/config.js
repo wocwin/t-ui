@@ -106,6 +106,7 @@ module.exports = {
                 'ElementUi/TTable/mergedCell', // 合并单元格
                 'ElementUi/TTable/headerGroup', // 表头合并
                 'ElementUi/TTable/renderCol', // render列渲染
+                'ElementUi/TTable/slotName', // 插槽列渲染
                 'ElementUi/TTable/filters', // 字典过滤
                 'ElementUi/TTable/objRenderPorp', // 对象模式渲染
                 'ElementUi/TTable/renderHeader', // 自定义列标题 label

@@ -12,6 +12,7 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "lib": "vue-cli-service build --target lib --name t-ui --dest lib packages/index.js",
+    "publish": "npm run lib && npm publish",
     "deploy": "deploy.sh",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"

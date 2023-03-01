@@ -97,9 +97,52 @@ const install = function (Vue) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
+// 按需引入
+export {
+  TAntConfigform,
+  TAntLayoutConditional,
+  TLayoutPage,
+  TLayoutPageItem,
+  TAntLayoutTable,
+  TAntRangePicker,
+  TCalendar,
+  TDialog,
+  TDatePicker,
+  TForm,
+  TIcon,
+  TInput,
+  TInputSearch,
+  TLayout,
+  TPhone,
+  TProtocol,
+  TQueryCondition,
+  TSearch,
+  // TSimpleForm,
+  TStepWizard,
+  TSticky,
+  TTable,
+  TTimerBtn,
+  TTreeTable,
+  // TUploadExcel,
+  TUploadFile,
+  UploadFile,
+  TAntLayoutForm,
+  TAntModal,
+  TAntProtocol,
+  TModuleForm,
+  TComplexEditTable,
+  TEditTable,
+  TBtnDate,
+  TSelect,
+  TPaginationSelect,
+  TDetail,
+  TSelectTable,
+  TButton,
+  TTreeSelect
+  // TTheme
+}
 export default {
   version,
-  ...components, // 按需引入
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install
 }

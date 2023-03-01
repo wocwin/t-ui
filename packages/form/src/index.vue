@@ -43,6 +43,7 @@
           @change="handleEvent(item.event, formOpts.formData[item.value])"
           v-bind="{clearable:true,filterable:true,...item.bind}"
           :style="{width: item.width||'100%'}"
+          v-on="cEvent(item)"
         >
           <!-- 前置文本 -->
           <template #prepend v-if="item.prepend">{{ item.prepend }}</template>
@@ -121,6 +122,11 @@ export default {
     }
   },
   computed: {
+    cEvent() {
+      return ({ eventHandle }) => {
+        return { ...eventHandle }
+      }
+    },
     selectListType() {
       return ({ list }) => {
         if (this.formOpts.listTypeInfo) {

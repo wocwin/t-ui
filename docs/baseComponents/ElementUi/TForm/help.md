@@ -55,9 +55,10 @@ TForm 表单组件
 | ------rules         | 每一项输入框的表单校验规则                                                                              | Object/Array | -           |
 | ------list          | 下拉选择数据源（仅仅对 type:'select'有效）                                                              | String       | -           |
 | ------event         | 表单每一项事件标志（handleEvent 事件）                                                                  | String       | -           |
+| ------eventHandle   | 继承 comp 组件的事件                                                                                    | Object       | -           |
 | ---formData         | 表单提交数据(对应 fieldList 每一项的 value 值)                                                          | Object       | -           |
 | ---labelWidth       | label 宽度                                                                                              | String       | 120px       |
 | ---rules            | 规则（可依据 elementUI el-form 配置————对应 formData 的值）                                             | Object/Array | -           |
 | ---operatorList     | 操作按钮 list                                                                                           | Array        | -           |
 
-### 5. 关于 element-ui el-form/el-form-item 提供的一些方法/属性可直接使用，无需其他配置
+### 5. 关于 element-ui el-form/el-form-item 提供的一些属性可直接使用，无需其他配置

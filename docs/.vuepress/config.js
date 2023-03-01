@@ -83,6 +83,7 @@ module.exports = {
                 'ElementUi/TForm/labelPosition', // 对齐方式
                 'ElementUi/TForm/widthSize', // 每行展示多少项
                 'ElementUi/TForm/rules', // 表单验证
+                'ElementUi/TForm/eventHandle', // 事件使用
                 'ElementUi/TForm/labelRender', // 自定义label
                 'ElementUi/TForm/slotName', // 自定义输入框插槽
                 'ElementUi/TForm/textShow', // 文本展示

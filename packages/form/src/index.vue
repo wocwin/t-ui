@@ -40,7 +40,7 @@
           v-model="formOpts.formData[item.value]"
           :type="item.type||item.bind.type"
           :placeholder="item.placeholder||getPlaceholder(item)"
-          @change="handleEvent(item.event, formOpts.formData[item.value])"
+          @change="handleEvent(item.event, formOpts.formData[item.value],item)"
           v-bind="{clearable:true,filterable:true,...item.bind}"
           :style="{width: item.width||'100%'}"
           v-on="cEvent(item)"
@@ -115,6 +115,11 @@ export default {
       validator: (value) => {
         return value <= 4
       }
+    },
+    // 全局是否开启清除前后空格
+    isTrim: {
+      type: Boolean,
+      default: true
     },
     // ref
     refObj: {
@@ -248,8 +253,12 @@ export default {
       return placeholder
     },
     // 绑定的相关事件
-    handleEvent(type, val) {
-      // console.log('组件', type, val)
+    handleEvent(type, val, item) {
+      // console.log('组件', type, val, item)
+      // 去除前后空格
+      if (this.isTrim && !item.isTrim && item.comp.includes('el-input') && item.type !== 'password') {
+        this.formOpts.formData[item.value] = this.formOpts.formData[item.value].trim()
+      }
       this.$emit('handleEvent', type, val)
     },
     // 校验

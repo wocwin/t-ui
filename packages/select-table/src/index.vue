@@ -4,12 +4,14 @@
     v-model="defaultValue"
     popper-class="t-select-table"
     :multiple="multiple"
-    v-bind="selectAttr"
-    v-on="$listeners"
     :value-key="keywords.value"
+    :filterable="filterable"
+    :filter-method="filterMethod"
     @visible-change="visibleChange"
     @remove-tag="removeTag"
     @clear="clear"
+    v-bind="selectAttr"
+    v-on="$listeners"
   >
     <template #empty>
       <div class="t-table-select__table" :style="{ width: `${tableWidth}px` }">
@@ -18,15 +20,23 @@
           :data="tableData"
           :class="{'radioStyle':!multiple,'highlightCurrentRow':isRadio}"
           border
+          :row-key="getRowKey"
           :highlight-current-row="isRadio"
           @row-click="rowClick"
           @cell-dblclick="cellDblclick"
-          @selection-change="selectionChange"
+          @select="selectionChange"
+          @select-all="selectionAllChange"
           v-bind="$attrs"
           v-on="$listeners"
         >
           <div v-if="isShowFirstColumn">
-            <el-table-column v-if="multiple" type="selection" width="45" fixed></el-table-column>
+            <el-table-column
+              v-if="multiple"
+              type="selection"
+              width="45"
+              :reserve-selection="true"
+              fixed
+            ></el-table-column>
             <el-table-column type="radio" width="50" :label="radioTxt" fixed v-else>
               <template slot-scope="scope">
                 <el-radio
@@ -131,6 +141,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否过滤
+    filterable: {
+      type: Boolean,
+      default: true
+    },
     // 下拉数据指向的label/value
     keywords: {
       type: Object,
@@ -156,7 +171,6 @@ export default {
     selectAttr() {
       return {
         clearable: true,
-        filterable: true,
         'highlight-current-row': this.isRadio,
         ...this.$attrs
       }
@@ -208,6 +222,22 @@ export default {
     }
   },
   methods: {
+    // 搜索过滤
+    filterMethod(val) {
+      if (!this.filterable) return
+      const tableData = JSON.parse(JSON.stringify(this.table?.data))
+      if (tableData && tableData.length > 0) {
+        this.tableData = tableData.filter(item => {
+          if (item[this.keywords.label].includes(val)) {
+            return item
+          }
+        })
+      }
+    },
+    // 搜索后表格勾选不取消
+    getRowKey(row) {
+      return row[this.keywords.value]
+    },
     // 当前页码
     handlesCurrentChange(val) {
       this.clear()
@@ -215,16 +245,23 @@ export default {
     },
     // 表格显示隐藏回调
     visibleChange(visible) {
-      // console.log('表格显示隐藏回调', visible)
       if (visible) {
         this.initTableData()
       } else {
+        console.log('visibleChange---消失')
         this.findLabel()
+        this.filterMethod('')
       }
     },
-    // 复选框(多选)
+    // 复选框(多选)--单个勾选
     selectionChange(val) {
-      // console.log('复选框', val)
+      this.defaultValue = val.map(item => item[this.keywords.label])
+      this.ids = val.map(item => item[this.keywords.value])
+      this.$emit('selectionChange', val, this.ids)
+    },
+    // 全选
+    selectionAllChange(val) {
+      // console.log('全选----', val)
       this.defaultValue = val.map(item => item[this.keywords.label])
       this.ids = val.map(item => item[this.keywords.value])
       this.$emit('selectionChange', val, this.ids)
@@ -253,15 +290,11 @@ export default {
           if (this.$refs.select) {
             this.$refs.select.selected.forEach((item) => {
               item.currentLabel = item.value
-              // this.tableData.map(val => {
-              //   if (val[this.keywords.label] === item.value) {
-              //     item.value = val[this.keywords.value]
-              //   }
-              // })
             })
           }
         } else {
           if (this.$refs.select) {
+            // console.log('this.defaultValue---findLabel', this.defaultValue)
             this.$refs.select.selectedLabel = this.defaultValue[this.keywords.label] || ''
           }
         }
@@ -314,10 +347,16 @@ export default {
     },
     // 单击行
     async rowClick(row) {
-      if (this.multiple) {
-
-      } else {
-        await this.radioClick(row, this.tableData.indexOf(row) + 1)
+      if (!this.multiple) {
+        let rowIndex
+        // eslint-disable-next-line no-unused-expressions
+        this.table?.data.forEach((item, index) => {
+          if (item[this.keywords.value] === row[this.keywords.value]) {
+            // console.log('index', index)
+            rowIndex = index
+          }
+        })
+        await this.radioClick(row, rowIndex + 1)
         // console.log('单击行', row, this.radioVal)
         if (!this.isShowFirstColumn && this.radioVal) {
           this.isRadio = true

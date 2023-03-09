@@ -24,8 +24,7 @@
           :highlight-current-row="isRadio"
           @row-click="rowClick"
           @cell-dblclick="cellDblclick"
-          @select="selectionChange"
-          @select-all="selectionAllChange"
+          @selection-change="handlesSelectionChange"
           v-bind="$attrs"
           v-on="$listeners"
         >
@@ -34,7 +33,7 @@
               v-if="multiple"
               type="selection"
               width="45"
-              :reserve-selection="true"
+              :reserve-selection="reserveSelection"
               fixed
             ></el-table-column>
             <el-table-column type="radio" width="50" :label="radioTxt" fixed v-else>
@@ -141,6 +140,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否支持翻页选中
+    reserveSelection: {
+      type: Boolean,
+      default: true
+    },
     // 是否过滤
     filterable: {
       type: Boolean,
@@ -240,7 +244,14 @@ export default {
     },
     // 当前页码
     handlesCurrentChange(val) {
-      this.clear()
+      // this.clear()
+      if (this.multiple) {
+        if (!this.reserveSelection) {
+          this.clear()
+        }
+      } else {
+        this.clear()
+      }
       this.$emit('page-change', val)
     },
     // 表格显示隐藏回调
@@ -248,20 +259,12 @@ export default {
       if (visible) {
         this.initTableData()
       } else {
-        console.log('visibleChange---消失')
+        // console.log('visibleChange---消失')
         this.findLabel()
         this.filterMethod('')
       }
     },
-    // 复选框(多选)--单个勾选
-    selectionChange(val) {
-      this.defaultValue = val.map(item => item[this.keywords.label])
-      this.ids = val.map(item => item[this.keywords.value])
-      this.$emit('selectionChange', val, this.ids)
-    },
-    // 全选
-    selectionAllChange(val) {
-      // console.log('全选----', val)
+    handlesSelectionChange(val) {
       this.defaultValue = val.map(item => item[this.keywords.label])
       this.ids = val.map(item => item[this.keywords.value])
       this.$emit('selectionChange', val, this.ids)
@@ -358,7 +361,7 @@ export default {
         })
         await this.radioClick(row, rowIndex + 1)
         // console.log('单击行', row, this.radioVal)
-        if (!this.isShowFirstColumn && this.radioVal) {
+        if (this.radioVal) {
           this.isRadio = true
         } else {
           this.isRadio = false

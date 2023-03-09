@@ -4,9 +4,8 @@
     :columns="table.columns"
     :max-height="400"
     :keywords="{label:'materialCode',value:'id'}"
-    multiple
-    @selectionChange="selectionChange"
     @page-change="pageChange"
+    @radioChange="radioChange"
     isShowPagination
   ></t-select-table>
 </template>
@@ -45,10 +44,9 @@ export default {
     this.getList(1)
   },
   methods: {
-    // 复选框
-    selectionChange(val, ids) {
-      console.log('复选框', val)
-      console.log('复选框--id', ids)
+    // 单选框
+    radioChange(val) {
+      console.log('单选--返回选中的数据', val)
     },
     // 获取当前的页码
     pageChange(val) {

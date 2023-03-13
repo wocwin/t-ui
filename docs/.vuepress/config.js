@@ -114,6 +114,7 @@ module.exports = {
                 'ElementUi/TTable/radio', // 单选
                 'ElementUi/TTable/singleEditKeyup', // 单元格编辑键盘事件
                 'ElementUi/TTable/singleEditTable', // 开启单个单元格编辑
+                'ElementUi/TTable/eventHandle', // 单元格编辑使用第三方组件事件
                 'ElementUi/TTable/cellEditSave', // 单元格编辑保存单行操作
                 'ElementUi/TTable/editTable', // 开启整行编辑模式
                 'ElementUi/TTable/checkbox', // 基本复选

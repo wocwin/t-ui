@@ -36,6 +36,7 @@
 | ----------label         | placeholder 显示                                                              | String         | -           |
 | ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                          | String         | input       |
 | ----------bind          | 第三方 UI 的 Attributes                                                       | Object         | -           |
+| ----------eventHandle   | 第三方 UI 的 事件                                                             | Object         | -           |
 | ----------event         | 触发 handleEvent 事件的标志                                                   | String         | -           |
 | ----------type          | 下拉或者复选框显示（select-arr/select-obj/checkbox）                          | String         | -           |
 | ----------list          | 下拉选择数据源名称                                                            | String         | -           |
@@ -65,17 +66,19 @@
 | isSortable              | 是否开启组件 sort-change 事件                                                 | Boolean        | false       |
 | notSortJudge            | 不排序条件判断规则                                                            | String         | -           |
 | isKeyup                 | 单元格编辑是否开启键盘事件(向上、向下、回车横向的下一个输入框)                | Boolean        | false       |
+| defaultRadioCol         | 设置默认选中项（单选）defaultRadioCol 值必须大于 0！                          | Number         | -           |
 
 ## Methods 方法
 
-| 事件名             | 说明                             | 参数 |
-| :----------------- | :------------------------------- | :--- |
-| clearSelection     | 用于多选表格，清空用户的选择     | -    |
-| save               | 保存方法（返回编辑后的所有数据） | -    |
-| doLayout           | 对 Table 进行重新布局            | -    |
-| toggleRowSelection | 取消某一项选中项                 | -    |
-| clearSelection     | 清空复选框                       | -    |
-| clearSort          | 清空排序                         | -    |
+| 事件名             | 说明                             | 参数                           |
+| :----------------- | :------------------------------- | :----------------------------- |
+| clearSelection     | 用于多选表格，清空用户的选择     | -                              |
+| save               | 保存方法（返回编辑后的所有数据） | -                              |
+| doLayout           | 对 Table 进行重新布局            | -                              |
+| toggleRowSelection | 取消某一项选中项                 | -                              |
+| clearSelection     | 清空复选框                       | -                              |
+| clearSort          | 清空排序                         | -                              |
+| defaultRadioSelect | 默认选中（单选项）               | 默认选中项且值必须是大于等于 1 |
 
 ## events 其他事件按照 el-table 直接使用（如 sort-change 排序事件）
 

@@ -1,13 +1,19 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" rowClickRadio :columns="columns" @radioChange="radioChange" />
+    <t-table
+      :table="table"
+      rowClickRadio
+      :columns="columns"
+      @radioChange="radioChange"
+      :defaultRadioCol="1"
+    />
   </div>
 </template>
 
 <script>
 export default {
   name: 'redioDemo',
-  data () {
+  data() {
     return {
       table: {
         firstColumn: { type: 'radio' }, // 显示单选框
@@ -44,7 +50,7 @@ export default {
     }
   },
   methods: {
-    radioChange (row) {
+    radioChange(row) {
       console.log('单选传出数据', row)
       // this.baseData.radioVal = this.baseData.table.data.indexOf(row)
       // console.log('单选', row, this.baseData.radioVal)

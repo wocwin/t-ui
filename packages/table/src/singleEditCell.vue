@@ -17,7 +17,7 @@
       @keyup.native="(event) => $emit('Keyup',event,record.$index, prop)"
       :style="{width: configEdit.width||'100%'}"
       v-bind="typeof this.configEdit.bind == 'function' ? this.configEdit.bind(record) : {clearable:true,filterable:true,...this.configEdit.bind}"
-      v-on="$listeners"
+      v-on="cEvent(configEdit)"
     >
       <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
       <template v-for="(index, name) in $slots" v-slot:[name]>
@@ -61,6 +61,7 @@ export default {
      * arrLabel: 'label', // 下拉选择中文显示
      * arrKey: 'value' // 下拉选择number显示（最终传后台）
      * bind:{} // 组件衍生属性（即第三方组件属性）
+     * eventHandle:{} // 第三方组件事件
      */
     configEdit: {
       type: Object,
@@ -87,6 +88,11 @@ export default {
     }
   },
   computed: {
+    cEvent() {
+      return ({ eventHandle }) => {
+        return { ...eventHandle }
+      }
+    },
     // 子组件名称
     compChildName() {
       return ({ type }) => {

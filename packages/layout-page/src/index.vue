@@ -9,12 +9,12 @@ export default {
   props: {
     keepScrollDisabled: Boolean
   },
-  data () {
+  data() {
     return {
       scrollTop: 0
     }
   },
-  activated () {
+  activated() {
     if (!this.keepScrollDisabled) {
       this.$el.scrollTop = this.scrollTop
     }
@@ -28,6 +28,7 @@ export default {
   // padding: 8px;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow-y: auto;
 }
 </style>

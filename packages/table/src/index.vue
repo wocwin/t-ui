@@ -166,6 +166,7 @@
                     :record="scope"
                     @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
                     @Keyup="handleKeyup"
+                    v-on="$listeners"
                     v-bind="$attrs"
                     ref="editCell"
                   >
@@ -442,6 +443,10 @@ export default {
     // 不排序条件判断规则
     notSortJudge: {
       type: String
+    },
+    // 设置默认选中项（单选）defaultRadioCol值必须大于0！
+    defaultRadioCol: {
+      type: Number
     }
   },
   data() {
@@ -497,6 +502,12 @@ export default {
     },
     getToolbarDown() {
       return this.getToolbarBtn.length === 3 ? this.table.toolbar.slice(3, this.table.toolbar.length) : []
+    }
+  },
+  mounted() {
+    // 设置默认选中项（单选）
+    if (this.defaultRadioCol) {
+      this.defaultRadioSelect(this.defaultRadioCol)
     }
   },
   methods: {
@@ -753,6 +764,11 @@ export default {
     // 当前页码
     handlesCurrentChange(val) {
       this.$emit('page-change', val)
+    },
+    // 默认选中（单选项）---index必须是大于等于1（且只能默认选中第一页的数据）
+    defaultRadioSelect(index) {
+      this.radioVal = index
+      this.$emit('radioChange', this.tableData[index - 1], this.radioVal)
     },
     // 点击单选框单元格触发事件
     radioChange(row, index) {

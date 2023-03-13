@@ -27,7 +27,7 @@ export default {
   name: 'TSelect',
   props: {
     value: {
-      type: [String, Number, Array]
+      type: [String, Number, Array, Boolean]
     },
     // 是否多选
     multiple: {
@@ -55,14 +55,14 @@ export default {
   },
   computed: {
     childSelectedValue: {
-      get () {
+      get() {
         return this.value
       },
-      set (val) {
+      set(val) {
         this.$emit('input', val)
       }
     },
-    attrs () {
+    attrs() {
       return {
         // 'popper-append-to-body': false,
         clearable: true,
@@ -71,28 +71,31 @@ export default {
       }
     },
     selectChecked: {
-      get () {
+      get() {
         return this.childSelectedValue?.length === this.optionSource?.length
       },
-      set (val) {
+      set(val) {
         // console.log('set', val)
         this.$emit('input', val)
       }
     }
   },
   watch: {
-    childSelectedValue (val) {
+    childSelectedValue(val) {
       this.childSelectedValue = val
     }
   },
   methods: {
     // 点击全选
-    selectAll (val) {
+    selectAll(val) {
       const options = JSON.parse(JSON.stringify(this.optionSource))
       if (val) {
         this.childSelectedValue = options.map(item => {
           return item[this.valueKey]
         })
+        setTimeout(() => {
+          this.$emit('change', this.childSelectedValue)
+        }, 0)
       } else {
         this.childSelectedValue = null
       }

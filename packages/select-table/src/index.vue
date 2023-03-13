@@ -28,24 +28,28 @@
           v-bind="$attrs"
           v-on="$listeners"
         >
-          <div v-if="isShowFirstColumn">
-            <el-table-column
-              v-if="multiple"
-              type="selection"
-              width="45"
-              :reserve-selection="reserveSelection"
-              fixed
-            ></el-table-column>
-            <el-table-column type="radio" width="50" :label="radioTxt" fixed v-else>
-              <template slot-scope="scope">
-                <el-radio
-                  v-model="radioVal"
-                  :label="scope.$index + 1"
-                  @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
-                ></el-radio>
-              </template>
-            </el-table-column>
-          </div>
+          <el-table-column
+            v-if="multiple"
+            type="selection"
+            width="45"
+            :reserve-selection="reserveSelection"
+            fixed
+          ></el-table-column>
+          <el-table-column
+            type="radio"
+            width="50"
+            :label="radioTxt"
+            fixed
+            v-if="!multiple&&isShowFirstColumn"
+          >
+            <template slot-scope="scope">
+              <el-radio
+                v-model="radioVal"
+                :label="scope.$index + 1"
+                @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
+              ></el-radio>
+            </template>
+          </el-table-column>
           <template v-for="(item, index) in columns">
             <el-table-column
               :key="index + 'i'"
@@ -175,7 +179,6 @@ export default {
     selectAttr() {
       return {
         clearable: true,
-        'highlight-current-row': this.isRadio,
         ...this.$attrs
       }
     }

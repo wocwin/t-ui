@@ -129,7 +129,18 @@ export default {
   computed: {
     cEvent() {
       return ({ eventHandle }) => {
-        return { ...eventHandle }
+        let event = { ...eventHandle }
+        let changeEvent = {}
+        Object.keys(event).forEach(v => {
+          changeEvent[v] = (e) => {
+            if (e) {
+              event[v] && event[v](e, this.formOpts, arguments)
+            } else {
+              event[v] && event[v](this.formOpts, arguments)
+            }
+          }
+        })
+        return { ...changeEvent }
       }
     },
     selectListType() {

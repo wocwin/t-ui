@@ -65,9 +65,9 @@ export default {
                 type: 'input',
                 editComponent: 'el-input',
                 eventHandle: {
-                  focus: (val) => this.nameFocus(val),
-                  clear: () => this.nameClear(),
-                  blur: (val) => this.nameBlur(val)
+                  focus: (val, scope) => this.nameFocus(val, scope),
+                  clear: (scope) => this.nameClear(scope),
+                  blur: (val, scope) => this.nameBlur(val, scope)
                 }
               }
             },
@@ -193,14 +193,14 @@ export default {
     }
   },
   methods: {
-    nameFocus(val) {
-      console.log('姓名聚焦事件', val.type)
+    nameFocus(val, scope) {
+      console.log('姓名聚焦事件', val.type, scope)
     },
-    nameBlur(val) {
-      console.log('姓名失焦事件', val.type)
+    nameBlur(val, scope) {
+      console.log('姓名失焦事件', val.type, scope)
     },
-    nameClear() {
-      console.log('姓名清空事件')
+    nameClear(scope) {
+      console.log('姓名清空事件', scope)
     },
     singleSave(data) {
       console.log('单个单元格编辑保存', data)

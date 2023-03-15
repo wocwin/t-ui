@@ -36,7 +36,7 @@
 | ----------label         | placeholder 显示                                                              | String         | -           |
 | ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                          | String         | input       |
 | ----------bind          | 第三方 UI 的 Attributes                                                       | Object         | -           |
-| ----------eventHandle   | 第三方 UI 的 事件                                                             | Object         | -           |
+| ----------eventHandle   | 第三方 UI 的 事件（返回两个参数，第一个自己自带，第二个 scope）                   | Object         | -           |
 | ----------event         | 触发 handleEvent 事件的标志                                                   | String         | -           |
 | ----------type          | 下拉或者复选框显示（select-arr/select-obj/checkbox）                          | String         | -           |
 | ----------list          | 下拉选择数据源名称                                                            | String         | -           |

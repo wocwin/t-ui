@@ -27,15 +27,15 @@ export default {
           {
             label: '账号', value: 'account', type: 'input', comp: 'el-input',
             eventHandle: {
-              focus: (val) => this.accountFocus(val),
-              clear: () => this.accountClear(),
-              blur: (val) => this.accountBlur(val)
+              focus: (val, scope) => this.accountFocus(val, scope),
+              clear: (scope) => this.accountClear(scope),
+              blur: (val, scope) => this.accountBlur(val, scope)
             }
           },
           {
             label: '昵称', value: 'name', type: 'input', comp: 'el-input',
             eventHandle: {
-              blur: (val) => this.nameBlur(val)
+              blur: (val, scope) => this.nameBlur(val, scope)
             }
           },
           { label: '邮箱', value: 'email', type: 'input', comp: 'el-input' },
@@ -50,17 +50,17 @@ export default {
   },
   // 方法
   methods: {
-    accountFocus(val) {
-      console.log('账号聚焦事件', val.type)
+    accountFocus(val, scope) {
+      console.log('账号聚焦事件', val.type, scope)
     },
-    accountBlur(val) {
-      console.log('账号失焦事件', val.type)
+    accountBlur(val, scope) {
+      console.log('账号失焦事件', val.type, scope)
     },
-    accountClear() {
-      console.log('账号清空事件')
+    accountClear(scope) {
+      console.log('账号清空事件', scope)
     },
-    nameBlur(val) {
-      console.log('昵称失焦事件', val.type)
+    nameBlur(val, scope) {
+      console.log('昵称失焦事件', val.type, scope)
     },
     // 触发事件
     handleEvent(type, val) {

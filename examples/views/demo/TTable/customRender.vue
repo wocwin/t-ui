@@ -1,0 +1,118 @@
+<template>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table :table="table" :columns="columns" />
+    </t-layout-page-item>
+  </t-layout-page>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      table: {
+        data: [
+          {
+            id: '1',
+            date: '2019-09-25',
+            name: '张三',
+            status: '2',
+            address: '广东省广州市天河区'
+          },
+          {
+            id: '2',
+            date: '2019-09-26',
+            name: '张三1',
+            status: '1',
+            address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
+          },
+          {
+            id: '3',
+            date: '2019-09-27',
+            name: '张三2',
+            status: '3',
+            address: '广东省广州市天河区3'
+          }
+        ],
+        // 表格内操作列
+        operator: [
+          {
+            text: '新增',
+            type: 'primary',
+            fun: this.add,
+            // status为1时，不显示此按钮
+            noshow: [{ key: 'status', val: ['1'] }]
+          },
+          {
+            text: '编辑',
+            type: 'danger',
+            // status值为2时，展示此按钮
+            show: { key: 'status', val: ['2'] },
+            fun: this.edit
+          },
+          {
+            text: '删除',
+            customRender: {
+              comps: [
+                {
+                  comp: 'el-popconfirm',
+                  bind: {
+                    title: '确认删除该条数据？'
+                  },
+                  event: (scope) => {
+                    return {
+                      confirm: () => {
+                        this.handleDelete(scope.row)
+                      }
+                    }
+                  },
+                  child: (scope) => [
+                    {
+                      slot: 'reference',
+                      comp: 'el-link',
+                      text: '删除',
+                      bind: {
+                        type: 'primary'
+                      },
+                      style: {
+                        display: scope.row.stocktakeJobStatus === 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        // 操作列样式
+        operatorConfig: {
+          fixed: 'right', // 固定列表右边（left则固定在左边）
+          width: 280,
+          label: '操作'
+        }
+      },
+      columns: [
+        { prop: 'name', label: '姓名', minWidth: '100' },
+        { prop: 'date', label: '日期', minWidth: '180' },
+        { prop: 'address', label: '地址', minWidth: '220' },
+        { prop: 'date', label: '日期', minWidth: '180' },
+        { prop: 'address', label: '地址', minWidth: '220' }
+      ]
+    }
+  },
+  methods: {
+    // 新增
+    add(val) {
+      console.log('新增', val)
+    },
+    // 编辑
+    edit(val) {
+      console.log('编辑', val)
+    },
+    // 删除
+    handleDelete(val) {
+      console.log('删除', val)
+    }
+  }
+}
+</script>

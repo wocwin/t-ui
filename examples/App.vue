@@ -1,28 +1,36 @@
 <template>
   <div id="app">
-    <router-view v-if="isRouterAlive"></router-view>
+    <div class="env_tag" v-if="ENV !== 'production'">{{ ENV }}</div>
+    <router-view v-if="isRouterAlive" />
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'app',
-  provide () {
+  name: 'App',
+  data() {
+    return {
+      isLoading: true,
+      isRouterAlive: true
+    }
+  },
+  provide() {
     return {
       reload: this.reload
     }
   },
-  data () {
-    return {
-      isRouterAlive: true
+  computed: {
+    ENV() {
+      return process.env.VUE_APP_ENV
     }
   },
-  created () {
-    document.title = '基础组件'
+  watch: {
+    '$route'(to, from) { // 判断展示router-view 还是 #container
+      this.isLoading = false
+    }
   },
   methods: {
-    reload () {
+    reload() {
       this.isRouterAlive = false
       this.$nextTick(() => {
         this.isRouterAlive = true
@@ -31,36 +39,30 @@ export default {
   }
 }
 </script>
-
-<style>
+<style lang="scss">
+body {
+  background-color: #f6f6f6 !important;
+  overflow: hidden;
+}
 #app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: "微软雅黑", "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #333;
-  font-family: SourceHanSansCN-Normal, PingFangSC-Regular, Microsoft YaHei,
-    SimSun, Arial, Helvetica, Verdana, sans-serif !important;
-  font-size: 12px;
-  background-color: #ededed;
-  /* margin-top: 60px; */
+  color: #2c3e50;
+  overflow: hidden;
+  .env_tag {
+    position: absolute;
+    z-index: 901;
+    top: 0;
+    right: 0;
+    padding: 0 6px;
+    background-color: red;
+    border-radius: 0 0 0 4px;
+    color: #fff;
+    font-size: 12px;
+  }
 }
-html {
-  margin: 0;
-  padding: 0;
-}
-body {
-  margin: 0;
-  padding: 0;
-  background: #fff;
-}
-/* 滚动条的宽度*/
-/* ::-webkit-scrollbar {
-  width: 17px;
-  height: 17px;
-} */
-/* 滚动条的滑块*/
-/* ::-webkit-scrollbar-thumb {
-  background-color: #b3b3b3;
-  border-radius: 3px;
-} */
 </style>

@@ -1,0 +1,54 @@
+{
+  "success": true,
+  "code": 200,
+  "msg": "成功",
+  "data": [
+    {
+      "id": 581,
+      "name": "Layout",
+      "path": "/app-vue2",
+      "hidden": false,
+      "redirect": null,
+      "component": "Layout",
+      "alwaysShow": true,
+      "meta": { "title": "vue2常规模板", "icon": "chart" },
+      "visible": "0",
+      "menuType": "M",
+      "children": [
+        {
+          "id": 583,
+          "name": "Base",
+          "path": "TTable",
+          "hidden": false,
+          "redirect": null,
+          "component": "demo/TTable/base",
+          "alwaysShow": true,
+          "meta": { "title": "TTable组件", "icon": "#" },
+          "visible": "0",
+          "menuType": "M",
+          "children": [
+            {
+              "id": 585,
+              "name": "Base",
+              "path": "base",
+              "hidden": false,
+              "redirect": null,
+              "component": "demo/TTable/base",
+              "alwaysShow": null,
+              "meta": { "title": "常规操作", "icon": "#" },
+              "visible": "0",
+              "menuType": "C",
+              "children": null,
+              "needCache": true,
+              "domainVisible": false
+            }
+          ],
+          "needCache": true,
+          "domainVisible": false
+        }
+      ],
+      "needCache": true,
+      "domainVisible": false
+    }
+  ]
+}

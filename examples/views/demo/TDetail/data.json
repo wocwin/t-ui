@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "code": 200,
+  "msg": "成功",
+  "data": {
+    "id": "1498904492217241602",
+    "stocktakePlanNo": "PD-YX-20220302002",
+    "workshopId": 301,
+    "workshopLabel": "压型车间",
+    "planStocktakeDate": "2022-03-03",
+    "warehouseId": 1,
+    "warehouseName": "压型电极仓",
+    "stocktakeJobStatus": 4,
+    "stocktakeJobStatusLabel": "待盘点录入",
+    "stocktakeType": 2,
+    "stocktakeTypeLabel": "临时盘点",
+    "originTypeList": [1, 3],
+    "originTypeListLabel": "在制品,合格品",
+    "planStocktakeUserName": "",
+    "planStocktakeUserId": 0,
+    "createRemark": "测试"
+  }
+}

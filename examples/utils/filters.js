@@ -1,13 +1,11 @@
 
-import GlobalConstant from './constants.js' // 静态字典
-
 /**
  * 如果时间是复数，则显示复数标签
  * @param {number} time
  * @param {string} label
  * @return {string}
  */
-function pluralize (time, label) {
+function pluralize(time, label) {
   if (time === 1) {
     return time + label
   }
@@ -17,7 +15,7 @@ function pluralize (time, label) {
 /**
  * @param {number} time
  */
-export function timeAgo (time) {
+export function timeAgo(time) {
   const between = Date.now() / 1000 - Number(time)
   if (between < 3600) {
     return pluralize(~~(between / 60), ' minute')
@@ -27,14 +25,26 @@ export function timeAgo (time) {
     return pluralize(~~(between / 86400), ' day')
   }
 }
-
+/**
+ * 下拉数据回显中文过滤器
+ * @param [String,Number] value 需要转中文的key值
+ * @param {String} list  数据源
+ * @param [String,Number] key  数据源的key字段（默认：dictValue）
+ * @param {String} label  数据源的label字段（默认：dictLabel）
+ */
+export function constantEscape(value, list, key, label) {
+  const res = list.find((item) => {
+    return item[key] === value
+  })
+  return res && res[label]
+}
 /**
  * Number formatting
  * like 10000 => 10k
  * @param {number} num
  * @param {number} digits
  */
-export function numberFormatter (num, digits) {
+export function numberFormatter(num, digits) {
   const si = [
     { value: 1E18, symbol: 'E' },
     { value: 1E15, symbol: 'P' },
@@ -55,7 +65,7 @@ export function numberFormatter (num, digits) {
  * 10000 => "10,000"
  * @param {number} num
  */
-export function toThousandFilter (num) {
+export function toThousandFilter(num) {
   return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
 }
 
@@ -64,12 +74,7 @@ export function toThousandFilter (num) {
  * @param {number} num 被转换数字
  * @param {number} n 保留小数位
  */
-export function currencyFilter (num, n) {
-  // const reg = /((^[1-9]\d*)|^0)(\.\d+)?$/
-  // console.log(111, reg.test(num))
-  // if (!reg.test(num)) {
-  //   return ''
-  // } else {
+export function currencyFilter(num, n) {
   n = n > 0 && n <= 20 ? n : 2
   if (num || num === 0) {
     num = parseFloat((num + '').replace(/^\d\.-/g, '')).toFixed(n) + ''
@@ -101,21 +106,21 @@ export function currencyFilter (num, n) {
  * 数字金额格式过滤(转汉字大写) 12000.34 => "壹万贰千叁角肆分"
  * @param {number} num 被转换数字
  */
-export function digitUppercase (num) {
+export function digitUppercase(num) {
   const reg = /((^[1-9]\d*)|^0)(\.\d{0,2}){0,1}$/
   if (!reg.test(num)) {
     return '请输入正确的金额格式'
   } else {
-    const fraction = ['角', '分']
-    const digit = [
+    let fraction = ['角', '分']
+    let digit = [
       '零', '壹', '贰', '叁', '肆',
       '伍', '陆', '柒', '捌', '玖'
     ]
-    const unit = [
+    let unit = [
       ['元', '万', '亿', '兆'],
       ['', '拾', '佰', '仟']
     ]
-    const head = num < 0 ? '欠' : ''
+    let head = num < 0 ? '欠' : ''
     num = Math.abs(num)
     let s = ''
     fraction.forEach((item, index) => {
@@ -142,8 +147,8 @@ export function digitUppercase (num) {
  * 百分号格式过滤 0.5 => "0.5%"
  * @param {number} num
  */
-export function percentFilter (num) {
-  const percentStr = num ? num.toString() + '%' : '0'
+export function percentFilter(num) {
+  let percentStr = num ? num.toString() + '%' : '0'
   return percentStr
 }
 
@@ -151,7 +156,7 @@ export function percentFilter (num) {
  * 大写首字符
  * @param {String} string
  */
-export function uppercaseFirst (string) {
+export function uppercaseFirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
@@ -159,9 +164,9 @@ export function uppercaseFirst (string) {
  * 日期格式过滤器 13位时间戳转日期+时间格式 YYYY-MM-DD HH:mm:ss
  * @param {String} time
  */
-export function timeFormatFilter (time) {
+export function timeFormatFilter(time) {
   let date = new Date(time)
-  const year = date.getFullYear()
+  let year = date.getFullYear()
   let month = date.getMonth() + 1
   let day = date.getDate()
   let h = date.getHours()
@@ -180,9 +185,9 @@ export function timeFormatFilter (time) {
  * 日期格式过滤器 13位时间戳转日期格式 YYYY-MM-DD
  * @param {String} time
  */
-export function dateFormatFilter (time) {
+export function dateFormatFilter(time) {
   let date = new Date(time)
-  const year = date.getFullYear()
+  let year = date.getFullYear()
   let month = date.getMonth() + 1
   let day = date.getDate()
   month = month < 10 ? '0' + month : month
@@ -195,46 +200,10 @@ export function dateFormatFilter (time) {
  * 日期格式过滤器 YYYYMMDD 戳转日期格式 YYYY-MM-DD
  * @param {String} dateStr
  */
-export function dateStrFormat (dateStr) {
+export function dateStrFormat(dateStr) {
   if (dateStr !== undefined && dateStr !== null && dateStr !== '') {
     return dateStr.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3')
   } else {
     return ''
-  }
-}
-
-/**
- * 列表常量value key过滤器(字典)
- * @param {String} status
- * @param {String} constantName
- */
-export function constantKey2Value (status, constantName) {
-  const statusMap = GlobalConstant[constantName]
-  return statusMap[status] || ''
-}
-/**
- * 下拉数据回显中文过滤器
- * @param [String,Number] value 需要转中文的key值
- * @param {String} list  数据源
- * @param [String,Number] key  数据源的key字段（默认：dictValue）
- * @param {String} label  数据源的label字段（默认：dictLabel）
- */
-export function constantEscape (value, list, key, label) {
-  const res = list.find((item) => {
-    return item[key] === value
-  })
-  return res && res[label]
-}
-/**
- * 显示上传文件名过滤器
- * @param {String} cellValue
- */
-export function formatFileName (cellValue) {
-  if (cellValue && cellValue.length > 9) {
-    const index = cellValue.lastIndexOf('/')
-    const formatName = cellValue.substring(index + 1, cellValue.length)
-    return formatName
-  } else {
-    return cellValue
   }
 }

@@ -4,7 +4,7 @@ export default {
   functional: true,
   props: {
     icon: {
-      type: [String, Boolean],
+      type: String,
       default: ''
     },
     title: {
@@ -12,13 +12,14 @@ export default {
       default: ''
     }
   },
-  render (h, context) {
-    const title = context.props.title
+  render(h, context) {
+    const { icon, title } = context.props
     const vnodes = []
-    const icon = `i-icon icon iconfont ${context.props.icon}`
+
     if (icon) {
-      vnodes.push(<i class={(icon)}></i>)
+      vnodes.push(<svg-icon icon-class={icon}/>)
     }
+
     if (title) {
       vnodes.push(<span slot='title'>{(title)}</span>)
     }

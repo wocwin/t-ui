@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { isExternal } from '@/utils/utils.js'
+import { isExternal } from '@/utils/validate'
 
 export default {
   props: {
@@ -17,7 +17,7 @@ export default {
     }
   },
   methods: {
-    linkProps (url) {
+    linkProps(url) {
       if (isExternal(url)) {
         return {
           is: 'a',

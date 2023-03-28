@@ -1,13 +1,17 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'demo-Token'
+const TokenKey = 'authorization'
 
 export function getToken () {
   return Cookies.get(TokenKey)
 }
 
 export function setToken (token) {
-  return Cookies.set(TokenKey, token)
+  let to = ''
+  if (!Cookies.get(TokenKey)) {
+    to = Cookies.set(TokenKey, token)
+  }
+  return to
 }
 
 export function removeToken () {

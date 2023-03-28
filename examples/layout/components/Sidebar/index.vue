@@ -1,11 +1,13 @@
 <template>
-  <div>
+  <div :class="{'has-logo':showLogo}">
+    <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
+        :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
-        :unique-opened="false"
+        :unique-opened="true"
         :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
         mode="vertical"
@@ -23,40 +25,43 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { constantRoutes } from '@/router'
+import Logo from './Logo'
 import SidebarItem from './SidebarItem'
-import variables from '@/assets/css/variables.scss'
+import { constantRoutes } from '@/router'
+import variables from '@/assets/styles/variables.scss'
 
 export default {
-  components: { SidebarItem },
+  components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'permissionRoutes',
+      'permission_routes',
       'sidebar'
     ]),
-    activeMenu () {
+    constantRoutes() {
+      return constantRoutes
+    },
+    activeMenu() {
       const route = this.$route
       const { meta, path } = route
-      // 如果设置路径，侧栏将突出显示您设置的路径
+      // if set path, the sidebar will highlight the path you set
       if (meta.activeMenu) {
         return meta.activeMenu
       }
       return path
     },
-    variables () {
+    showLogo() {
+      return this.$store.state.settings.sidebarLogo
+    },
+    variables() {
       return variables
     },
-    // isCollapse () {
-    //   return !this.sidebar.opened
-    // },
-    constantRoutes () {
-      return constantRoutes
+    isCollapse() {
+      return !this.sidebar.opened
+    },
+    //处理菜单展示路由
+    permissionRoutes() {
+      return this.$store.getters.permission_routes
     }
-  },
-  mounted () {
-  },
-  methods: {
-
   }
 }
 </script>

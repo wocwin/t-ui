@@ -36,12 +36,16 @@
 ```js
 // 先安装
 npm i @wocwin/t-ui
-// 在main.js中按下引入
+// 1、 在main.js中按下引入(全局使用)
 import Tui from '@wocwin/t-ui'
 Vue.use(Tui)
+
+// 2、按需引入，在单个vue文件如下引入，在注册；或者在main.js中如下引入在注册，皆可！
+import { TTable, TLayoutPage, TLayoutPageItem, TForm, TQueryCondition } from '@wocwin/t-ui'
+
 ```
 
-## 直接在项目中全局使用（前提是已全局安装了 Element-ui 并已引入其样式）
+## 直接在项目中全局使用
 
 ```js
 // 1、把packages文件夹复制，放在自己项目中
@@ -50,7 +54,7 @@ import Tui from '../packages'
 Vue.use(Tui)
 ```
 
-## 安装依赖 **如果总报错就用 cnpm install**
+## 安装依赖
 
 ```shell
 npm install
@@ -72,6 +76,6 @@ npm run docs:dev
 
 ## 微信交流群
 
-|                  微信二维码                   |
-| :--------------------------------------: |
+|                微信二维码                 |
+| :---------------------------------------: |
 | <img src="./public/weixin.jpg" width=170> |

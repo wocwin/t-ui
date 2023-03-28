@@ -101,6 +101,11 @@ export default {
     },
     add() {
       this.title = '新增数据'
+      this.formOpts.fieldList.map(val => {
+        if (val.value === 'password') {
+          val.isHideItem = false
+        }
+      })
       this.dialogSelectEnt = true
     },
     edit() {

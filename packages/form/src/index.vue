@@ -10,13 +10,13 @@
     v-bind="$attrs"
     v-on="$listeners"
   >
-    <template v-for="(item, index) in formOpts.fieldList">
+    <template v-for="(item, index) in fieldList">
       <el-form-item
         v-if="!item.isHideItem"
         :key="index"
         :prop="item.value"
         :label="item.label"
-        :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName},{'render_laber_position':formOpts.labelPosition}]"
+        :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName},{'render_laber_position':formOpts.labelPosition},{'is_dynamic':isDynamic}]"
         :rules="item.rules"
         :style="getChildWidth(item)"
         v-bind="$attrs"
@@ -38,7 +38,7 @@
           v-if="!item.slotName&&!item.textShow"
           :is="item.comp"
           v-model="formOpts.formData[item.value]"
-          :type="item.type||item.bind.type"
+          :type="(item.type||'input')||item.bind.type"
           :placeholder="item.placeholder||getPlaceholder(item)"
           @change="handleEvent(item.event, formOpts.formData[item.value],item)"
           v-bind="{clearable:true,filterable:true,...item.bind}"
@@ -63,6 +63,7 @@
             :value="compChildValue(item,value,key)"
           >{{compChildShowLabel(item,value)}}</component>
         </component>
+        <i :key="index+'icon'" v-if="isDynamic" class="el-icon-delete" @click="dynamicDel(index)"></i>
       </el-form-item>
     </template>
     <!-- 按钮 -->
@@ -115,6 +116,11 @@ export default {
       validator: (value) => {
         return value <= 4
       }
+    },
+    // 是否开启动态新增表单项
+    isDynamic: {
+      type: Boolean,
+      default: false
     },
     // 全局是否开启清除前后空格
     isTrim: {
@@ -214,7 +220,8 @@ export default {
   },
   data() {
     return {
-      colSize: this.widthSize
+      colSize: this.widthSize,
+      fieldList: this.formOpts.fieldList
     }
   },
   watch: {
@@ -263,6 +270,9 @@ export default {
       }
       return placeholder
     },
+    dynamicDel(index) {
+      this.$emit('del', index)
+    },
     // 绑定的相关事件
     handleEvent(type, val, item) {
       // console.log('组件', type, val, item)
@@ -274,6 +284,7 @@ export default {
     },
     // 校验
     validate() {
+      console.log('7789')
       return new Promise((resolve, reject) => {
         this.$refs.form.validate(valid => {
           if (valid) {
@@ -321,6 +332,16 @@ export default {
         .el-input {
           width: inherit;
         }
+      }
+    }
+  }
+  .is_dynamic {
+    .el-form-item__content {
+      display: flex;
+      align-items: center;
+      .el-icon-delete {
+        margin-left: 5px;
+        cursor: pointer;
       }
     }
   }

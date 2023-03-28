@@ -90,6 +90,7 @@ module.exports = {
                 'ElementUi/TForm/comUse', // 自己组件使用
                 'ElementUi/TForm/assignment', // 赋值回显
                 'ElementUi/TForm/submit', // 切换页面获取表单数据
+                'ElementUi/TForm/dynamic', // 动态增减表单项
                 'ElementUi/TForm/help', // 使用帮助(Attributes)
                 'ElementUi/TModuleForm/base', // 基本
                 'ElementUi/TModuleForm/detail', // detail

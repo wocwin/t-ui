@@ -10,7 +10,7 @@ module.exports = {
   // publicPath: './', // 部署应用包时的基本 URL
   productionSourceMap: !isProduction, // 解决vue项目打包后浏览器F12查看到项目源代码false不能看到
   // productionSourceMap: true, // 测试调试打断点
-  lintOnSave: false, // 去掉eslint校验
+  // lintOnSave: false,// 去掉eslint校验
   devServer: {
     port: port, // 设置端口号
     // open: true, // 启动项目自动打开浏览器

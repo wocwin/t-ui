@@ -8,6 +8,7 @@
 | ---data                 | 展示数据                                                                      | Array          | []          |
 | ---toolbar              | 表格外操作栏选中表格某行，可以将其数据传出                                    | Array          | -           |
 | ---operator             | 表格内操作栏数据                                                              | Array          | []          |
+| -------hasPermi         | 表格内操作栏按钮权限资源（结合 btnPermissions 属性使用）                      | String         | -           |
 | -------show             | 表格内操作栏根据状态显示                                                      | Object         | -           |
 | -------noshow           | 表格内操作栏根据多种状态不显示                                                | Array          | -           |
 | -------type             | 基于 element button type                                                      | String         | text        |
@@ -36,7 +37,7 @@
 | ----------label         | placeholder 显示                                                              | String         | -           |
 | ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                          | String         | input       |
 | ----------bind          | 第三方 UI 的 Attributes                                                       | Object         | -           |
-| ----------eventHandle   | 第三方 UI 的 事件（返回两个参数，第一个自己自带，第二个 scope）                   | Object         | -           |
+| ----------eventHandle   | 第三方 UI 的 事件（返回两个参数，第一个自己自带，第二个 scope）               | Object         | -           |
 | ----------event         | 触发 handleEvent 事件的标志                                                   | String         | -           |
 | ----------type          | 下拉或者复选框显示（select-arr/select-obj/checkbox）                          | String         | -           |
 | ----------list          | 下拉选择数据源名称                                                            | String         | -           |
@@ -67,6 +68,7 @@
 | notSortJudge            | 不排序条件判断规则                                                            | String         | -           |
 | isKeyup                 | 单元格编辑是否开启键盘事件(向上、向下、回车横向的下一个输入框)                | Boolean        | false       |
 | defaultRadioCol         | 设置默认选中项（单选）defaultRadioCol 值必须大于 0！                          | Number         | -           |
+| btnPermissions          | 按钮权限 store.getters 接收字段                                               | String         | -           |
 
 ## Methods 方法
 

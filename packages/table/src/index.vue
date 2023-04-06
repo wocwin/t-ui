@@ -447,6 +447,10 @@ export default {
     // 设置默认选中项（单选）defaultRadioCol值必须大于0！
     defaultRadioCol: {
       type: Number
+    },
+    // 按钮权限store.getters接收字段
+    btnPermissions: {
+      type: String
     }
   },
   data() {
@@ -491,6 +495,10 @@ export default {
         }
         return acc
       }, []) : this.columns
+    },
+    // 按钮权限数组
+    btnPremList() {
+      return this.$store.getters[this.btnPermissions]
     },
     // 判断如果有表头合并就自动开启单元格缩放
     isTableBorder() {
@@ -751,7 +759,20 @@ export default {
       } else {
         isNoShow = true
       }
-      return (!item.show || item.show.val.includes(scope.row[item.show.key])) && isNoShow
+      // 单独判断
+      let isShow =
+        !item.show || item.show.val.includes(scope.row[item.show.key])
+      // 按钮权限
+      let isPermission = item.hasPermi ? this.btnPremList.includes(item.hasPermi) : true
+      // table页面合计
+      let totalTxt = Object.values(scope.row).every((key) => {
+        return key !== '当页合计'
+      })
+      // table全部合计
+      let totalTxt1 = Object.values(scope.row).every((key) => {
+        return key !== '全部合计'
+      })
+      return isShow && isNoShow && isPermission && totalTxt && totalTxt1
     },
     // 控制表格字体颜色
     txtChangeColor(scope) {

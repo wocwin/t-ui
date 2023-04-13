@@ -5,6 +5,7 @@
 | 参数                    | 说明                                                                          | 类型           | 默认值      |
 | :---------------------- | :---------------------------------------------------------------------------- | :------------- | :---------- |
 | table                   | 表格数据对象                                                                  | Object         | {}          |
+| ---rules                | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）              | Object   | -           |
 | ---data                 | 展示数据                                                                      | Array          | []          |
 | ---toolbar              | 表格外操作栏选中表格某行，可以将其数据传出                                    | Array          | -           |
 | ---operator             | 表格内操作栏数据                                                              | Array          | []          |
@@ -34,6 +35,7 @@
 | ----------key           | 数据源的 key 字段（默认：dictValue）                                          | String         | 'dictValue' |
 | ----------label         | 数据源的 label 字段（默认：dictLabel）                                        | String         | 'dictLabel' |
 | ----configEdit          | 表格编辑配置（开启编辑功能有效）                                              | Object         | -           |
+| ----------rules         | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）              | Object   | -           |
 | ----------label         | placeholder 显示                                                              | String         | -           |
 | ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                          | String         | input       |
 | ----------bind          | 第三方 UI 的 Attributes                                                       | Object         | -           |

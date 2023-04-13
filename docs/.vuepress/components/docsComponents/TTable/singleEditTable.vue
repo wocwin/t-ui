@@ -96,6 +96,7 @@ export default {
               configEdit: {
                 label: '备注',
                 append: '吨',
+                rules: { required: true, message: '请输入备注', trigger: 'blur' },
                 bind: { 'prefix-icon': 'el-icon-search' },
                 editComponent: 'el-input'
               }

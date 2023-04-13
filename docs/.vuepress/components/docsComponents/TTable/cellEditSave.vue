@@ -12,7 +12,7 @@
 <script>
 import cellEditData from "./cellEditData.json"
 export default {
-  data () {
+  data() {
     return {
       table: {
         data: [],
@@ -167,19 +167,19 @@ export default {
       },
     }
   },
-  created () {
+  created() {
     this.getList()
   },
   methods: {
-    getList () {
+    getList() {
       let res = cellEditData
       if (res.success) {
         this.table.data = res.data
       }
     },
     // 生成标签明细
-    creatTag (item) {
-      // console.log('保存', item)
+    creatTag(item) {
+      console.log('保存', item)
       this.$set(item, 'isEdit', false)
       this.$set(item, 'isDisabled', false)
       item.isPrint = true
@@ -190,7 +190,7 @@ export default {
       })
     },
     // 编辑
-    edit (row) {
+    edit(row) {
       this.table.data.map((item) => {
         this.$set(item, 'isEdit', false)
       })
@@ -204,7 +204,7 @@ export default {
       this.$set(row, 'isDisabled', true)
     },
     // 取消
-    cancelEdit (row) {
+    cancelEdit(row) {
       // 取消操作按钮禁用
       this.table.operator.map((item) => {
         if (item.text == '编辑') {

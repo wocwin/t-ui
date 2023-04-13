@@ -158,32 +158,38 @@
                 </template>
                 <!-- 单个单元格编辑 -->
                 <template v-if="item.canEdit">
-                  <single-edit-cell
-                    :canEdit="item.canEdit"
-                    :configEdit="item.configEdit"
-                    v-model="scope.row[scope.column.property]"
-                    :prop="item.prop"
-                    :record="scope"
-                    @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
-                    @Keyup="handleKeyup"
-                    v-on="$listeners"
-                    v-bind="$attrs"
-                    ref="editCell"
+                  <el-form
+                    :model="tableData[scope.$index]"
+                    :rules="table.rules"
+                    :ref="`formRef-${scope.$index}-${item.prop||scope.column.property}`"
                   >
-                    <!-- <slot
+                    <single-edit-cell
+                      :configEdit="item.configEdit"
+                      v-model="scope.row[scope.column.property]"
+                      :prop="item.prop"
+                      :tableData="tableData"
+                      :record="scope"
+                      @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
+                      @Keyup="handleKeyup"
+                      v-on="$listeners"
+                      v-bind="$attrs"
+                      ref="editCell"
+                    >
+                      <!-- <slot
                       v-if="item.configEdit&&item.configEdit.editSlotName"
                       :name="item.configEdit.editSlotName"
                       :scope="scope"
-                    />-->
-                    <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
-                    <template v-for="(index, name) in $slots" v-slot:[name]>
-                      <slot :name="name" />
-                    </template>
-                    <!-- 遍历子组件作用域插槽，并对父组件暴露 -->
-                    <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
-                      <slot :name="name" v-bind="data"></slot>
-                    </template>
-                  </single-edit-cell>
+                      />-->
+                      <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
+                      <template v-for="(index, name) in $slots" v-slot:[name]>
+                        <slot :name="name" />
+                      </template>
+                      <!-- 遍历子组件作用域插槽，并对父组件暴露 -->
+                      <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+                        <slot :name="name" v-bind="data"></slot>
+                      </template>
+                    </single-edit-cell>
+                  </el-form>
                 </template>
                 <!-- 字典过滤 -->
                 <template v-if="item.filters&&item.filters.list">
@@ -707,10 +713,20 @@ export default {
     clearSelection() {
       this.$refs['el-table'].clearSelection()
     },
-    // 整行编辑返回数据
+    // 单行编辑&整行编辑返回数据
     save() {
-      this.$emit('save', this.tableData)
-      return this.tableData
+      const refList = Object.keys(this.$refs).filter(item => item.includes('formRef'))
+      refList.map(val => {
+        this.$refs[val].map(item => {
+          item.validate((valid) => {
+            if (valid) {
+              this.$emit('save', this.tableData)
+            } else {
+              this.$emit('save', [])
+            }
+          })
+        })
+      })
     },
     // 头部标题是否需要加头部必填*符号
     renderHeader(h, { column }) {

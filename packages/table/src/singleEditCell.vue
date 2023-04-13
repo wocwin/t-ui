@@ -1,5 +1,11 @@
 <template>
-  <div class="single_edit_cell" :class="{'edit-enabled-cell': canEdit}">
+  <el-form-item
+    :prop="record.column.property"
+    :rules="configEdit.rules"
+    :class="[configEdit.className,'single_edit_cell']"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
     <!-- 编辑组件自定义插槽 -->
     <template v-if="configEdit.editSlotName">
       <!-- <slot /> -->
@@ -44,7 +50,7 @@
         :value="compChildValue(configEdit,value,key)"
       >{{compChildShowLabel(configEdit,value)}}</component>
     </component>
-  </div>
+  </el-form-item>
 </template>
 
 <script>
@@ -67,15 +73,13 @@ export default {
       type: Object,
       default: () => ({})
     },
+    tableData: {
+      type: Array
+    },
     // 下拉选择数据源
     listTypeInfo: {
       type: Object,
       default: () => ({})
-    },
-    // 是否开启编辑
-    canEdit: {
-      type: Boolean,
-      default: false
     },
     // scope
     record: {
@@ -181,7 +185,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.edit-enabled-cell {
+.single_edit_cell {
   min-height: 40px;
   line-height: 40px;
   cursor: pointer;

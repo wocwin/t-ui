@@ -1,11 +1,13 @@
 <template>
   <div class="t-table-single-edit-cell" style="width:100%;">
     <t-table
+      ref="singleEdit"
       :table="singleEditConfig.table"
       :columns="singleEditConfig.table.columns"
       :listTypeInfo="singleEditConfig.listTypeInfo"
       @handleEvent="handleEvent"
       @save="singleSave"
+      isShowFooterBtn
     >
       <!-- 自定义单元格编辑组件(多选下拉选择) -->
       <template #editHobby="{scope}">
@@ -24,13 +26,17 @@
 
 <script>
 export default {
-  name: 'TtableSingleEditCell',
+  name: 'TtableSingleEditRules',
   data() {
     return {
       // 编辑某个单元格
       singleEditConfig: {
         table: {
           border: true,
+          rules: {
+            hobby: [{ required: true, message: '请至少选择一个爱好', trigger: 'change' }],
+            year: [{ required: true, message: '请选择年份', trigger: 'change' }],
+          },
           firstColumn: { type: 'index', label: '序列' }, // 显示序列号
           data: [
             {
@@ -44,14 +50,14 @@ export default {
               number: 12
             },
             {
-              name: '李四',
-              hobby: '2',
-              hobby1: ['0', '2'],
-              hobby2: ['0', '2'],
-              year: '2021',
-              time: '2022-01-19 16:58:58',
-              remake: '备注李四',
-              number: 15
+              name: null,
+              hobby: null,
+              hobby1: [],
+              hobby2: [],
+              year: null,
+              time: null,
+              remake: null,
+              number: 12
             }
           ],
           columns: [
@@ -65,12 +71,7 @@ export default {
                 label: '姓名',
                 type: 'input',
                 editComponent: 'el-input',
-                rules: { required: true, message: '请输入姓名', trigger: 'blur' },
-                eventHandle: {
-                  focus: (val, scope) => this.nameFocus(val, scope),
-                  clear: (scope) => this.nameClear(scope),
-                  blur: (val, scope) => this.nameBlur(val, scope)
-                }
+                rules: { required: true, message: '请输入姓名', trigger: 'blur' }
               }
             },
             {
@@ -128,6 +129,7 @@ export default {
               label: '日期年',
               minWidth: '180',
               canEdit: true,
+              headerRequired: true,
               configEdit: {
                 label: '日期年',
                 type: 'year',
@@ -197,15 +199,6 @@ export default {
     }
   },
   methods: {
-    nameFocus(val, scope) {
-      console.log('姓名聚焦事件', val.type, scope)
-    },
-    nameBlur(val, scope) {
-      console.log('姓名失焦事件', val.type, scope)
-    },
-    nameClear(scope) {
-      console.log('姓名清空事件', scope)
-    },
     singleSave(data) {
       console.log('单个单元格编辑保存', data)
     },

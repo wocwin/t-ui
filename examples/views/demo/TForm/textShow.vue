@@ -18,7 +18,7 @@ export default {
           account: '张三', // *用户账号
           password: '123456', // *用户密码
           name: '三丫子', // *用户昵称
-          sex: '男', // *性别: 0:男 1:女
+          sex: '男' // *性别: 0:男 1:女
         },
         fieldList: [
           { label: '账号：', textShow: true, textValue: '张三' },

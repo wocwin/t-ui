@@ -37,10 +37,10 @@ export default {
           fieldName: 'stocktakeJobStatus',
           value: '',
           filters: {
-            list: 'stockTakeTypeList',
+            list: 'stockTakeTypeList'
             // key: 'id',
             // label: 'label'
-          },
+          }
         },
         {
           label: '车间',
@@ -68,21 +68,21 @@ export default {
         stockTakeTypeList: [
           {
             dictLabel: '在制品',
-            dictValue: 1,
+            dictValue: 1
           },
           {
             dictLabel: '待检品',
-            dictValue: 2,
+            dictValue: 2
           },
           {
             dictLabel: '合格品',
-            dictValue: 3,
+            dictValue: 3
           },
           {
             dictLabel: '报废品',
-            dictValue: 4,
+            dictValue: 4
           }
-        ], // 盘点类型
+        ] // 盘点类型
       },
       dataList: {}
     }

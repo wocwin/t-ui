@@ -1,13 +1,12 @@
 import request from '@/utils/request'
 
-
 // 登录方法
 export function login(data) {
   return request({
     url: '/portal-sso/web/login',
     method: 'POST',
     headers: {
-      "client-type": "PC"
+      'client-type': 'PC'
     },
     data
   })
@@ -20,13 +19,12 @@ export const getPermBtm = () => {
   })
 }
 
-
-//sso登录退出
+// sso登录退出
 export function ssoLogout() {
   sessionStorage.removeItem('systemName')
   return request({
     url: '/portal-sso/web/logout',
-    method: 'post',
+    method: 'post'
   })
 }
 

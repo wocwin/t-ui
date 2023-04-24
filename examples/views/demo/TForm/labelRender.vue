@@ -24,7 +24,7 @@ export default {
           name: '', // *用户昵称
           valDate: '', // el日期选择范围
           email: '', // 邮箱
-          desc: '', // 描述
+          desc: '' // 描述
         },
         fieldList: [
           {
@@ -34,7 +34,12 @@ export default {
                   账号
                 </div>
               )
-            }, label: '账号', value: 'account', type: 'input', comp: 'el-input', event: 'account'
+            },
+            label: '账号',
+            value: 'account',
+            type: 'input',
+            comp: 'el-input',
+            event: 'account'
           },
           {
             labelRender: () => {
@@ -43,7 +48,11 @@ export default {
                   昵称
                 </div>
               )
-            }, label: '昵称', value: 'name', type: 'input', comp: 'el-input'
+            },
+            label: '昵称',
+            value: 'name',
+            type: 'input',
+            comp: 'el-input'
           },
           {
             labelRender: () => {
@@ -70,13 +79,17 @@ export default {
                   邮箱
                 </div>
               )
-            }, label: '邮箱', value: 'email', type: 'input', comp: 'el-input'
+            },
+            label: '邮箱',
+            value: 'email',
+            type: 'input',
+            comp: 'el-input'
           },
           { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', className: 't-form-block' }
         ],
         operatorList: [
           { label: '提交', type: 'danger', fun: this.submitForm },
-          { label: '重置', type: 'primary', fun: this.resetForm },
+          { label: '重置', type: 'primary', fun: this.resetForm }
         ]
       }
     }

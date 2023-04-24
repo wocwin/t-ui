@@ -32,7 +32,7 @@ export default {
         formData: {
           accountType: '', // *用户类型: 0: 手机注册 1: 论坛注册 2: 管理平台添加
           email: '', // 邮箱
-          desc: '', // 描述
+          desc: '' // 描述
         },
         fieldList: [
           { label: '平台用户', placeholder: '自定义option插槽', value: 'accountType', type: 'select-obj', comp: 'el-select', list: 'accountTypeList', childSlotName: 'accountType' },
@@ -41,7 +41,7 @@ export default {
         ],
         operatorList: [
           { label: '提交', type: 'danger', fun: this.submitForm },
-          { label: '重置', type: 'primary', fun: this.resetForm },
+          { label: '重置', type: 'primary', fun: this.resetForm }
         ],
         // 相关列表
         listTypeInfo: {

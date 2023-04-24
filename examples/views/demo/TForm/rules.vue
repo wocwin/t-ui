@@ -47,7 +47,7 @@ export default {
           { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', className: 't-form-block' }
         ],
         rules: {
-          account: [{ required: true, message: '请输入账号', trigger: 'blur' },],
+          account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
           password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
           name: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
           phone: [{ required: true, message: '请输入手机号码', trigger: 'blur' }],

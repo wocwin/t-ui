@@ -14,8 +14,6 @@ const comUse = () => import('@/views/demo/TForm/comUse')
 const assignment = () => import('@/views/demo/TForm/assignment')
 const submit = () => import('@/views/demo/TForm/submit')
 
-
-
 const TFormRouter = {
   path: '/t-form',
   component: Layout,
@@ -36,13 +34,13 @@ const TFormRouter = {
       path: 'labelPosition',
       name: '对齐方式',
       component: labelPosition,
-      meta: { title: '对齐方式' },
+      meta: { title: '对齐方式' }
     },
     {
       path: 'widthSize',
       name: '每行展示多少项',
       component: widthSize,
-      meta: { title: '每行展示多少项' },
+      meta: { title: '每行展示多少项' }
     },
     {
       path: 'rules',
@@ -78,13 +76,13 @@ const TFormRouter = {
       path: 'comUse',
       name: '自己封装组件使用',
       component: comUse,
-      meta: { title: '自己封装组件使用' },
+      meta: { title: '自己封装组件使用' }
     },
     {
       path: 'assignment',
       name: '回显数据',
       component: assignment,
-      meta: { title: '回显数据' },
+      meta: { title: '回显数据' }
     },
     {
       path: 'submit',

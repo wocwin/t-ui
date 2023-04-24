@@ -36,12 +36,12 @@ export default {
         ],
         operatorList: [
           { label: '提交', type: 'danger', fun: this.submitForm },
-          { label: '重置', type: 'primary', fun: this.resetForm },
+          { label: '重置', type: 'primary', fun: this.resetForm }
         ]
       },
       hobbyList: [],
       sexList: [],
-      statusList: [],
+      statusList: []
     }
   },
   created() {

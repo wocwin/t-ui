@@ -6,13 +6,15 @@
 import store from '@/store'
 
 export default {
-  inserted (el, binding, vnode) {
+  inserted(el, binding, vnode) {
     const { value } = binding
-    const all_permission = "*:*:*"
+    // eslint-disable-next-line camelcase
+    const all_permission = '*:*:*'
     const permissions = store.getters && store.getters.permissions
     if (value) {
       const permissionFlag = value
       const hasPermissions = permissions.some(permission => {
+        // eslint-disable-next-line camelcase
         return all_permission === permission || permission.includes(permissionFlag)
       })
       if (!hasPermissions) {

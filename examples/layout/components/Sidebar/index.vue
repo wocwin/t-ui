@@ -58,7 +58,7 @@ export default {
     isCollapse() {
       return !this.sidebar.opened
     },
-    //处理菜单展示路由
+    // 处理菜单展示路由
     permissionRoutes() {
       return this.$store.getters.permission_routes
     }

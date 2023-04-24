@@ -6,7 +6,7 @@
 export default (configs) => {
   return {
     watch: {
-      $route () {
+      $route() {
         if (this.$route.query.hasOwnProperty(configs.flag) && this.$route.path.includes(configs.pagePath)) {
           if (typeof configs.list === 'string') {
             this[configs.list]()

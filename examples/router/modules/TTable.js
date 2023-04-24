@@ -26,8 +26,6 @@ const operation = () => import('@/views/demo/TTable/operationInside')
 const customRender = () => import('@/views/demo/TTable/customRender')
 const tree = () => import('@/views/demo/TTable/tree')
 
-
-
 const TTableRouter = {
   path: '/t-table',
   component: Layout,
@@ -48,13 +46,13 @@ const TTableRouter = {
       path: 'copy',
       name: '双击单元格复制',
       component: Copy,
-      meta: { title: '双击单元格复制' },
+      meta: { title: '双击单元格复制' }
     },
     {
       path: 'text-color',
       name: '文字变色',
       component: TextColor,
-      meta: { title: '文字变色' },
+      meta: { title: '文字变色' }
     },
     {
       path: 'sequence',
@@ -90,13 +88,13 @@ const TTableRouter = {
       path: 'header-group',
       name: '表头合并',
       component: HeaderGroup,
-      meta: { title: '表头合并' },
+      meta: { title: '表头合并' }
     },
     {
       path: 'render-col',
       name: 'render 渲染',
       component: RenderCol,
-      meta: { title: 'render 渲染' },
+      meta: { title: 'render 渲染' }
     },
     {
       path: 'slot-name',
@@ -132,13 +130,13 @@ const TTableRouter = {
       path: 'singleEditTable',
       name: '单元格编辑',
       component: singleEditTable,
-      meta: { title: '单元格编辑' },
+      meta: { title: '单元格编辑' }
     },
     {
       path: 'cellEditSave',
       name: '编辑保存',
       component: cellEditSave,
-      meta: { title: '编辑保存' },
+      meta: { title: '编辑保存' }
     },
     {
       path: 'editTable',
@@ -174,7 +172,7 @@ const TTableRouter = {
       path: 'tree',
       name: 'Tree 结构',
       component: tree,
-      meta: { title: 'Tree 结构' },
+      meta: { title: 'Tree 结构' }
     }
   ]
 }

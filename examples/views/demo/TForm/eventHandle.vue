@@ -23,11 +23,14 @@ export default {
           account: null, // *用户账号
           name: null, // *用户昵称
           email: null, // 邮箱
-          desc: null, // 描述
+          desc: null // 描述
         },
         fieldList: [
           {
-            label: '账号', value: 'account', type: 'input', comp: 'el-input',
+            label: '账号',
+            value: 'account',
+            type: 'input',
+            comp: 'el-input',
             eventHandle: {
               focus: (val) => this.accountFocus(val),
               clear: () => this.accountClear(),
@@ -35,7 +38,10 @@ export default {
             }
           },
           {
-            label: '昵称', value: 'name', type: 'input', comp: 'el-input',
+            label: '昵称',
+            value: 'name',
+            type: 'input',
+            comp: 'el-input',
             eventHandle: {
               blur: (val) => this.nameBlur(val)
             }
@@ -45,7 +51,7 @@ export default {
         ],
         operatorList: [
           { label: '提交', type: 'danger', fun: this.submitForm },
-          { label: '重置', type: 'primary', fun: this.resetForm },
+          { label: '重置', type: 'primary', fun: this.resetForm }
         ]
       }
     }

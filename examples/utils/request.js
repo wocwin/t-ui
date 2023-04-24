@@ -23,7 +23,7 @@ export default function (config) {
       // eslint-disable-next-line eqeqeq
       if (config.type == 'file') {
         config.headers['content-type'] = 'application/multipart/form-data'
-      // eslint-disable-next-line eqeqeq
+        // eslint-disable-next-line eqeqeq
       } else if (config.type == 'form') {
         config.headers['Content-type'] = 'application/x-www-form-urlencoded'
       }

@@ -1,9 +1,18 @@
 <template>
   <div v-if="!item.hidden">
-    <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
+    <template
+      v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow"
+    >
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" @click="open(item)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+        <el-menu-item
+          :index="resolvePath(onlyOneChild.path)"
+          @click="open(item)"
+          :class="{'submenu-title-noDropdown':!isNest}"
+        >
+          <item
+            :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)"
+            :title="onlyOneChild.meta.title"
+          />
         </el-menu-item>
       </app-link>
     </template>
@@ -55,8 +64,8 @@ export default {
     return {}
   },
   methods: {
-     // 点击左侧菜单清除缓存（不能解决点击自身缓存）
-    open (item) {
+    // 点击左侧菜单清除缓存（不能解决点击自身缓存）
+    open(item) {
       // console.log('点击左侧菜单', item)
       // this.$store.commit('tagsView/DEL_CACHED_VIEW', item)
       this.$store.dispatch('tagsView/delCachedView', item)
@@ -65,16 +74,16 @@ export default {
       })
     },
     hasOneShowingChild(children = [], parent) {
-      let showingChildren =[]
-         showingChildren = children? children.filter(item => {
-          if (item.hidden) {
-            return false
-          } else {
-            // Temp set(will be used if only has one showing child)
-            this.onlyOneChild = item
-            return true
-          }
-        }):[]
+      let showingChildren = []
+      showingChildren = children ? children.filter(item => {
+        if (item.hidden) {
+          return false
+        } else {
+          // Temp set(will be used if only has one showing child)
+          this.onlyOneChild = item
+          return true
+        }
+      }) : []
 
       // When there is only one child router, the child router is displayed by default
       if (showingChildren.length === 1) {
@@ -82,7 +91,7 @@ export default {
       }
       // Show parent if there are no child router to display
       if (showingChildren.length === 0) {
-        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        this.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
         return true
       }
 

@@ -59,11 +59,11 @@ export default {
           sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
           password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
           hobby: [{ required: true, message: '请至少选择一个爱好', trigger: 'change' }]
-        },
+        }
       },
       hobbyList: [],
       sexList: [],
-      statusList: [],
+      statusList: []
     }
   },
   created() {
@@ -127,7 +127,6 @@ export default {
       } catch (error) {
         console.log(error)
       }
-
     }
   }
 }

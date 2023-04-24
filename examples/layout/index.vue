@@ -58,46 +58,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/assets/styles/mixin.scss";
-  @import "~@/assets/styles/variables.scss";
+@import "~@/assets/styles/mixin.scss";
+@import "~@/assets/styles/variables.scss";
 
-  .app-wrapper {
-    @include clearfix;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+.app-wrapper {
+  @include clearfix;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 
-    &.mobile.openSidebar {
-      position: fixed;
-      top: 0;
-    }
-  }
-
-  .drawer-bg {
-    background: #000;
-    opacity: 0.3;
-    width: 100%;
-    top: 0;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
-  }
-
-  .fixed-header {
+  &.mobile.openSidebar {
     position: fixed;
     top: 0;
-    right: 0;
-    z-index: 1;
-    width: calc(100% - #{$sideBarWidth});
-    transition: width 0.28s;
   }
+}
 
-  .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
-  }
+.drawer-bg {
+  background: #000;
+  opacity: 0.3;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  position: absolute;
+  z-index: 999;
+}
 
-  .mobile .fixed-header {
-    width: 100%;
-  }
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: calc(100% - #{$sideBarWidth});
+  transition: width 0.28s;
+}
+
+.hideSidebar .fixed-header {
+  width: calc(100% - 54px);
+}
+
+.mobile .fixed-header {
+  width: 100%;
+}
 </style>

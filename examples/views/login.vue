@@ -48,11 +48,11 @@
 </template>
 
 <script>
-import Cookies from "js-cookie"
+import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils'
 const packageTitle = require('../../package.json').description
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       packageTitle,
@@ -67,11 +67,11 @@ export default {
         ],
         password: [
           { required: true, trigger: 'blur', message: '密码不能为空' }
-        ],
+        ]
       },
       loading: false,
       redirect: undefined
-    };
+    }
   },
   watch: {
     $route: {
@@ -89,7 +89,7 @@ export default {
       const username = Cookies.get('username')
       const password = Cookies.get('password')
       const rememberMe = Cookies.get('rememberMe')
-      if (Boolean(rememberMe)) {
+      if (rememberMe) {
         this.loginForm = {
           username: username === undefined ? this.loginForm.username : username,
           password: password === undefined ? this.loginForm.password : decrypt(password),
@@ -100,15 +100,15 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           if (this.loginForm.rememberMe) {
-            Cookies.set('username', this.loginForm.username, { expires: 30 });
-            Cookies.set('password', encrypt(this.loginForm.password), { expires: 30 });
-            Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 });
+            Cookies.set('username', this.loginForm.username, { expires: 30 })
+            Cookies.set('password', encrypt(this.loginForm.password), { expires: 30 })
+            Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 })
           } else {
-            Cookies.remove('username');
-            Cookies.remove('password');
-            Cookies.remove('rememberMe');
+            Cookies.remove('username')
+            Cookies.remove('password')
+            Cookies.remove('rememberMe')
           }
           this.$store
             .dispatch('Login', this.loginForm)

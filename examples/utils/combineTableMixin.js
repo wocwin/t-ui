@@ -6,7 +6,7 @@
  */
 export default {
   methods: {
-    getCurrentSummaries (tableData, code, calcProp = []) {
+    getCurrentSummaries(tableData, code, calcProp = []) {
       let obj = {}
       let retObj = {}
       if (!tableData.length) {

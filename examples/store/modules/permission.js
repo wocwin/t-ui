@@ -63,13 +63,12 @@ function addRouter(commit, newRouter) {
   return accessedRoutes
 }
 
-
 function rebuildRouter(router, path = '') {
   if (router?.length) {
     for (let i = 0; i < router.length; i++) {
       if (router[i].hasOwnProperty('path')) {
         let reset = router[i].path.replace(/(^\/|\/$)/g, '')
-        router[i].path = path == '/' ? (path + reset) : (path + '/' + reset)
+        router[i].path = path === '/' ? (path + reset) : (path + '/' + reset)
       }
       if (router[i].hasOwnProperty('children') && router[i].children) {
         rebuildRouter(router[i].children, router[i].path)
@@ -130,7 +129,6 @@ function filterAsyncRouter(asyncRouterMap, hier, systemIndex, moduleIndex) {
     return acc
   }, [])
 }
-
 
 export const loadView = (view) => { // 路由懒加载
   return (resolve) => require([`@/views/${view}`], resolve)

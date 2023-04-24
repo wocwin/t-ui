@@ -26,10 +26,10 @@ import data from './data.json'
 import data2 from './data2.json'
 export default {
   name: 'TPaginationSelectDemo',
-  data () {
+  data() {
     return {
       addForm: {
-        materialId: null, // 产出品名
+        materialId: null // 产出品名
       },
       addFormRules: {
         materialId: [
@@ -45,17 +45,17 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.selectMaterialList(1)
   },
   methods: {
     // 下拉选择分页
-    pageChange (val) {
+    pageChange(val) {
       this.setSelectPage.currentPage = val
       this.selectMaterialList(this.setSelectPage.currentPage)
     },
     // 获取品名下拉数据
-    async selectMaterialList (pageNum) {
+    async selectMaterialList(pageNum) {
       // const params = {
       //   pageNum: pageNum || 1,
       //   pageSize: this.setSelectPage.pageSize,
@@ -73,12 +73,12 @@ export default {
         this.setSelectPage.total = res.data.total
       }
     },
-    submitImportForm () {
+    submitImportForm() {
       this.$refs.addForm.validate(async (valid) => {
         if (!valid) return
         console.log('提交', this.addForm)
       })
-    },
+    }
   }
 }
 </script>

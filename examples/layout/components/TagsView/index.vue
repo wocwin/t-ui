@@ -13,7 +13,11 @@
         @contextmenu.prevent.native="openMenu(tag, $event)"
       >
         {{ tag.title }}
-        <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        <span
+          v-if="!isAffix(tag)"
+          class="el-icon-close"
+          @click.prevent.stop="closeSelectedTag(tag)"
+        />
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
@@ -228,7 +232,7 @@ export default {
         color: #fff;
         border-color: #42b983;
         &::before {
-          content: '';
+          content: "";
           background: #fff;
           display: inline-block;
           width: 8px;

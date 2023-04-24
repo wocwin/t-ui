@@ -21,7 +21,7 @@ export default {
     // 导出
     async exportExcel() {
       console.log('导出')
-    },
+    }
   }
 }
 </script>

@@ -17,11 +17,10 @@ const Multiple = () => import('@/views/demo/TSelectTable/multiple.vue')
 const MultiplePagination = () => import('@/views/demo/TSelectTable/showPagination.vue')
 const RadioPagination = () => import('@/views/demo/TSelectTable/radioPagination.vue')
 
-
 const commonRouter = {
-  path: '/',
+  path: '/common',
   component: Layout,
-  redirect: '/t-input',
+  redirect: '/common/t-input',
   name: '常用组件',
   meta: {
     title: '常用组件',
@@ -38,13 +37,13 @@ const commonRouter = {
       path: 't-button',
       name: 'button组件',
       component: TButton,
-      meta: { title: 'button组件' },
+      meta: { title: 'button组件' }
     },
     {
       path: 't-timer-btn',
       name: '倒计时组件',
       component: TTimerBtn,
-      meta: { title: '倒计时组件' },
+      meta: { title: '倒计时组件' }
     },
     {
       path: 't-date-picker',
@@ -111,9 +110,9 @@ const commonRouter = {
           name: '多选分页',
           component: MultiplePagination,
           meta: { title: '多选分页' }
-        },
+        }
       ]
-    },
+    }
   ]
 }
 

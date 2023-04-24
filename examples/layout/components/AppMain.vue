@@ -11,19 +11,19 @@
 <script>
 export default {
   name: 'AppMain',
-  data(){
-    return{
+  data() {
+    return {
       cachedViewsList: []
     }
   },
   computed: {
-    cachedViews () {
-      return this.$store.state.tagsView.cachedViews 
+    cachedViews() {
+      return this.$store.state.tagsView.cachedViews
     },
-    key () {
+    key() {
       return this.$route.path
     }
-  },
+  }
 }
 </script>
 

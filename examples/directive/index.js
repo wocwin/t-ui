@@ -9,7 +9,7 @@ const modules = modulesDirectives.keys().reduce((modules, modulePath) => {
 }, {})
 // console.log(33, modules)
 const directives = {
-  install (Vue) {
+  install(Vue) {
     Object.keys(modules).forEach(key => {
       // console.log(1212, key)
       Vue.directive(key, modules[key])

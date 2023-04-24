@@ -12,7 +12,7 @@
 <script>
 export default {
   name: 'TEditTableDemo',
-  data () {
+  data() {
     return {
       table: {
         border: true,
@@ -78,7 +78,7 @@ export default {
     }
   },
   methods: {
-    add () {
+    add() {
       console.log('新增')
       const objAdd = {
         name: '',
@@ -88,11 +88,11 @@ export default {
       }
       this.table.data.push(objAdd)
     },
-    del (index, row) {
+    del(index, row) {
       row.splice(index, 1)
       console.log('删除', row, index)
     },
-    save (data) {
+    save(data) {
       const flag = data.some(item => item.hobby === '')
       if (flag) {
         this.$message.error('爱好不能为空')

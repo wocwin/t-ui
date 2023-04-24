@@ -5,7 +5,11 @@
  * @param {number} arg2
  * @return {number}
  */
-export function FloatAdd (arg1, arg2) {
+/***
+ * 加密
+ */
+import JSEncrypt from 'jsencrypt/bin/jsencrypt'
+export function FloatAdd(arg1, arg2) {
   var r1, r2, m
   try {
     r1 = arg1 && arg1.toString().split('.')[1].length
@@ -27,7 +31,7 @@ export function FloatAdd (arg1, arg2) {
  * @param {number} arg2
  * @return {number}
  */
-export function FloatSub (arg1, arg2) {
+export function FloatSub(arg1, arg2) {
   var r1, r2, m, n
   try {
     r1 = arg1 && arg1.toString().split('.')[1].length
@@ -51,8 +55,8 @@ export function FloatSub (arg1, arg2) {
  * @param {number} arg2
  * @return {number}
  */
-export function FloatMul (arg1, arg2, n) {
-  let m = 0;
+export function FloatMul(arg1, arg2, n) {
+  let m = 0
   let s1 = arg1 && arg1.toString()
   let s2 = arg2 && arg2.toString()
   try {
@@ -72,7 +76,7 @@ export function FloatMul (arg1, arg2, n) {
  * @param {number} arg2
  * @return {number}
  */
-export function FloatDiv (arg1, arg2, n) {
+export function FloatDiv(arg1, arg2, n) {
   var t1 = 0; var t2 = 0; var r1; var r2
   try {
     t1 = arg1 && arg1.toString().split('.')[1].length
@@ -89,8 +93,8 @@ export function FloatDiv (arg1, arg2, n) {
 /**
  * 表格时间格式化 yyyy-mm-dd HH:mm:ss
  */
-export function formatDate (cellValue) {
-  if (cellValue == null || cellValue == "") return "";
+export function formatDate(cellValue) {
+  if (cellValue == null || cellValue === '') return ''
   var date = new Date(cellValue)
   var year = date.getFullYear()
   var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
@@ -106,7 +110,7 @@ export function formatDate (cellValue) {
  * @param {string} option
  * @returns {string}
  */
-export function formatTime (time, option) {
+export function formatTime(time, option) {
   if (('' + time).length === 10) {
     time = parseInt(time) * 1000
   } else {
@@ -144,14 +148,13 @@ export function formatTime (time, option) {
   }
 }
 
-
 /** 防抖
  * @param {Function} func
  * @param {number} wait
  * @param {boolean} immediate
  * @return {*}
  */
-export function debounce (func, wait, immediate) {
+export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
   const later = function () {
@@ -192,7 +195,7 @@ export function debounce (func, wait, immediate) {
  * @param {string} cls
  * @returns {boolean}
  */
-export function hasClass (ele, cls) {
+export function hasClass(ele, cls) {
   return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
 }
 
@@ -201,7 +204,7 @@ export function hasClass (ele, cls) {
  * @param {HTMLElement} elm
  * @param {string} cls
  */
-export function addClass (ele, cls) {
+export function addClass(ele, cls) {
   if (!hasClass(ele, cls)) ele.className += ' ' + cls
 }
 
@@ -210,7 +213,7 @@ export function addClass (ele, cls) {
  * @param {HTMLElement} elm
  * @param {string} cls
  */
-export function removeClass (ele, cls) {
+export function removeClass(ele, cls) {
   if (hasClass(ele, cls)) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
@@ -218,20 +221,20 @@ export function removeClass (ele, cls) {
 }
 
 // 首字母大小
-export function titleCase (str) {
+export function titleCase(str) {
   return str.replace(/( |^)[a-z]/g, L => L.toUpperCase())
 }
 
 // 下划转驼峰
-export function camelCase (str) {
+export function camelCase(str) {
   return str.replace(/-[a-z]/g, str1 => str1.substr(-1).toUpperCase())
 }
 
-export function isNumberStr (str) {
+export function isNumberStr(str) {
   return /^[+-]?(0|([1-9]\d*))(\.\d+)?$/g.test(str)
 }
 // json数据转FormData
-export function jsonToFormData (obj) {
+export function jsonToFormData(obj) {
   let fd = new FormData()
   let keys = Object.keys(obj)
   keys.forEach(key => {
@@ -247,13 +250,13 @@ export function jsonToFormData (obj) {
 
 const baseURL = process.env.VUE_APP_BASE_API + '/drSmfj'
 // 通用下载方法
-export function download (fileName) {
+export function download(fileName) {
   // console.log(777, sessionStorage.getItem("systemName"))
-  window.location.href = baseURL + "/common/download?fileName=" + encodeURI(fileName) + "&delete=" + true;
+  window.location.href = baseURL + '/common/download?fileName=' + encodeURI(fileName) + '&delete=' + true
 }
 
 // 日期格式化
-export function parseTime (time, pattern) {
+export function parseTime(time, pattern) {
   if (arguments.length === 0 || !time) {
     return null
   }
@@ -279,6 +282,7 @@ export function parseTime (time, pattern) {
     s: date.getSeconds(),
     a: date.getDay()
   }
+  // eslint-disable-next-line camelcase
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
@@ -288,48 +292,43 @@ export function parseTime (time, pattern) {
     }
     return value || 0
   })
+  // eslint-disable-next-line camelcase
   return time_str
 }
 
-
 // 回显数据字典
-export function selectDictLabel (datas, value) {
-  var actions = [];
+export function selectDictLabel(datas, value) {
+  var actions = []
   Object.keys(datas).map((key) => {
-    if (datas[key].dictValue == ('' + value)) {
-      actions.push(datas[key].dictLabel);
-      return false;
+    if (datas[key].dictValue === ('' + value)) {
+      actions.push(datas[key].dictLabel)
+      return false
     }
   })
-  return actions.join('');
+  return actions.join('')
 }
 
-
 // 字符串格式化(%s )
-export function sprintf (str) {
-  var args = arguments, flag = true, i = 1;
+export function sprintf(str) {
+  var args = arguments; var flag = true; var i = 1
   str = str.replace(/%s/g, function () {
-    var arg = args[i++];
+    var arg = args[i++]
     if (typeof arg === 'undefined') {
-      flag = false;
-      return '';
+      flag = false
+      return ''
     }
-    return arg;
-  });
-  return flag ? str : '';
+    return arg
+  })
+  return flag ? str : ''
 }
 
 // 转换字符串，undefined,null等转化为""
-export function praseStrEmpty (str) {
-  if (!str || str == "undefined" || str == "null") {
-    return "";
+export function praseStrEmpty(str) {
+  if (!str || str === 'undefined' || str === 'null') {
+    return ''
   }
-  return str;
+  return str
 }
-/***
- * 加密
- */
-import JSEncrypt from 'jsencrypt/bin/jsencrypt'
 
 // 密钥对生成 http://web.chacuo.net/netrsakeypair
 
@@ -346,14 +345,14 @@ const privateKey = 'MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEA0vfvyTdGJkdb
   'tTbklZkD2A=='
 
 // 加密
-export function encrypt (txt) {
+export function encrypt(txt) {
   const encryptor = new JSEncrypt()
   encryptor.setPublicKey(publicKey) // 设置公钥
   return encryptor.encrypt(txt) // 对需要加密的数据进行加密
 }
 
 // 解密
-export function decrypt (txt) {
+export function decrypt(txt) {
   const encryptor = new JSEncrypt()
   encryptor.setPrivateKey(privateKey)
   return encryptor.decrypt(txt)
@@ -366,22 +365,23 @@ export function decrypt (txt) {
  * @param {*} children 孩子节点字段 默认 'children'
  * @param {*} rootId 根Id 默认 0
  */
-export function handleTree (data, id, parentId, children, rootId) {
+export function handleTree(data, id, parentId, children, rootId) {
   id = id || 'id'
   parentId = parentId || 'parentId'
   children = children || 'children'
   rootId = rootId || 0
-  //对源数据深度克隆
+  // 对源数据深度克隆
   const cloneData = JSON.parse(JSON.stringify(data))
-  //循环所有项
+  // 循环所有项
   const treeData = cloneData.filter(father => {
     let branchArr = cloneData.filter(child => {
-      //返回每一项的子级数组
+      // 返回每一项的子级数组
       return father[id] === child[parentId]
-    });
-    branchArr.length > 0 ? father.children = branchArr : '';
-    //返回第一层
-    return father[parentId] === rootId;
-  });
-  return treeData != '' ? treeData : data;
+    })
+    // eslint-disable-next-line no-unused-expressions
+    branchArr.length > 0 ? father.children = branchArr : ''
+    // 返回第一层
+    return father[parentId] === rootId
+  })
+  return treeData !== '' ? treeData : data
 }

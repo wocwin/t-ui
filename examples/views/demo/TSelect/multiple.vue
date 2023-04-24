@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       selectVlaue: null,
       stepList: [
@@ -20,7 +20,7 @@ export default {
     }
   },
   methods: {
-    selectChange (val) {
+    selectChange(val) {
       console.log('selectChange', val, this.selectVlaue)
     }
   }

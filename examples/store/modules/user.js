@@ -12,7 +12,7 @@ const user = {
     dept: {},
     ssoControl: {},
     permBtn: [],
-    permCode: [],
+    permCode: []
   },
 
   mutations: {
@@ -45,7 +45,7 @@ const user = {
     },
     SET_PERM_CODE: (state, permCode) => {
       state.permCode = permCode
-    },
+    }
   },
 
   actions: {

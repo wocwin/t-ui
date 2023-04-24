@@ -142,7 +142,7 @@ export default {
         daterange: '日期范围',
         monthrange: '月份范围',
         datetime: '日期和时间',
-        datetimerange: '日期和时间点范围',
+        datetimerange: '日期和时间点范围'
       }
     }
   },

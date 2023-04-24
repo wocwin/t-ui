@@ -10,8 +10,6 @@ const linkage = () => import('@/views/demo/TQueryCondition/linkage')
 const TSelectUse = () => import('@/views/demo/TQueryCondition/TSelectUse')
 const TDatePickerUse = () => import('@/views/demo/TQueryCondition/TDatePickerUse')
 
-
-
 const TQueryConditionRouter = {
   path: '/t-query-condition',
   component: Layout,
@@ -32,13 +30,13 @@ const TQueryConditionRouter = {
       path: 'slot',
       name: '插槽使用',
       component: slot,
-      meta: { title: '插槽使用' },
+      meta: { title: '插槽使用' }
     },
     {
       path: 'labelRender',
       name: 'label tsx渲染',
       component: labelRender,
-      meta: { title: 'label tsx渲染' },
+      meta: { title: 'label tsx渲染' }
     },
     {
       path: 'defaultVal',

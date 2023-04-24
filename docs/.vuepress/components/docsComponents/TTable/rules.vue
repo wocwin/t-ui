@@ -7,8 +7,14 @@
       :listTypeInfo="singleEditConfig.listTypeInfo"
       @handleEvent="handleEvent"
       @save="singleSave"
+      @validateError="validateError"
       isShowFooterBtn
     >
+      <template #toolbar>
+        <el-button type="primary" @click="save">另一种获取table数据</el-button>
+        <el-button @click="clearValidate">清除校验规则</el-button>
+        <el-button type="primary" @click="reset">重置表单</el-button>
+      </template>
       <!-- 自定义单元格编辑组件(多选下拉选择) -->
       <template #editHobby="{scope}">
         <el-select v-model="scope.row[scope.column.property]" multiple>
@@ -32,18 +38,17 @@ export default {
       // 编辑某个单元格
       singleEditConfig: {
         table: {
-          border: true,
-          rules: {
-            hobby: [{ required: true, message: '请至少选择一个爱好', trigger: 'change' }],
-            year: [{ required: true, message: '请选择年份', trigger: 'change' }],
-          },
+            rules: {
+              hobby: [{ required: true, message: '请至少选择一个爱好', trigger: 'change' }],
+              year: [{ required: true, message: '请选择年份', trigger: 'change' }],
+              name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+            },
           firstColumn: { type: 'index', label: '序列' }, // 显示序列号
           data: [
             {
               name: null,
               hobby: null,
-              hobby1: [],
-              hobby2: [],
+              slotName: [],
               year: null,
               time: null,
               remake: null,
@@ -52,8 +57,7 @@ export default {
             {
               name: null,
               hobby: null,
-              hobby1: [],
-              hobby2: [],
+              slotName: [],
               year: null,
               time: null,
               remake: null,
@@ -71,19 +75,18 @@ export default {
                 label: '姓名',
                 type: 'input',
                 editComponent: 'el-input',
-                rules: { required: true, message: '请输入姓名', trigger: 'blur' }
               }
             },
             {
-              prop: 'remake',
-              label: '输入框',
+              prop: 'unit',
+              label: '单位',
               minWidth: '220',
               canEdit: true,
               headerRequired: true,
               configEdit: {
-                label: '备注',
+                label: '单位',
                 append: '吨',
-                rules: { required: true, message: '请输入备注', trigger: 'blur' },
+                rules: { required: true, message: '请输入单位', trigger: 'blur' },
                 bind: { 'prefix-icon': 'el-icon-search' },
                 editComponent: 'el-input'
               }
@@ -105,7 +108,7 @@ export default {
               }
             },
             {
-              prop: 'hobby1',
+              prop: 'slotName',
               label: '编辑组件插槽',
               minWidth: '180',
               renderHeader: (row) => {
@@ -199,10 +202,32 @@ export default {
     }
   },
   methods: {
+    // 点击保存获取table数据
     singleSave(data) {
       console.log('单个单元格编辑保存', data)
     },
+    // 错误校验提示
+    validateError(list) {
+      list.map(val => {
+        setTimeout(() => {
+          this.$message.error(`${val}是必填项！`)
+        }, 100);
+      })
+    },
+    // 另一种获取的table数据
+    save() {
+      console.log('另一种获取的table数据', this.$refs.singleEdit.save())
+    },
+    // 清除校验规则
+    clearValidate() {
+      this.$refs.singleEdit.clearValidate()
+    },
+    // 重置表单
+    reset() {
+      this.$refs.singleEdit.resetFields()
+    },
     editDel(item, index, row) {
+      // console.log('9966--', this.$refs.singleEdit.save())
       row.splice(index, 1)
       console.log('删除', item, row, index)
     },

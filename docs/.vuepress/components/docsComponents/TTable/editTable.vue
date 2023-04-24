@@ -1,15 +1,24 @@
 <template>
   <div class="t-table-edit-cell" style="width:100%;">
-    <t-table isEdit isEditCell isShowFooterBtn :table="editConfig.table" :columns="editConfig.table.columns"
-      :listTypeInfo="editConfig.listTypeInfo" @handleEvent="handleEvent" @save="save" @add="editAdd"
-      cellEditBtnTxt="新增一行" />
+    <t-table
+      isEdit
+      isEditCell
+      isShowFooterBtn
+      :table="editConfig.table"
+      :columns="editConfig.table.columns"
+      :listTypeInfo="editConfig.listTypeInfo"
+      @handleEvent="handleEvent"
+      @save="save"
+      @add="editAdd"
+      cellEditBtnTxt="新增一行"
+    />
   </div>
 </template>
 
 <script>
 export default {
   name: 'TtableEditCell',
-  data () {
+  data() {
     return {
       editConfig: {
         table: {
@@ -81,7 +90,7 @@ export default {
     }
   },
   methods: {
-    editAdd () {
+    editAdd() {
       console.log('新增')
       const objAdd = {
         name: '',
@@ -91,15 +100,15 @@ export default {
       }
       this.editConfig.table.data.push(objAdd)
     },
-    editDel (item, index, row) {
+    editDel(item, index, row) {
       row.splice(index, 1)
       console.log('删除', item, row, index)
     },
     // 编辑每一项的change事件
-    handleEvent (type, val) {
+    handleEvent(type, val) {
       console.log('handleEvent', type, val)
     },
-    save (data) {
+    save(data) {
       const flag = data.some(item => item.hobby === '')
       if (flag) {
         this.$message.error('爱好不能为空')

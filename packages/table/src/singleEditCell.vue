@@ -73,9 +73,6 @@ export default {
       type: Object,
       default: () => ({})
     },
-    tableData: {
-      type: Array
-    },
     // 下拉选择数据源
     listTypeInfo: {
       type: Object,

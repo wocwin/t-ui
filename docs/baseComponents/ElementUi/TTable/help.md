@@ -5,7 +5,7 @@
 | 参数                    | 说明                                                                          | 类型           | 默认值      |
 | :---------------------- | :---------------------------------------------------------------------------- | :------------- | :---------- |
 | table                   | 表格数据对象                                                                  | Object         | {}          |
-| ---rules                | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）              | Object   | -           |
+| ---rules                | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）              | Object         | -           |
 | ---data                 | 展示数据                                                                      | Array          | []          |
 | ---toolbar              | 表格外操作栏选中表格某行，可以将其数据传出                                    | Array          | -           |
 | ---operator             | 表格内操作栏数据                                                              | Array          | []          |
@@ -35,7 +35,7 @@
 | ----------key           | 数据源的 key 字段（默认：dictValue）                                          | String         | 'dictValue' |
 | ----------label         | 数据源的 label 字段（默认：dictLabel）                                        | String         | 'dictLabel' |
 | ----configEdit          | 表格编辑配置（开启编辑功能有效）                                              | Object         | -           |
-| ----------rules         | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）              | Object   | -           |
+| ----------rules         | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）              | Object         | -           |
 | ----------label         | placeholder 显示                                                              | String         | -           |
 | ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                          | String         | input       |
 | ----------bind          | 第三方 UI 的 Attributes                                                       | Object         | -           |
@@ -74,26 +74,28 @@
 
 ## Methods 方法
 
-| 事件名             | 说明                             | 参数                           |
-| :----------------- | :------------------------------- | :----------------------------- |
-| clearSelection     | 用于多选表格，清空用户的选择     | -                              |
-| save               | 保存方法（返回编辑后的所有数据） | -                              |
-| doLayout           | 对 Table 进行重新布局            | -                              |
-| toggleRowSelection | 取消某一项选中项                 | -                              |
-| clearSelection     | 清空复选框                       | -                              |
-| clearSort          | 清空排序                         | -                              |
-| defaultRadioSelect | 默认选中（单选项）               | 默认选中项且值必须是大于等于 1 |
+| 事件名             | 说明                                               | 参数 |
+| :----------------- | :------------------------------------------------- | :--- |
+| clearSelection     | 用于多选表格，清空用户的选择                       | -    |
+| save               | 保存方法（返回编辑后的所有数据）                   | -    |
+| doLayout           | 对 Table 进行重新布局                              | -    |
+| toggleRowSelection | 取消某一项选中项                                   | -    |
+| clearSelection     | 清空复选框                                         | -    |
+| clearSort          | 清空排序                                           | -    |
+| resetFields        | 对表单进行重置，并移除校验结果（单元格编辑时生效） | —    |
+| clearValidate      | 清空校验规则（单元格编辑时生效）                   | -    |
 
 ## events 其他事件按照 el-table 直接使用（如 sort-change 排序事件）
 
-| 事件名      | 说明                                       | 返回值                                        |
-| :---------- | :----------------------------------------- | :-------------------------------------------- |
-| page-change | 当前页码                                   | 当前选中的页码                                |
-| radioChange | 单选选中事件                               | 返回当前选中的整行数据                        |
-| add         | 新增按钮                                   | -                                             |
-| save        | 保存按钮                                   | 编辑后的所有数据                              |
-| handleEvent | 单元格编辑时触发事件                       | configEdit 中的 event 值和对应输入的 value 值 |
-| sort-change | 当表格的排序条件发生变化的时候会触发该事件 | { column, prop, order }                       |
+| 事件名        | 说明                                       | 返回值                                        |
+| :------------ | :----------------------------------------- | :-------------------------------------------- |
+| page-change   | 当前页码                                   | 当前选中的页码                                |
+| radioChange   | 单选选中事件                               | 返回当前选中的整行数据                        |
+| add           | 新增按钮                                   | -                                             |
+| save          | 保存按钮                                   | 编辑后的所有数据                              |
+| validateError | 单元格编辑保存校验不通过触发               | 返回校验不通过的 prop--label 集合             |
+| handleEvent   | 单元格编辑时触发事件                       | configEdit 中的 event 值和对应输入的 value 值 |
+| sort-change   | 当表格的排序条件发生变化的时候会触发该事件 | { column, prop, order }                       |
 
 ## 具体操作
 

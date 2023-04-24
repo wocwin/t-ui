@@ -1,5 +1,5 @@
 <template>
-  <div class="t-table">
+  <div class="t-table" id="t_table">
     <div class="header_wrap">
       <div class="header_title">
         {{title}}
@@ -121,7 +121,7 @@
             :sortable="item.sort||sortable"
             :align="item.align || 'center'"
             :fixed="item.fixed"
-            :show-overflow-tooltip="item.noShowTip"
+            :show-overflow-tooltip="!item.noShowTip?true:false"
             v-bind="{...item.bind,...$attrs}"
             v-on="$listeners"
           >
@@ -160,14 +160,13 @@
                 <template v-if="item.canEdit">
                   <el-form
                     :model="tableData[scope.$index]"
-                    :rules="table.rules"
+                    :rules="isEditRules?table.rules:{}"
                     :ref="`formRef-${scope.$index}-${item.prop||scope.column.property}`"
                   >
                     <single-edit-cell
                       :configEdit="item.configEdit"
                       v-model="scope.row[scope.column.property]"
                       :prop="item.prop"
-                      :tableData="tableData"
                       :record="scope"
                       @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
                       @Keyup="handleKeyup"
@@ -175,11 +174,6 @@
                       v-bind="$attrs"
                       ref="editCell"
                     >
-                      <!-- <slot
-                      v-if="item.configEdit&&item.configEdit.editSlotName"
-                      :name="item.configEdit.editSlotName"
-                      :scope="scope"
-                      />-->
                       <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
                       <template v-for="(index, name) in $slots" v-slot:[name]>
                         <slot :name="name" />
@@ -516,6 +510,10 @@ export default {
     },
     getToolbarDown() {
       return this.getToolbarBtn.length === 3 ? this.table.toolbar.slice(3, this.table.toolbar.length) : []
+    },
+    // 单元格编辑是否存在校验
+    isEditRules() {
+      return (this.table.rules && Object.keys(this.table.rules).length > 0) || this.columns.some(item => item?.configEdit?.rules)
     }
   },
   mounted() {
@@ -715,16 +713,93 @@ export default {
     },
     // 单行编辑&整行编辑返回数据
     save() {
+      if (!this.isEditRules) {
+        this.$emit('save', this.tableData)
+        return this.tableData
+      }
+      /**
+       * 表单规则校验
+       */
+      let successLength = 0
+      let rulesList = []
+      let rulesError = []
+      let propError = []
+      let propLabelError = []
+      // 获取所有的form ref
       const refList = Object.keys(this.$refs).filter(item => item.includes('formRef'))
-      refList.map(val => {
+      // 获取单独设置规则项
+      const arr = this.renderColumns.filter(val => {
+        if (val.configEdit?.rules) {
+          return val
+        }
+      }).map(item => item.prop)
+      // 获取整体设置规则
+      const arr1 = this.table.rules && Object.keys(this.table.rules)
+      // 获取最终设置了哪些规则（其值是设置的--prop）
+      const newArr = [...arr, ...arr1]
+      // 最终需要校验的ref
+      newArr.map(val => {
+        refList.map(item => {
+          if (item.includes(val)) {
+            rulesList.push(item)
+          }
+        })
+      })
+      console.log('最终需要校验的数据', rulesList)
+      // 表单都校验
+      rulesList.map(val => {
         this.$refs[val].map(item => {
           item.validate((valid) => {
             if (valid) {
-              this.$emit('save', this.tableData)
+              successLength = successLength + 1
             } else {
-              this.$emit('save', [])
+              rulesError.push(val)
             }
           })
+        })
+      })
+      // 所有表单都校验成功
+      if (successLength === rulesList.length) {
+        if (this.isEditRules) {
+          this.$emit('save', this.tableData)
+          return this.tableData
+        }
+      } else {
+        // 校验未通过的prop
+        rulesError.map(item => {
+          newArr.map(val => {
+            if (item.includes(val)) {
+              propError.push(val)
+            }
+          })
+        })
+        // 去重获取校验未通过的prop--label
+        Array.from(new Set(propError)).map(item => {
+          this.renderColumns.map(val => {
+            if (item === val.prop) {
+              propLabelError.push(val.label)
+            }
+          })
+        })
+        console.log('校验未通过的prop--label', propLabelError)
+        this.$emit('validateError', propLabelError)
+      }
+    },
+    // 清空校验规则
+    clearValidate() {
+      const refList = Object.keys(this.$refs).filter(item => item.includes('formRef'))
+      refList.map(val => {
+        this.$refs[val].map(item => {
+          item.clearValidate()
+        })
+      })
+    },
+    // 表单进行重置并移除校验结果
+    resetFields() {
+      const refList = Object.keys(this.$refs).filter(item => item.includes('formRef'))
+      refList.map(val => {
+        this.$refs[val].map(item => {
+          item.resetFields()
         })
       })
     },
@@ -887,15 +962,22 @@ export default {
     background-color: #fff;
   }
   // style：ttable单元格内容过长省略号
-  .el-table .el-tooltip div {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    line-height: 23px;
-    padding-left: 10px;
-    padding-right: 10px;
+  .el-table {
+    .el-tooltip {
+      div {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        line-height: 23px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .el-form-item {
+        overflow: visible;
+      }
+    }
   }
 
   .el-table th,

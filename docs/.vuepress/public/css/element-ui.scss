@@ -11,16 +11,16 @@
 .tooltip-custom.is-light[x-placement^="bottom"] .popper__arrow {
   border-bottom-color: #ccc;
 }
-.el-table .el-tooltip div {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  line-height: 23px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
+// .el-table .el-tooltip div {
+//   -webkit-box-sizing: border-box;
+//   box-sizing: border-box;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   word-break: break-all;
+//   line-height: 23px;
+//   // padding-left: 10px;
+//   // padding-right: 10px;
+// }
 
 // 文档table样式
 .el-table__fixed-body-wrapper,

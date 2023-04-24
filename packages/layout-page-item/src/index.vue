@@ -1,5 +1,5 @@
 <template>
-  <section class="t_layout_page_item">
+  <section id="t_layout_page_item" class="t_layout_page_item">
     <slot />
   </section>
 </template>

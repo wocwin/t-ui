@@ -1,13 +1,13 @@
 {
   "name": "@wocwin/t-ui",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Vue 中基于Element-ui和ant-design-vue二次封装基础组件文档",
   "author": "wocwin <wocwin@163.com>",
   "license": "ISC",
   "private": false,
   "main": "lib/t-ui.umd.min.js",
   "scripts": {
-    "serve": "vue-cli-service serve --open",
+    "serve": "vue-cli-service serve --open --fix",
     "build": "vue-cli-service build",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",

@@ -1,5 +1,5 @@
 <template>
-  <div class="t_layout_page" @scroll="e => scrollTop = e.target.scrollTop">
+  <div id="t_layout_page" class="t_layout_page" @scroll="e => scrollTop = e.target.scrollTop">
     <slot />
   </div>
 </template>

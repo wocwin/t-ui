@@ -3,6 +3,7 @@
     :label-width="labelWidth"
     :form="form"
     size="small"
+    id="t_query_condition"
     class="t-query-condition"
     :style="{'grid-template-areas': gridAreas, 'grid-template-columns': `repeat(${colLength}, minmax(220px, ${100 / colLength}%))`}"
     @submit.native.prevent
@@ -40,7 +41,7 @@
       <el-button class="btn_check" @click="checkHandle" :loading="loading" v-bind="queryAttrs">查询</el-button>
       <el-button v-if="reset" class="btn_reset" v-bind="resetAttrs" @click="resetHandle">重置</el-button>
       <slot name="querybar"></slot>
-      <el-button v-if="originCellLength > colLength&&isShowOpen" type="text" @click="open = !open">
+      <el-button v-if="originCellLength > colLength&&isShowOpen" type="text" @click="openCilck">
         {{ open ? '收起' : '展开'}}
         <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
       </el-button>
@@ -206,6 +207,10 @@ export default {
     }
   },
   methods: {
+    openCilck() {
+      this.open = !this.open
+      this.$emit('openCilck')
+    },
     getColLength() { // 行列数
       const width = window.innerWidth
       let colLength = 4

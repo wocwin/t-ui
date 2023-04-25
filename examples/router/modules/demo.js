@@ -3,7 +3,7 @@
 import Layout from '@/layout'
 /* 定义component */
 const TTableHeight = () => import('@/views/demo/Test/TTableHeight')
-const TTableMix = () => import('@/views/demo/Test/TTableMix')
+const TAdaptivePage = () => import('@/views/demo/Test/TAdaptivePage')
 
 const demoRouter = {
   path: '/',
@@ -22,10 +22,10 @@ const demoRouter = {
       meta: { title: 'TTable高度自适应' }
     },
     {
-      path: 'mix-table',
-      name: 'MixTable',
-      component: TTableMix,
-      meta: { title: 'MixTable' }
+      path: 't-adaptive-page',
+      name: 'TAdaptivePage组件使用',
+      component: TAdaptivePage,
+      meta: { title: 'TAdaptivePage组件使用' }
     }
   ]
 }

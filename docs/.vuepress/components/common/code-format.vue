@@ -5,7 +5,7 @@
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
-    <div class="source">
+    <div class="source" :class="{ 'source_height': sourceHeight}">
       <slot name="source"></slot>
     </div>
     <div class="meta" ref="meta">
@@ -34,7 +34,7 @@
         type="text"
         @click.stop="qrCodeDialog = true"
         >微信二维码</el-button
-      > -->
+      >-->
       <div class="control-button-container">
         <el-button
           v-show="isExpanded"
@@ -43,8 +43,7 @@
           type="text"
           class="control-button copy-button"
           @click.stop="copyCode"
-          >复制代码</el-button
-        >
+        >复制代码</el-button>
       </div>
     </div>
     <t-dialog
@@ -61,6 +60,12 @@
 <script>
 export default {
   name: "CodeFormat",
+  props: {
+    sourceHeight: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       qrCodeDialog: false,
@@ -164,6 +169,9 @@ export default {
   }
   .source {
     padding: 15px 15px 5px 15px;
+  }
+  .source_height {
+    height: 600px;
   }
   .meta {
     background-color: #fafafa;

@@ -37,6 +37,7 @@ import { TAntModal, TAntProtocol } from './modal'
 import TSelectTable from './select-table'
 import TTreeSelect from './tree-select'
 import TButton from './button'
+import TAdaptivePage from './adaptive-page'
 // import TTheme from './theme'
 import { version } from '../package.json'
 // 存储组件列表
@@ -80,7 +81,8 @@ const components = [
   TDetail,
   TSelectTable,
   TButton,
-  TTreeSelect
+  TTreeSelect,
+  TAdaptivePage
   // TTheme
 ]
 
@@ -138,7 +140,8 @@ export {
   TDetail,
   TSelectTable,
   TButton,
-  TTreeSelect
+  TTreeSelect,
+  TAdaptivePage
   // TTheme
 }
 export default {

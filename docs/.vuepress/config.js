@@ -101,7 +101,7 @@ module.exports = {
               title: 'TTable组件',
               collapsable: false,
               children: [
-                // 'ElementUi/TTable/scroll', // 轮询滚动
+                'ElementUi/TTable/TAdaptivePage', // 一屏显示
                 'ElementUi/TTable/base', // 基本
                 'ElementUi/TTable/pagination', // 分页
                 'ElementUi/TTable/notSort', // 指定列不需要排序

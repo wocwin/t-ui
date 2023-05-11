@@ -154,6 +154,10 @@ export default {
       type: Boolean,
       default: true
     },
+    // 设置默认选中项--keywords.value值（单选是String, Number类型；多选时是数组）
+    defaultSelectVal: {
+      type: [String, Number, Array]
+    },
     // 下拉数据指向的label/value
     keywords: {
       type: Object,
@@ -186,12 +190,19 @@ export default {
   data() {
     return {
       radioVal: '',
+      isDefaultSelectVal: true, // 是否已经重新选择了
       isRadio: false,
       forbidden: true, // 判断单选选中及取消选中
       tableData: this.table?.data, // table数据
       defaultValue: this.value,
       ids: [], // 多选id集合
       tabularMap: {} // 存储下拉tale的所有name
+    }
+  },
+  mounted() {
+    // 设置默认选中项（单选）
+    if (this.defaultSelectVal && this.isDefaultSelectVal) {
+      this.defaultSelect(this.defaultSelectVal)
     }
   },
   watch: {
@@ -260,9 +271,11 @@ export default {
     // 表格显示隐藏回调
     visibleChange(visible) {
       if (visible) {
+        if (this.defaultSelectVal && this.isDefaultSelectVal) {
+          this.defaultSelect(this.defaultSelectVal)
+        }
         this.initTableData()
       } else {
-        // console.log('visibleChange---消失')
         this.findLabel()
         this.filterMethod('')
       }
@@ -315,8 +328,46 @@ export default {
         this.$message.error('复制失败')
       })
     },
+    // 默认选中（且只能默认选中第一页的数据）
+    defaultSelect(defaultSelectVal) {
+      if (typeof defaultSelectVal === 'object' && this.multiple) {
+        let multipleList = []
+        defaultSelectVal.map(val => {
+          this.tableData.forEach(row => {
+            if (val === row[this.keywords.value]) {
+              multipleList.push(row)
+            }
+          })
+        })
+        setTimeout(() => {
+          multipleList.forEach(row => {
+            const arr = this.tableData.filter(item => item[this.keywords.value] === row[this.keywords.value])
+            if (arr.length > 0) {
+              this.$refs['el-table'].toggleRowSelection(arr[0], true)
+            }
+          })
+          this.$refs.select.selected.forEach((item) => {
+            item.currentLabel = item.value
+          })
+        }, 0)
+      } else {
+        let row, index
+        this.tableData.map((val, i) => {
+          if (val[this.keywords.value] === defaultSelectVal) {
+            row = val
+            index = i
+          }
+        })
+        this.radioVal = index + 1
+        this.defaultValue = row
+        setTimeout(() => {
+          this.$refs.select.selectedLabel = row[this.keywords.label]
+        }, 0)
+      }
+    },
     // 点击单选框单元格触发事件
     radioChange(row, index) {
+      this.isDefaultSelectVal = false
       this.radioClick(row, index)
     },
     // forbidden取值
@@ -362,8 +413,9 @@ export default {
             rowIndex = index
           }
         })
+        this.isDefaultSelectVal = false
         await this.radioClick(row, rowIndex + 1)
-        // console.log('单击行', row, this.radioVal)
+        // console.log('rowClick---', row, rowIndex)
         if (this.radioVal) {
           this.isRadio = true
         } else {

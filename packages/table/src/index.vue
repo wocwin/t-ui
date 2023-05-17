@@ -707,6 +707,10 @@ export default {
     toggleRowSelection(row, selected = false) {
       this.$refs['el-table'].toggleRowSelection(row, selected)
     },
+    // 全部选中
+    toggleAllSelection() {
+      this.$refs['el-table'].toggleAllSelection()
+    },
     // 清空复选框
     clearSelection() {
       this.$refs['el-table'].clearSelection()

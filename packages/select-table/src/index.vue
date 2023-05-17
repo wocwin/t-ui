@@ -281,6 +281,7 @@ export default {
       }
     },
     handlesSelectionChange(val) {
+      this.isDefaultSelectVal = false
       this.defaultValue = val.map(item => item[this.keywords.label])
       this.ids = val.map(item => item[this.keywords.value])
       this.$emit('selectionChange', val, this.ids)
@@ -340,6 +341,7 @@ export default {
           })
         })
         setTimeout(() => {
+          this.defaultValue = multipleList.map(item => item[this.keywords.label])
           multipleList.forEach(row => {
             const arr = this.tableData.filter(item => item[this.keywords.value] === row[this.keywords.value])
             if (arr.length > 0) {

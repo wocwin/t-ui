@@ -44,7 +44,7 @@ export default {
       type: String
     },
     value: {
-      type: [String, Number, Array, Date],
+      type: [String, Number, Array, Date, Boolean],
       default: ''
     },
     changeEvent: {
@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    cEvent () {
+    cEvent() {
       let event = { ...this.event }
       let changeEvent = {}
       if (this.changeEvent) {
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     // 得到placeholder的显示
-    getPlaceholder (row) {
+    getPlaceholder(row) {
       // console.log(222, row, form)
       let placeholder
       if (typeof row.comp === 'string' && row.comp) {

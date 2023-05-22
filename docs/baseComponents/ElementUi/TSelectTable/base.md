@@ -14,6 +14,19 @@
 <<< @/docs/.vuepress/components/docsComponents/TSelectTable/index.vue
 </common-code-format>
 
+## 单选--回车选中第一行
+
+<common-code-format>
+  <docsComponents-TSelectTable-isKeyup slot="source"></docsComponents-TSelectTable-isKeyup>
+  在组件中需配置：<br/>
+`table` 数据源及表头信息<br/>
+`keywords` 选项中的value（选项的值）,label(选项的标签)<br/>
+`isKeyup` 是否开启回车事件（默认不开启）<br/>
+`@radioChange` 选中事件，传出当前选中对象
+
+<<< @/docs/.vuepress/components/docsComponents/TSelectTable/isKeyup.vue
+</common-code-format>
+
 ## 单选（默认选中）
 
 <common-code-format>
@@ -121,6 +134,7 @@
 | radioTxt          | 单选文案                                                                            | String                    | 单选       |
 | defaultSelectVal  | 设置第一页默认选中项--keywords.value 值（单选是 String, Number 类型；多选时是数组） | Number / string / Array   | -          |
 | multiple          | 是否开启多选                                                                        | Boolean                   | false      |
+| isKeyup           | 是否开启回车事件选中第一行(仅支持单选)                                              | Boolean                   | false      |
 | filterable        | 是否开启过滤(根据 keywords 的 label 值进行过滤)                                     | Boolean                   | true       |
 | reserveSelection  | 是否支持翻页选中                                                                    | Boolean                   | true       |
 | isShowPagination  | 开启分页                                                                            | Boolean                   | false      |

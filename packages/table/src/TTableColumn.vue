@@ -60,13 +60,11 @@
 
 <script>
 import SingleEditCell from './singleEditCell.vue'
-import OptComponent from './OptComponent.vue'
 import RenderCol from './renderCol.vue'
 export default {
   name: 'TTableColumn',
   components: {
     SingleEditCell,
-    OptComponent,
     RenderCol
   },
   props: {

@@ -6,7 +6,7 @@
     :multiple="multiple"
     :value-key="keywords.value"
     :filterable="filterable"
-    :filter-method="filterMethod"
+    :filter-method="filterMethod||filterMethodHandle"
     @visible-change="visibleChange"
     @remove-tag="removeTag"
     @clear="clear"
@@ -155,6 +155,10 @@ export default {
       type: Boolean,
       default: true
     },
+    // 是否开启自动过滤
+    filterMethod: {
+      type: Function
+    },
     // 设置默认选中项--keywords.value值（单选是String, Number类型；多选时是数组）
     defaultSelectVal: {
       type: [String, Number, Array]
@@ -278,7 +282,7 @@ export default {
       }
     },
     // 搜索过滤
-    filterMethod(val) {
+    filterMethodHandle(val) {
       if (!this.filterable) return
       const tableData = JSON.parse(JSON.stringify(this.table?.data))
       if (tableData && tableData.length > 0) {
@@ -314,7 +318,7 @@ export default {
         this.initTableData()
       } else {
         this.findLabel()
-        this.filterMethod('')
+        this.filterMethodHandle('')
       }
     },
     handlesSelectionChange(val) {

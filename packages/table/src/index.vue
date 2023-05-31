@@ -218,7 +218,14 @@
           </el-table-column>
         </template>
         <!-- 表头合并单元格 -->
-        <t-table-column v-else :key="index+'i'" :item="item" />
+        <t-table-column v-else :key="index+'i'" :item="item">
+          <template v-for="(index, name) in $slots" v-slot:[name]>
+            <slot :name="name" />
+          </template>
+          <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+            <slot :name="name" v-bind="data"></slot>
+          </template>
+        </t-table-column>
       </template>
       <slot></slot>
       <!-- 操作按钮 -->
@@ -480,6 +487,7 @@ export default {
   activated() {
     // 缓存激活时可能出现冻结列行高不一致问题，强制刷新
     this.$refs['el-table'] && this.$refs['el-table'].$forceUpdate()
+    this.extendMethod()
   },
   computed: {
     columnByProp() {
@@ -521,8 +529,18 @@ export default {
     if (this.defaultRadioCol) {
       this.defaultRadioSelect(this.defaultRadioCol)
     }
+    this.extendMethod()
   },
   methods: {
+    // 继承el-table的Method
+    extendMethod() {
+      const refMethod = Object.entries(this.$refs['el-table'])
+      for (const [key, value] of refMethod) {
+        if (!(key.includes('$') || key.includes('_'))) {
+          this[key] = value
+        }
+      }
+    },
     // 单元格编辑键盘事件
     handleKeyup(event, index, key) {
       if (!this.isKeyup) return
@@ -695,26 +713,26 @@ export default {
         this.tableData = [...this.tableData, ...freeGood]
       }
     },
-    // 清空排序条件
-    clearSort() {
-      this.$refs['el-table'].clearSort()
-    },
-    // 对 Table 进行重新布局
-    doLayout() {
-      this.$refs['el-table'].doLayout()
-    },
-    // 取消/开启某一项是否选中
-    toggleRowSelection(row, selected = false) {
-      this.$refs['el-table'].toggleRowSelection(row, selected)
-    },
-    // 全部选中
-    toggleAllSelection() {
-      this.$refs['el-table'].toggleAllSelection()
-    },
-    // 清空复选框
-    clearSelection() {
-      this.$refs['el-table'].clearSelection()
-    },
+    // // 清空排序条件
+    // clearSort() {
+    //   this.$refs['el-table'].clearSort()
+    // },
+    // // 对 Table 进行重新布局
+    // doLayout() {
+    //   this.$refs['el-table'].doLayout()
+    // },
+    // // 取消/开启某一项是否选中
+    // toggleRowSelection(row, selected = false) {
+    //   this.$refs['el-table'].toggleRowSelection(row, selected)
+    // },
+    // // 全部选中
+    // toggleAllSelection() {
+    //   this.$refs['el-table'].toggleAllSelection()
+    // },
+    // // 清空复选框
+    // clearSelection() {
+    //   this.$refs['el-table'].clearSelection()
+    // },
     // 单行编辑&整行编辑返回数据
     save() {
       if (!this.isEditRules) {

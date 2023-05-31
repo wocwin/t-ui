@@ -28,6 +28,7 @@
 | ----noShowTip           | 是否换行 （设置：noShowTip:true）                                             | Boolean        | false       |
 | ----render              | 返回三个参数(text：当前值,row：当前整条数据 ,index：当前行)                   | function       | -           |
 | ----slotName            | 插槽显示此列数据（其值是具名作用域插槽）                                      | String         | -           |
+| ----slotNameMerge       | 合并表头插槽显示此列数据（其值是具名作用域插槽）                              | String         | -           |
 | ----------param         | 具名插槽获取此行数据必须用解构接收{param}                                     | Object         | 当前行数据  |
 | ----canEdit             | 是否开启单元格编辑功能                                                        | Boolean        | false       |
 | ----filters             | 字典过滤                                                                      | Object         | -           |
@@ -72,18 +73,13 @@
 | defaultRadioCol         | 设置默认选中项（单选）defaultRadioCol 值必须大于 0！                          | Number         | -           |
 | btnPermissions          | 按钮权限 store.getters 接收字段                                               | String         | -           |
 
-## Methods 方法
+## Methods 方法（继承el-table的所有方法）
 
-| 事件名             | 说明                                               | 参数 |
-| :----------------- | :------------------------------------------------- | :--- |
-| clearSelection     | 用于多选表格，清空用户的选择                       | -    |
-| save               | 保存方法（返回编辑后的所有数据）                   | -    |
-| doLayout           | 对 Table 进行重新布局                              | -    |
-| toggleRowSelection | 取消某一项选中项                                   | -    |
-| clearSelection     | 清空复选框                                         | -    |
-| clearSort          | 清空排序                                           | -    |
-| resetFields        | 对表单进行重置，并移除校验结果（单元格编辑时生效） | —    |
-| clearValidate      | 清空校验规则（单元格编辑时生效）                   | -    |
+| 事件名        | 说明                                               | 参数 |
+| :------------ | :------------------------------------------------- | :--- |
+| save          | 保存方法（返回编辑后的所有数据）                   | -    |
+| resetFields   | 对表单进行重置，并移除校验结果（单元格编辑时生效） | —    |
+| clearValidate | 清空校验规则（单元格编辑时生效）                   | -    |
 
 ## events 其他事件按照 el-table 直接使用（如 sort-change 排序事件）
 

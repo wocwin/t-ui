@@ -1,12 +1,15 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :isShowPagination="false" isMergedCell :columns="table.columns" />
+    <t-table :table="table" :isShowPagination="false" :columns="table.columns">
+      <template #slotNameHeader="{param}">{{param.row.date1}}</template>
+      <template #slotNameHeader1="{param}">{{param.row.name}}</template>
+    </t-table>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       table: {
         columns: [
@@ -30,12 +33,12 @@ export default {
                   {
                     prop: 'type', label: '类型', minWidth: '100',
                     children: [
-                      { prop: 'date1', label: '日期2552', minWidth: '180', },
+                      { prop: 'date1', label: '日期2552', minWidth: '180' },
                     ]
                   },
                 ]
               },
-              { prop: 'name', label: '姓名', minWidth: '100', },
+              { prop: '', label: '姓名插槽显示', minWidth: '100', slotNameMerge: 'slotNameHeader1', },
               {
                 prop: 'date', label: '表头合并2', minWidth: '180',
                 children: [
@@ -84,7 +87,7 @@ export default {
             ]
           },
           { prop: 'address', label: '地址', minWidth: '220', },
-          { prop: 'date1', label: '日期', minWidth: '180', },
+          { prop: 'date1', label: '不合并显示插槽', minWidth: '180', slotName: 'slotNameHeader', },
           { prop: 'address1', label: '地址', minWidth: '220', }
         ],
         data: [

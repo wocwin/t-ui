@@ -19,10 +19,10 @@
         <el-table
           ref="el-table"
           :data="tableData"
-          :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio }"
+          :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup }"
           border
           :row-key="getRowKey"
-          :highlight-current-row="isRadio"
+          highlight-current-row
           @row-click="rowClick"
           @cell-dblclick="cellDblclick"
           @selection-change="handlesSelectionChange"
@@ -47,7 +47,7 @@
               <el-radio
                 v-model="radioVal"
                 :label="scope.$index + 1"
-                @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
+                @click.native.prevent="radioChangeHandle(scope.row, scope.$index + 1)"
               ></el-radio>
             </template>
           </el-table-column>
@@ -199,6 +199,7 @@ export default {
   },
   data() {
     return {
+      nowIndex: -1, // 当前选择行的index
       radioVal: '',
       isDefaultSelectVal: true, // 是否已经重新选择了
       isRadio: false,
@@ -242,7 +243,6 @@ export default {
     },
     'table.data': {
       handler(val) {
-        // console.log(789, val)
         this.tableData = val
         this.$nextTick(() => {
           this.tableData &&
@@ -259,25 +259,51 @@ export default {
     }
   },
   methods: {
-    // 单选键盘回车事件
-    async selectKeyup(e) {
-      if (!this.isKeyup) return
-      if (e.keyCode === 13) {
-        if (!this.multiple) {
-          this.isDefaultSelectVal = false
-          const row = this.tableData[0]
-          let rowIndex
-          // eslint-disable-next-line no-unused-expressions
-          this.table?.data.forEach((item, index) => {
-            if (item[this.keywords.value] === row[this.keywords.value]) {
-              rowIndex = index
+    // 单选键盘事件
+    selectKeyup(e) {
+      if (!this.multiple) {
+        if (!this.isKeyup) return
+        if (this.tableData.length === 0) return
+        let refsElTable = this.$refs['el-table']
+        switch (e.keyCode) {
+          case 40: // 下键
+            if (this.tableData[this.nowIndex * 1 + 1] !== undefined) {
+              refsElTable.setCurrentRow(this.tableData[this.nowIndex * 1 + 1])
+              this.nowIndex = this.nowIndex * 1 + 1
+            } else {
+              this.nowIndex = 0
+              refsElTable.setCurrentRow(this.tableData[0])
             }
-          })
-          this.isForbidden()
-          this.radioVal = rowIndex + 1
-          this.defaultValue = row
-          this.$emit('radioChange', row, row[this.keywords.value])
-          this.blur()
+            break
+          case 38: // 上键
+            if (this.tableData[this.nowIndex * 1 - 1] !== undefined && this.nowIndex > 0) {
+              refsElTable.setCurrentRow(this.tableData[this.nowIndex * 1 - 1])
+              this.nowIndex = this.nowIndex * 1 - 1
+            } else {
+              this.nowIndex = 0
+              refsElTable.setCurrentRow(this.tableData[0])
+            }
+            break
+          case 13: // 回车
+            // if (!this.multiple) {
+            // this.isDefaultSelectVal = false
+            // const row = this.tableData[0]
+            // let rowIndex
+            // // eslint-disable-next-line no-unused-expressions
+            // this.table?.data.forEach((item, index) => {
+            //   if (item[this.keywords.value] === row[this.keywords.value]) {
+            //     rowIndex = index
+            //   }
+            // })
+            // this.isForbidden()
+            // this.radioVal = rowIndex + 1
+            // this.defaultValue = row
+            // this.$emit('radioChange', row, row[this.keywords.value])
+            // this.blur()
+            this.rowClick(this.tableData[this.nowIndex])
+            // this.$emit('selectedCompany', this.tableData[this.nowIndex])
+            // }
+            break
         }
       }
     },
@@ -425,9 +451,10 @@ export default {
       }
     },
     // 点击单选框单元格触发事件
-    radioChange(row, index) {
+    radioChangeHandle(row, index) {
+      console.log('不是单选框事件，而是rowClick事件')
       this.isDefaultSelectVal = false
-      this.radioClick(row, index)
+      // this.radioClick(row, index)
     },
     // forbidden取值
     isForbidden() {
@@ -494,6 +521,9 @@ export default {
       if (this.multiple) {
         this.$refs['el-table'].clearSelection()
       } else {
+        // 取消高亮
+        this.$refs['el-table'].setCurrentRow(-1)
+        this.nowIndex = -1
         this.radioVal = ''
         this.forbidden = false
       }
@@ -549,6 +579,27 @@ export default {
       }
     }
   }
+  // 键盘事件开启选择高亮
+  .keyUpStyle {
+    ::v-deep tbody {
+      .el-table__row {
+        cursor: pointer;
+      }
+      .current-row td {
+        cursor: pointer;
+        color: #409eff;
+      }
+    }
+  }
+
+  .t-table-select__table {
+    ::v-deep tbody {
+      .keyup-hover-row {
+        color: red;
+      }
+    }
+  }
+
   .t-table-select__table {
     padding: 10px;
   }

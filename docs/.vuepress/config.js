@@ -107,6 +107,7 @@ module.exports = {
                 'ElementUi/TTable/notSort', // 指定列不需要排序
                 'ElementUi/TTable/mergedCell', // 合并单元格
                 'ElementUi/TTable/headerGroup', // 表头合并
+                'ElementUi/TTable/slotNameMerge', // 表头合并插槽显示
                 'ElementUi/TTable/renderCol', // render列渲染
                 'ElementUi/TTable/slotName', // 插槽列渲染
                 'ElementUi/TTable/filters', // 字典过滤
@@ -119,6 +120,7 @@ module.exports = {
                 'ElementUi/TTable/eventHandle', // 单元格编辑使用第三方组件事件
                 'ElementUi/TTable/cellEditSave', // 单元格编辑保存单行操作
                 'ElementUi/TTable/editTable', // 开启整行编辑模式
+                'ElementUi/TTable/rowSort', // 行拖拽排序
                 'ElementUi/TTable/checkbox', // 基本复选
                 'ElementUi/TTable/columnSet', // 显示隐藏列
                 'ElementUi/TTable/operation', // 操作栏

@@ -7,6 +7,12 @@
       v-on="$listeners"
       :multiple="multiple"
     >
+      <template v-for="(index, name) in $slots" v-slot:[name]>
+        <slot :name="name" />
+      </template>
+      <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+        <slot :name="name" v-bind="data"></slot>
+      </template>
       <el-checkbox
         v-if="multiple"
         v-model="selectChecked"

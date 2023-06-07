@@ -1,18 +1,20 @@
 <template>
   <t-layout-page>
-    <t-select
-      placeholder="请选择工序"
-      v-model="selectVlaue"
-      multiple
-      :optionSource="stepList"
-      valueKey="label"
-      @change="selectChange"
-    />
+    <t-layout-page-item>
+      <t-select
+        placeholder="请选择工序"
+        v-model="selectVlaue"
+        multiple
+        :optionSource="stepList"
+        valueKey="label"
+        @change="selectChange"
+      />
+    </t-layout-page-item>
   </t-layout-page>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       selectVlaue: null,
       stepList: [
@@ -20,7 +22,7 @@ export default {
     }
   },
   methods: {
-    selectChange (val) {
+    selectChange(val) {
       console.log('selectChange', val, this.selectVlaue)
     }
   }

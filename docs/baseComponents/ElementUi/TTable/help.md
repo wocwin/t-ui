@@ -72,6 +72,7 @@
 | isKeyup                 | 单元格编辑是否开启键盘事件(向上、向下、回车横向的下一个输入框)                | Boolean        | false       |
 | defaultRadioCol         | 设置默认选中项（单选）defaultRadioCol 值必须大于 0！                          | Number         | -           |
 | btnPermissions          | 按钮权限 store.getters 接收字段                                               | String         | -           |
+| isRowSort               | 是否开启行拖拽（结合row-key配置）                                             | Boolean        | false       |
 
 ## Methods 方法（继承el-table的所有方法）
 
@@ -92,6 +93,7 @@
 | validateError | 单元格编辑保存校验不通过触发               | 返回校验不通过的 prop--label 集合             |
 | handleEvent   | 单元格编辑时触发事件                       | configEdit 中的 event 值和对应输入的 value 值 |
 | sort-change   | 当表格的排序条件发生变化的时候会触发该事件 | { column, prop, order }                       |
+| rowSort       | 行拖拽排序后触发事件                       | 返回排序后的table数据                         |
 
 ## 具体操作
 

@@ -8,7 +8,14 @@
     :min-width="item['min-width'] || item.minWidth || item.width"
   >
     <template v-for="(val, index) of item.children">
-      <t-table-column v-if="val.children" :key="index" :item="val" />
+      <t-table-column v-if="val.children" :key="index" :item="val">
+        <template v-for="(index, name) in $slots" v-slot:[name]>
+          <slot :name="name" />
+        </template>
+        <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+          <slot :name="name" v-bind="data"></slot>
+        </template>
+      </t-table-column>
       <el-table-column
         v-else
         :key="val.prop"

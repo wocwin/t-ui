@@ -15,7 +15,7 @@ yarn-error.log*
 # # 忽略目录
 examples/
 docs/
-# packages/
+README_IMG/
 public/
 tests/
 node_modules/

@@ -53,7 +53,7 @@
     <el-table
       ref="el-table"
       :data="tableData"
-      :class="{'cursor':isCopy,'highlightCurrentRow':highlightCurrentRow,'radioStyle':(table.firstColumn&&table.firstColumn.type==='radio'),'treeProps':isShowTreeStyle}"
+      :class="{'cursor':isCopy,'row_sort':isRowSort,'highlightCurrentRow':highlightCurrentRow,'radioStyle':(table.firstColumn&&table.firstColumn.type==='radio'),'treeProps':isShowTreeStyle}"
       v-bind="$attrs"
       v-on="$listeners"
       :highlight-current-row="highlightCurrentRow"
@@ -308,6 +308,7 @@ import TTableColumn from './TTableColumn.vue'
 import RenderCol from './renderCol.vue'
 import RenderHeader from './renderHeader.vue'
 import OptComponent from './OptComponent.vue'
+import Sortable from 'sortablejs'
 export default {
   name: 'TTable',
   components: {
@@ -428,6 +429,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否开启行拖拽
+    isRowSort: {
+      type: Boolean,
+      default: false
+    },
     // 是否开启点击整行选中单选框
     rowClickRadio: {
       type: Boolean,
@@ -530,8 +536,27 @@ export default {
       this.defaultRadioSelect(this.defaultRadioCol)
     }
     this.extendMethod()
+    this.initSort()
   },
   methods: {
+    // 行拖拽
+    initSort() {
+      if (!this.isRowSort) return
+      const el = this.$refs['el-table'].$el.querySelector('.el-table__body-wrapper > table > tbody')
+      const sortable = new Sortable(el, {
+        // animation: 150, // 动画
+        // handle: '.move', // 指定拖拽目标，点击此目标才可拖拽元素(此例中设置操作按钮拖拽)
+        // filter: '.disabled', // 指定不可拖动的类名（el-table中可通过row-class-name设置行的class）
+        // dragClass: 'dragClass', // 设置拖拽样式类名
+        // ghostClass: 'ghostClass', // 设置拖拽停靠样式类名
+        // chosenClass: 'chosenClass', // 设置选中样式类名
+        onEnd: evt => {
+          const curRow = this.tableData.splice(evt.oldIndex, 1)[0]
+          this.tableData.splice(evt.newIndex, 0, curRow)
+          this.$emit('rowSort', this.tableData)
+        }
+      })
+    },
     // 继承el-table的Method
     extendMethod() {
       const refMethod = Object.entries(this.$refs['el-table'])
@@ -713,26 +738,6 @@ export default {
         this.tableData = [...this.tableData, ...freeGood]
       }
     },
-    // // 清空排序条件
-    // clearSort() {
-    //   this.$refs['el-table'].clearSort()
-    // },
-    // // 对 Table 进行重新布局
-    // doLayout() {
-    //   this.$refs['el-table'].doLayout()
-    // },
-    // // 取消/开启某一项是否选中
-    // toggleRowSelection(row, selected = false) {
-    //   this.$refs['el-table'].toggleRowSelection(row, selected)
-    // },
-    // // 全部选中
-    // toggleAllSelection() {
-    //   this.$refs['el-table'].toggleAllSelection()
-    // },
-    // // 清空复选框
-    // clearSelection() {
-    //   this.$refs['el-table'].clearSelection()
-    // },
     // 单行编辑&整行编辑返回数据
     save() {
       if (!this.isEditRules) {
@@ -1123,7 +1128,14 @@ export default {
   ::v-deep .el-table__fixed-right {
     height: 100% !important;
   }
-
+  // 行拖动
+  .row_sort {
+    ::v-deep tbody {
+      .el-table__row {
+        cursor: move;
+      }
+    }
+  }
   // 复制功能样式
   .cursor {
     ::v-deep tbody {

@@ -57,8 +57,23 @@ module.exports = {
                 'ElementUi/TTreeSelect/base', // 下拉选择树形及结构组件
                 'ElementUi/TSelect/base', // 下拉选择组件
                 'ElementUi/TPaginationSelect/base', // 下拉选择分页组件
-                'ElementUi/TSelectTable/base', // 下拉选择表格组件
+                // 'ElementUi/TSelectTable/base', // 下拉选择表格组件
                 // 'ElementUi/TUploadExcel/base' // 批量上传excel组件
+              ]
+            },
+            {
+              title: '下拉选择表格组件',
+              collapsable: false,
+              children: [
+                'ElementUi/TSelectTable/radio',
+                'ElementUi/TSelectTable/isKeyup',
+                'ElementUi/TSelectTable/radioDefaultSelectVal',
+                'ElementUi/TSelectTable/radioPagination',
+                'ElementUi/TSelectTable/isShowFirstColumn',
+                'ElementUi/TSelectTable/multiple',
+                'ElementUi/TSelectTable/multipleDefaultSelectVal',
+                'ElementUi/TSelectTable/showPagination',
+                'ElementUi/TSelectTable/help', // 使用帮助(Attributes)
               ]
             },
             {

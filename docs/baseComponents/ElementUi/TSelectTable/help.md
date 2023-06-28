@@ -57,6 +57,7 @@ TForm 表单组件
 | reserveSelection  | 是否支持翻页选中                                                                    | Boolean                   | true       |
 | isShowPagination  | 开启分页                                                                            | Boolean                   | false      |
 | tableWidth        | table 宽度                                                                          | Number                    | 550        |
+| isShowQuery       | 是否允许配置查询条件(继承TQueryCondition的所有属性、事件、插槽)                     | Boolean                   | false      |
 
 ### 3. 事件（events）继承 el-table 及 el-select 属性
 

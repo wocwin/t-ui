@@ -16,6 +16,16 @@
   >
     <template #empty>
       <div class="t-table-select__table" :style="{ width: `${tableWidth}px` }">
+        <div class="table_query_condition" v-if="isShowQuery">
+          <t-query-condition ref="t-query-condition" v-bind="$attrs" v-on="$listeners">
+            <template v-for="(index, name) in $slots" v-slot:[name]>
+              <slot :name="name" />
+            </template>
+            <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+              <slot :name="name" v-bind="data"></slot>
+            </template>
+          </t-query-condition>
+        </div>
         <el-table
           ref="el-table"
           :data="tableData"
@@ -107,11 +117,13 @@
 </template>
 
 <script>
+import TQueryCondition from '../../query-condition/src/index.vue'
 import RenderCol from './renderCol.vue'
 export default {
   name: 'TSelectTable',
   components: {
-    RenderCol
+    RenderCol,
+    TQueryCondition
   },
   props: {
     // 选择值
@@ -134,6 +146,11 @@ export default {
     radioTxt: {
       type: String,
       default: '单选'
+    },
+    // 是否显示搜索条件
+    isShowQuery: {
+      type: Boolean,
+      default: false
     },
     // 是否显示首列
     isShowFirstColumn: {
@@ -215,6 +232,14 @@ export default {
     if (this.defaultSelectVal && this.isDefaultSelectVal) {
       this.defaultSelect(this.defaultSelectVal)
     }
+    // 获取查询条件组件的项
+    this.$refs['t-query-condition'] && Object.values(this.$refs['t-query-condition'].opts).map(val => {
+      if (val.comp.includes('select')) {
+        val.event = {
+          'visible-change': (val) => this.selectVisibleChange(val)
+        }
+      }
+    })
   },
   watch: {
     value: {
@@ -259,6 +284,15 @@ export default {
     }
   },
   methods: {
+    // 解决内嵌select选中后外层下拉框消失问题
+    selectVisibleChange(value) {
+      if (value) {
+        this.documentHandler = this.$refs.select.$el['@@clickoutsideContext'].documentHandler
+        this.$refs.select.$el['@@clickoutsideContext'].documentHandler = (mouseup = {}, mousedown = {}) => { }
+      } else {
+        this.$refs.select.$el['@@clickoutsideContext'].documentHandler = this.documentHandler
+      }
+    },
     // 单选键盘事件
     selectKeyup(e) {
       if (!this.multiple) {
@@ -602,6 +636,12 @@ export default {
 
   .t-table-select__table {
     padding: 10px;
+    .table_query_condition {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 10px;
+    }
   }
 
   .t-table-select__page {

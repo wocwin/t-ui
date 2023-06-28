@@ -70,6 +70,7 @@ module.exports = {
                 'ElementUi/TSelectTable/radioDefaultSelectVal',
                 'ElementUi/TSelectTable/radioPagination',
                 'ElementUi/TSelectTable/isShowFirstColumn',
+                'ElementUi/TSelectTable/isShowQuery',
                 'ElementUi/TSelectTable/multiple',
                 'ElementUi/TSelectTable/multipleDefaultSelectVal',
                 'ElementUi/TSelectTable/showPagination',

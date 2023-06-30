@@ -38,7 +38,7 @@
           v-if="!item.slotName&&!item.textShow"
           :is="item.comp"
           v-model="formOpts.formData[item.value]"
-          :type="(item.type||'input')||item.bind.type"
+          :type="item.comp==='el-input'?item.type||'input':item.type||item.bind.type"
           :placeholder="item.placeholder||getPlaceholder(item)"
           @change="handleEvent(item.event, formOpts.formData[item.value],item)"
           v-bind="{clearable:true,filterable:true,...item.bind}"

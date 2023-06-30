@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // import 'babel-polyfill'
-import Es6Promise from 'es6-promise'
 import Element from 'element-ui'
 // import './components/index.js' // 基础组件自动注册全局
 import '@/assets/styles/element-variables.scss'
@@ -20,15 +19,13 @@ import 'ant-design-vue/dist/antd.css'
 // import { Message } from 'element-ui'
 
 import Tui from '../packages' // 二次封装组件
-import vueSeamlessScroll from 'vue-seamless-scroll' // 循环滚动
+import vueSeamlessScroll from 'vue-seamless-scroll'
+
+import './permission' // 全局路由守卫
 Vue.use(vueSeamlessScroll)
 Vue.use(Element)
 Vue.use(Antd)
 Vue.use(Tui)
-
-// import './permission' // 全局路由守卫
-// 解决低版本浏览器不支持es6
-Es6Promise.polyfill()
 
 Vue.use(VueClipboard)
 

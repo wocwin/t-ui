@@ -39,10 +39,15 @@
 </template>
 <script>
 import RenderTooltip from '../../module-form/src/renderTooltip.vue'
+import { constantEscape } from '../../utils'
 export default {
   name: 'TDetail',
   components: {
     RenderTooltip
+  },
+  // 过滤器
+  filters: {
+    constantEscape
   },
   props: {
     descColumn: {

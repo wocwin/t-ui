@@ -20,7 +20,7 @@
             :columns="TtableColumns"
             @selection-change="selectionChange"
           >
-            <template #amount="{param}">{{param.row.amount|currencyFilter}}</template>
+            <template #amount="{param}">{{param.row.amount}}</template>
           </t-table>
         </template>
       </t-ant-layout-table>
@@ -30,7 +30,7 @@
 <script>
 export default {
   name: 'tableSlot',
-  data () {
+  data() {
     return {
       table: {
         firstColumn: { type: 'selection' },
@@ -65,7 +65,7 @@ export default {
         { prop: 'name', label: '姓名', minWidth: '100' },
         { prop: 'date', label: '日期', minWidth: '160' },
         { prop: 'address', label: '地址', minWidth: '220' },
-        { prop: 'status', label: '状态', minWidth: '100', filters: { param: 'PROTOCOL_BUSS_TYPE' } },
+        { prop: 'status', label: '状态', minWidth: '100' },
         { prop: 'amount', label: '金额', minWidth: '160', slotName: 'amount' },
         { prop: 'address77', label: '地址77', minWidth: '220' },
         { prop: 'name1', label: '姓名1', minWidth: '100' },
@@ -88,11 +88,11 @@ export default {
   // 方法
   methods: {
     // 获取当前选择页数
-    handleTableChange (val) {
+    handleTableChange(val) {
       console.log(1212, val)
     },
     // 复选框选中
-    selectionChange (val) {
+    selectionChange(val) {
       console.log('复选框选中值', val)
       this.selectedRowKeys = val
     }

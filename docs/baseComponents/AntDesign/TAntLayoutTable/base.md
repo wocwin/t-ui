@@ -127,17 +127,17 @@
 
 ### 配置参数（Attributes）
 
-| 参数           | 说明                                                                                              | 类型        | 默认值 |
-| -------------- | :------------------------------------------------------------------------------------------------ | :---------- | -----: |
-| title          | 左上侧标题                                                                                        | string,slot |     无 |
-| btn            | 右上侧按钮组插槽                                                                                  | slot        |     无 |
-| columns        | table 列描述，详细见下方配置说明。                                                                | array       |     无 |
-| dataSource     | table 数据源                                                                                      | array       |     无 |
-| tableOpt       | antd table 配置                                                                                   | {}          |     无 |
-| pagination     | 分页器配置{current: number, pageSize: number, total: number,paginationOpt:{antd pagination 配置}} | object      |     无 |
-| table          | 报表内容插槽，当使用该插槽时，默认 table 将不渲染                                                 | slot        |     无 |
-| columnSetting  | 是否显示设置（隐藏/显示列）                                                                       | Boolean     |  false |
-| name           | 组件唯一标记，类似 Key 值，用于缓存表头数据                                                       | String      |     无 |
+| 参数          | 说明                                                                                              | 类型        | 默认值 |
+| ------------- | :------------------------------------------------------------------------------------------------ | :---------- | -----: |
+| title         | 左上侧标题                                                                                        | string,slot |     无 |
+| btn           | 右上侧按钮组插槽                                                                                  | slot        |     无 |
+| columns       | table 列描述，详细见下方配置说明。                                                                | array       |     无 |
+| dataSource    | table 数据源                                                                                      | array       |     无 |
+| tableOpt      | antd table 配置                                                                                   | {}          |     无 |
+| pagination    | 分页器配置{current: number, pageSize: number, total: number,paginationOpt:{antd pagination 配置}} | object      |     无 |
+| table         | 报表内容插槽，当使用该插槽时，默认 table 将不渲染                                                 | slot        |     无 |
+| columnSetting | 是否显示设置（隐藏/显示列）                                                                       | Boolean     |  false |
+| name          | 组件唯一标记，类似 Key 值，用于缓存表头数据                                                       | String      |     无 |
 
 ### columns 配置参数（columns Attributes）
 

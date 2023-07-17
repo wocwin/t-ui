@@ -10,7 +10,7 @@ import 'ant-design-vue/dist/antd.css'
 import Tui from '../../packages'
 import { message } from './public/utils/resetMessage' // 防止重复点击重复弹出message弹框
 import vueClipboard from 'vue-clipboard2'
-import * as filters from './public/utils/filters' // global filters
+// import * as filters from './public/utils/filters' // global filters
 import './public/utils/directives' // 自定义指令
 import 'element-ui/lib/theme-chalk/index.css'
 import '../.vuepress/public/css/index.scss'
@@ -33,9 +33,9 @@ export default ({
     Vue.prototype.$msgbox = ElementUI.MessageBox,
     Vue.prototype.$alert = ElementUI.MessageBox.alert,
     Vue.prototype.$confirm = ElementUI.MessageBox.confirm,
-    Vue.prototype.$prompt = ElementUI.MessageBox.prompt,
-    // 过滤器
-    Object.keys(filters).forEach(key => {
-      Vue.filter(key, filters[key])
-    })
+    Vue.prototype.$prompt = ElementUI.MessageBox.prompt
+  // 过滤器
+  // Object.keys(filters).forEach(key => {
+  //   Vue.filter(key, filters[key])
+  // })
 }

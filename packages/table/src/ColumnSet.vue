@@ -1,8 +1,8 @@
 <template>
   <el-dropdown trigger="click" placement="bottom">
-    <el-button icon="el-icon-s-operation" size="small">列设置</el-button>
+    <el-button v-bind="columnBind">{{columnBind.btnTxt||'列设置'}}</el-button>
     <el-dropdown-menu divided slot="dropdown">
-      <span class="title">列设置</span>
+      <span class="title">{{columnBind.title||'列设置'}}</span>
       <draggable class="t_table_column_setting_dropdown" v-model="columnSet">
         <el-checkbox
           v-for="(col, index) in columnSet"
@@ -28,6 +28,10 @@ export default {
     columns: {
       type: Array,
       default: () => []
+    },
+    columnSetBind: {
+      type: Object,
+      default: () => { }
     }
   },
   data() {
@@ -40,6 +44,10 @@ export default {
     this.$emit('columnSetting', this.columnSet)
   },
   computed: {
+    columnBind() {
+      const columnSetBind = { btnTxt: '列设置', title: '列设置', ...this.columnSetBind }
+      return { size: 'small', icon: 'el-icon-s-operation', ...this.$attrs, ...columnSetBind }
+    },
     localStorageKey() {
       // 配置数据缓存唯一标记
       return `t-ui:TTable.columnSet-${md5(

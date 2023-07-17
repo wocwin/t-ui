@@ -173,6 +173,7 @@
                   <el-form
                     :model="tableData[scope.$index]"
                     :rules="isEditRules ? table.rules : {}"
+                    class="t_edit_cell_form"
                     :ref="`formRef-${scope.$index}-${
                       item.prop || scope.column.property
                     }`"
@@ -334,7 +335,7 @@
       :page-sizes="[10, 20, 50, 100]"
       :page-size="table.pageSize"
       :layout="
-        size
+        layoutSize
           ? 'total, prev, pager, next'
           : 'total, sizes, prev, pager, next, jumper'
       "
@@ -361,6 +362,7 @@ import TTableColumn from './TTableColumn.vue'
 import RenderCol from './renderCol.vue'
 import RenderHeader from './renderHeader.vue'
 import OptComponent from './OptComponent.vue'
+import { constantEscape } from '../../utils'
 import Sortable from 'sortablejs'
 export default {
   name: 'TTable',
@@ -444,7 +446,7 @@ export default {
       default: false
     },
     // 是否需要显示切换页条数
-    size: {
+    layoutSize: {
       type: Boolean,
       default: false
     },
@@ -589,6 +591,10 @@ export default {
         this.columns.some((item) => item?.configEdit?.rules)
       )
     }
+  },
+  // 过滤器
+  filters: {
+    constantEscape
   },
   mounted() {
     // 设置默认选中项（单选）
@@ -1267,7 +1273,15 @@ export default {
       }
     }
   }
-
+  // 单元格编辑表单错误提示样式
+  .t_edit_cell_form {
+    ::v-deep .el-form-item {
+      margin-bottom: 0;
+      .el-form-item__content {
+        line-height: 12px;
+      }
+    }
+  }
   .el-table--scrollable-y .el-table__body-wrapper {
     overflow-x: auto;
   }

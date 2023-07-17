@@ -183,8 +183,8 @@ export default {
 </script>
 <style lang="scss">
 .single_edit_cell {
-  min-height: 40px;
-  line-height: 40px;
+  // min-height: 40px;
+  // line-height: 40px;
   cursor: pointer;
 }
 </style>

@@ -74,6 +74,7 @@
       <div v-if="table.firstColumn">
         <!-- 复选框 -->
         <el-table-column
+          :selectable="table.firstColumn.selectable"
           :type="table.firstColumn.type"
           :width="table.firstColumn.width || 50"
           :label="table.firstColumn.label"
@@ -1208,14 +1209,17 @@ export default {
   }
 
   // 操作样式
-  .operator_btn {
-    // text-align: left;
-    .el-button {
-      margin: 0;
-      margin-right: 10px;
-      // &:last-child {
-      //   margin-right: 0;
-      // }
+  ::v-deep .el-table {
+    .operator {
+      .operator_btn {
+        .el-button {
+          margin: 0;
+          margin-right: 10px;
+        }
+      }
+      div.cell {
+        visibility: visible;
+      }
     }
   }
 

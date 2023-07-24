@@ -19,8 +19,7 @@
         :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName},{'render_laber_position':formOpts.labelPosition},{'is_dynamic':isDynamic}]"
         :rules="item.rules"
         :style="getChildWidth(item)"
-        v-bind="$attrs"
-        v-on="$listeners"
+        v-bind="{...item.formItemBind}"
       >
         <!-- 自定义label -->
         <template #label v-if="item.labelRender">

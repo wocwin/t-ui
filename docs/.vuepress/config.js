@@ -74,6 +74,7 @@ module.exports = {
                 'ElementUi/TSelectTable/multiple',
                 'ElementUi/TSelectTable/multipleDefaultSelectVal',
                 'ElementUi/TSelectTable/showPagination',
+                'ElementUi/TSelectTable/formDemo',
                 'ElementUi/TSelectTable/help', // 使用帮助(Attributes)
               ]
             },

@@ -62,6 +62,7 @@
 | mergeCol                | 第几列合并进行行合并（默认第一列）                                            | Number         | 0                     |
 | isObjShowProp           | 是否开启对象模式渲染数据 功能(适用于一层对象数据)                             | Boolean        | false                 |
 | isShowPagination        | 是否显示分页(默认显示分页)                                                    | Boolean        | false                 |
+| pageSizes               | 每页显示个数选择器的选项设置                                                  | number[]       | [10, 20, 50, 100]     |
 | isCopy                  | 是否允许双击单元格复制                                                        | Boolean        | false                 |
 | spanMethod              | 是否自定义编写合并单元格方法(跟 element 一样)                                 | funtion        | -                     |
 | rowClickRadio           | 是否开启点击整行选中单选框                                                    | Boolean        | false                 |

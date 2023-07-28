@@ -64,13 +64,14 @@ export default {
   methods: {
     getColumnSetCache() {
       let value = localStorage.getItem(this.localStorageKey)
-      let columnOption = this.initColumnSet()
-      let valueArr = JSON.parse(value) || []
-      columnOption.map(item => {
-        let findEle = valueArr.find(ele => ele.label === item.label && ele.prop === item.prop)
-        item.hidden = findEle ? findEle.hidden : false
-      })
-      value = JSON.stringify(columnOption)
+      // let columnOption = this.initColumnSet()
+      // let valueArr = JSON.parse(value) || []
+      // columnOption.map(item => {
+      //   let findEle = valueArr.find(ele => ele.label === item.label && ele.prop === item.prop)
+      //   item.hidden = findEle ? findEle.hidden : false
+      // })
+      // value = JSON.stringify(columnOption)
+      // console.log('最终--', value ? JSON.parse(value) : this.initColumnSet())
       return value ? JSON.parse(value) : this.initColumnSet()
     },
     initColumnSet() {

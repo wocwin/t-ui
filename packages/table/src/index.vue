@@ -333,7 +333,7 @@
       v-show="tableData && tableData.length && isShowPagination"
       :current-page="table.currentPage"
       @current-change="handlesCurrentChange"
-      :page-sizes="[10, 20, 50, 100]"
+      :page-sizes="pageSizes"
       :page-size="table.pageSize"
       :layout="
         layoutSize
@@ -520,6 +520,13 @@ export default {
     // 按钮权限store.getters接收字段
     btnPermissions: {
       type: String
+    },
+    // 每页显示个数选择器的选项设置
+    pageSizes: {
+      type: Array,
+      default: () => {
+        return [10, 20, 50, 100]
+      }
     }
   },
   data() {

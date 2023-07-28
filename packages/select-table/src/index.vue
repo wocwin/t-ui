@@ -334,7 +334,8 @@ export default {
             // this.defaultValue = row
             // this.$emit('radioChange', row, row[this.keywords.value])
             // this.blur()
-            this.rowClick(this.tableData[this.nowIndex])
+            // console.log('回车--', this.tableData[this.nowIndex])
+            this.tableData[this.nowIndex] && this.rowClick(this.tableData[this.nowIndex])
             // this.$emit('selectedCompany', this.tableData[this.nowIndex])
             // }
             break

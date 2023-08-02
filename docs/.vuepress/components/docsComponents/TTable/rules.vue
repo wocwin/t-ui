@@ -179,6 +179,9 @@ export default {
               }
             }
           ],
+          operatorConfig: {
+            fixed: 'left'
+          },
           // 表格内操作列
           operator: [
             {

@@ -32,7 +32,7 @@ export default {
           status: null // *状态: 0：停用，1：启用(默认为1)',
         },
         fieldList: [
-          { label: '账号', value: 'account', type: 'input', comp: 'el-input', event: 'account' },
+          { label: '账号', value: 'account', type: 'input', comp: 'el-input', event: 'account', formItemBind: { labelWidth: "400px" } },
           { label: '密码', value: 'password', type: 'password', comp: 'el-input' },
           { label: '昵称', value: 'name', type: 'input', comp: 'el-input', isTrim: true },
           { label: '性别', value: 'sex', type: 'select-arr', comp: 'el-select', list: 'sexList', bind: { disabled: false }, arrLabel: 'key', arrKey: 'value' },

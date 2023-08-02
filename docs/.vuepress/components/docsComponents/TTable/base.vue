@@ -1,12 +1,12 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" />
+    <t-table :table="table" :columns="columns" size="mini" />
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     let self = this
     return {
       table: {
@@ -49,9 +49,9 @@ export default {
                 bind: {
                   type: 'primary'
                 },
-                event (scope) {
+                event(scope) {
                   return {
-                    click () {
+                    click() {
                       self.handleEditTable('编辑', scope.row)
                     }
                   }
@@ -62,9 +62,9 @@ export default {
                 bind: {
                   title: '确认删除该条数据？'
                 },
-                event (scope) {
+                event(scope) {
                   return {
-                    confirm () {
+                    confirm() {
                       self.handledeleteTable(scope.row)
                     }
                   }
@@ -87,10 +87,10 @@ export default {
     }
   },
   methods: {
-    handleEditTable (val, type) {
+    handleEditTable(val, type) {
       console.log('编辑', val, type)
     },
-    handledeleteTable (val) {
+    handledeleteTable(val) {
       console.log('删除', val)
     }
   }

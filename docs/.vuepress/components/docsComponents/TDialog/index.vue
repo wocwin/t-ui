@@ -4,7 +4,6 @@
     <t-dialog
       title="请选择企业"
       width="40%"
-      isShowDialogDrag
       class="ent-choose"
       :visible="dialogSelectEnt"
       @update:visible="cancel"
@@ -32,27 +31,27 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       dialogSelectEnt: false,
       entSelectType: '',
       entList: [{ 'id': 107, 'entName': '上海某某电子商务有限公司', 'entCode': '60003627', 'entType': null, 'entIdPcloud': '717380413542105088' }]
     }
   },
-  mounted () {
+  mounted() {
     this.entSelectType = this.entList[0].id
   },
   // 方法
   methods: {
-    openDialog () {
+    openDialog() {
       this.dialogSelectEnt = true
     },
     // 选择企业
-    selectType (item) {
+    selectType(item) {
       this.entSelectType = item.id
       this.dialogSelectEnt = false
     },
-    cancel () {
+    cancel() {
       this.dialogSelectEnt = false
     }
   }

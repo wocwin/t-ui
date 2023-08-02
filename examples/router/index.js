@@ -55,4 +55,20 @@ const router = new Router({
   routes: constantRoutes,
   mode: 'history'
 })
+// 获取原型对象push函数
+const originalPush = Router.prototype.push
+
+// 获取原型对象replace函数
+const originalReplace = Router.prototype.replace
+
+// 修改原型对象中的push函数
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
+// 修改原型对象中的replace函数
+Router.prototype.replace = function replace(location) {
+  return originalReplace.call(this, location).catch(err => err)
+}
+
 export default router

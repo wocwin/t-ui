@@ -44,9 +44,10 @@
   </div>
 </template>
 <script>
+import { currencyFilter, digitUppercase } from '../../utils'
 export default {
   name: 'TInput',
-  data () {
+  data() {
     return {
       currentVal: this.value
     }
@@ -76,16 +77,21 @@ export default {
       default: '元'
     }
   },
+  // 过滤器
+  filters: {
+    currencyFilter,
+    digitUppercase
+  },
   watch: {
     value: {
-      handler (val) {
+      handler(val) {
         // console.log('组件watch', val)
         this.currentVal = val
       }
     }
   },
   methods: {
-    projectAmounts () {
+    projectAmounts() {
       if (this.inputType === 'currency') {
         // 货币金额类型输入
         if (isNaN(parseFloat(this.currentVal))) {
@@ -122,10 +128,10 @@ export default {
       // 触发事件
       this.$emit('numblur', this.currentVal)
     },
-    clearValue () {
+    clearValue() {
       this.$emit('clearInput', this.currentVal)
     },
-    toThousandsNoZero (num) {
+    toThousandsNoZero(num) {
       return num ? ((isNaN(parseFloat(num.toString().replace(/,/g, ''))) ? 1 : parseFloat(num.toString().replace(/,/g, '')))).toFixed(2).toString().replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
         return $1 + ','
       }) : ''

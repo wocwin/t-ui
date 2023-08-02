@@ -8,7 +8,14 @@
     :min-width="item['min-width'] || item.minWidth || item.width"
   >
     <template v-for="(val, index) of item.children">
-      <t-table-column v-if="val.children" :key="index" :item="val"></t-table-column>
+      <t-table-column v-if="val.children" :key="index" :item="val">
+        <template v-for="(index, name) in $slots" v-slot:[name]>
+          <slot :name="name" />
+        </template>
+        <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+          <slot :name="name" v-bind="data"></slot>
+        </template>
+      </t-table-column>
       <el-table-column
         v-else
         :key="val.prop"
@@ -28,18 +35,9 @@
           <template v-if="val.render">
             <render-col :column="val" :row="scope.row" :render="val.render" :index="scope.$index" />
           </template>
-          <!-- customRender渲染 -->
-          <template v-if="val.customRender">
-            <OptComponent
-              v-for="(comp, i) in val.customRender.comps"
-              :key="scope.$index + i.toString()"
-              v-bind="comp"
-              :scope="scope"
-            />
-          </template>
           <!-- 自定义插槽 -->
-          <template v-if="val.slotName">
-            <slot :name="val.slotName" :param="scope"></slot>
+          <template v-if="val.slotNameMerge">
+            <slot :name="val.slotNameMerge" :param="scope"></slot>
           </template>
           <!-- 单个单元格编辑 -->
           <template v-if="val.canEdit">
@@ -60,10 +58,7 @@
               />
             </single-edit-cell>
           </template>
-          <div
-            v-if="!val.render&&!val.slotName&&!val.customRender&&!val.canEdit"
-          >{{scope.row[val.prop]}}
-          </div>
+          <div v-if="!val.render&&!val.canEdit&&!val.slotNameMerge">{{scope.row[val.prop]}}</div>
         </template>
       </el-table-column>
     </template>
@@ -72,13 +67,11 @@
 
 <script>
 import SingleEditCell from './singleEditCell.vue'
-import OptComponent from './OptComponent.vue'
 import RenderCol from './renderCol.vue'
 export default {
   name: 'TTableColumn',
   components: {
     SingleEditCell,
-    OptComponent,
     RenderCol
   },
   props: {
@@ -93,7 +86,7 @@ export default {
   },
   methods: {
     // 头部标题是否需要加头部必填*符号
-    renderHeader (h, { column }) {
+    renderHeader(h, { column }) {
       const style = {
         color: '#F56C6C',
         fontSize: '16px',

@@ -141,7 +141,7 @@ export default {
         workshopNum: {
           label: 't-select多选',
           comp: 't-select',
-          span: 2,
+          // span: 2,
           bind: {
             multiple: true,
             optionSource: this.ADDRESS_TYPES1,

@@ -17,14 +17,19 @@
 export default {
   name: 'TDialog',
   props: {
-    // 是否开启拖拽功能
+    // 是否开启拖拽功能(flase开启，true是关闭)
     isShowDialogDrag: {
+      type: Boolean,
+      default: false
+    },
+    // 是否开启ESC关闭弹窗
+    isESC: {
       type: Boolean,
       default: false
     }
   },
   computed: {
-    attrs () {
+    attrs() {
       return {
         'close-on-click-modal': false,
         'close-on-press-escape': false,
@@ -34,7 +39,7 @@ export default {
   },
   directives: {
     dialogDrag: {
-      bind (el, binding, vnode) {
+      bind(el, binding, vnode) {
         if (binding.value.isShowDialogDrag) return
         const dialogHeaderEl = el.querySelector('.el-dialog__header')
         const dragDom = el.querySelector('.el-dialog')
@@ -110,6 +115,21 @@ export default {
             document.onmouseup = null
           }
         }
+      }
+    }
+  },
+  mounted() {
+    this.keydownEvent()
+  },
+  methods: {
+    keydownEvent() {
+      if (!this.isESC) return
+      document.addEventListener('keydown', this.ESCEvent)
+    },
+    ESCEvent(e) {
+      if (this.$attrs.visible && e.keyCode == 27) {
+        console.log('e.keyCode', e.keyCode)
+        this.$emit('update:visible')
       }
     }
   }

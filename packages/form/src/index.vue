@@ -19,8 +19,7 @@
         :class="[item.className,{'render_label':item.labelRender},{'slot_label':item.slotName},{'render_laber_position':formOpts.labelPosition},{'is_dynamic':isDynamic}]"
         :rules="item.rules"
         :style="getChildWidth(item)"
-        v-bind="$attrs"
-        v-on="$listeners"
+        v-bind="{...item.formItemBind}"
       >
         <!-- 自定义label -->
         <template #label v-if="item.labelRender">
@@ -38,7 +37,7 @@
           v-if="!item.slotName&&!item.textShow"
           :is="item.comp"
           v-model="formOpts.formData[item.value]"
-          :type="(item.type||'input')||item.bind.type"
+          :type="item.comp==='el-input'?item.type||'input':item.type||item.bind.type"
           :placeholder="item.placeholder||getPlaceholder(item)"
           @change="handleEvent(item.event, formOpts.formData[item.value],item)"
           v-bind="{clearable:true,filterable:true,...item.bind}"

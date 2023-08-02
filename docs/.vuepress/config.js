@@ -57,8 +57,25 @@ module.exports = {
                 'ElementUi/TTreeSelect/base', // 下拉选择树形及结构组件
                 'ElementUi/TSelect/base', // 下拉选择组件
                 'ElementUi/TPaginationSelect/base', // 下拉选择分页组件
-                'ElementUi/TSelectTable/base', // 下拉选择表格组件
+                // 'ElementUi/TSelectTable/base', // 下拉选择表格组件
                 // 'ElementUi/TUploadExcel/base' // 批量上传excel组件
+              ]
+            },
+            {
+              title: '下拉选择表格组件',
+              collapsable: false,
+              children: [
+                'ElementUi/TSelectTable/radio',
+                'ElementUi/TSelectTable/isKeyup',
+                'ElementUi/TSelectTable/radioDefaultSelectVal',
+                'ElementUi/TSelectTable/radioPagination',
+                'ElementUi/TSelectTable/isShowFirstColumn',
+                'ElementUi/TSelectTable/isShowQuery',
+                'ElementUi/TSelectTable/multiple',
+                'ElementUi/TSelectTable/multipleDefaultSelectVal',
+                'ElementUi/TSelectTable/showPagination',
+                'ElementUi/TSelectTable/formDemo',
+                'ElementUi/TSelectTable/help', // 使用帮助(Attributes)
               ]
             },
             {
@@ -107,18 +124,21 @@ module.exports = {
                 'ElementUi/TTable/notSort', // 指定列不需要排序
                 'ElementUi/TTable/mergedCell', // 合并单元格
                 'ElementUi/TTable/headerGroup', // 表头合并
+                'ElementUi/TTable/slotNameMerge', // 表头合并插槽显示
                 'ElementUi/TTable/renderCol', // render列渲染
                 'ElementUi/TTable/slotName', // 插槽列渲染
                 'ElementUi/TTable/filters', // 字典过滤
                 'ElementUi/TTable/objRenderPorp', // 对象模式渲染
                 'ElementUi/TTable/renderHeader', // 自定义列标题 label
                 'ElementUi/TTable/radio', // 单选
+                'ElementUi/TTable/treeTable',
                 'ElementUi/TTable/rules', // 单元格编辑--校验
                 'ElementUi/TTable/singleEditKeyup', // 单元格编辑键盘事件
                 'ElementUi/TTable/singleEditTable', // 开启单个单元格编辑
                 'ElementUi/TTable/eventHandle', // 单元格编辑使用第三方组件事件
                 'ElementUi/TTable/cellEditSave', // 单元格编辑保存单行操作
                 'ElementUi/TTable/editTable', // 开启整行编辑模式
+                'ElementUi/TTable/rowSort', // 行拖拽排序
                 'ElementUi/TTable/checkbox', // 基本复选
                 'ElementUi/TTable/columnSet', // 显示隐藏列
                 'ElementUi/TTable/operation', // 操作栏

@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       table: {
         total: 0,
@@ -62,13 +62,16 @@ export default {
       ]
     }
   },
+  mounted() {
+    console.log('TTable实例的方法', this.$refs.tableCheckbox)
+  },
   methods: {
     // 复选框选中
-    selectionChange (val) {
+    selectionChange(val) {
       console.log('复选框选中值', val)
     },
     // 取消选中
-    cancelCheck () {
+    cancelCheck() {
       this.$refs.tableCheckbox.clearSelection()
     }
   }

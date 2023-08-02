@@ -1,9 +1,14 @@
 <template>
   <div class="login">
     <div class="content">
+      <div class="star1"></div>
+      <div class="star2"></div>
+      <div class="star3"></div>
+      <div class="star4"></div>
+      <div class="star5"></div>
       <div class="input-format">
         <img src="@/assets/image/logo.png" alt class="logon" />
-        <h3 class="title">{{packageTitle}}</h3>
+        <h3 class="title">T-ui基础组件运用</h3>
         <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
           <el-form-item prop="username">
             <el-input
@@ -28,7 +33,9 @@
               <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
             </el-input>
           </el-form-item>
-          <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px">记住密码</el-checkbox>
+          <el-form-item style="width: 100%;text-align: left;margin-bottom: 0;">
+            <el-checkbox v-model="loginForm.rememberMe">记住密码</el-checkbox>
+          </el-form-item>
           <el-form-item style="width: 100%">
             <el-button
               :loading="loading"
@@ -50,12 +57,10 @@
 <script>
 import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils'
-const packageTitle = require('../../package.json').description
 export default {
   name: 'Login',
   data() {
     return {
-      packageTitle,
       loginForm: {
         username: 'admin',
         password: 'a123456',
@@ -99,6 +104,7 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
+        console.log('333', valid)
         if (valid) {
           this.loading = true
           if (this.loginForm.rememberMe) {
@@ -127,51 +133,68 @@ export default {
 </script>
 
 <style lang="scss">
+@function getShadows($n) {
+  $shadows: "#{random(100)}vw #{random(100)}vh #fff";
+  @for $i from 2 through $n {
+    $shadows: "#{$shadows},#{random(100)}vw #{random(100)}vh #fff";
+  }
+  @return unquote($shadows);
+}
+@keyframes moveUp {
+  100% {
+    transform: translateY(-100vh);
+  }
+}
+$duration: 600s;
+$count: 1400;
 .login {
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: #3783af;
+  justify-content: center;
   height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
   background-size: cover;
-  padding: 50px 0;
   .content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     width: 100%;
     height: 100%;
-    background-size: 70%;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 12%;
-    align-items: center;
+    padding-right: 8%;
     .input-format {
       width: 340px;
       height: 440px;
-      background: #fff;
-      box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      text-align: center;
+      background: #ffffff;
       border-radius: 4px;
-      padding: 40px 37px;
-      text-align: left;
+      box-shadow: 0 2px 24px 0 rgb(0 0 0 / 20%);
       .logon {
-        width: 60px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
       }
       .title {
-        font-size: 29px;
-        font-family: PingFangSC-Medium, PingFang SC;
+        margin-top: 8px;
+        margin-bottom: 25px;
+        font-family: PingFangSC-Medium, "PingFang SC";
         font-weight: 600;
         color: #142969;
-        margin-top: 8px;
-        margin-bottom: 40px;
       }
       .login-form {
         box-sizing: border-box;
-        margin: 0;
         padding: 0;
-        color: rgba(0, 0, 0, 0.65);
+        margin: 0;
         font-size: 14px;
+        font-feature-settings: "tnum";
         font-variant: tabular-nums;
         line-height: 1.5;
+        color: rgb(0 0 0 / 65%);
         list-style: none;
-        font-feature-settings: "tnum";
+        .el-form-item {
+          margin-bottom: 15px;
+        }
         .el-input {
           height: 38px;
           input {
@@ -179,9 +202,34 @@ export default {
           }
         }
         .input-icon {
-          height: 39px;
           width: 14px;
+          height: 39px;
           margin-left: 2px;
+        }
+      }
+    }
+    @for $i from 1 through 5 {
+      $duration: floor($duration / 2);
+      $count: floor($count / 2);
+      .star#{$i} {
+        $size: #{$i}px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: $size;
+        height: $size;
+        border-radius: 50%;
+        box-shadow: getShadows($count);
+        animation: moveUp $duration linear infinite;
+        &::after {
+          position: fixed;
+          top: 100vh;
+          left: 0;
+          width: $size;
+          height: $size;
+          content: "";
+          border-radius: inherit;
+          box-shadow: inherit;
         }
       }
     }

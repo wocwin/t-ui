@@ -57,6 +57,13 @@ export default {
       ::v-deep.el-table {
         height: fit-content;
         overflow: auto;
+        &::before {
+          height: 0px;
+        }
+        .el-table__fixed::before,
+        .el-table__fixed-right::before {
+          height: 0px;
+        }
       }
     }
   }

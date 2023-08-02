@@ -6,22 +6,33 @@
     :multiple="multiple"
     :value-key="keywords.value"
     :filterable="filterable"
-    :filter-method="filterMethod"
+    :filter-method="filterMethod||filterMethodHandle"
     @visible-change="visibleChange"
     @remove-tag="removeTag"
     @clear="clear"
+    @keyup.native="selectKeyup"
     v-bind="selectAttr"
     v-on="$listeners"
   >
     <template #empty>
       <div class="t-table-select__table" :style="{ width: `${tableWidth}px` }">
+        <div class="table_query_condition" v-if="isShowQuery">
+          <t-query-condition ref="t-query-condition" v-bind="$attrs" v-on="$listeners">
+            <template v-for="(index, name) in $slots" v-slot:[name]>
+              <slot :name="name" />
+            </template>
+            <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+              <slot :name="name" v-bind="data"></slot>
+            </template>
+          </t-query-condition>
+        </div>
         <el-table
           ref="el-table"
           :data="tableData"
-          :class="{'radioStyle':!multiple,'highlightCurrentRow':isRadio}"
+          :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup }"
           border
           :row-key="getRowKey"
-          :highlight-current-row="isRadio"
+          highlight-current-row
           @row-click="rowClick"
           @cell-dblclick="cellDblclick"
           @selection-change="handlesSelectionChange"
@@ -40,13 +51,13 @@
             width="50"
             :label="radioTxt"
             fixed
-            v-if="!multiple&&isShowFirstColumn"
+            v-if="!multiple && isShowFirstColumn"
           >
             <template slot-scope="scope">
               <el-radio
                 v-model="radioVal"
                 :label="scope.$index + 1"
-                @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
+                @click.native.prevent="radioChangeHandle(scope.row, scope.$index + 1)"
               ></el-radio>
             </template>
           </el-table-column>
@@ -87,7 +98,7 @@
         </el-table>
         <div class="t-table-select__page">
           <el-pagination
-            v-show="(tableData && tableData.length) && isShowPagination"
+            v-show="tableData && tableData.length && isShowPagination"
             :current-page="table.currentPage"
             @current-change="handlesCurrentChange"
             :page-sizes="[10, 20, 50, 100]"
@@ -106,11 +117,13 @@
 </template>
 
 <script>
+import TQueryCondition from '../../query-condition/src/index.vue'
 import RenderCol from './renderCol.vue'
 export default {
   name: 'TSelectTable',
   components: {
-    RenderCol
+    RenderCol,
+    TQueryCondition
   },
   props: {
     // 选择值
@@ -134,6 +147,11 @@ export default {
       type: String,
       default: '单选'
     },
+    // 是否显示搜索条件
+    isShowQuery: {
+      type: Boolean,
+      default: false
+    },
     // 是否显示首列
     isShowFirstColumn: {
       type: Boolean,
@@ -154,6 +172,14 @@ export default {
       type: Boolean,
       default: true
     },
+    // 是否开启自动过滤
+    filterMethod: {
+      type: Function
+    },
+    // 设置默认选中项--keywords.value值（单选是String, Number类型；多选时是数组）
+    defaultSelectVal: {
+      type: [String, Number, Array]
+    },
     // 下拉数据指向的label/value
     keywords: {
       type: Object,
@@ -173,6 +199,11 @@ export default {
     tableWidth: {
       type: Number,
       default: 550
+    },
+    // 单选是否开启键盘回车事件选中第一行
+    isKeyup: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -185,7 +216,9 @@ export default {
   },
   data() {
     return {
+      nowIndex: -1, // 当前选择行的index
       radioVal: '',
+      isDefaultSelectVal: true, // 是否已经重新选择了
       isRadio: false,
       forbidden: true, // 判断单选选中及取消选中
       tableData: this.table?.data, // table数据
@@ -194,18 +227,38 @@ export default {
       tabularMap: {} // 存储下拉tale的所有name
     }
   },
+  mounted() {
+    // 设置默认选中项（单选）
+    if (this.defaultSelectVal && this.isDefaultSelectVal) {
+      this.defaultSelect(this.defaultSelectVal)
+    }
+    // 获取查询条件组件的项
+    this.$refs['t-query-condition'] && Object.values(this.$refs['t-query-condition'].opts).map(val => {
+      if (val.comp.includes('select')) {
+        val.event = {
+          'visible-change': (val) => this.selectVisibleChange(val)
+        }
+      }
+    })
+  },
   watch: {
     value: {
       handler() {
         this.$nextTick(() => {
           // 多选
           if (this.multiple) {
-            this.defaultValue = Array.isArray(this.value) ? this.value : this.value ? this.value.split(',') : []
-            this.defaultValue = (this.defaultValue || []).map(item => {
+            this.defaultValue = Array.isArray(this.value)
+              ? this.value
+              : this.value
+                ? this.value.split(',')
+                : []
+            this.defaultValue = (this.defaultValue || []).map((item) => {
               return item
             })
           } else {
-            this.defaultValue = this.value ? { [this.keywords.value]: this.value } : ''
+            this.defaultValue = this.value
+              ? { [this.keywords.value]: this.value }
+              : ''
           }
           this.findLabel()
         })
@@ -215,12 +268,14 @@ export default {
     },
     'table.data': {
       handler(val) {
-        // console.log(789, val)
         this.tableData = val
         this.$nextTick(() => {
-          this.tableData && this.tableData.length > 0 && this.tableData.forEach(item => {
-            this.tabularMap[item[this.keywords.value]] = item[this.keywords.label]
-          })
+          this.tableData &&
+            this.tableData.length > 0 &&
+            this.tableData.forEach((item) => {
+              this.tabularMap[item[this.keywords.value]] =
+                item[this.keywords.label]
+            })
           this.findLabel()
         })
       },
@@ -229,12 +284,70 @@ export default {
     }
   },
   methods: {
+    // 解决内嵌select选中后外层下拉框消失问题
+    selectVisibleChange(value) {
+      if (value) {
+        this.documentHandler = this.$refs.select.$el['@@clickoutsideContext'].documentHandler
+        this.$refs.select.$el['@@clickoutsideContext'].documentHandler = (mouseup = {}, mousedown = {}) => { }
+      } else {
+        this.$refs.select.$el['@@clickoutsideContext'].documentHandler = this.documentHandler
+      }
+    },
+    // 单选键盘事件
+    selectKeyup(e) {
+      if (!this.multiple) {
+        if (!this.isKeyup) return
+        if (this.tableData.length === 0) return
+        let refsElTable = this.$refs['el-table']
+        switch (e.keyCode) {
+          case 40: // 下键
+            if (this.tableData[this.nowIndex * 1 + 1] !== undefined) {
+              refsElTable.setCurrentRow(this.tableData[this.nowIndex * 1 + 1])
+              this.nowIndex = this.nowIndex * 1 + 1
+            } else {
+              this.nowIndex = 0
+              refsElTable.setCurrentRow(this.tableData[0])
+            }
+            break
+          case 38: // 上键
+            if (this.tableData[this.nowIndex * 1 - 1] !== undefined && this.nowIndex > 0) {
+              refsElTable.setCurrentRow(this.tableData[this.nowIndex * 1 - 1])
+              this.nowIndex = this.nowIndex * 1 - 1
+            } else {
+              this.nowIndex = 0
+              refsElTable.setCurrentRow(this.tableData[0])
+            }
+            break
+          case 13: // 回车
+            // if (!this.multiple) {
+            // this.isDefaultSelectVal = false
+            // const row = this.tableData[0]
+            // let rowIndex
+            // // eslint-disable-next-line no-unused-expressions
+            // this.table?.data.forEach((item, index) => {
+            //   if (item[this.keywords.value] === row[this.keywords.value]) {
+            //     rowIndex = index
+            //   }
+            // })
+            // this.isForbidden()
+            // this.radioVal = rowIndex + 1
+            // this.defaultValue = row
+            // this.$emit('radioChange', row, row[this.keywords.value])
+            // this.blur()
+            // console.log('回车--', this.tableData[this.nowIndex])
+            this.tableData[this.nowIndex] && this.rowClick(this.tableData[this.nowIndex])
+            // this.$emit('selectedCompany', this.tableData[this.nowIndex])
+            // }
+            break
+        }
+      }
+    },
     // 搜索过滤
-    filterMethod(val) {
+    filterMethodHandle(val) {
       if (!this.filterable) return
       const tableData = JSON.parse(JSON.stringify(this.table?.data))
       if (tableData && tableData.length > 0) {
-        this.tableData = tableData.filter(item => {
+        this.tableData = tableData.filter((item) => {
           if (item[this.keywords.label].includes(val)) {
             return item
           }
@@ -260,16 +373,19 @@ export default {
     // 表格显示隐藏回调
     visibleChange(visible) {
       if (visible) {
+        if (this.defaultSelectVal && this.isDefaultSelectVal) {
+          this.defaultSelect(this.defaultSelectVal)
+        }
         this.initTableData()
       } else {
-        // console.log('visibleChange---消失')
         this.findLabel()
-        this.filterMethod('')
+        this.filterMethodHandle('')
       }
     },
     handlesSelectionChange(val) {
-      this.defaultValue = val.map(item => item[this.keywords.label])
-      this.ids = val.map(item => item[this.keywords.value])
+      this.isDefaultSelectVal = false
+      this.defaultValue = val.map((item) => item[this.keywords.label])
+      this.ids = val.map((item) => item[this.keywords.value])
       this.$emit('selectionChange', val, this.ids)
     },
     // 获取表格数据
@@ -277,15 +393,23 @@ export default {
       // 表格默认赋值
       this.$nextTick(() => {
         if (this.multiple) {
-          this.defaultValue.forEach(row => {
-            const arr = this.tableData.filter(item => item[this.keywords.value] === row[this.keywords.value])
+          this.defaultValue.forEach((row) => {
+            const arr = this.tableData.filter(
+              (item) => item[this.keywords.value] === row[this.keywords.value]
+            )
             if (arr.length > 0) {
               this.$refs['el-table'].toggleRowSelection(arr[0], true)
             }
           })
         } else {
-          const arr = this.tableData.filter(item => item[this.keywords.value] === this.defaultValue[this.keywords.value])
-          this.$refs['el-table'].setCurrentRow(arr[0])
+          const arr = this.tableData.filter(
+            (item) =>
+              item[this.keywords.value] ===
+              this.defaultValue[this.keywords.value]
+          )
+          if (arr.length > 0) {
+            this.$refs['el-table'].setCurrentRow(arr[0])
+          }
         }
       })
     },
@@ -301,7 +425,8 @@ export default {
         } else {
           if (this.$refs.select) {
             // console.log('this.defaultValue---findLabel', this.defaultValue)
-            this.$refs.select.selectedLabel = this.defaultValue[this.keywords.label] || ''
+            this.$refs.select.selectedLabel =
+              this.defaultValue[this.keywords.label] || ''
           }
         }
       })
@@ -309,15 +434,62 @@ export default {
     // 双击复制单元格内容
     cellDblclick(row, column) {
       let label = row[column.property]
-      this.$copyText(label).then(() => {
-        this.$message.success('已复制')
-      }, () => {
-        this.$message.error('复制失败')
-      })
+      this.$copyText(label).then(
+        () => {
+          this.$message.success('已复制')
+        },
+        () => {
+          this.$message.error('复制失败')
+        }
+      )
+    },
+    // 默认选中（且只能默认选中第一页的数据）
+    defaultSelect(defaultSelectVal) {
+      if (typeof defaultSelectVal === 'object' && this.multiple) {
+        let multipleList = []
+        defaultSelectVal.map((val) => {
+          this.tableData.forEach((row) => {
+            if (val === row[this.keywords.value]) {
+              multipleList.push(row)
+            }
+          })
+        })
+        setTimeout(() => {
+          this.defaultValue = multipleList.map(
+            (item) => item[this.keywords.label]
+          )
+          multipleList.forEach((row) => {
+            const arr = this.tableData.filter(
+              (item) => item[this.keywords.value] === row[this.keywords.value]
+            )
+            if (arr.length > 0) {
+              this.$refs['el-table'].toggleRowSelection(arr[0], true)
+            }
+          })
+          this.$refs.select.selected.forEach((item) => {
+            item.currentLabel = item.value
+          })
+        }, 0)
+      } else {
+        let row, index
+        this.tableData.map((val, i) => {
+          if (val[this.keywords.value] === defaultSelectVal) {
+            row = val
+            index = i
+          }
+        })
+        this.radioVal = index + 1
+        this.defaultValue = row
+        setTimeout(() => {
+          this.$refs.select.selectedLabel = row[this.keywords.label]
+        }, 0)
+      }
     },
     // 点击单选框单元格触发事件
-    radioChange(row, index) {
-      this.radioClick(row, index)
+    radioChangeHandle(row, index) {
+      console.log('不是单选框事件，而是rowClick事件')
+      this.isDefaultSelectVal = false
+      // this.radioClick(row, index)
     },
     // forbidden取值
     isForbidden() {
@@ -362,8 +534,9 @@ export default {
             rowIndex = index
           }
         })
+        this.isDefaultSelectVal = false
         await this.radioClick(row, rowIndex + 1)
-        // console.log('单击行', row, this.radioVal)
+        // console.log('rowClick---', row, rowIndex)
         if (this.radioVal) {
           this.isRadio = true
         } else {
@@ -373,7 +546,9 @@ export default {
     },
     // tags删除后回调
     removeTag(tag) {
-      const row = this.tableData.find(item => item[this.keywords.label] === tag)
+      const row = this.tableData.find(
+        (item) => item[this.keywords.label] === tag
+      )
       this.$refs['el-table'].toggleRowSelection(row, false)
     },
     // 清空后的回调
@@ -381,6 +556,9 @@ export default {
       if (this.multiple) {
         this.$refs['el-table'].clearSelection()
       } else {
+        // 取消高亮
+        this.$refs['el-table'].setCurrentRow(-1)
+        this.nowIndex = -1
         this.radioVal = ''
         this.forbidden = false
       }
@@ -436,8 +614,35 @@ export default {
       }
     }
   }
+  // 键盘事件开启选择高亮
+  .keyUpStyle {
+    ::v-deep tbody {
+      .el-table__row {
+        cursor: pointer;
+      }
+      .current-row td {
+        cursor: pointer;
+        color: #409eff;
+      }
+    }
+  }
+
+  .t-table-select__table {
+    ::v-deep tbody {
+      .keyup-hover-row {
+        color: red;
+      }
+    }
+  }
+
   .t-table-select__table {
     padding: 10px;
+    .table_query_condition {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 10px;
+    }
   }
 
   .t-table-select__page {

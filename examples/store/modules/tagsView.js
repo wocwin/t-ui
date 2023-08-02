@@ -124,7 +124,7 @@ const actions = {
   },
   delOthersCachedViews({ commit, state }, view) {
     return new Promise(resolve => {
-      commit('DEL_OTHERS_CACHED_VIEWS ', view)
+      commit('DEL_OTHERS_CACHED_VIEWS', view)
       resolve([...state.cachedViews])
     })
   },

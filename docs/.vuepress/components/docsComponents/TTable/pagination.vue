@@ -1,12 +1,12 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" isShowPagination :columns="columns" />
+    <t-table :table="table" isShowPagination :columns="columns" :page-sizes="[20,50,100,200 ]" />
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       table: {
         total: 0,

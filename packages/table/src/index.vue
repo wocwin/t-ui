@@ -2,7 +2,7 @@
   <div class="t-table" id="t_table">
     <div class="header_wrap">
       <div class="header_title">
-        {{title}}
+        {{ title }}
         <slot name="title" />
       </div>
       <div class="toolbar_top">
@@ -12,10 +12,10 @@
             v-for="(item, index) in getToolbarBtn"
             :key="index"
             @click="toolbarFun(item)"
-            :icon="item.icon?item.icon:''"
-            :type="item.type||'primary'"
+            :icon="item.icon ? item.icon : ''"
+            :type="item.type || 'primary'"
             size="small"
-          >{{item.text}}</el-button>
+          >{{ item.text }}</el-button>
           <el-popover
             ref="popoverClose"
             popper-class="operator_popover operator_pop"
@@ -29,7 +29,7 @@
                 v-for="(item, index) in getToolbarDown"
                 :key="index"
                 @click="toolbarFun(item)"
-              >{{item.text}}</li>
+              >{{ item.text }}</li>
             </ul>
             <el-button size="small" type="primary" icon="el-icon-setting" slot="reference">
               操作
@@ -39,13 +39,13 @@
         </div>
         <slot name="toolbar"></slot>
         <!--列设置按钮-->
-        <div class="header_right_wrap" :style="{marginLeft:isShow('toolbar')?'12px':0}">
+        <div class="header_right_wrap" :style="{ marginLeft: isShow('toolbar') ? '12px' : 0 }">
           <slot name="btn" />
           <column-set
             v-if="columnSetting"
             v-bind="$attrs"
             :columns="columns"
-            @columnSetting="v => columnSet = v"
+            @columnSetting="(v) => (columnSet = v)"
           />
         </div>
       </div>
@@ -53,12 +53,18 @@
     <el-table
       ref="el-table"
       :data="tableData"
-      :class="{'cursor':isCopy,'highlightCurrentRow':highlightCurrentRow,'radioStyle':(table.firstColumn&&table.firstColumn.type==='radio'),'treeProps':isShowTreeStyle}"
+      :class="{
+        cursor: isCopy,
+        row_sort: isRowSort,
+        highlightCurrentRow: highlightCurrentRow,
+        radioStyle: table.firstColumn && table.firstColumn.type === 'radio',
+        treeProps: isShowTreeStyle,
+      }"
       v-bind="$attrs"
       v-on="$listeners"
       :highlight-current-row="highlightCurrentRow"
-      :border="table.border||isTableBorder"
-      :span-method="spanMethod||objectSpanMethod"
+      :border="table.border || isTableBorder"
+      :span-method="spanMethod || objectSpanMethod"
       :cell-class-name="cellClassNameFuc"
       @sort-change="soltHandle"
       @row-click="rowClick"
@@ -68,68 +74,75 @@
       <div v-if="table.firstColumn">
         <!-- 复选框 -->
         <el-table-column
+          :selectable="table.firstColumn.selectable"
           :type="table.firstColumn.type"
-          :width="table.firstColumn.width||50"
+          :width="table.firstColumn.width || 50"
           :label="table.firstColumn.label"
           :fixed="table.firstColumn.fixed"
-          :reserve-selection="table.firstColumn.isPaging||false"
-          :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='selection'"
+          :reserve-selection="table.firstColumn.isPaging || false"
+          :align="table.firstColumn.align || 'center'"
+          v-if="table.firstColumn.type === 'selection'"
         ></el-table-column>
         <!-- 单选框 -->
         <el-table-column
           :type="table.firstColumn.type"
-          :width="table.firstColumn.width||50"
+          :width="table.firstColumn.width || 50"
           :label="table.firstColumn.label"
           :fixed="table.firstColumn.fixed"
-          :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='radio'"
+          :align="table.firstColumn.align || 'center'"
+          v-if="table.firstColumn.type === 'radio'"
         >
           <template slot-scope="scope">
             <el-radio
               v-model="radioVal"
-              :label="scope.$index+1"
-              @click.native.prevent="radioChange(scope.row,scope.$index+1)"
+              :label="scope.$index + 1"
+              @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
             ></el-radio>
           </template>
         </el-table-column>
         <!-- 序列号 -->
         <el-table-column
           :type="table.firstColumn.type"
-          :width="table.firstColumn.width||50"
+          :width="table.firstColumn.width || 50"
           :label="table.firstColumn.label"
           :fixed="table.firstColumn.fixed"
-          :align="table.firstColumn.align||'center'"
-          v-if="table.firstColumn.type==='index'"
+          :align="table.firstColumn.align || 'center'"
+          v-if="table.firstColumn.type === 'index'"
         >
           <template slot-scope="scope">
-            <span>{{isShowPagination?((table.currentPage - 1) * table.pageSize + scope.$index + 1):scope.$index +1}}</span>
+            <span>
+              {{
+              isShowPagination
+              ? (table.currentPage - 1) * table.pageSize + scope.$index + 1
+              : scope.$index + 1
+              }}
+            </span>
           </template>
         </el-table-column>
       </div>
       <!-- 主体内容 -->
-      <template v-for="(item,index) in renderColumns">
+      <template v-for="(item, index) in renderColumns">
         <template v-if="!item.children">
           <!-- 常规表头-->
           <el-table-column
-            v-if="item.isShowCol===false?item.isShowCol:true"
-            :key="index+'i'"
+            v-if="item.isShowCol === false ? item.isShowCol : true"
+            :key="index + 'i'"
             :type="item.type"
             :label="item.label"
             :prop="item.prop"
             :min-width="item['min-width'] || item.minWidth || item.width"
-            :sortable="item.sort||sortable"
+            :sortable="item.sort || sortable"
             :align="item.align || 'center'"
             :fixed="item.fixed"
-            :show-overflow-tooltip="!item.noShowTip?true:false"
-            v-bind="{...item.bind,...$attrs}"
+            :show-overflow-tooltip="!item.noShowTip ? true : false"
+            v-bind="{ ...item.bind, ...$attrs }"
             v-on="$listeners"
           >
-            <template #header v-if="item.headerRequired||item.renderHeader">
+            <template #header v-if="item.headerRequired || item.renderHeader">
               <render-header v-if="item.renderHeader" :column="item" :render="item.renderHeader" />
               <div style="display: inline" v-if="item.headerRequired">
-                <span style="color: #F56C6C;fontSize: 16px;marginRight: 3px;">*</span>
-                <span>{{item.label}}</span>
+                <span style="color: #f56c6c; fontsize: 16px; marginright: 3px">*</span>
+                <span>{{ item.label }}</span>
               </div>
             </template>
             <template slot-scope="scope">
@@ -160,15 +173,21 @@
                 <template v-if="item.canEdit">
                   <el-form
                     :model="tableData[scope.$index]"
-                    :rules="isEditRules?table.rules:{}"
-                    :ref="`formRef-${scope.$index}-${item.prop||scope.column.property}`"
+                    :rules="isEditRules ? table.rules : {}"
+                    class="t_edit_cell_form"
+                    :ref="`formRef-${scope.$index}-${
+                      item.prop || scope.column.property
+                    }`"
                   >
                     <single-edit-cell
                       :configEdit="item.configEdit"
                       v-model="scope.row[scope.column.property]"
                       :prop="item.prop"
                       :record="scope"
-                      @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
+                      @handleEvent="
+                        (event, model) =>
+                          $emit('handleEvent', event, model, scope.$index)
+                      "
                       @Keyup="handleKeyup"
                       v-on="$listeners"
                       v-bind="$attrs"
@@ -186,18 +205,36 @@
                   </el-form>
                 </template>
                 <!-- 字典过滤 -->
-                <template v-if="item.filters&&item.filters.list">
-                  {{scope.row[item.prop]
-                  |constantEscape(table.listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}
+                <template v-if="item.filters && item.filters.list">
+                  {{
+                  scope.row[item.prop]
+                  | constantEscape(
+                  table.listTypeInfo[item.filters.list],
+                  item.filters.key || "dictValue",
+                  item.filters.label || "dictLabel"
+                  )
+                  }}
                 </template>
                 <div
-                  v-if="!item.render&&!item.slotName&&!item.customRender&&!item.canEdit&&!item.filters"
-                  :style="{color:txtChangeColor(scope)}"
+                  v-if="
+                    !item.render &&
+                    !item.slotName &&
+                    !item.customRender &&
+                    !item.canEdit &&
+                    !item.filters
+                  "
+                  :style="{ color: txtChangeColor(scope) }"
                 >
-                  <span
-                    v-if="isObjShowProp"
-                  >{{item.prop.includes('.')?scope.row[item.prop.split('.')[0]][item.prop.split('.')[1]]:scope.row[item.prop]}}</span>
-                  <span v-else>{{scope.row[item.prop]}}</span>
+                  <span v-if="isObjShowProp">
+                    {{
+                    item.prop.includes(".")
+                    ? scope.row[item.prop.split(".")[0]][
+                    item.prop.split(".")[1]
+                    ]
+                    : scope.row[item.prop]
+                    }}
+                  </span>
+                  <span v-else>{{ scope.row[item.prop] }}</span>
                 </div>
               </template>
               <template v-else>
@@ -218,7 +255,14 @@
           </el-table-column>
         </template>
         <!-- 表头合并单元格 -->
-        <t-table-column v-else :key="index+'i'" :item="item" />
+        <t-table-column v-else :key="index + 'i'" :item="item">
+          <template v-for="(index, name) in $slots" v-slot:[name]>
+            <slot :name="name" />
+          </template>
+          <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+            <slot :name="name" v-bind="data"></slot>
+          </template>
+        </t-table-column>
       </template>
       <slot></slot>
       <!-- 操作按钮 -->
@@ -226,8 +270,14 @@
         v-if="table.operator"
         :fixed="table.operatorConfig && table.operatorConfig.fixed"
         :label="(table.operatorConfig && table.operatorConfig.label) || '操作'"
-        :min-width="(table.operatorConfig && (table.operatorConfig.width || table.operatorConfig.minWidth)) || 100"
-        :align="table.operatorConfig && table.operatorConfig.align||'center'"
+        :min-width="
+          (table.operatorConfig &&
+            (table.operatorConfig.width || table.operatorConfig.minWidth)) ||
+          100
+        "
+        :align="
+          (table.operatorConfig && table.operatorConfig.align) || 'center'
+        "
         class-name="operator"
       >
         <template slot-scope="scope">
@@ -235,13 +285,13 @@
             <el-button
               v-for="(item, index) in table.operator"
               :key="index"
-              @click="item.fun&&item.fun(scope.row,scope.$index,tableData)"
-              :type="item.type||'text'"
+              @click="item.fun && item.fun(scope.row, scope.$index, tableData)"
+              :type="item.type || 'text'"
               :style="item.style"
-              :icon="item.icon?item.icon:''"
+              :icon="item.icon ? item.icon : ''"
               :disabled="item.disabled"
               size="small"
-              v-show="checkIsShow(scope,item)"
+              v-show="checkIsShow(scope, item)"
             >
               <!-- customRender渲染 -->
               <template v-if="item.customRender">
@@ -261,30 +311,42 @@
                   :index="scope.$index"
                 />
               </template>
-              <span v-if="!item.render&&!item.customRender">{{item.text}}</span>
+              <span v-if="!item.render && !item.customRender">
+                {{
+                item.text
+                }}
+              </span>
             </el-button>
           </div>
         </template>
       </el-table-column>
     </el-table>
     <div v-if="isEdit" class="edit_cell">
-      <el-button type="dashed" block size="small" @click="() => $emit('add')">{{cellEditBtnTxt}}</el-button>
+      <el-button type="dashed" block size="small" @click="() => $emit('add')">
+        {{
+        cellEditBtnTxt
+        }}
+      </el-button>
     </div>
     <!-- 分页器 -->
     <el-pagination
-      v-show="(tableData && tableData.length) && isShowPagination"
+      v-show="tableData && tableData.length && isShowPagination"
       :current-page="table.currentPage"
       @current-change="handlesCurrentChange"
-      :page-sizes="[10, 20, 50, 100]"
+      :page-sizes="pageSizes"
       :page-size="table.pageSize"
-      :layout="size?'total, prev, pager, next':'total, sizes, prev, pager, next, jumper'"
+      :layout="
+        layoutSize
+          ? 'total, prev, pager, next'
+          : 'total, sizes, prev, pager, next, jumper'
+      "
       :total="table.total"
       v-bind="$attrs"
       v-on="$listeners"
       background
     ></el-pagination>
     <!-- 表格底部按钮 -->
-    <footer class="handle_wrap" v-if="isShowFooterBtn&&(tableData&&tableData.length>0)">
+    <footer class="handle_wrap" v-if="isShowFooterBtn && tableData && tableData.length > 0">
       <slot name="footer" />
       <div v-if="!$slots.footer">
         <el-button type="primary" @click="save">保存</el-button>
@@ -301,6 +363,8 @@ import TTableColumn from './TTableColumn.vue'
 import RenderCol from './renderCol.vue'
 import RenderHeader from './renderHeader.vue'
 import OptComponent from './OptComponent.vue'
+import { constantEscape } from '../../utils'
+import Sortable from 'sortablejs'
 export default {
   name: 'TTable',
   components: {
@@ -383,7 +447,7 @@ export default {
       default: false
     },
     // 是否需要显示切换页条数
-    size: {
+    layoutSize: {
       type: Boolean,
       default: false
     },
@@ -421,6 +485,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否开启行拖拽
+    isRowSort: {
+      type: Boolean,
+      default: false
+    },
     // 是否开启点击整行选中单选框
     rowClickRadio: {
       type: Boolean,
@@ -451,6 +520,13 @@ export default {
     // 按钮权限store.getters接收字段
     btnPermissions: {
       type: String
+    },
+    // 每页显示个数选择器的选项设置
+    pageSizes: {
+      type: Array,
+      default: () => {
+        return [10, 20, 50, 100]
+      }
     }
   },
   data() {
@@ -480,6 +556,7 @@ export default {
   activated() {
     // 缓存激活时可能出现冻结列行高不一致问题，强制刷新
     this.$refs['el-table'] && this.$refs['el-table'].$forceUpdate()
+    this.extendMethod()
   },
   computed: {
     columnByProp() {
@@ -489,12 +566,14 @@ export default {
       }, {})
     },
     renderColumns() {
-      return this.columnSet.length > 0 ? this.columnSet.reduce((acc, cur) => {
-        if (!cur.hidden) {
-          acc.push(this.columnByProp[cur.prop])
-        }
-        return acc
-      }, []) : this.columns
+      return this.columnSet.length > 0
+        ? this.columnSet.reduce((acc, cur) => {
+          if (!cur.hidden) {
+            acc.push(this.columnByProp[cur.prop])
+          }
+          return acc
+        }, [])
+        : this.columns
     },
     // 按钮权限数组
     btnPremList() {
@@ -503,26 +582,62 @@ export default {
     // 判断如果有表头合并就自动开启单元格缩放
     isTableBorder() {
       // console.log(789, this.renderColumns.some(item => item.children))
-      return this.renderColumns.some(item => item.children)
+      return this.renderColumns.some((item) => item.children)
     },
     getToolbarBtn() {
       return this.table.toolbar ? this.table.toolbar.slice(0, 3) : []
     },
     getToolbarDown() {
-      return this.getToolbarBtn.length === 3 ? this.table.toolbar.slice(3, this.table.toolbar.length) : []
+      return this.getToolbarBtn.length === 3
+        ? this.table.toolbar.slice(3, this.table.toolbar.length)
+        : []
     },
     // 单元格编辑是否存在校验
     isEditRules() {
-      return (this.table.rules && Object.keys(this.table.rules).length > 0) || this.columns.some(item => item?.configEdit?.rules)
+      return (
+        (this.table.rules && Object.keys(this.table.rules).length > 0) ||
+        this.columns.some((item) => item?.configEdit?.rules)
+      )
     }
+  },
+  // 过滤器
+  filters: {
+    constantEscape
   },
   mounted() {
     // 设置默认选中项（单选）
     if (this.defaultRadioCol) {
       this.defaultRadioSelect(this.defaultRadioCol)
     }
+    this.extendMethod()
+    this.initSort()
   },
   methods: {
+    // 行拖拽
+    initSort() {
+      if (!this.isRowSort) return
+      const el = this.$refs['el-table'].$el.querySelector(
+        '.el-table__body-wrapper > table > tbody'
+      )
+      // eslint-disable-next-line no-new
+      new Sortable(el, {
+        animation: 150, // 动画
+        onEnd: (evt) => {
+          const curRow = this.tableData.splice(evt.oldIndex, 1)[0]
+          this.tableData.splice(evt.newIndex, 0, curRow)
+          this.$emit('rowSort', this.tableData)
+        }
+      })
+    },
+    // 继承el-table的Method
+    extendMethod() {
+      const refMethod = Object.entries(this.$refs['el-table'])
+      for (const [key, value] of refMethod) {
+        if (!(key.includes('$') || key.includes('_'))) {
+          this[key] = value
+        }
+      }
+    },
     // 单元格编辑键盘事件
     handleKeyup(event, index, key) {
       if (!this.isKeyup) return
@@ -563,7 +678,7 @@ export default {
       }
       // 回车横向 向右移动
       if (event.keyCode === 13) {
-        let keyName = this.columns.map(val => val.prop)
+        let keyName = this.columns.map((val) => val.prop)
         let num = 0
         if (key === keyName[keyName.length - 1]) {
           if (index === this.copyTableData.length - 1) {
@@ -598,7 +713,13 @@ export default {
       if (!this.isTableColumnHidden) {
         return false
       }
-      if (this.tableData.length - ((this.tableData.length - this.table.pageSize) < 0 ? 1 : (this.tableData.length - this.table.pageSize)) <= rowIndex) {
+      if (
+        this.tableData.length -
+        (this.tableData.length - this.table.pageSize < 0
+          ? 1
+          : this.tableData.length - this.table.pageSize) <=
+        rowIndex
+      ) {
         return 'table_column_hidden'
       }
     },
@@ -656,7 +777,7 @@ export default {
       let sortingType = column.order
       // 降序
       if (sortingType === 'descending') {
-        this.tableData.forEach(item => {
+        this.tableData.forEach((item) => {
           // 在整个tableData中找到不参与排序的所有数据
           // eslint-disable-next-line no-eval
           if (eval(this.notSortJudge)) {
@@ -677,7 +798,7 @@ export default {
         })
         this.tableData = [...this.tableData, ...freeGood]
       } else {
-        this.tableData.forEach(item => {
+        this.tableData.forEach((item) => {
           // eslint-disable-next-line no-eval
           if (eval(this.notSortJudge)) {
             freeGood.push(item)
@@ -695,51 +816,37 @@ export default {
         this.tableData = [...this.tableData, ...freeGood]
       }
     },
-    // 清空排序条件
-    clearSort() {
-      this.$refs['el-table'].clearSort()
-    },
-    // 对 Table 进行重新布局
-    doLayout() {
-      this.$refs['el-table'].doLayout()
-    },
-    // 取消/开启某一项是否选中
-    toggleRowSelection(row, selected = false) {
-      this.$refs['el-table'].toggleRowSelection(row, selected)
-    },
-    // 清空复选框
-    clearSelection() {
-      this.$refs['el-table'].clearSelection()
-    },
     // 单行编辑&整行编辑返回数据
     save() {
       if (!this.isEditRules) {
         this.$emit('save', this.tableData)
         return this.tableData
       }
-      /**
-       * 表单规则校验
-       */
+      // 表单规则校验
       let successLength = 0
       let rulesList = []
       let rulesError = []
       let propError = []
       let propLabelError = []
       // 获取所有的form ref
-      const refList = Object.keys(this.$refs).filter(item => item.includes('formRef'))
+      const refList = Object.keys(this.$refs).filter((item) =>
+        item.includes('formRef')
+      )
       // 获取单独设置规则项
-      const arr = this.renderColumns.filter(val => {
-        if (val.configEdit?.rules) {
-          return val
-        }
-      }).map(item => item.prop)
+      const arr = this.renderColumns
+        .filter((val) => {
+          if (val.configEdit?.rules) {
+            return val
+          }
+        })
+        .map((item) => item.prop)
       // 获取整体设置规则
       const arr1 = this.table.rules && Object.keys(this.table.rules)
       // 获取最终设置了哪些规则（其值是设置的--prop）
       const newArr = [...arr, ...arr1]
       // 最终需要校验的ref
-      newArr.map(val => {
-        refList.map(item => {
+      newArr.map((val) => {
+        refList.map((item) => {
           if (item.includes(val)) {
             rulesList.push(item)
           }
@@ -747,8 +854,8 @@ export default {
       })
       console.log('最终需要校验的数据', rulesList)
       // 表单都校验
-      rulesList.map(val => {
-        this.$refs[val].map(item => {
+      rulesList.map((val) => {
+        this.$refs[val].map((item) => {
           item.validate((valid) => {
             if (valid) {
               // 解决 <el-table-column> 加上fixed 属性后<el-table-body>重复渲染问题
@@ -771,16 +878,16 @@ export default {
         }
       } else {
         // 校验未通过的prop
-        rulesError.map(item => {
-          newArr.map(val => {
+        rulesError.map((item) => {
+          newArr.map((val) => {
             if (item.includes(val)) {
               propError.push(val)
             }
           })
         })
         // 去重获取校验未通过的prop--label
-        Array.from(new Set(propError)).map(item => {
-          this.renderColumns.map(val => {
+        Array.from(new Set(propError)).map((item) => {
+          this.renderColumns.map((val) => {
             if (item === val.prop) {
               propLabelError.push(val.label)
             }
@@ -792,18 +899,22 @@ export default {
     },
     // 清空校验规则
     clearValidate() {
-      const refList = Object.keys(this.$refs).filter(item => item.includes('formRef'))
-      refList.map(val => {
-        this.$refs[val].map(item => {
+      const refList = Object.keys(this.$refs).filter((item) =>
+        item.includes('formRef')
+      )
+      refList.map((val) => {
+        this.$refs[val].map((item) => {
           item.clearValidate()
         })
       })
     },
     // 表单进行重置并移除校验结果
     resetFields() {
-      const refList = Object.keys(this.$refs).filter(item => item.includes('formRef'))
-      refList.map(val => {
-        this.$refs[val].map(item => {
+      const refList = Object.keys(this.$refs).filter((item) =>
+        item.includes('formRef')
+      )
+      refList.map((val) => {
+        this.$refs[val].map((item) => {
           item.resetFields()
         })
       })
@@ -818,7 +929,9 @@ export default {
       // 头部标题是否需要加头部必填*符号
       return (
         <div style="display: inline">
-          <span style="color: '#F56C6C',fontSize: '16px',marginRight: '3px'">*</span>
+          <span style="color: '#F56C6C',fontSize: '16px',marginRight: '3px'">
+            *
+          </span>
           <span>{column.label}</span>
         </div>
       )
@@ -830,26 +943,38 @@ export default {
       }
       let label
       if (this.isObjShowProp) {
-        label = column.property.includes('.') ? row[column.property.split('.')[0]][column.property.split('.')[1]] : row[column.property]
+        label = column.property.includes('.')
+          ? row[column.property.split('.')[0]][column.property.split('.')[1]]
+          : row[column.property]
       } else {
         label = row[column.property]
       }
-      this.$copyText(label).then(() => {
-        this.$message.success('已复制')
-      }, () => {
-        this.$message.error('复制失败')
-      })
+      this.$copyText(label).then(
+        () => {
+          this.$message.success('已复制')
+        },
+        () => {
+          this.$message.error('复制失败')
+        }
+      )
     },
     // 是否显示表格操作按钮
     checkIsShow(scope, item) {
       let isNoShow = false
       if (item.noshow) {
-        item.noshow.map(rs => {
-          rs.isShow = typeof rs.val === 'string'
-            ? (rs.val === 'isHadVal' ? (scope.row[rs.key] ? 'true' : 'false') : 'true')
-            : (rs.val.includes(scope.row[rs.key]) ? 'false' : 'true')
+        item.noshow.map((rs) => {
+          rs.isShow =
+            typeof rs.val === 'string'
+              ? rs.val === 'isHadVal'
+                ? scope.row[rs.key]
+                  ? 'true'
+                  : 'false'
+                : 'true'
+              : rs?.val?.includes(scope.row[rs.key])
+                ? 'false'
+                : 'true'
         })
-        isNoShow = item.noshow.every(key => {
+        isNoShow = item.noshow.every((key) => {
           return key.isShow === 'true'
         })
       } else {
@@ -857,9 +982,11 @@ export default {
       }
       // 单独判断
       let isShow =
-        !item.show || item.show.val.includes(scope.row[item.show.key])
+        !item.show || item?.show?.val?.includes(scope.row[item.show.key])
       // 按钮权限
-      let isPermission = item.hasPermi ? this.btnPremList.includes(item.hasPermi) : true
+      let isPermission = (item.hasPermi && this.btnPermissions)
+        ? this.btnPremList?.includes(item.hasPermi)
+        : true
       // table页面合计
       let totalTxt = Object.values(scope.row).every((key) => {
         return key !== '当页合计'
@@ -872,7 +999,10 @@ export default {
     },
     // 控制表格字体颜色
     txtChangeColor(scope) {
-      if (this.table.changeColor && scope.row[this.table.changeColor.key] === this.table.changeColor.val) {
+      if (
+        this.table.changeColor &&
+        scope.row[this.table.changeColor.key] === this.table.changeColor.val
+      ) {
         return this.table.changeColor.txtStyle
       } else {
         return ''
@@ -1091,14 +1221,17 @@ export default {
   }
 
   // 操作样式
-  .operator_btn {
-    // text-align: left;
-    .el-button {
-      margin: 0;
-      margin-right: 10px;
-      // &:last-child {
-      //   margin-right: 0;
-      // }
+  ::v-deep .el-table {
+    .operator {
+      .operator_btn {
+        .el-button {
+          margin: 0;
+          margin-right: 10px;
+        }
+      }
+      div.cell {
+        visibility: visible;
+      }
     }
   }
 
@@ -1106,7 +1239,14 @@ export default {
   ::v-deep .el-table__fixed-right {
     height: 100% !important;
   }
-
+  // 行拖动
+  .row_sort {
+    ::v-deep tbody {
+      .el-table__row {
+        cursor: move;
+      }
+    }
+  }
   // 复制功能样式
   .cursor {
     ::v-deep tbody {
@@ -1149,7 +1289,15 @@ export default {
       }
     }
   }
-
+  // 单元格编辑表单错误提示样式
+  .t_edit_cell_form {
+    ::v-deep .el-form-item {
+      margin-bottom: 0;
+      .el-form-item__content {
+        line-height: 12px;
+      }
+    }
+  }
   .el-table--scrollable-y .el-table__body-wrapper {
     overflow-x: auto;
   }

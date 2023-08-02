@@ -1,7 +1,9 @@
 <template>
-  <div class="dh-form-demo">
-    <t-form :ref-obj.sync="formOpts.ref" :formOpts="formOpts" :widthSize="1" />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-form :ref-obj.sync="formOpts.ref" :formOpts="formOpts" :widthSize="1" />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>
@@ -23,10 +25,10 @@ export default {
           status: null // *状态: 0：停用，1：启用(默认为1)',
         },
         fieldList: [
-          { label: '性别', value: 'sex', placeholder: 'TSelect单选', type: 'select-arr', comp: 't-select', bind: { valueKey: 'value' } },
-          { label: '状态', value: 'status', placeholder: 'TSelect单选', type: 'select-arr', comp: 't-select', bind: { valueKey: 'value' } },
-          { label: '爱好', value: 'hobby', placeholder: 'TSelect多选', type: 'select-arr', comp: 't-select', list: 'hobbyList', bind: { multiple: true, valueKey: 'value' } },
-          { label: '年份', value: 'createDate', placeholder: 'TDatePicker选择年份', bind: { type: 'year' }, comp: 't-date-picker' },
+          { label: '性别', value: 'sex', placeholder: 'TSelect单选', type: 'select-arr', comp: 't-select', list: 'sexList', arrLabel: 'label', arrKey: 'key', bind: {} },
+          { label: '状态', value: 'status', placeholder: 'TSelect单选', type: 'select-arr', comp: 't-select', list: 'statusList', arrLabel: 'label', arrKey: 'key', bind: {} },
+          { label: '爱好', value: 'hobby', placeholder: 'TSelect多选', type: 'select-arr', comp: 't-select', list: 'hobbyList', arrLabel: 'label', arrKey: 'key', bind: { multiple: true } },
+          { label: '年份', value: 'createDate', placeholder: 'TDatePicker选择年份', type: 'year', bind: { type: 'year' }, comp: 't-date-picker' },
           { label: '月份范围', value: 'valDate1', comp: 't-date-picker', bind: { type: 'monthrange', isPickerOptions: true } },
           { label: '日期范围', value: 'valDate2', comp: 't-date-picker', bind: { type: 'daterange', isPickerOptions: true } },
           { label: '时间范围', value: 'valDate3', comp: 't-date-picker', bind: { type: 'datetimerange', isPickerOptions: true } },
@@ -35,11 +37,13 @@ export default {
         operatorList: [
           { label: '提交', type: 'danger', fun: this.submitForm },
           { label: '重置', type: 'primary', fun: this.resetForm },
-        ]
+        ],
+        listTypeInfo: {
+          hobbyList: [],
+          sexList: [],
+          statusList: [],
+        }
       },
-      hobbyList: [],
-      sexList: [],
-      statusList: [],
     }
   },
   created() {
@@ -48,34 +52,21 @@ export default {
   // 方法
   methods: {
     getSelectList() {
-      this.hobbyList = [
-        { label: '吉他', value: '0' },
-        { label: '看书', value: '1' },
-        { label: '美剧', value: '2' },
-        { label: '旅游', value: '3' },
-        { label: '音乐', value: '4' }
+      this.formOpts.listTypeInfo.hobbyList = [
+        { label: '吉他', key: '0' },
+        { label: '看书', key: '1' },
+        { label: '美剧', key: '2' },
+        { label: '旅游', key: '3' },
+        { label: '音乐', key: '4' }
       ]
-      this.sexList = [
-        { label: '女', value: 1 },
-        { label: '男', value: 0 }
+      this.formOpts.listTypeInfo.sexList = [
+        { label: '女', key: 1 },
+        { label: '男', key: 0 }
       ]
-      this.statusList = [
-        { label: '启用', value: 1 },
-        { label: '停用', value: 0 }
+      this.formOpts.listTypeInfo.statusList = [
+        { label: '启用', key: 1 },
+        { label: '停用', key: 0 }
       ]
-      this.formOpts.fieldList.map(val => {
-        switch (val.value) {
-          case 'sex':
-            val.bind.optionSource = this.sexList
-            break
-          case 'status':
-            val.bind.optionSource = this.statusList
-            break
-          case 'hobby':
-            val.bind.optionSource = this.hobbyList
-            break
-        }
-      })
     },
     // 提交form表单
     submitForm() {

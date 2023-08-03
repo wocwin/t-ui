@@ -858,7 +858,12 @@ export default {
         this.$refs[val].map((item) => {
           item.validate((valid) => {
             if (valid) {
-              successLength = successLength + 1
+              // 解决 <el-table-column> 加上fixed 属性后<el-table-body>重复渲染问题
+              // 两个判断是为了兼容 elementui@2.15.7前后 el-table 不同的实现
+              const isFixedParent = item.$parent.$el.offsetParent.className === 'el-table__fixed-body-wrapper' || item.$parent.$parent.$el.offsetParent.className === 'el-table__fixed-body-wrapper'
+              if (!isFixedParent) {
+                successLength = successLength + 1
+              }
             } else {
               rulesError.push(val)
             }

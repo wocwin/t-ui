@@ -46,7 +46,7 @@ export default {
         ]
       },
       columns: [
-        { prop: 'name', label: '姓名', minWidth: '100' },
+        { prop: 'name', label: '姓名', minWidth: '100', fixed: true },
         { prop: 'date', label: '日期', minWidth: '160' },
         { prop: 'address', label: '地址', minWidth: '220' },
         {

@@ -14,21 +14,7 @@ TForm 表单组件
 />
 //注意:ref-obj(form校验规则相当于ref)必须要‘.sync’修饰符
 ```
-
-### 2. events
-
-| 事件名      | 说明                 | 返回值                                                   |
-| :---------- | :------------------- | :------------------------------------------------------- |
-| handleEvent | 单个查询条件触发事件 | fieldList 中 type/查询条件输入的值/fieldList 中 event 值 |
-
-### 3. Methods
-
-| 事件名        | 说明     | 参数 |
-| :------------ | :------- | :--- |
-| resetFields   | 重置表单 | -    |
-| clearValidate | 清空校验 | -    |
-
-### 4. 配置参数
+### 2. 配置参数
 
 | 参数                | 说明                                                                                                    | 类型         | 默认值      |
 | :------------------ | :------------------------------------------------------------------------------------------------------ | :----------- | :---------- |
@@ -59,9 +45,23 @@ TForm 表单组件
 | ------list          | 下拉选择数据源（仅仅对 type:'select'有效）                                                              | String       | -           |
 | ------event         | 表单每一项事件标志（handleEvent 事件）                                                                  | String       | -           |
 | ------eventHandle   | 继承 comp 组件的事件（返回两个参数，第一个自己自带，第二个 formOpts）                                   | Object       | -           |
+| ------isSelfCom     | 是否使用自己封装的组件（TSelect等---含有下拉框）                                                        | Boolean      | false       |
 | ---formData         | 表单提交数据(对应 fieldList 每一项的 value 值)                                                          | Object       | -           |
 | ---labelWidth       | label 宽度                                                                                              | String       | 120px       |
 | ---rules            | 规则（可依据 elementUI el-form 配置————对应 formData 的值）                                             | Object/Array | -           |
 | ---operatorList     | 操作按钮 list                                                                                           | Array        | -           |
+### 3. events
+
+| 事件名      | 说明                 | 返回值                                                   |
+| :---------- | :------------------- | :------------------------------------------------------- |
+| handleEvent | 单个查询条件触发事件 | fieldList 中 type/查询条件输入的值/fieldList 中 event 值 |
+
+### 4. Methods
+
+| 事件名        | 说明     | 参数 |
+| :------------ | :------- | :--- |
+| resetFields   | 重置表单 | -    |
+| clearValidate | 清空校验 | -    |
+
 
 ### 5. 关于 element-ui el-form/el-form-item 提供的一些属性可直接使用，无需其他配置

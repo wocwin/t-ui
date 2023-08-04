@@ -44,9 +44,9 @@ export default {
         fieldList: [
           { label: '账号', value: 'account', type: 'input', comp: 'el-input', event: 'account' },
           { label: '密码', value: 'password', type: 'password', comp: 'el-input', bind: { 'show-password': true }, isHideItem: false },
-          { label: '性别', value: 'sex', placeholder: 'TSelect单选', type: 'select-arr', comp: 't-select', bind: { valueKey: 'value' } },
-          { label: '状态', value: 'status', placeholder: 'TSelect单选', type: 'select-arr', comp: 't-select', bind: { valueKey: 'value' } },
-          { label: '爱好', value: 'hobby', placeholder: 'TSelect多选', type: 'select-arr', comp: 't-select', list: 'hobbyList', bind: { multiple: true, valueKey: 'value' } },
+          { label: '性别', value: 'sex', placeholder: 'TSelect单选', isSelfCom: true, comp: 't-select', bind: { valueKey: 'value' } },
+          { label: '状态', value: 'status', placeholder: 'TSelect单选', isSelfCom: true, comp: 't-select', bind: { valueKey: 'value' } },
+          { label: '爱好', value: 'hobby', placeholder: 'TSelect多选', isSelfCom: true, comp: 't-select', list: 'hobbyList', bind: { multiple: true, valueKey: 'value' } },
           { label: '年份', value: 'createDate', placeholder: 'TDatePicker选择年份', bind: { type: 'year' }, comp: 't-date-picker' },
           { label: '月份范围', value: 'valDate1', comp: 't-date-picker', bind: { type: 'monthrange', isPickerOptions: true } },
           { label: '日期范围', value: 'valDate2', comp: 't-date-picker', bind: { type: 'daterange', isPickerOptions: true } },

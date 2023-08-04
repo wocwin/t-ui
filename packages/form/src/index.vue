@@ -33,8 +33,33 @@
         <template v-if="item.textShow">
           <span>{{item.textValue||formOpts.formData[item.value]}}</span>
         </template>
+        <template v-if="item.isSelfCom">
+          <component
+            :is="item.comp"
+            v-model="formOpts.formData[item.value]"
+            :placeholder="item.placeholder||getPlaceholder(item)"
+            v-bind="{clearable:true,filterable:true,...item.bind}"
+            :style="{width: item.width||'100%'}"
+            v-on="cEvent(item)"
+          />
+        </template>
+        <!-- <child-component
+          v-if="!item.slotName&&!item.textShow&&!item.isSelfCom"
+          v-bind="item"
+          :item="item"
+          :form="formOpts"
+          :value="formOpts.formData[item.value]"
+          @handleEvent="handleEvent"
+        >
+          <template v-for="(index, name) in $slots" v-slot:[name]>
+            <slot :name="name" />
+          </template>
+          <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+            <slot :name="name" v-bind="data"></slot>
+          </template>
+        </child-component>-->
         <component
-          v-if="!item.slotName&&!item.textShow"
+          v-if="!item.slotName&&!item.textShow&&!item.isSelfCom"
           :is="item.comp"
           v-model="formOpts.formData[item.value]"
           :type="item.comp==='el-input'?item.type||'input':item.type||item.bind.type"
@@ -44,11 +69,8 @@
           :style="{width: item.width||'100%'}"
           v-on="cEvent(item)"
         >
-          <!-- 前置文本 -->
           <template #prepend v-if="item.prepend">{{ item.prepend }}</template>
-          <!-- 后置文本 -->
           <template #append v-if="item.append">{{ item.append }}</template>
-          <!-- 子组件自定义插槽 -->
           <template v-if="item.childSlotName">
             <slot :name="item.childSlotName"></slot>
           </template>
@@ -86,10 +108,12 @@
 </template>
 <script>
 import RenderComp from './renderComp'
+// import ChildComponent from './ChildComponent'
 export default {
   name: 'TForm',
   components: {
     RenderComp
+    // ChildComponent
   },
   props: {
     // 自定义类名
@@ -138,7 +162,7 @@ export default {
         let changeEvent = {}
         Object.keys(event).forEach(v => {
           changeEvent[v] = (e) => {
-            if (e) {
+            if ((typeof e === 'number' && e === 0) || e) {
               event[v] && event[v](e, this.formOpts, arguments)
             } else {
               event[v] && event[v](this.formOpts, arguments)
@@ -256,14 +280,14 @@ export default {
     // 得到placeholder的显示
     getPlaceholder(row) {
       let placeholder
-      // 请输入type
-      const inputArr = ['input', 'textarea', 'inputNumber']
-      // 请选择type
-      const selectArr = ['select-arr', 'time', 'select-obj', 'date']
-      if (inputArr.includes(row.type)) {
-        placeholder = '请输入' + row.label
-      } else if (selectArr.includes(row.type)) {
-        placeholder = '请选择' + row.label
+      if (typeof row.comp === 'string' && row.comp) {
+        if (row.comp.includes('input')) {
+          placeholder = '请输入' + row.label
+        } else if (row.comp.includes('select') || row.comp.includes('date') || row.comp.includes('cascader')) {
+          placeholder = '请选择' + row.label
+        } else {
+          placeholder = row.label
+        }
       } else {
         placeholder = row.label
       }
@@ -274,16 +298,15 @@ export default {
     },
     // 绑定的相关事件
     handleEvent(type, val, item) {
-      // console.log('组件', type, val, item)
+      console.log('组件', type, val, item)
       // 去除前后空格
-      if (this.isTrim && !item.isTrim && item.comp.includes('el-input') && item.type !== 'password') {
+      if (this.isTrim && !item.isTrim && item.comp.includes('el-input') && item.type !== 'password' && item.type !== 'inputNumber') {
         this.formOpts.formData[item.value] = this.formOpts.formData[item.value].trim()
       }
       this.$emit('handleEvent', type, val)
     },
     // 校验
     validate() {
-      console.log('7789')
       return new Promise((resolve, reject) => {
         this.$refs.form.validate(valid => {
           if (valid) {

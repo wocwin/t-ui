@@ -15,6 +15,15 @@
           :value="key"
         ></el-option>
       </template>
+      <!-- 状态子组件自定义插槽 -->
+      <template #status>
+        <el-option
+          v-for="(item,key) in formOpts.listTypeInfo.statusList"
+          :key="key"
+          :label="item.key"
+          :value="item.value"
+        ></el-option>
+      </template>
     </t-form>
   </div>
 </template>
@@ -29,13 +38,15 @@ export default {
         ref: null,
         formData: {
           accountType: '', // *用户类型: 0: 手机注册 1: 论坛注册 2: 管理平台添加
-          email: '', // 邮箱
+          wechat: '', // 微信
           desc: '', // 描述
+          status: '', // 状态
         },
         fieldList: [
-          { label: '平台用户', placeholder: '自定义option插槽', value: 'accountType', type: 'select-obj', comp: 'el-select', list: 'accountTypeList', childSlotName: 'accountType' },
+          { label: '平台用户', placeholder: '对象自定义option插槽', value: 'accountType', type: 'select-obj', comp: 'el-select', childSlotName: 'accountType' },
+          { label: '状态', placeholder: '数组自定义option插槽', value: 'status', type: 'select-arr', comp: 'el-select', childSlotName: 'status' },
           { label: '微信', value: 'wechat', slotName: 'wechat' },
-          { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', className: 't-form-block' }
+          { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', widthSize: 1 }
         ],
         operatorList: [
           { label: '提交', type: 'danger', fun: this.submitForm },
@@ -43,6 +54,10 @@ export default {
         ],
         // 相关列表
         listTypeInfo: {
+          statusList: [
+            { key: '启用', value: 1 },
+            { key: '停用', value: 0 }
+          ],
           accountTypeList: {
             0: '手机用户',
             1: '论坛用户',

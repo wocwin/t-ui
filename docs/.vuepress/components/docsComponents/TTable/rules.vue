@@ -38,11 +38,11 @@ export default {
       // 编辑某个单元格
       singleEditConfig: {
         table: {
-            rules: {
-              hobby: [{ required: true, message: '请至少选择一个爱好', trigger: 'change' }],
-              year: [{ required: true, message: '请选择年份', trigger: 'change' }],
-              name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-            },
+          rules: {
+            hobby: [{ required: true, message: '请至少选择一个爱好', trigger: 'change' }],
+            year: [{ required: true, message: '请选择年份', trigger: 'change' }],
+            name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+          },
           firstColumn: { type: 'index', label: '序列' }, // 显示序列号
           data: [
             {
@@ -179,9 +179,6 @@ export default {
               }
             }
           ],
-          operatorConfig: {
-            fixed: 'left'
-          },
           // 表格内操作列
           operator: [
             {
@@ -189,7 +186,10 @@ export default {
               text: '删除',
               fun: this.editDel
             }
-          ]
+          ],
+          operatorConfig: {
+            fixed: 'right'
+          },
         },
         // 下拉选择项
         listTypeInfo: {

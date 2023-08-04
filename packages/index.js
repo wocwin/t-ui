@@ -18,7 +18,6 @@ import TPhone from './phone'
 import TProtocol from './protocol'
 import TQueryCondition from './query-condition'
 import TSearch from './search'
-// import TSimpleForm from './simple-form'
 import TStepWizard from './step-wizard'
 import TSticky from './sticky'
 import TTable from './table'
@@ -38,6 +37,7 @@ import TSelectTable from './select-table'
 import TTreeSelect from './tree-select'
 import TButton from './button'
 import TAdaptivePage from './adaptive-page'
+import TCascader from './cascader'
 // import TTheme from './theme'
 import { version } from '../package.json'
 // 存储组件列表
@@ -60,7 +60,6 @@ const components = [
   TProtocol,
   TQueryCondition,
   TSearch,
-  // TSimpleForm,
   TStepWizard,
   TSticky,
   TTable,
@@ -82,7 +81,8 @@ const components = [
   TSelectTable,
   TButton,
   TTreeSelect,
-  TAdaptivePage
+  TAdaptivePage,
+  TCascader
   // TTheme
 ]
 
@@ -119,7 +119,6 @@ export {
   TProtocol,
   TQueryCondition,
   TSearch,
-  // TSimpleForm,
   TStepWizard,
   TSticky,
   TTable,
@@ -141,7 +140,8 @@ export {
   TSelectTable,
   TButton,
   TTreeSelect,
-  TAdaptivePage
+  TAdaptivePage,
+  TCascader
   // TTheme
 }
 export default {

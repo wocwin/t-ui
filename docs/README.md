@@ -26,3 +26,9 @@ features:
       <img alt="npm" src="https://img.shields.io/npm/v/@wocwin/t-ui.svg" />
     </a>
 </p>
+
+## Thanks to all the contributors!
+
+<a href="https://github.com/wocwin/t-ui/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=wocwin/t-ui" alt="contributors" />
+</a>

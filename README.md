@@ -73,6 +73,13 @@ npm run serve
 npm run docs:dev
 
 ```
+## Contributors
+
+Thanks to all the contributors!
+
+<a href="https://github.com/wocwin/t-ui/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=wocwin/t-ui" alt="contributors" />
+</a>
 
 ## 微信交流群
 

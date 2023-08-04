@@ -319,25 +319,7 @@ export default {
             }
             break
           case 13: // 回车
-            // if (!this.multiple) {
-            // this.isDefaultSelectVal = false
-            // const row = this.tableData[0]
-            // let rowIndex
-            // // eslint-disable-next-line no-unused-expressions
-            // this.table?.data.forEach((item, index) => {
-            //   if (item[this.keywords.value] === row[this.keywords.value]) {
-            //     rowIndex = index
-            //   }
-            // })
-            // this.isForbidden()
-            // this.radioVal = rowIndex + 1
-            // this.defaultValue = row
-            // this.$emit('radioChange', row, row[this.keywords.value])
-            // this.blur()
-            // console.log('回车--', this.tableData[this.nowIndex])
             this.tableData[this.nowIndex] && this.rowClick(this.tableData[this.nowIndex])
-            // this.$emit('selectedCompany', this.tableData[this.nowIndex])
-            // }
             break
         }
       }

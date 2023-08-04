@@ -1234,7 +1234,27 @@ export default {
       }
     }
   }
-
+  // 固定列--表头样式修改
+  ::v-deep .el-table {
+    .el-table__fixed,
+    .el-table__fixed-right {
+      .el-table__fixed-header-wrapper {
+        height: 46px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .el-table__header {
+          th.el-table__cell {
+            padding: 0;
+          }
+          th.el-table__cell {
+            border-bottom: none;
+            background-color: #f8f8f9;
+          }
+        }
+      }
+    }
+  }
   // 页面缓存时，表格内操作栏每行高度撑满
   ::v-deep .el-table__fixed-right {
     height: 100% !important;

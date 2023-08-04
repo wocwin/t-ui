@@ -42,7 +42,7 @@ export default {
         ]
       },
       columns: [
-        { prop: 'name', label: '姓名', minWidth: '100' },
+        { prop: 'name', label: '姓名', minWidth: '100', fixed: true },
         { prop: 'date', label: '日期', minWidth: '160' },
         { prop: 'address', label: '地址', minWidth: '220' },
         { prop: 'status', label: '状态', minWidth: '100', filters: { param: 'PROTOCOL_BUSS_TYPE' } },

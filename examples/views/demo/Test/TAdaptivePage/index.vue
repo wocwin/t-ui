@@ -37,10 +37,10 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        firstColumn: { type: 'index', label: '序列' },
+        firstColumn: { type: 'index', label: '序列', fixed: true },
         data: [],
         columns: [
-          { prop: 'factoryModelIdLabel', label: '工厂', minWidth: '100' },
+          { prop: 'factoryModelIdLabel', label: '工厂', minWidth: '100', fixed: true },
           { prop: 'materialTypeLabel', label: '物料分类', minWidth: '80' },
           { prop: 'erpCodeJoin', label: 'ERP物料编码', minWidth: '100' },
           { prop: 'materialCode', label: '物料编码', minWidth: '100' },

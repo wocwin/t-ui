@@ -68,17 +68,18 @@
 | rowClickRadio           | 是否开启点击整行选中单选框                                                    | Boolean        | false                 |
 | isTableColumnHidden     | 是否开启合计行隐藏复选框/单选框/序列                                          | Boolean        | false                 |
 | sortable                | 是否所有 table 列都开启排序 若值 'custom'，需要监听 Table 的 sort-change 事件 | Boolean/String | -                     |
-| isSortable              | 是否开启组件 sort-change 事件                                                 | Boolean        | false                 |
+| isSortable              | 是否开启组件排序功能（仅有升序和降序）                                        | Boolean        | false                 |
 | notSortJudge            | 不排序条件判断规则                                                            | String         | -                     |
 | isKeyup                 | 单元格编辑是否开启键盘事件(向上、向下、回车横向的下一个输入框)                | Boolean        | false                 |
 | defaultRadioCol         | 设置默认选中项（单选）defaultRadioCol 值必须大于 0！                          | Number         | -                     |
 | btnPermissions          | 按钮权限 store.getters 接收字段                                               | String         | -                     |
 | isRowSort               | 是否开启行拖拽（结合row-key配置）                                             | Boolean        | false                 |
-| columnSetBind           | 列设置按钮配置（继承`el-button`所有属性）                                     | Object         | -                     |
+| columnSetBind           | 列设置按钮配置（继承el-button所有属性）                                       | Object         | -                     |
 | ----btnTxt              | 按钮显示文字                                                                  | String         | '列设置'              |
 | ----title               | 点击按钮下拉显示title                                                         | String         | '列设置'              |
 | ----size                | el-button的size                                                               | String         | 'small'               |
 | ----icon                | el-button的icon                                                               | String         | 'el-icon-s-operation' |
+| onlyIconSort            | 是否开启仅点击排序图标才排序                                                  | Boolean        | false                 |
 
 ## Methods 方法（继承el-table的所有方法）
 

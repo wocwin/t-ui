@@ -59,6 +59,7 @@
         highlightCurrentRow: highlightCurrentRow,
         radioStyle: table.firstColumn && table.firstColumn.type === 'radio',
         treeProps: isShowTreeStyle,
+        is_sort_icon:onlyIconSort
       }"
       v-bind="$attrs"
       v-on="$listeners"
@@ -503,6 +504,11 @@ export default {
     // 如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件
     sortable: {
       type: [Boolean, String]
+    },
+    // 是否开启仅点击排序图标才排序
+    onlyIconSort: {
+      type: Boolean,
+      default: false
     },
     // 是否开启组件sort-change 事件
     isSortable: {
@@ -1200,6 +1206,18 @@ export default {
     .el-table__cell > .cell {
       padding-left: 14px;
       padding-right: 20px;
+    }
+  }
+  // 开启点击图标排序
+  .is_sort_icon {
+    ::v-deep .el-table__header-wrapper {
+      th {
+        pointer-events: none;
+
+        i {
+          pointer-events: auto;
+        }
+      }
     }
   }
   // 合并行隐藏复选框/单选框

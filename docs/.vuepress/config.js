@@ -122,6 +122,7 @@ module.exports = {
                 'ElementUi/TTable/base', // 基本
                 'ElementUi/TTable/pagination', // 分页
                 'ElementUi/TTable/notSort', // 指定列不需要排序
+                'ElementUi/TTable/customSort', // 自定义排序
                 'ElementUi/TTable/mergedCell', // 合并单元格
                 'ElementUi/TTable/headerGroup', // 表头合并
                 'ElementUi/TTable/slotNameMerge', // 表头合并插槽显示

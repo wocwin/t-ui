@@ -1,6 +1,6 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" size="mini" />
+    <t-table onlyIconSort title="此排序仅可点击图标才生效" :table="table" :columns="columns" size="mini" />
   </div>
 </template>
 

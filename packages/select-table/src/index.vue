@@ -329,6 +329,17 @@ export default {
       if (!this.filterable) return
       const tableData = JSON.parse(JSON.stringify(this.table?.data))
       if (tableData && tableData.length > 0) {
+        if (!this.multiple) {
+          if (val) {
+            this.radioVal = ''
+          } else {
+            tableData.map((item, index) => {
+              if (item.id === this.defaultValue?.id) {
+                this.radioVal = index + 1
+              }
+            })
+          }
+        }
         this.tableData = tableData.filter((item) => {
           if (item[this.keywords.label].includes(val)) {
             return item

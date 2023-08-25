@@ -35,6 +35,15 @@
         </template>
         <template v-if="item.isSelfCom">
           <component
+            v-if="item.comp==='t-select-table'"
+            :is="item.comp"
+            :placeholder="item.placeholder||getPlaceholder(item)"
+            v-bind="{clearable:true,filterable:true,...item.bind}"
+            :style="{width: item.width||'100%'}"
+            v-on="cEvent(item)"
+          />
+          <component
+            v-else
             :is="item.comp"
             v-model="formOpts.formData[item.value]"
             :placeholder="item.placeholder||getPlaceholder(item)"

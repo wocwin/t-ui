@@ -42,7 +42,8 @@
           <el-table-column
             v-if="multiple"
             type="selection"
-            width="45"
+            width="50"
+            align="center"
             :reserve-selection="reserveSelection"
             fixed
           ></el-table-column>
@@ -51,6 +52,7 @@
             width="50"
             :label="radioTxt"
             fixed
+            align="center"
             v-if="!multiple && isShowFirstColumn"
           >
             <template slot-scope="scope">
@@ -200,7 +202,7 @@ export default {
       type: Number,
       default: 550
     },
-    // 单选是否开启键盘回车事件选中第一行
+    // 单选是否开启键盘事件
     isKeyup: {
       type: Boolean,
       default: false
@@ -218,6 +220,7 @@ export default {
     return {
       nowIndex: -1, // 当前选择行的index
       radioVal: '',
+      defaultSelectValue: this.defaultSelectVal, // 默认选中
       isDefaultSelectVal: true, // 是否已经重新选择了
       isRadio: false,
       forbidden: true, // 判断单选选中及取消选中
@@ -229,8 +232,8 @@ export default {
   },
   mounted() {
     // 设置默认选中项（单选）
-    if (this.defaultSelectVal && this.isDefaultSelectVal) {
-      this.defaultSelect(this.defaultSelectVal)
+    if (this.defaultSelectValue && this.isDefaultSelectVal) {
+      this.defaultSelect(this.defaultSelectValue)
     }
     // 获取查询条件组件的项
     this.$refs['t-query-condition'] && Object.values(this.$refs['t-query-condition'].opts).map(val => {
@@ -281,6 +284,16 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    // 默认选中
+    defaultSelectVal: {
+      handler(val) {
+        this.defaultSelectValue = val
+        if (val && this.isDefaultSelectVal) {
+          this.defaultSelect(val)
+        }
+      },
+      deep: true
     }
   },
   methods: {
@@ -574,7 +587,7 @@ export default {
   .radioStyle {
     ::v-deep .el-table__cell {
       .cell {
-        text-align: center;
+        // text-align: center;
       }
     }
 

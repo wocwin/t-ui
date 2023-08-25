@@ -29,7 +29,7 @@ export default {
           { id: 13, code: 13, name: '物料名称13', spec: '物料规格13', unitName: '吨' },
         ],
         columns: [
-          { label: '物料编号', width: '100px', prop: 'code' },
+          { label: '物料编号', width: '100px', prop: 'code', align: 'left' },
           { label: '物料名称', width: '149px', prop: 'name' },
           { label: '规格', width: '149px', prop: 'spec' },
           { label: '单位', width: '110px', prop: 'unitName' },

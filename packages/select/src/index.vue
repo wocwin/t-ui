@@ -22,7 +22,7 @@
       <el-option
         v-for="(item,index) in optionSource"
         :key="index+'i'"
-        :label="item[labelKey]"
+        :label="customLabel?customLabelHandler(item):item[labelKey]"
         :value="item[valueKey]"
       ></el-option>
     </el-select>
@@ -42,6 +42,10 @@ export default {
     },
     // 选择框宽度
     width: {
+      type: String
+    },
+    // 是否自定义设置下拉label
+    customLabel: {
       type: String
     },
     // 传入的option数组中，要作为最终选择项的键值key
@@ -105,6 +109,11 @@ export default {
       } else {
         this.childSelectedValue = null
       }
+    },
+    // 自定义label显示
+    customLabelHandler(item) {
+      // eslint-disable-next-line no-eval
+      return eval(this.customLabel)
     }
   }
 }

@@ -279,7 +279,7 @@ export default {
               this.tabularMap[item[this.keywords.value]] =
                 item[this.keywords.label]
             })
-          this.findLabel()
+          // this.findLabel()
         })
       },
       deep: true,

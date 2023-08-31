@@ -40,7 +40,7 @@
             :placeholder="item.placeholder||getPlaceholder(item)"
             v-bind="{clearable:true,filterable:true,...item.bind}"
             :style="{width: item.width||'100%'}"
-            v-on="cEvent(item)"
+            v-on="cEvent(item,'t-select-table')"
           />
           <component
             v-else
@@ -166,15 +166,19 @@ export default {
   },
   computed: {
     cEvent() {
-      return ({ eventHandle }) => {
+      return ({ eventHandle }, type) => {
         let event = { ...eventHandle }
         let changeEvent = {}
         Object.keys(event).forEach(v => {
-          changeEvent[v] = (e) => {
-            if ((typeof e === 'number' && e === 0) || e) {
-              event[v] && event[v](e, this.formOpts, arguments)
+          changeEvent[v] = (e, ids) => {
+            if (type === 't-select-table') {
+              event[v] && event[v](e, ids, arguments)
             } else {
-              event[v] && event[v](this.formOpts, arguments)
+              if ((typeof e === 'number' && e === 0) || e) {
+                event[v] && event[v](e, this.formOpts, arguments)
+              } else {
+                event[v] && event[v](this.formOpts, arguments)
+              }
             }
           }
         })

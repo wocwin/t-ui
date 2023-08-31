@@ -7,8 +7,7 @@
         :optionSource="stepList"
         valueKey="label"
         @change="selectChange"
-      >
-      </t-select>
+      ></t-select>
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -18,7 +17,14 @@ export default {
     return {
       selectVlaue: null,
       stepList: [
-        { label: '开始' }, { label: 'POSUI' }, { label: '11' }, { label: 'GX123' }, { label: '烘干破碎' }, { label: '车间仓库' }, { label: 'ui3333' }, { label: 'hhh333' }]
+        { label: '开始', id: 1 },
+        { label: 'POSUI', id: 2 },
+        { label: '11', id: 3 },
+        { label: 'GX123', id: 4 },
+        { label: '烘干破碎', id: 5 },
+        { label: '车间仓库', id: 6 },
+        { label: 'ui3333', id: 7 },
+        { label: 'hhh333', id: 8 }]
     }
   },
   methods: {

@@ -42,6 +42,7 @@
           <!-- 单个单元格编辑 -->
           <template v-if="val.canEdit">
             <single-edit-cell
+              :isShowRules="false"
               :canEdit="val.canEdit"
               :configEdit="val.configEdit"
               v-model="scope.row[scope.column.property]"
@@ -51,11 +52,12 @@
               v-bind="$attrs"
               ref="editCell"
             >
-              <slot
-                v-if="val.configEdit&&val.configEdit.editSlotName"
-                :name="val.configEdit.editSlotName"
-                :scope="scope"
-              />
+              <template v-for="(index, name) in $slots" v-slot:[name]>
+                <slot :name="name" />
+              </template>
+              <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+                <slot :name="name" v-bind="data"></slot>
+              </template>
             </single-edit-cell>
           </template>
           <div v-if="!val.render&&!val.canEdit&&!val.slotNameMerge">{{scope.row[val.prop]}}</div>

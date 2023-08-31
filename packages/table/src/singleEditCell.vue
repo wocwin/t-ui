@@ -1,5 +1,6 @@
 <template>
-  <el-form-item
+  <component
+    :is="isShowRules?'el-form-item':'div'"
     :prop="record.column.property"
     :rules="configEdit.rules"
     :class="[configEdit.className,'single_edit_cell']"
@@ -50,14 +51,12 @@
         :value="compChildValue(configEdit,value,key)"
       >{{compChildShowLabel(configEdit,value)}}</component>
     </component>
-  </el-form-item>
+  </component>
 </template>
 
 <script>
 export default {
   name: 'SingleEditCell',
-  components: {
-  },
   props: {
     /** 编辑配置项说明
      * label: '爱好', // placeholder显示
@@ -82,6 +81,11 @@ export default {
     record: {
       type: Object,
       default: () => ({})
+    },
+    // 是否走表单验证（表头合并不校验）
+    isShowRules: {
+      type: Boolean,
+      default: true
     },
     // 编辑的字段名
     prop: {

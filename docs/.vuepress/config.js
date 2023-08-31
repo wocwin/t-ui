@@ -126,6 +126,7 @@ module.exports = {
                 'ElementUi/TTable/mergedCell', // 合并单元格
                 'ElementUi/TTable/headerGroup', // 表头合并
                 'ElementUi/TTable/slotNameMerge', // 表头合并插槽显示
+                'ElementUi/TTable/headerGroupEditTable', // 表头合并单元格编辑功能
                 'ElementUi/TTable/renderCol', // render列渲染
                 'ElementUi/TTable/slotName', // 插槽列渲染
                 'ElementUi/TTable/filters', // 字典过滤

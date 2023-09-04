@@ -39,7 +39,7 @@ TForm 表单组件
 | ---currentPage    | 当前页数                                                                            | Number                    | -          |
 | columns           | 表头信息                                                                            | Array                     | []         |
 | ----bind          | el-table-column Attributes                                                          | Object                    | -          |
-| ----noShowTip     | 是否换行 （设置：noShowTip:true）                                                   | Boolean                   | false      |
+| ----noShowTip     | 是否换行 （设置：noShowTip:true）;开启虚拟列表不会换行                              | Boolean                   | false      |
 | ----fixed         | 列是否固定( left, right)                                                            | string, boolean           | -          |
 | ----align         | 对齐方式(left/center/right)                                                         | String                    | center     |
 | ----render        | 返回三个参数(text：当前值,row：当前整条数据 ,index：当前行)                         | function                  | -          |
@@ -53,11 +53,13 @@ TForm 表单组件
 | defaultSelectVal  | 设置第一页默认选中项--keywords.value 值（单选是 String, Number 类型；多选时是数组） | Number / string / Array   | -          |
 | multiple          | 是否开启多选                                                                        | Boolean                   | false      |
 | isKeyup           | 是否开启回车事件选中第一行(仅支持单选)                                              | Boolean                   | false      |
-| filterable        | 是否开启过滤(根据 keywords 的 label 值进行过滤)                                     | Boolean                   | true       |
+| filterable        | 是否开启过滤(根据 keywords 的 label 值进行过滤) （开启虚拟列表不支持过滤）          | Boolean                   | true       |
 | reserveSelection  | 是否支持翻页选中                                                                    | Boolean                   | true       |
 | isShowPagination  | 开启分页                                                                            | Boolean                   | false      |
 | tableWidth        | table 宽度                                                                          | Number                    | 550        |
 | isShowQuery       | 是否允许配置查询条件(继承TQueryCondition的所有属性、事件、插槽)                     | Boolean                   | false      |
+| useVirtual        | 是否开启虚拟列表（可视高度显示10条数据）                                            | Boolean                   | false      |
+| maxHeight         | Table 的最大高度。合法的值为数字或者单位为 px 的高度。（开启虚拟列表其默认值540）   | String/Number             | false      |
 
 ### 3. 事件（events）继承 el-table 及 el-select 属性
 

@@ -2,10 +2,11 @@
   <el-select
     ref="select"
     v-model="defaultValue"
+    :class="{'t_select_table_tag_del':useVirtual&&multiple}"
     popper-class="t-select-table"
     :multiple="multiple"
     :value-key="keywords.value"
-    :filterable="filterable"
+    :filterable="useVirtual?false:filterable"
     :filter-method="filterMethod||filterMethodHandle"
     @visible-change="visibleChange"
     @remove-tag="removeTag"
@@ -32,6 +33,7 @@
           :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup }"
           border
           :row-key="getRowKey"
+          :max-height="useVirtual?maxHeight||540:maxHeight"
           highlight-current-row
           @row-click="rowClick"
           @cell-dblclick="cellDblclick"
@@ -72,7 +74,7 @@
               :min-width="item['min-width'] || item.minWidth || item.width"
               :align="item.align || 'center'"
               :fixed="item.fixed"
-              :show-overflow-tooltip="item.noShowTip"
+              :show-overflow-tooltip="useVirtual?true:item.noShowTip?false:true"
               v-bind="{ ...item.bind, ...$attrs }"
               v-on="$listeners"
             >
@@ -206,6 +208,15 @@ export default {
     isKeyup: {
       type: Boolean,
       default: false
+    },
+    // 是否开启虚拟列表
+    useVirtual: {
+      type: Boolean,
+      default: false
+    },
+    // Table最大高度
+    maxHeight: {
+      type: [String, Number]
     }
   },
   computed: {
@@ -227,7 +238,32 @@ export default {
       tableData: this.table?.data, // table数据
       defaultValue: this.value,
       ids: [], // 多选id集合
-      tabularMap: {} // 存储下拉tale的所有name
+      tabularMap: {}, // 存储下拉tale的所有name
+      /**
+       * 虚拟列表
+       */
+      saveDATA: [], // 所有数据
+      tableRef: null, // 设置了滚动的那个盒子
+      tableWarp: null, // 被设置的transform元素
+      fixLeft: null,
+      fixRight: null,
+      tableFixedLeft: null,
+      tableFixedRight: null,
+      scrollTop: 0,
+      num: 0,
+      start: 0,
+      end: 30, // 2倍的pageList
+      starts: 0, // 备份[保持与上一样]
+      ends: 30, // 备份[保持与上一样]
+      pageList: 10, // 一屏显示
+      itemHeight: 48, // 每一行高度
+      timeOut: 400 // 延迟
+    }
+  },
+  created() {
+    // 是否开启虚拟列表
+    if (this.useVirtual) {
+      this.init()
     }
   },
   mounted() {
@@ -243,6 +279,10 @@ export default {
         }
       }
     })
+    // 是否开启虚拟列表
+    if (this.useVirtual) {
+      this.initMounted()
+    }
   },
   watch: {
     value: {
@@ -271,7 +311,12 @@ export default {
     },
     'table.data': {
       handler(val) {
-        this.tableData = val
+        if (this.useVirtual) {
+          this.saveDATA = val
+          this.tableData = this.saveDATA.slice(this.start, this.end)
+        } else {
+          this.tableData = val
+        }
         this.$nextTick(() => {
           this.tableData &&
             this.tableData.length > 0 &&
@@ -294,9 +339,121 @@ export default {
         }
       },
       deep: true
+    },
+    num(newV) {
+      // 因为初始化时已经添加了3屏的数据，所以只有当滚动到第3屏时才计算位移量
+      if (newV > 1) {
+        this.start = (newV - 1) * this.pageList
+        this.end = (newV + 2) * this.pageList
+        requestAnimationFrame(() => {
+          // 计算偏移量
+          this.tableWarp.style.transform = `translateY(${this.start *
+            this.itemHeight}px)`
+          if (this.fixLeft) {
+            this.fixLeft.style.transform = `translateY(${this.start *
+              this.itemHeight}px)`
+          }
+          if (this.fixRight) {
+            this.fixRight.style.transform = `translateY(${this.start *
+              this.itemHeight}px)`
+          }
+          this.tableData = this.saveDATA.slice(this.start, this.end)
+        })
+      } else {
+        requestAnimationFrame(() => {
+          this.tableData = this.saveDATA.slice(this.starts, this.ends)
+          this.tableWarp.style.transform = `translateY(0px)`
+          if (this.fixLeft) {
+            this.fixLeft.style.transform = `translateY(0px)`
+          }
+          if (this.fixRight) {
+            this.fixRight.style.transform = `translateY(0px)`
+          }
+        })
+      }
     }
   },
   methods: {
+    initMounted() {
+      this.$nextTick(() => {
+        // 设置了滚动的盒子
+        this.tableRef = this.$refs['el-table'].bodyWrapper
+        // 左侧固定列所在的盒子
+        this.tableFixedLeft = document.querySelector(
+          '.el-table .el-table__fixed .el-table__fixed-body-wrapper'
+        )
+        // 右侧固定列所在的盒子
+        this.tableFixedRight = document.querySelector(
+          '.el-table .el-table__fixed-right .el-table__fixed-body-wrapper'
+        )
+        // 主体改造
+        // 创建内容盒子divWarpPar并且高度设置为所有数据所需要的总高度
+        let divWarpPar = document.createElement('div')
+        // 如果这里还没获取到saveDATA数据就渲染会导致内容盒子高度为0，可以通过监听saveDATA的长度后再设置一次高度
+        divWarpPar.style.height = this.saveDATA.length * this.itemHeight + 'px'
+        // 新创建的盒子divWarpChild
+        let divWarpChild = document.createElement('div')
+        divWarpChild.className = 'fix-warp'
+        // 把tableRef的第一个子元素移动到新创建的盒子divWarpChild中
+        divWarpChild.append(this.tableRef.children[0])
+        // 把divWarpChild添加到divWarpPar中，最把divWarpPar添加到tableRef中
+        divWarpPar.append(divWarpChild)
+        this.tableRef.append(divWarpPar)
+        // left改造
+        let divLeftPar = document.createElement('div')
+        divLeftPar.style.height = this.saveDATA.length * this.itemHeight + 'px'
+        let divLeftChild = document.createElement('div')
+        divLeftChild.className = 'fix-left'
+        this.tableFixedLeft &&
+          divLeftChild.append(this.tableFixedLeft.children[0])
+        divLeftPar.append(divLeftChild)
+        this.tableFixedLeft && this.tableFixedLeft.append(divLeftPar)
+        // right改造
+        let divRightPar = document.createElement('div')
+        divRightPar.style.height = this.saveDATA.length * this.itemHeight + 'px'
+        let divRightChild = document.createElement('div')
+        divRightChild.className = 'fix-right'
+        this.tableFixedRight &&
+          divRightChild.append(this.tableFixedRight.children[0])
+        divRightPar.append(divRightChild)
+        this.tableFixedRight && this.tableFixedRight.append(divRightPar)
+        // 被设置的transform元素
+        this.tableWarp = document.querySelector(
+          '.el-table .el-table__body-wrapper .fix-warp'
+        )
+        this.fixLeft = document.querySelector(
+          '.el-table .el-table__fixed .el-table__fixed-body-wrapper .fix-left'
+        )
+        this.fixRight = document.querySelector(
+          '.el-table .el-table__fixed-right .el-table__fixed-body-wrapper .fix-right'
+        )
+        this.tableRef.addEventListener('scroll', this.onScroll)
+      })
+    },
+    // 初始化数据
+    init() {
+      this.saveDATA = this.table?.data
+      this.tableData = this.saveDATA.slice(this.start, this.end)
+    },
+    // 滚动事件
+    onScroll() {
+      this.scrollTop = this.tableRef.scrollTop
+      this.num = Math.floor(this.scrollTop / (this.itemHeight * this.pageList))
+      if (!this.multiple) {
+        const flag = this.tableData.find(el => {
+          return el[this.keywords.value] == this.defaultValue[this.keywords.value]
+        })
+        if (flag) {
+          this.tableData.map((item, index) => {
+            if (item.id === this.defaultValue?.id) {
+              this.radioVal = index + 1
+            }
+          })
+        } else {
+          this.radioVal = ''
+        }
+      }
+    },
     // 解决内嵌select选中后外层下拉框消失问题
     selectVisibleChange(value) {
       if (value) {
@@ -340,7 +497,8 @@ export default {
     // 搜索过滤
     filterMethodHandle(val) {
       if (!this.filterable) return
-      const tableData = JSON.parse(JSON.stringify(this.table?.data))
+      if (!this.useVirtual) return
+      const tableData = JSON.parse(JSON.stringify(this.tableData))
       if (tableData && tableData.length > 0) {
         if (!this.multiple) {
           if (val) {
@@ -379,6 +537,10 @@ export default {
     // 表格显示隐藏回调
     visibleChange(visible) {
       if (visible) {
+        // 是否开启虚拟列表
+        if (this.useVirtual) {
+          this.onScroll()
+        }
         if (this.defaultSelectVal && this.isDefaultSelectVal) {
           this.defaultSelect(this.defaultSelectVal)
         }
@@ -533,8 +695,9 @@ export default {
     async rowClick(row) {
       if (!this.multiple) {
         let rowIndex
+        // console.log('this.tableData--', this.tableData)
         // eslint-disable-next-line no-unused-expressions
-        this.table?.data.forEach((item, index) => {
+        this.tableData.forEach((item, index) => {
           if (item[this.keywords.value] === row[this.keywords.value]) {
             // console.log('index', index)
             rowIndex = index
@@ -582,6 +745,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.t_select_table_tag_del {
+  ::v-deep .el-tag {
+    .el-tag__close {
+      display: none;
+    }
+  }
+}
 .t-select-table {
   // 单选样式
   .radioStyle {
@@ -650,7 +820,24 @@ export default {
       padding-bottom: 10px;
     }
   }
-
+  // style：ttable单元格内容过长省略号
+  .el-table {
+    .el-tooltip {
+      div {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        line-height: 23px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .el-form-item {
+        overflow: visible;
+      }
+    }
+  }
   .t-table-select__page {
     padding-top: 5px;
 
@@ -662,5 +849,14 @@ export default {
       background-color: #fff;
     }
   }
+}
+</style>
+<style lang="scss">
+// 设置tip显示宽度
+.el-tooltip__popper,
+.el-tooltip__popper.is-dark {
+  line-height: 14px;
+  max-width: 15rem;
+  color: #fff !important;
 }
 </style>

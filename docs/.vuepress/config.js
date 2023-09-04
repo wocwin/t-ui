@@ -123,6 +123,7 @@ module.exports = {
                 'ElementUi/TTable/TAdaptivePage', // 一屏显示
                 'ElementUi/TTable/base', // 基本
                 'ElementUi/TTable/pagination', // 分页
+                'ElementUi/TTable/virtual', // 虚拟列表
                 'ElementUi/TTable/notSort', // 指定列不需要排序
                 'ElementUi/TTable/customSort', // 自定义排序
                 'ElementUi/TTable/mergedCell', // 合并单元格

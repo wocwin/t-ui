@@ -1,54 +1,25 @@
 <template>
-  <div class="upload-file-demo" style="min-height:100px;width:100%;padding:10px;">
-    <div v-for="checkedItem in checkedList" :key="checkedItem.type">
+  <t-layout-page>
+    <t-layout-page-item>
       <t-upload-file
-        :attachmentType="checkedItem.type"
-        @uploadSuccess="pushUploadItem"
-        @deleteSuccess="pushUploadItem"
+        @changeFileList="changeFileList"
+        :showFileList="showFileList"
+        ref="upload-file"
       />
-    </div>
-  </div>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      fmFileList: [],
-      uploadObj: {},
-      checkedList: [
-        {
-          check: true,
-          type: '001'
-        },
-        {
-          check: true,
-          type: '002'
-        },
-        {
-          check: true,
-          type: '003'
-        }
-      ]
+      showFileList: []
     }
   },
   methods: {
-    pushUploadItem (val, attachmentType) {
-      console.log(val, attachmentType)
-      let attachmentNo = val.res
-      this.uploadObj[attachmentType] = attachmentNo
-      if (!this.uploadObj[attachmentType] || this.uploadObj[attachmentType].length === 0) {
-        delete this.uploadObj[attachmentType]
-      }
-      let tempFileList = []
-      for (let key of Object.keys(this.uploadObj)) {
-        let uploadListItem = {
-          attachmentNo: this.uploadObj[key],
-          attachmentType: key
-        }
-        tempFileList.push(uploadListItem)
-      }
-      this.fmFileList = tempFileList
+    changeFileList(list) {
+      console.log('图片上传', list)
     }
   }
 }

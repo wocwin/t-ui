@@ -9,7 +9,7 @@
 
 ## 1. 简介
 
-#### uploadFile 组件（基于 elementUI 图片控件二次封装实现图片文件上传、下载、回显、编辑功能）
+#### TUploadFile 组件（基于 elementUI 图片控件二次封装实现图片文件上传、下载、回显、编辑功能）
 
 ## 2. 配置参数(Attributes)
 

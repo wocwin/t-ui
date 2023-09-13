@@ -730,6 +730,7 @@ export default {
         this.nowIndex = -1
         this.radioVal = ''
         this.forbidden = false
+        this.$emit('radioChange', {}, null)
       }
     },
     // 触发select隐藏

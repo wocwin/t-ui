@@ -180,6 +180,7 @@
                     :ref="`formRef-${scope.$index}-${
                       item.prop || scope.column.property
                     }`"
+                    @submit.native.prevent
                   >
                     <single-edit-cell
                       :configEdit="item.configEdit"

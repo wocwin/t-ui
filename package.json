@@ -1,6 +1,6 @@
 {
   "name": "@wocwin/t-ui",
-  "version": "1.0.30",
+  "version": "1.1.1",
   "description": "Vue 中基于Element-ui和ant-design-vue二次封装基础组件文档",
   "author": "wocwin <wocwin@163.com>",
   "license": "ISC",
@@ -12,6 +12,8 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "lib": "vue-cli-service build --target lib --name t-ui --dest lib packages/index.js",
+    "clean": "rimraf lib",
+    "dist": "npm run clean  && npm run lib && webpack --config build/webpack.conf.js",
     "deploy": "deploy.sh"
   },
   "dependencies": {
@@ -52,13 +54,22 @@
     "@vue/test-utils": "1.0.0-beta.31",
     "babel-eslint": "^10.1.0",
     "chai": "^4.1.2",
+    "css-loader": "^2.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "postcss": "^7.0.14",
+    "progress-bar-webpack-plugin": "^1.11.0",
     "sass": "1.32.13",
     "sass-loader": "^8.0.2",
+    "style-loader": "^0.23.1",
     "vue-cli-plugin-element": "^1.0.1",
+    "vue-loader": "^15.7.0",
     "vue-template-compiler": "2.6.14",
-    "vuepress-plugin-typescript": "^0.3.1"
+    "vuepress-plugin-typescript": "^0.3.1",
+    "webpack": "^4.14.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.11",
+    "webpack-node-externals": "^1.7.2"
   },
   "repository": {
     "type": "git",

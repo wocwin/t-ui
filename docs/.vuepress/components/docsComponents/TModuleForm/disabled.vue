@@ -2,8 +2,8 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
+        title="模块表单组件运用"
+        subTitle="模块表单222"
         ref="sourceForm"
         :formOpts="formOpts"
         :submit="submit"
@@ -13,13 +13,14 @@
 </template>
 <script>
 export default {
-  name: 'TModuleFormDemoBase',
+  name: 'TModuleFormDemo',
   data() {
     return {
       formOpts: {
         goodsInformation: {
-          title: '货品信息',
+          title: '禁止收缩',
           name: 'goodsInformation',
+          disabled: true,
           ref: null,
           opts: {
             formData: {
@@ -94,8 +95,8 @@ export default {
         },
         loadingDate: {
           name: 'loadingDate',
-          title: '承运信息',
-          ref: null,
+          title: '禁止收缩2',
+          disabled: true,
           opts: {
             formData: {
               id: `${Math.floor(Math.random() * 10 + 1)}`, // *唯一ID
@@ -155,7 +156,6 @@ export default {
       }
     }
   },
-  // 方法
   methods: {
     // 提交form表单
     submit(data) {

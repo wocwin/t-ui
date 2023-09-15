@@ -2,21 +2,30 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
+        title="模块插槽使用"
+        subTitle="模块插槽使用副标题"
         ref="sourceForm"
         :formOpts="formOpts"
         :submit="submit"
-      />
+      >
+        <template #lineMessage>
+          <t-table title="模块插槽使用" :table="table" :columns="table.columns" isCopy />
+        </template>
+      </t-module-form>
     </t-layout-page-item>
   </t-layout-page>
 </template>
 <script>
 export default {
-  name: 'TModuleFormDemoBase',
+  name: 'TModuleFormDemo',
   data() {
     return {
       formOpts: {
+        lineMessage: {
+          title: '线路信息',
+          name: 'lineMessage',
+          slotName: 'lineMessage'
+        },
         goodsInformation: {
           title: '货品信息',
           name: 'goodsInformation',
@@ -152,12 +161,40 @@ export default {
             }
           }
         }
+      },
+      table: {
+        data: [
+          {
+            id: '1',
+            date: '2019-09-25',
+            name: '张三',
+            status: '2',
+            address: '广东省广州市天河区'
+          },
+          {
+            id: '2',
+            date: '2019-09-26',
+            name: '张三1',
+            status: '1',
+            address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
+          },
+          {
+            id: '3',
+            date: '2019-09-27',
+            name: '张三2',
+            status: '3',
+            address: '广东省广州市天河区3'
+          }
+        ],
+        columns: [
+          { prop: 'name', label: '姓名', minWidth: '100' },
+          { prop: 'date', label: '日期', minWidth: '180' },
+          { prop: 'address', label: '地址', minWidth: '220' },
+        ]
       }
     }
   },
-  // 方法
   methods: {
-    // 提交form表单
     submit(data) {
       console.log('最终提交数据', data)
     }

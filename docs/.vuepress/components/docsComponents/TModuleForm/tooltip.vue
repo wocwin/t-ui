@@ -2,8 +2,8 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="模块详情--基本使用"
-        subTitle="基本使用副标题"
+        title="模块详情"
+        subTitle="Tooltip提示项"
         ref="sourceDetail"
         handleType="desc"
         :descData="descData"
@@ -54,12 +54,14 @@ export default {
             {
               label: '易碎品',
               fieldName: 'isBreakable',
-              value: '',
+              value: '3333',
+              span: 2
             },
             {
               label: '备注',
               fieldName: 'cargoRemark',
-              value: '',
+              value: '占位一整行',
+              span: 4
             }
           ]
         },
@@ -80,7 +82,8 @@ export default {
             {
               label: '路损类型',
               fieldName: 'roadLossType',
-              value: '',
+              value: '定率',
+              tooltip: '测试字符串提示'
             },
             {
               label: '路耗定额',
@@ -95,7 +98,12 @@ export default {
             {
               label: '保险购买',
               fieldName: 'buyInsurance',
-              value: '',
+              value: '是',
+              tooltip: () => (
+                <div>
+                  <div>测试函数方式提示</div>
+                </div>
+              )
             }
           ]
         }
@@ -103,19 +111,8 @@ export default {
     }
   },
   mounted() {
-    const goodsData = {
-      cargoName: '汽车总动员',
-      cargoType: '玩具',
-      cargoMoneyCentPerTon: '500',
-      cargoWeightKg: '500',
-      cargoVolumeDm3: '30',
-      cargoQty: '40',
-      isBreakable: '否',
-      cargoRemark: '汽车总动员备注',
-    }
-    this.descData.goods.data.map(val => {
-      val.value = goodsData[val.fieldName]
-    })
-  },
+    // 默认选中tab2
+    // this.$refs.sourceDetail.setSelectedTab('tab2')
+  }
 }
 </script>

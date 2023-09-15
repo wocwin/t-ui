@@ -2,12 +2,19 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
+        title="Title右侧插槽使用"
         ref="sourceForm"
         :formOpts="formOpts"
+        isGoBackEvent
         :submit="submit"
-      />
+        @back="back"
+      >
+        <template #extra>
+          <el-button type="primary">主要按钮</el-button>
+          <el-button type="success">成功按钮</el-button>
+          <el-button type="danger">信息按钮</el-button>
+        </template>
+      </t-module-form>
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -157,6 +164,9 @@ export default {
   },
   // 方法
   methods: {
+    back() {
+      console.log('自定义返回事件')
+    },
     // 提交form表单
     submit(data) {
       console.log('最终提交数据', data)

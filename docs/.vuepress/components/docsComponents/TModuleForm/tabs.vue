@@ -2,20 +2,45 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
+        title="显示tabs且默认显示tab2"
         ref="sourceForm"
         :formOpts="formOpts"
         :submit="submit"
-      />
+        :tabs="tabs"
+        isTabMargin
+        @tabsChange="tabsChange"
+      >
+        <!-- tabs插槽 -->
+        <template #tab1>基础信息</template>
+        <template #tab2>
+          <t-table title="默认显示tab2" :table="table" :columns="table.columns" isCopy />
+        </template>
+        <template #tab3>
+          <div>承运明细</div>
+        </template>
+      </t-module-form>
     </t-layout-page-item>
   </t-layout-page>
 </template>
 <script>
 export default {
-  name: 'TModuleFormDemoBase',
+  name: 'TModuleFormDemo',
   data() {
     return {
+      tabs: [
+        {
+          key: 'tab1',
+          title: '基础信息'
+        },
+        {
+          key: 'tab2',
+          title: '指派明细'
+        },
+        {
+          key: 'tab3',
+          title: '承运明细'
+        }
+      ],
       formOpts: {
         goodsInformation: {
           title: '货品信息',
@@ -152,11 +177,49 @@ export default {
             }
           }
         }
+      },
+      table: {
+        data: [
+          {
+            id: '1',
+            date: '2019-09-25',
+            name: '张三',
+            status: '2',
+            address: '广东省广州市天河区'
+          },
+          {
+            id: '2',
+            date: '2019-09-26',
+            name: '张三1',
+            status: '1',
+            address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
+          },
+          {
+            id: '3',
+            date: '2019-09-27',
+            name: '张三2',
+            status: '3',
+            address: '广东省广州市天河区3'
+          }
+        ],
+        columns: [
+          { prop: 'name', label: '姓名', minWidth: '100' },
+          { prop: 'date', label: '日期', minWidth: '180' },
+          { prop: 'address', label: '地址', minWidth: '220' },
+        ]
       }
     }
   },
+  mounted() {
+    // 默认选中tab2
+    this.$refs.sourceForm.setSelectedTab('tab2')
+  },
   // 方法
   methods: {
+    // tabs切换
+    tabsChange(val) {
+      console.log('tabs切换', val.name)
+    },
     // 提交form表单
     submit(data) {
       console.log('最终提交数据', data)

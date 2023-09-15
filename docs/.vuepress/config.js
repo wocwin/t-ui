@@ -110,9 +110,33 @@ module.exports = {
                 'ElementUi/TForm/assignment', // 赋值回显
                 'ElementUi/TForm/submit', // 切换页面获取表单数据
                 'ElementUi/TForm/dynamic', // 动态增减表单项
-                'ElementUi/TForm/help', // 使用帮助(Attributes)
-                'ElementUi/TModuleForm/base', // 基本
-                'ElementUi/TModuleForm/detail', // detail
+                'ElementUi/TForm/help' // 使用帮助(Attributes)
+              ]
+            },
+            {
+              title: '模块表单组件',
+              collapsable: false,
+              children: [
+                'ElementUi/TModuleForm/base', // 基本模式
+                'ElementUi/TModuleForm/slotName', // 模块插槽使用
+                'ElementUi/TModuleForm/disabled', // 某个模块是否禁用展开
+                'ElementUi/TModuleForm/labelPosition', // 模块表单对齐方式
+                'ElementUi/TModuleForm/rules', // 模块表单表单验证
+                'ElementUi/TModuleForm/validateError', //  模块表单校验错误提示
+                'ElementUi/TModuleForm/footer', // 模块表单自定义底部按钮
+                'ElementUi/TModuleForm/tabs', //  模块表单显示tabs(注意只显示在最后一个模块)
+                'ElementUi/TModuleForm/isGoBackEvent', //  模块表单自定义返回事件（默认返回上一页）
+                'ElementUi/TModuleForm/isShowBack', //  模块表单没有返回icon
+                'ElementUi/TModuleForm/extra', //  模块表单title右侧插槽使用
+                'ElementUi/TModuleForm/titleBtn', // 某个模块Title右侧插槽使用
+
+                'ElementUi/TModuleForm/detail', // 模块详情基本模式
+                'ElementUi/TModuleForm/detailspan', // 模块详情每行展示项
+                'ElementUi/TModuleForm/tooltip', // 模块详情提示项
+                'ElementUi/TModuleForm/detailslot', // 模块详情插槽使用
+                'ElementUi/TModuleForm/detailslotName', // 模块详情某个值value插槽使用
+                'ElementUi/TModuleForm/detaildisabled', // 某个模块是否禁用展开
+                'ElementUi/TModuleForm/detailTitleBtn', // 某个模块Title右侧插槽使用
                 'ElementUi/TModuleForm/help' // 使用帮助(Attributes)
               ]
             },

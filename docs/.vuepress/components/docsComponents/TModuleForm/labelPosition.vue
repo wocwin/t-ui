@@ -1,27 +1,22 @@
 <template>
   <t-layout-page>
     <t-layout-page-item>
-      <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
-        ref="sourceForm"
-        :formOpts="formOpts"
-        :submit="submit"
-      />
+      <t-module-form title="表单对齐方式" ref="sourceForm" :formOpts="formOpts" :submit="submit" />
     </t-layout-page-item>
   </t-layout-page>
 </template>
 <script>
 export default {
-  name: 'TModuleFormDemoBase',
+  name: 'TModuleFormDemo',
   data() {
     return {
       formOpts: {
         goodsInformation: {
-          title: '货品信息',
+          title: '向上对齐',
           name: 'goodsInformation',
           ref: null,
           opts: {
+            labelPosition: 'top',
             formData: {
               id: `${Math.floor(Math.random() * 10 + 1)}`, // *唯一ID
               account: '', // *用户账号
@@ -94,9 +89,10 @@ export default {
         },
         loadingDate: {
           name: 'loadingDate',
-          title: '承运信息',
-          ref: null,
+          title: '向左对齐',
+          disabled: true,
           opts: {
+            labelPosition: 'left',
             formData: {
               id: `${Math.floor(Math.random() * 10 + 1)}`, // *唯一ID
               createDate: '', // 创建时间
@@ -155,7 +151,6 @@ export default {
       }
     }
   },
-  // 方法
   methods: {
     // 提交form表单
     submit(data) {

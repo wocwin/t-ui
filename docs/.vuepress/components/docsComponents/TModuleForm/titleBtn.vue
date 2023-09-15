@@ -2,12 +2,28 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
+        title="模块Title右侧插槽使用"
         ref="sourceForm"
         :formOpts="formOpts"
+        isGoBackEvent
         :submit="submit"
-      />
+        @back="back"
+      >
+        <template #extra>
+          <el-button type="primary">主要按钮</el-button>
+          <el-button type="success">成功按钮</el-button>
+          <el-button type="danger">信息按钮</el-button>
+        </template>
+        <template #lineMessage>
+          <t-table title="模块插槽使用" :table="table" :columns="table.columns" isCopy />
+        </template>
+        <!-- title右侧按钮插槽 -->
+        <template #material>
+          <el-button size="small" type="primary">批量通过</el-button>
+          <el-button size="small" type="danger">批量驳回</el-button>
+          <el-button size="small">导出</el-button>
+        </template>
+      </t-module-form>
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -16,7 +32,43 @@ export default {
   name: 'TModuleFormDemoBase',
   data() {
     return {
+      table: {
+        data: [
+          {
+            id: '1',
+            date: '2019-09-25',
+            name: '张三',
+            status: '2',
+            address: '广东省广州市天河区'
+          },
+          {
+            id: '2',
+            date: '2019-09-26',
+            name: '张三1',
+            status: '1',
+            address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
+          },
+          {
+            id: '3',
+            date: '2019-09-27',
+            name: '张三2',
+            status: '3',
+            address: '广东省广州市天河区3'
+          }
+        ],
+        columns: [
+          { prop: 'name', label: '姓名', minWidth: '100' },
+          { prop: 'date', label: '日期', minWidth: '180' },
+          { prop: 'address', label: '地址', minWidth: '220' },
+        ]
+      },
       formOpts: {
+        lineMessage: {
+          title: '线路信息',
+          name: 'lineMessage',
+          slotName: 'lineMessage',
+          btn: 'material'
+        },
         goodsInformation: {
           title: '货品信息',
           name: 'goodsInformation',
@@ -157,6 +209,9 @@ export default {
   },
   // 方法
   methods: {
+    back() {
+      console.log('自定义返回事件')
+    },
     // 提交form表单
     submit(data) {
       console.log('最终提交数据', data)

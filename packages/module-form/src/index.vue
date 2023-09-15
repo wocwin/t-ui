@@ -41,7 +41,7 @@
         </template>
       </module-detail>
       <!-- tabs -->
-      <div class="tabs" v-if="tabs">
+      <div class="tabs" v-if="tabs" :style="{'margin-top':isTabMargin?`${tabMarginNum}px`:0}">
         <el-tabs
           v-if="tabs&&tabs.length > 1"
           v-model="activeName"
@@ -103,6 +103,16 @@ export default {
     btnTxt: {
       type: String,
       default: '保存'
+    },
+    // tabs是否跟模块分离
+    isTabMargin: {
+      type: Boolean,
+      default: false
+    },
+    // tabs跟模块分离距离（默认10px）
+    tabMarginNum: {
+      type: Number,
+      default: 10
     },
     // 是否显示底部操作按钮 :footer="null"
     footer: Object,

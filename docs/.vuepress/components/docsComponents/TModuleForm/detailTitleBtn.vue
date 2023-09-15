@@ -2,12 +2,33 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="模块详情--基本使用"
-        subTitle="基本使用副标题"
+        title="模块详情组件运用"
+        subTitle="Title右侧插槽使用"
         ref="sourceDetail"
         handleType="desc"
         :descData="descData"
-      />
+      >
+        <!-- 标题右侧按钮 -->
+        <template #extra>
+          <el-button type="primary">主要按钮</el-button>
+          <el-button type="success">成功按钮</el-button>
+          <el-button type="danger">信息按钮</el-button>
+        </template>
+        <!-- 模块detail详情插槽 -->
+        <template #line>
+          <el-button type="danger">自定义模块detail插槽</el-button>
+        </template>
+        <!-- title右侧按钮插槽 -->
+        <template #material>
+          <el-button size="small" type="primary">批量通过</el-button>
+          <el-button size="small" type="danger">批量驳回</el-button>
+          <el-button size="small">导出</el-button>
+        </template>
+        <!-- value自定义插槽 -->
+        <template #loadKgPerCar>
+          <div class="text-danger">value自定义插槽</div>
+        </template>
+      </t-module-form>
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -19,7 +40,8 @@ export default {
       descData: {
         goods: {
           name: 'goods',
-          title: '货品信息',
+          title: '禁止收缩',
+          disabled: true,
           data: [
             {
               label: '货品名称',
@@ -54,12 +76,14 @@ export default {
             {
               label: '易碎品',
               fieldName: 'isBreakable',
-              value: '',
+              value: '3333',
+              span: 2
             },
             {
               label: '备注',
               fieldName: 'cargoRemark',
-              value: '',
+              value: '占位一整行',
+              span: 4
             }
           ]
         },
@@ -80,7 +104,8 @@ export default {
             {
               label: '路损类型',
               fieldName: 'roadLossType',
-              value: '',
+              value: '定率',
+              tooltip: '测试字符串提示'
             },
             {
               label: '路耗定额',
@@ -90,14 +115,27 @@ export default {
             {
               label: '整车承载',
               fieldName: 'loadKgPerCar',
+              slotName: 'loadKgPerCar',
               value: ''
             },
             {
               label: '保险购买',
               fieldName: 'buyInsurance',
-              value: '',
+              value: '是',
+              tooltip: () => (
+                <div>
+                  <div>测试函数方式提示</div>
+                </div>
+              )
             }
           ]
+        },
+        line: {
+          name: 'line',
+          title: '线路信息',
+          disabled: true,
+          slotName: 'line',
+          btn: 'material'
         }
       }
     }
@@ -116,6 +154,6 @@ export default {
     this.descData.goods.data.map(val => {
       val.value = goodsData[val.fieldName]
     })
-  },
+  }
 }
 </script>

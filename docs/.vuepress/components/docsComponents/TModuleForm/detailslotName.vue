@@ -2,12 +2,17 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="模块详情--基本使用"
-        subTitle="基本使用副标题"
+        title="模块详情组件"
+        subTitle="value插槽使用"
         ref="sourceDetail"
         handleType="desc"
         :descData="descData"
-      />
+      >
+        <!-- value自定义插槽 -->
+        <template #loadKgPerCar>
+          <div class="text-danger">value自定义插槽</div>
+        </template>
+      </t-module-form>
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -54,12 +59,14 @@ export default {
             {
               label: '易碎品',
               fieldName: 'isBreakable',
-              value: '',
+              value: '3333',
+              span: 2
             },
             {
               label: '备注',
               fieldName: 'cargoRemark',
-              value: '',
+              value: '占位一整行',
+              span: 4
             }
           ]
         },
@@ -80,7 +87,8 @@ export default {
             {
               label: '路损类型',
               fieldName: 'roadLossType',
-              value: '',
+              value: '定率',
+              tooltip: '测试字符串提示'
             },
             {
               label: '路耗定额',
@@ -90,12 +98,18 @@ export default {
             {
               label: '整车承载',
               fieldName: 'loadKgPerCar',
+              slotName: 'loadKgPerCar',
               value: ''
             },
             {
               label: '保险购买',
               fieldName: 'buyInsurance',
-              value: '',
+              value: '是',
+              tooltip: () => (
+                <div>
+                  <div>测试函数方式提示</div>
+                </div>
+              )
             }
           ]
         }
@@ -116,6 +130,6 @@ export default {
     this.descData.goods.data.map(val => {
       val.value = goodsData[val.fieldName]
     })
-  },
+  }
 }
 </script>

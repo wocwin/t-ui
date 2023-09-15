@@ -1,19 +1,19 @@
 <template>
   <t-layout-page>
     <t-layout-page-item>
-      <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
-        ref="sourceForm"
-        :formOpts="formOpts"
-        :submit="submit"
-      />
+      <t-module-form title="自定义底部按钮" ref="sourceForm" :formOpts="formOpts" :submit="submit">
+        <template #footer>
+          <el-button type="primary" @click="clearValidate">清除校验</el-button>
+          <el-button type="primary" @click="resetForm">重置</el-button>
+          <el-button type="danger" @click="save">保存</el-button>
+        </template>
+      </t-module-form>
     </t-layout-page-item>
   </t-layout-page>
 </template>
 <script>
 export default {
-  name: 'TModuleFormDemoBase',
+  name: 'TModuleFormDemo',
   data() {
     return {
       formOpts: {
@@ -22,6 +22,7 @@ export default {
           name: 'goodsInformation',
           ref: null,
           opts: {
+            labelPosition: 'top',
             formData: {
               id: `${Math.floor(Math.random() * 10 + 1)}`, // *唯一ID
               account: '', // *用户账号
@@ -41,6 +42,22 @@ export default {
               { label: '状态', value: 'status', type: 'select-arr', list: 'statusList', comp: 'el-select', arrLabel: 'key', arrKey: 'value' },
               { label: '爱好', value: 'hobby', type: 'checkbox', comp: 'el-checkbox-group', list: 'hobbyList', event: 'checkbox', widthSize: 1 },
             ],
+            rules: {
+              account: [
+                { required: true, message: '请输入账号', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ],
+              password: [
+                { required: true, message: '请输入密码', trigger: 'blur' }
+              ],
+              name: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
+              sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
+              status: [{ required: true, message: '请选择状态', trigger: 'change' }],
+              accountType: [{ required: true, message: '请选择平台用户', trigger: 'change' }],
+              hobby: [
+                { type: 'array', required: true, message: '请至少选择一个爱好', trigger: 'change' }
+              ]
+            },
             // 相关列表
             listTypeInfo: {
               hobbyList: [
@@ -89,67 +106,19 @@ export default {
               { label: '邮箱', value: 'email', type: 'input', comp: 'el-input' },
               { label: '计数器', value: 'number', type: 'inputNumber', bind: { controls: false, min: 2, max: 99 }, comp: 'el-input-number' },
               { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', widthSize: 1 }
-            ]
-          }
-        },
-        loadingDate: {
-          name: 'loadingDate',
-          title: '承运信息',
-          ref: null,
-          opts: {
-            formData: {
-              id: `${Math.floor(Math.random() * 10 + 1)}`, // *唯一ID
-              createDate: '', // 创建时间
-              valDate: '', // el日期选择范围
-              qq: '', // qq
-              accountType: '', // *用户类型: 0: 手机注册 1: 论坛注册 2: 管理平台添加
-              email: '', // 邮箱
-              desc: '', // 描述
-              number: '', // 计算器
-              status: '' // *状态: 0：停用，1：启用(默认为1)',
-            },
-            fieldList: [
-              { label: '创建时间', value: 'createDate', type: 'year', bind: { valueFormat: 'yyyy' }, comp: 'el-date-picker' },
-              {
-                labelRender: () => {
-                  return (
-                    <div class="label_render">
-                      <div>element日期</div>
-                      <el-tooltip >
-                        <template slot="content">
-                          <span>总质量4.5吨及以下普通货运车辆的，可填“车籍地6位行政区域代码+000000”。</span>
-                        </template>
-                        <i class="el-icon-warning-outline" style="cursor: pointer;margin-right:2px;" />
-                      </el-tooltip>
-                    </div>
-                  )
-                },
-                value: 'valDate',
-                type: 'daterange',
-                comp: 'el-date-picker',
-                bind: { rangeSeparator: '-', startPlaceholder: '开始日期', endPlaceholder: '结束日期', valueFormat: 'yyyy-MM-dd' }
-              },
-              { label: 'QQ', value: 'qq', type: 'input', comp: 'el-input' },
-              { label: '邮箱', value: 'email', type: 'input', comp: 'el-input' },
-              { label: '计数器', value: 'number', type: 'inputNumber', bind: { controls: false, min: 2, max: 99 }, comp: 'el-input-number' },
-              { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', widthSize: 1 }
             ],
-            // 相关列表
-            listTypeInfo: {
-              sexList: [
-                { key: '女', value: 1 },
-                { key: '男', value: 0 }
+            rules: {
+              phone: [
+                { required: true, message: '请输入手机号码', trigger: 'blur' },
               ],
-              accountTypeList: {
-                0: '手机用户',
-                1: '论坛用户',
-                2: '平台用户'
-              },
-              statusList: [
-                { key: '启用', value: 1 },
-                { key: '停用', value: 0 }
-              ]
-            }
+              createDate: [{ required: true, message: '请选择创建时间', trigger: 'change' }],
+              valDate: [{ required: true, message: '请选择element日期', trigger: 'change' }],
+              wechat: [
+                { required: true, message: '请输入微信', trigger: 'blur' }
+              ],
+              email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+              qq: [{ required: true, message: '请输入QQ', trigger: 'blur' }],
+            },
           }
         }
       }
@@ -157,6 +126,19 @@ export default {
   },
   // 方法
   methods: {
+    // 重置表单
+    resetForm() {
+      console.log('重置表单')
+      this.$refs.sourceForm.resetFormFields()
+    },
+    // 清除校验
+    clearValidate() {
+      console.log('清除校验')
+      this.$refs.sourceForm.clearValidate()
+    },
+    save() {
+      this.$refs.sourceForm.saveHandle()
+    },
     // 提交form表单
     submit(data) {
       console.log('最终提交数据', data)

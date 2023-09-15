@@ -1,7 +1,7 @@
 <template>
   <div
     class="code-format"
-    :class="{ hover: hovering }"
+    :class="{ hover: hovering,styleModule:isShowModule }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -62,6 +62,10 @@ export default {
   name: "CodeFormat",
   props: {
     sourceHeight: {
+      type: Boolean,
+      default: false
+    },
+    isShowModule: {
       type: Boolean,
       default: false
     }
@@ -312,6 +316,17 @@ export default {
   td,
   tr {
     border: 0;
+  }
+}
+.styleModule {
+  background-color: #f0f2f5;
+  .t_layout_page_item {
+    margin: 0;
+    padding: 0;
+    .t_module_form {
+      overflow: hidden;
+      margin: 0 !important;
+    }
   }
 }
 .el-popper {

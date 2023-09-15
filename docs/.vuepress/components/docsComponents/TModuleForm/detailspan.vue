@@ -2,8 +2,8 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="模块详情--基本使用"
-        subTitle="基本使用副标题"
+        title="模块详情"
+        subTitle="独占一行（span设置）"
         ref="sourceDetail"
         handleType="desc"
         :descData="descData"
@@ -54,11 +54,13 @@ export default {
             {
               label: '易碎品',
               fieldName: 'isBreakable',
+              span: 2,
               value: '',
             },
             {
-              label: '备注',
+              label: '备注(独占一行)',
               fieldName: 'cargoRemark',
+              span: 4,
               value: '',
             }
           ]

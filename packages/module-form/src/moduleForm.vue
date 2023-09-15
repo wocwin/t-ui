@@ -77,6 +77,13 @@ export default {
         border-bottom: 1px solid #ebeef5;
         position: relative;
         padding-left: 35px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .t_btn {
+          margin-right: 15px;
+        }
         .el-collapse-item__arrow {
           color: inherit;
           font-style: normal;
@@ -116,7 +123,7 @@ export default {
     // 禁用时取消收缩功能及隐藏icon
     .disabledStyle {
       .el-collapse-item__header {
-        color: #000;
+        color: #303133;
         cursor: default;
         padding-left: 20px;
         font-size: 16px;

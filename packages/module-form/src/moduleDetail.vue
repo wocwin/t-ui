@@ -9,10 +9,22 @@
         :name="val.name"
         :disabled="val.disabled"
       >
+        <template #title>
+          {{val.title}}
+          <div class="t_btn" v-if="val.btn">
+            <slot :name="val.btn"></slot>
+          </div>
+        </template>
         <template v-if="val.slotName">
           <slot :name="val.slotName"></slot>
         </template>
-        <el-descriptions v-else size="middle" :column="descColumn">
+        <el-descriptions
+          v-else
+          size="middle"
+          :column="descColumn"
+          v-bind="$attrs"
+          :class="{fontWight:fontBold}"
+        >
           <el-descriptions-item
             v-for="(item, key) in val.data"
             :key="key"
@@ -63,6 +75,11 @@ export default {
       type: Number,
       default: 4
     },
+    // 字体是否加粗
+    fontBold: {
+      type: Boolean,
+      default: false
+    },
     // 后台数据源
     dataList: {
       type: Object,
@@ -81,16 +98,16 @@ export default {
   computed: {
     // 默认全部展开
     defaultActiveKey: {
-      get () {
+      get() {
         // console.log(333, Object.keys(this.descData))
         return Object.keys(this.descData)
       },
-      set (val) {
+      set(val) {
         return val
       }
     }
   },
-  mounted () { },
+  mounted() { },
   methods: {}
 }
 </script>
@@ -107,6 +124,14 @@ export default {
         border-bottom: 1px solid #ebeef5;
         position: relative;
         padding-left: 35px;
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .t_btn {
+          margin-right: 15px;
+        }
         .el-collapse-item__arrow {
           color: inherit;
           font-style: normal;
@@ -129,6 +154,15 @@ export default {
         border: none;
         .el-collapse-item__content {
           padding-bottom: 0;
+          .fontWight {
+            .el-descriptions__body {
+              .el-descriptions-item__container {
+                .el-descriptions-item__label {
+                  font-weight: bold;
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -147,8 +181,16 @@ export default {
         color: #303133;
         cursor: default;
         padding-left: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         .el-collapse-item__arrow {
           display: none;
+        }
+        .t_btn {
+          margin-right: 15px;
         }
       }
     }

@@ -2,10 +2,10 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
+        title="没有返回icon"
         ref="sourceForm"
         :formOpts="formOpts"
+        isShowBack
         :submit="submit"
       />
     </t-layout-page-item>
@@ -157,6 +157,9 @@ export default {
   },
   // 方法
   methods: {
+    back() {
+      console.log('自定义返回事件')
+    },
     // 提交form表单
     submit(data) {
       console.log('最终提交数据', data)

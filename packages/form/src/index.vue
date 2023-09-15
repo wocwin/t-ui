@@ -311,7 +311,7 @@ export default {
     },
     // 绑定的相关事件
     handleEvent(type, val, item) {
-      console.log('组件', type, val, item)
+      // console.log('组件', type, val, item)
       // 去除前后空格
       if (this.isTrim && !item.isTrim && item.comp.includes('el-input') && item.type !== 'password' && item.type !== 'inputNumber') {
         this.formOpts.formData[item.value] = this.formOpts.formData[item.value].trim()

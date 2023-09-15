@@ -2,11 +2,12 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-module-form
-        title="基本使用"
-        subTitle="基本使用副标题"
+        title="自定义返回事件"
         ref="sourceForm"
         :formOpts="formOpts"
+        isGoBackEvent
         :submit="submit"
+        @back="back"
       />
     </t-layout-page-item>
   </t-layout-page>
@@ -157,6 +158,9 @@ export default {
   },
   // 方法
   methods: {
+    back() {
+      console.log('自定义返回事件')
+    },
     // 提交form表单
     submit(data) {
       console.log('最终提交数据', data)

@@ -724,12 +724,14 @@ export default {
     clear() {
       if (this.multiple) {
         this.$refs['el-table'].clearSelection()
+        this.defaultValue = []
       } else {
         // 取消高亮
         this.$refs['el-table'].setCurrentRow(-1)
         this.nowIndex = -1
         this.radioVal = ''
         this.forbidden = false
+        this.defaultValue = {}
         this.$emit('radioChange', {}, null)
       }
     },

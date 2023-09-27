@@ -1,6 +1,6 @@
 module.exports = {
   title: 'Tui基础组件文档库',
-  description: '基于Element-ui和ant-design-vue二次封装基础组件示例',
+  description: '基于Element-ui二次封装基础组件示例',
   base: '/t-ui/',
   // port: 6666,
   // dest: './dist',   // 设置输出目录
@@ -35,187 +35,171 @@ module.exports = {
         }
       ],
       '/baseComponents/': [
+        // {
+        //   title: '基于element封装',
+        //   collapsable: true,
+        //   children: [
         {
-          title: '基于element封装',
-          collapsable: true,
+          title: '常用组件',
+          collapsable: false,
           children: [
-            {
-              title: '常用组件',
-              collapsable: false,
-              children: [
-                // 'ElementUi/TTheme/base', // 主题设置
-                'ElementUi/TInput/base', // input组件
-                'ElementUi/TButton/base', // button组件
-                'ElementUi/TTimerBtn/base', // 获取验证码倒计时组件
-                'ElementUi/TSearch/base', // 下拉搜索查询组件
-                'ElementUi/TLayout/base', // 布局组件
-                'ElementUi/TLayoutPage/base', // 局部布局组件
-                'ElementUi/TStepWizard/base', // 步驟组件
-                'ElementUi/TDatePicker/base', // 日期组件
-                'ElementUi/TDialog/base', // 弹窗组件
-                'ElementUi/TDetail/base', // 详情组件
-                'ElementUi/TTreeSelect/base', // 下拉选择树形及结构组件
-                'ElementUi/TSelect/base', // 下拉选择组件
-                'ElementUi/TPaginationSelect/base', // 下拉选择分页组件
-                // 'ElementUi/TSelectTable/base', // 下拉选择表格组件
-                // 'ElementUi/TUploadExcel/base' // 批量上传excel组件
-              ]
-            },
-            {
-              title: '下拉选择表格组件',
-              collapsable: false,
-              children: [
-                'ElementUi/TSelectTable/radio',
-                'ElementUi/TSelectTable/isKeyup',
-                'ElementUi/TSelectTable/radioDefaultSelectVal',
-                'ElementUi/TSelectTable/radioPagination',
-                'ElementUi/TSelectTable/isShowFirstColumn',
-                'ElementUi/TSelectTable/isShowQuery',
-                'ElementUi/TSelectTable/radiovirtual', // 单选--虚拟列表
-                'ElementUi/TSelectTable/multiplevirtual', // 多选-虚拟列表
-                'ElementUi/TSelectTable/multiple',
-                'ElementUi/TSelectTable/multipleDefaultSelectVal',
-                'ElementUi/TSelectTable/showPagination',
-                'ElementUi/TSelectTable/formDemo',
-                'ElementUi/TSelectTable/help', // 使用帮助(Attributes)
-              ]
-            },
-            {
-              title: '查询条件组件',
-              collapsable: false,
-              children: [
-                'ElementUi/TQueryCondition/base', // 基本
-                'ElementUi/TQueryCondition/slot', // 插槽使用
-                'ElementUi/TQueryCondition/labelRender', // tsx自定义label使用
-                'ElementUi/TQueryCondition/defaultVal', // 默认值
-                'ElementUi/TQueryCondition/linkage', // 联动使用
-                'ElementUi/TQueryCondition/TSelectUse', // 结合TSelect使用
-                'ElementUi/TQueryCondition/TDatePickerUse', // 结合TDatePicker使用
-                'ElementUi/TQueryCondition/help', // 使用帮助(Attributes)
-              ]
-            },
-            {
-              title: '表单组件',
-              collapsable: false,
-              children: [
-                'ElementUi/TForm/base', // 基本模式
-                'ElementUi/TForm/labelPosition', // 对齐方式
-                'ElementUi/TForm/widthSize', // 每行展示多少项
-                'ElementUi/TForm/rules', // 表单验证
-                'ElementUi/TForm/eventHandle', // 事件使用
-                'ElementUi/TForm/labelRender', // 自定义label
-                'ElementUi/TForm/slotName', // 自定义输入框插槽
-                'ElementUi/TForm/textShow', // 文本展示
-                'ElementUi/TForm/comUse', // 自己组件使用
-                'ElementUi/TForm/assignment', // 赋值回显
-                'ElementUi/TForm/submit', // 切换页面获取表单数据
-                'ElementUi/TForm/dynamic', // 动态增减表单项
-                'ElementUi/TForm/help' // 使用帮助(Attributes)
-              ]
-            },
-            {
-              title: '模块表单组件',
-              collapsable: false,
-              children: [
-                'ElementUi/TModuleForm/base', // 基本模式
-                'ElementUi/TModuleForm/slotName', // 模块插槽使用
-                'ElementUi/TModuleForm/disabled', // 某个模块是否禁用展开
-                'ElementUi/TModuleForm/labelPosition', // 模块表单对齐方式
-                'ElementUi/TModuleForm/rules', // 模块表单表单验证
-                'ElementUi/TModuleForm/validateError', //  模块表单校验错误提示
-                'ElementUi/TModuleForm/footer', // 模块表单自定义底部按钮
-                'ElementUi/TModuleForm/tabs', //  模块表单显示tabs(注意只显示在最后一个模块)
-                'ElementUi/TModuleForm/isGoBackEvent', //  模块表单自定义返回事件（默认返回上一页）
-                'ElementUi/TModuleForm/isShowBack', //  模块表单没有返回icon
-                'ElementUi/TModuleForm/extra', //  模块表单title右侧插槽使用
-                'ElementUi/TModuleForm/titleBtn', // 某个模块Title右侧插槽使用
+            // 'TTheme/base', // 主题设置
+            'TInput/base', // input组件
+            'TButton/base', // button组件
+            'TTimerBtn/base', // 获取验证码倒计时组件
+            'TSearch/base', // 下拉搜索查询组件
+            'TLayout/base', // 布局组件
+            'TLayoutPage/base', // 局部布局组件
+            'TStepWizard/base', // 步驟组件
+            'TDatePicker/base', // 日期组件
+            'TDialog/base', // 弹窗组件
+            'TDetail/base', // 详情组件
+            'TTreeSelect/base', // 下拉选择树形及结构组件
+            'TSelect/base', // 下拉选择组件
+            'TPaginationSelect/base', // 下拉选择分页组件
+            // 'TSelectTable/base', // 下拉选择表格组件
+            // 'TUploadExcel/base' // 批量上传excel组件
+          ]
+        },
+        {
+          title: '下拉选择表格组件',
+          collapsable: false,
+          children: [
+            'TSelectTable/radio',
+            'TSelectTable/isKeyup',
+            'TSelectTable/radioDefaultSelectVal',
+            'TSelectTable/radioPagination',
+            'TSelectTable/isShowFirstColumn',
+            'TSelectTable/isShowQuery',
+            'TSelectTable/radiovirtual', // 单选--虚拟列表
+            'TSelectTable/multiplevirtual', // 多选-虚拟列表
+            'TSelectTable/multiple',
+            'TSelectTable/multipleDefaultSelectVal',
+            'TSelectTable/showPagination',
+            'TSelectTable/formDemo',
+            'TSelectTable/help', // 使用帮助(Attributes)
+          ]
+        },
+        {
+          title: '查询条件组件',
+          collapsable: false,
+          children: [
+            'TQueryCondition/base', // 基本
+            'TQueryCondition/slot', // 插槽使用
+            'TQueryCondition/labelRender', // tsx自定义label使用
+            'TQueryCondition/defaultVal', // 默认值
+            'TQueryCondition/linkage', // 联动使用
+            'TQueryCondition/TSelectUse', // 结合TSelect使用
+            'TQueryCondition/TDatePickerUse', // 结合TDatePicker使用
+            'TQueryCondition/help', // 使用帮助(Attributes)
+          ]
+        },
+        {
+          title: '表单组件',
+          collapsable: false,
+          children: [
+            'TForm/base', // 基本模式
+            'TForm/labelPosition', // 对齐方式
+            'TForm/widthSize', // 每行展示多少项
+            'TForm/rules', // 表单验证
+            'TForm/eventHandle', // 事件使用
+            'TForm/labelRender', // 自定义label
+            'TForm/slotName', // 自定义输入框插槽
+            'TForm/textShow', // 文本展示
+            'TForm/comUse', // 自己组件使用
+            'TForm/assignment', // 赋值回显
+            'TForm/submit', // 切换页面获取表单数据
+            'TForm/dynamic', // 动态增减表单项
+            'TForm/help' // 使用帮助(Attributes)
+          ]
+        },
+        {
+          title: '模块表单组件',
+          collapsable: false,
+          children: [
+            'TModuleForm/base', // 基本模式
+            'TModuleForm/slotName', // 模块插槽使用
+            'TModuleForm/disabled', // 某个模块是否禁用展开
+            'TModuleForm/labelPosition', // 模块表单对齐方式
+            'TModuleForm/rules', // 模块表单表单验证
+            'TModuleForm/validateError', //  模块表单校验错误提示
+            'TModuleForm/footer', // 模块表单自定义底部按钮
+            'TModuleForm/tabs', //  模块表单显示tabs(注意只显示在最后一个模块)
+            'TModuleForm/isGoBackEvent', //  模块表单自定义返回事件（默认返回上一页）
+            'TModuleForm/isShowBack', //  模块表单没有返回icon
+            'TModuleForm/extra', //  模块表单title右侧插槽使用
+            'TModuleForm/titleBtn', // 某个模块Title右侧插槽使用
 
-                'ElementUi/TModuleForm/detail', // 模块详情基本模式
-                'ElementUi/TModuleForm/detailspan', // 模块详情每行展示项
-                'ElementUi/TModuleForm/tooltip', // 模块详情提示项
-                'ElementUi/TModuleForm/detailslot', // 模块详情插槽使用
-                'ElementUi/TModuleForm/detailslotName', // 模块详情某个值value插槽使用
-                'ElementUi/TModuleForm/detaildisabled', // 某个模块是否禁用展开
-                'ElementUi/TModuleForm/detailTitleBtn', // 某个模块Title右侧插槽使用
-                'ElementUi/TModuleForm/help' // 使用帮助(Attributes)
-              ]
-            },
-            {
-              title: 'TTable组件',
-              collapsable: false,
-              children: [
-                'ElementUi/TTable/TAdaptivePage', // 一屏显示
-                'ElementUi/TTable/base', // 基本
-                'ElementUi/TTable/pagination', // 分页
-                'ElementUi/TTable/virtual', // 虚拟列表
-                'ElementUi/TTable/notSort', // 指定列不需要排序
-                'ElementUi/TTable/customSort', // 自定义排序
-                'ElementUi/TTable/mergedCell', // 合并单元格
-                'ElementUi/TTable/headerGroup', // 表头合并
-                'ElementUi/TTable/slotNameMerge', // 表头合并插槽显示
-                // 'ElementUi/TTable/headerGroupEditTable', // 表头合并单元格编辑功能
-                'ElementUi/TTable/renderCol', // render列渲染
-                'ElementUi/TTable/slotName', // 插槽列渲染
-                'ElementUi/TTable/filters', // 字典过滤
-                'ElementUi/TTable/objRenderPorp', // 对象模式渲染
-                'ElementUi/TTable/renderHeader', // 自定义列标题 label
-                'ElementUi/TTable/radio', // 单选
-                'ElementUi/TTable/treeTable',
-                'ElementUi/TTable/rules', // 单元格编辑--校验
-                'ElementUi/TTable/singleEditKeyup', // 单元格编辑键盘事件
-                'ElementUi/TTable/singleEditTable', // 开启单个单元格编辑
-                'ElementUi/TTable/eventHandle', // 单元格编辑使用第三方组件事件
-                'ElementUi/TTable/cellEditSave', // 单元格编辑保存单行操作
-                'ElementUi/TTable/editTable', // 开启整行编辑模式
-                'ElementUi/TTable/rowSort', // 行拖拽排序
-                'ElementUi/TTable/checkbox', // 基本复选
-                'ElementUi/TTable/columnSet', // 显示隐藏列
-                'ElementUi/TTable/operation', // 操作栏
-                'ElementUi/TTable/customRender', // customRender操作自定义渲染
-                'ElementUi/TTable/tree', // TreeTable组件
-                'ElementUi/TTable/help' // 使用帮助(Attributes)
-              ]
-            },
-            // {
-            //   title: '表格编辑组件',
-            //   collapsable: false,
-            //   children: [
-            //     'ElementUi/TEditTable/base', // 编辑table组件
-            //   ]
-            // },
-            // {
-            //   title: 'TTreeTable组件',
-            //   collapsable: false,
-            //   children: [
-            //     'ElementUi/TTable/tree' // TreeTable组件
-            //   ]
-            // },
-            // {
-            //   title: '图片/文件上传组件',
-            //   collapsable: false,
-            //   children: [
-            //     'ElementUi/TUploadFile/base',
-            //     'ElementUi/UploadFile/base'
-            //   ]
-            // }
+            'TModuleForm/detail', // 模块详情基本模式
+            'TModuleForm/detailspan', // 模块详情每行展示项
+            'TModuleForm/tooltip', // 模块详情提示项
+            'TModuleForm/detailslot', // 模块详情插槽使用
+            'TModuleForm/detailslotName', // 模块详情某个值value插槽使用
+            'TModuleForm/detaildisabled', // 某个模块是否禁用展开
+            'TModuleForm/detailTitleBtn', // 某个模块Title右侧插槽使用
+            'TModuleForm/help' // 使用帮助(Attributes)
           ]
         },
         {
-          title: '基于AntDesign封装',
-          collapsable: true,
+          title: 'TTable组件',
+          collapsable: false,
           children: [
-            {
-              title: '常用组件',
-              collapsable: false,
-              children: [
-                'AntDesign/TAntLayoutConditional/base', // 筛选器布局组件
-                'AntDesign/TAntLayoutTable/base', // 默认table布局组件
-                'AntDesign/TAntLayoutForm/base', // 配置化表单组件
-                'AntDesign/TAntModal/base' // 弹窗组件
-              ]
-            }
+            'TTable/TAdaptivePage', // 一屏显示
+            'TTable/base', // 基本
+            'TTable/pagination', // 分页
+            'TTable/virtual', // 虚拟列表
+            'TTable/notSort', // 指定列不需要排序
+            'TTable/customSort', // 自定义排序
+            'TTable/mergedCell', // 合并单元格
+            'TTable/headerGroup', // 表头合并
+            'TTable/slotNameMerge', // 表头合并插槽显示
+            // 'TTable/headerGroupEditTable', // 表头合并单元格编辑功能
+            'TTable/renderCol', // render列渲染
+            'TTable/slotName', // 插槽列渲染
+            'TTable/filters', // 字典过滤
+            'TTable/objRenderPorp', // 对象模式渲染
+            'TTable/renderHeader', // 自定义列标题 label
+            'TTable/radio', // 单选
+            'TTable/treeTable',
+            'TTable/rules', // 单元格编辑--校验
+            'TTable/singleEditKeyup', // 单元格编辑键盘事件
+            'TTable/singleEditTable', // 开启单个单元格编辑
+            'TTable/eventHandle', // 单元格编辑使用第三方组件事件
+            'TTable/cellEditSave', // 单元格编辑保存单行操作
+            'TTable/editTable', // 开启整行编辑模式
+            'TTable/rowSort', // 行拖拽排序
+            'TTable/checkbox', // 基本复选
+            'TTable/columnSet', // 显示隐藏列
+            'TTable/operation', // 操作栏
+            'TTable/customRender', // customRender操作自定义渲染
+            'TTable/tree', // TreeTable组件
+            'TTable/help' // 使用帮助(Attributes)
           ]
         },
+        // {
+        //   title: '表格编辑组件',
+        //   collapsable: false,
+        //   children: [
+        //     'TEditTable/base', // 编辑table组件
+        //   ]
+        // },
+        // {
+        //   title: 'TTreeTable组件',
+        //   collapsable: false,
+        //   children: [
+        //     'TTable/tree' // TreeTable组件
+        //   ]
+        // },
+        // {
+        //   title: '图片/文件上传组件',
+        //   collapsable: false,
+        //   children: [
+        //     'TUploadFile/base',
+        //     'UploadFile/base'
+        //   ]
+        // }
+        // ]
+        // }
       ],
       // '/theme/': [
       //   {

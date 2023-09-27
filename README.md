@@ -4,13 +4,16 @@
 
 > 基于 Element-plus 二次封装基础组件地址
 
+## [Vue2 基于ant-design-vue封装基础组件码云地址](https://gitee.com/wocwin/t-antd-ui)
+## [Vue2 基于ant-design-vue封装基础组件GitHub地址](https://github.com/wocwin/t-antd-ui)
+
+> 基于 ant-design-vue 二次封装基础组件地址
+
 ## 介绍
 
-> 以 T 字开头是基于 Element-ui 二次封装组件
->
-> 以 TAnt 开头是基于 ant-design-vue 二次封装组件
+> 基于 Element-ui 二次封装组件
 
-这是我在学习 Vue 中基于[Element-ui](https://element.faas.ele.me/#/zh-CN) 和[ant-design-vue](https://www.antdv.com/docs/vue/introduce-cn/)二次封装基础组件文档，希望对你有用。可查看 [详细组件案例文档](https://wocwin.github.io/t-ui/) 预览
+这是我在学习 Vue 中基于[Element-ui](https://element.faas.ele.me/#/zh-CN) 二次封装基础组件文档，希望对你有用。可查看 [详细组件案例文档](https://wocwin.github.io/t-ui/) 预览
 
 <p align="center">
   <a href="https://github.com/vuejs/vue" target="_blank">
@@ -27,11 +30,15 @@
     </a>
 </p>
 
+## 拆分基于ant-design-vue封装的组件（1.1.2版本）
+
+>### [Vue2 基于ant-design-vue封装基础组件地址](https://github.com/wocwin/t-antd-ui)
 ## 动态效果图
 
 <img src="./public/Tui__demo.gif">
 
 ## npm 方式安装使用
+> ### 前提条件：使用项目必须全局注册 Element-ui组件库
 
 ```js
 // 先安装

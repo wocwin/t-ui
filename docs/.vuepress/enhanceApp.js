@@ -2,8 +2,6 @@
 import VueHighlightJS from 'vue-highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
 import ElementUI from 'element-ui'
-import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
 // import 'babel-polyfill'
 // import Es6Promise from 'es6-promise'
 // import Tui from '../../src/components/baseComponents/index.js'
@@ -24,7 +22,6 @@ export default ({
 }) => {
   Vue.use(VueHighlightJS),
     Vue.use(ElementUI),
-    Vue.use(Antd),
     Vue.use(Tui),
     Vue.use(vueClipboard),
     Vue.prototype.$messageUpload = message,

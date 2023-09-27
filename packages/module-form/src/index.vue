@@ -155,10 +155,9 @@ export default {
         }
       })
       if (successLength === Object.keys(formOpts).length) { // 所有表单都校验成功
-        const isSuccess = await this.submit(form)
-        if (isSuccess) { // 成功
-          this.back()
-        }
+        await this.submit(form)
+        this.loading = false
+        return true
       } else {
         // 校验失败抛出事件
         Object.keys(formOpts).forEach((key) => {
@@ -173,8 +172,9 @@ export default {
           }
         })
         this.$emit('validateError', formError)
+        this.loading = false
+        return false
       }
-      this.loading = false
     },
     // 点击头部返回或者取消
     back() {

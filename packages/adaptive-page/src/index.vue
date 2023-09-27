@@ -1,7 +1,7 @@
 <template>
   <t-layout-page class="t_adaptive_page">
     <t-layout-page-item class="table_search">
-      <t-query-condition v-bind="$attrs" v-on="$listeners">
+      <t-query-condition ref="query-condition" v-bind="$attrs" v-on="$listeners">
         <template v-for="(index, name) in $slots" v-slot:[name]>
           <slot :name="name" />
         </template>
@@ -11,7 +11,7 @@
       </t-query-condition>
     </t-layout-page-item>
     <t-layout-page-item class="table_main">
-      <t-table v-bind="$attrs" v-on="$listeners">
+      <t-table ref="t-table" v-bind="$attrs" v-on="$listeners">
         <template v-for="(index, name) in $slots" v-slot:[name]>
           <slot :name="name" />
         </template>
@@ -34,6 +34,18 @@ export default {
     TLayoutPageItem,
     TTable,
     TQueryCondition
+  },
+  props: {
+    queryRef: Object,
+    tableRef: Object
+  },
+  mounted() {
+    this.$emit('update:queryRef', this.$refs['query-condition'])
+    this.$emit('update:tableRef', this.$refs['t-table'])
+  },
+  activated() {
+    this.$emit('update:queryRef', this.$refs['query-condition'])
+    this.$emit('update:tableRef', this.$refs['t-table'])
   }
 }
 </script>

@@ -1,7 +1,3 @@
-/*
- * 此组件是基于 https://githob.com/zwhGithub/vue-calendar 改造得来
- * 基于原组件上增加了双击日期的方法 dblclickDay
- */
 <template>
   <div class="t_container t-calendar">
     <div class="t_content_all">
@@ -38,10 +34,14 @@
   </div>
 </template>
 <script>
+/*
+ * 此组件是基于 https://githob.com/zwhGithub/vue-calendar 改造得来
+ * 基于原组件上增加了双击日期的方法 dblclickDay
+ */
 import timeUtil from './calendar'
 export default {
   name: 'TCalendar',
-  data () {
+  data() {
     return {
       myDate: [],
       list: [],
@@ -79,20 +79,20 @@ export default {
       default: '2554387200'
     }
   },
-  created () {
+  created() {
     this.intStart()
     this.myDate = new Date()
   },
   methods: {
-    intStart () {
+    intStart() {
       timeUtil.sundayStart = this.sundayStart
     },
-    setClass (data) {
+    setClass(data) {
       const obj = {}
       obj[data.markClassName] = data.markClassName
       return obj
     },
-    clickDay (item, index) {
+    clickDay(item, index) {
       for (let i = 0; i < this.list.length; i++) {
         if (i === index) {
           item.chooseDay = !item.chooseDay
@@ -102,13 +102,13 @@ export default {
       };
       this.$emit('choose-day', item)
     },
-    dblclickDay (item, index) {
+    dblclickDay(item, index) {
       this.$emit('dblclickDay', item)
     },
-    cancelChooseDay () {
+    cancelChooseDay() {
       this.getList(this.myDate)
     },
-    ChoseMonth (date, isChosedDay = true) {
+    ChoseMonth(date, isChosedDay = true) {
       date = date + '-01 00:00:00'
       date = timeUtil.dateFormat(date)
       this.myDate = new Date(date)
@@ -119,7 +119,7 @@ export default {
         this.getList(this.myDate)
       }
     },
-    PreMonth (date = this.myDate, isChosedDay = true) {
+    PreMonth(date = this.myDate, isChosedDay = true) {
       date = timeUtil.dateFormat(date)
       const timeArray = date.split('/')
       const year = timeArray[0]
@@ -141,7 +141,7 @@ export default {
         this.getList(this.myDate)
       }
     },
-    NextMonth (date = this.myDate, isChosedDay = true) {
+    NextMonth(date = this.myDate, isChosedDay = true) {
       date = timeUtil.dateFormat(date)
       const timeArray = date.split('/')
       const year = timeArray[0]
@@ -216,36 +216,36 @@ export default {
       this.list = arr
     }
   },
-  mounted () {
+  mounted() {
     this.getList(this.myDate)
   },
   watch: {
     markDate: {
-      handler (val, oldVal) {
+      handler(val, oldVal) {
         this.getList(this.myDate)
       },
       deep: true
     },
     markDateMore: {
-      handler (val, oldVal) {
+      handler(val, oldVal) {
         this.getList(this.myDate)
       },
       deep: true
     },
     agoDayHide: {
-      handler (val, oldVal) {
+      handler(val, oldVal) {
         this.getList(this.myDate)
       },
       deep: true
     },
     futureDayHide: {
-      handler (val, oldVal) {
+      handler(val, oldVal) {
         this.getList(this.myDate)
       },
       deep: true
     },
     sundayStart: {
-      handler (val, oldVal) {
+      handler(val, oldVal) {
         this.intStart()
         this.getList(this.myDate)
       },

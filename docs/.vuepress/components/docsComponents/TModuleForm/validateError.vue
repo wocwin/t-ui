@@ -154,7 +154,9 @@ export default {
       this.$refs.sourceForm.clearValidate()
     },
     save() {
-      this.$refs.sourceForm.saveHandle()
+      this.$refs.sourceForm.saveHandle().then(flag=>{
+        console.log('保存--', flag)
+      })
     },
     // 提交form表单
     submit(data) {

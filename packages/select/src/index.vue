@@ -1,32 +1,49 @@
 <template>
-  <div class="t_select">
-    <el-select
-      v-model="childSelectedValue"
-      :style="{width: width||'100%'}"
-      v-bind="attrs"
-      v-on="$listeners"
-      :multiple="multiple"
-    >
-      <template v-for="(index, name) in $slots" v-slot:[name]>
-        <slot :name="name" />
-      </template>
-      <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
-        <slot :name="name" v-bind="data"></slot>
-      </template>
-      <el-checkbox
-        v-if="multiple"
-        v-model="selectChecked"
-        @change="selectAll"
-        class="all_checkbox"
-      >全选</el-checkbox>
-      <el-option
-        v-for="(item,index) in optionSource"
-        :key="index+'i'"
-        :label="customLabel?customLabelHandler(item):item[labelKey]"
-        :value="item[valueKey]"
-      ></el-option>
-    </el-select>
-  </div>
+  <el-select
+    popper-class="t_select"
+    v-model="childSelectedValue"
+    :style="{width: width||'100%'}"
+    v-bind="attrs"
+    v-on="$listeners"
+    :multiple="multiple"
+  >
+    <template v-for="(index, name) in $slots" v-slot:[name]>
+      <slot :name="name" />
+    </template>
+    <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+      <slot :name="name" v-bind="data"></slot>
+    </template>
+    <el-checkbox
+      v-if="multiple&&!isShowPagination"
+      v-model="selectChecked"
+      @change="selectAll"
+      class="all_checkbox"
+    >全选</el-checkbox>
+    <el-option
+      v-for="(item,index) in optionSource"
+      :key="index+'i'"
+      :label="customLabel?customLabelHandler(item):item[labelKey]"
+      :value="item[valueKey]"
+    />
+    <div class="t_select__pagination" v-if="isShowPagination">
+      <el-pagination
+        :layout="paginationOption.layout || 'total,prev, pager, next'"
+        :page-size="paginationOption.pageSize"
+        :current-page="paginationOption.currentPage"
+        :pager-count="paginationOption.pagerCount"
+        :total="paginationOption.total"
+        @current-change="currentChange"
+        v-bind="{
+            small: true,
+            'hide-on-single-page':true,
+            background: true,
+            ...$attrs,
+            ...paginationOption.bind,
+          }"
+        v-on="$listeners"
+      />
+    </div>
+  </el-select>
 </template>
 <script>
 export default {
@@ -61,6 +78,23 @@ export default {
     // 下拉框组件数据源
     optionSource: {
       type: Array
+    },
+    // 是否显示分页
+    isShowPagination: {
+      type: Boolean,
+      default: false
+    },
+    // 分页配置项
+    paginationOption: {
+      type: Object,
+      default: () => {
+        return {
+          pageSize: 6, // 每页显示条数
+          currentPage: 1, // 当前页
+          pagerCount: 5, // 按钮数，超过时会折叠
+          total: 0 // 总条数
+        }
+      }
     }
   },
   computed: {
@@ -74,7 +108,6 @@ export default {
     },
     attrs() {
       return {
-        // 'popper-append-to-body': false,
         clearable: true,
         filterable: true,
         ...this.$attrs
@@ -88,11 +121,6 @@ export default {
         // console.log('set', val)
         this.$emit('input', val)
       }
-    }
-  },
-  watch: {
-    childSelectedValue(val) {
-      this.childSelectedValue = val
     }
   },
   methods: {
@@ -110,6 +138,10 @@ export default {
         this.childSelectedValue = null
       }
     },
+    currentChange(val) {
+      this.childSelectedValue = null
+      this.$emit('current-change', val)
+    },
     // 自定义label显示
     customLabelHandler(item) {
       // eslint-disable-next-line no-eval
@@ -119,9 +151,20 @@ export default {
 }
 </script>
 <style lang="scss">
-.el-select-dropdown {
+.t_select {
   .all_checkbox {
     margin-left: 15px;
+  }
+  .el-pagination {
+    display: flex;
+    background-color: #fff;
+    align-items: center;
+    .el-pagination__total,
+    .el-pager,
+    button {
+      display: flex;
+      align-items: center;
+    }
   }
 }
 </style>

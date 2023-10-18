@@ -2,13 +2,14 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-pagination-select
-        v-model="materialId"
+        @current-change="pageChange"
         :optionSource="materialIdArr"
+        v-model="materialId"
         labelKey="materialName"
         valueKey="id"
-        placeholder="请选择（单选）"
+        placeholder="请选择（多选）回显"
+        multiple
         :paginationOption="setSelectPage"
-        @current-change="pageChange"
         @change="selectChange"
       />
     </t-layout-page-item>
@@ -18,10 +19,10 @@
 import data from './data.json'
 import data2 from './data2.json'
 export default {
-  name: 'TPaginationSelectDemo',
+  name: 'TPaginationSelectDemo2',
   data() {
     return {
-      materialId: null,
+      materialId: [3, 5, 6, 7],
       materialIdArr: [],
       setSelectPage: {
         pageSize: 6, // 每页显示条数

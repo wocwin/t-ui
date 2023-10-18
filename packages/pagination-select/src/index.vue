@@ -1,30 +1,33 @@
 <template>
-  <div class="t_pagination_select">
-    <el-select
-      v-model="childSelectedValue"
-      @change="(val) => $emit('change',val)"
-      :style="{width: width||'100%'}"
-      v-bind="attrs"
+  <el-select
+    popper-class="t_pagination_select"
+    v-model="childSelectedValue"
+    :style="{width: width||'100%'}"
+    v-bind="attrs"
+    v-on="$listeners"
+  >
+    <el-option
+      v-for="item in optionSource"
+      :key="item[valueKey]"
+      :label="item[labelKey]"
+      :value="item[valueKey]"
+    ></el-option>
+    <el-pagination
+      :layout="paginationOption.layout || 'total,prev, pager, next'"
+      :page-size="paginationOption.pageSize"
+      :current-page="paginationOption.currentPage"
+      :pager-count="paginationOption.pagerCount"
+      :total="paginationOption.total"
+      v-bind="{
+            small: true,
+            'hide-on-single-page':true,
+            background: true,
+            ...$attrs,
+            ...paginationOption.bind,
+          }"
       v-on="$listeners"
-    >
-      <el-option
-        v-for="item in optionSource"
-        :key="item[valueKey]"
-        :label="item[labelKey]"
-        :value="item[valueKey]"
-      ></el-option>
-      <el-pagination
-        small
-        layout="total,prev, pager, next"
-        @current-change="(val) => $emit('page-change',val)"
-        :hide-on-single-page="true"
-        :page-size="paginationOption.pageSize"
-        :current-page="paginationOption.currentPage"
-        :pager-count="paginationOption.pagerCount"
-        :total="paginationOption.total"
-      ></el-pagination>
-    </el-select>
-  </div>
+    />
+  </el-select>
 </template>
 
 <script>
@@ -33,7 +36,7 @@ export default {
   name: 'TPaginationSelect',
   props: {
     value: {
-      type: [String, Number]
+      type: [String, Number, Array]
     },
     // 选择框宽度
     width: {
@@ -41,11 +44,13 @@ export default {
     },
     // 传入的option数组中，要作为最终选择项的键值名称
     valueKey: {
-      type: String
+      type: String,
+      default: 'key'
     },
     // 传入的option数组中，要作为显示项的键值名称
     labelKey: {
-      type: String
+      type: String,
+      default: 'label'
     },
     // 下拉框组件数据源
     optionSource: {
@@ -66,38 +71,32 @@ export default {
   },
   computed: {
     childSelectedValue: {
-      get () {
+      get() {
         return this.value
       },
-      set (val) {
+      set(val) {
         this.$emit('input', val)
       }
     },
-    attrs () {
+    attrs() {
       return {
-        'popper-append-to-body': false,
         clearable: true,
         filterable: true,
         ...this.$attrs
       }
     }
-  },
-  watch: {
-    childSelectedValue (val) {
-      this.childSelectedValue = val
-    }
   }
 }
 </script>
- <style lang="scss" scoped>
+ <style lang="scss">
 .t_pagination_select {
-  ::v-deep .el-pagination {
+  .el-pagination {
     display: flex;
-    margin-top: 15px;
-    margin-left: 15px;
     background-color: #fff;
     align-items: center;
-    .el-pager {
+    .el-pagination__total,
+    .el-pager,
+    button {
       display: flex;
       align-items: center;
     }

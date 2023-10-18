@@ -27,6 +27,7 @@
 | ----renderHeader        | 列标题 Label 区域渲染使用的可以用 jsx 方式                                          | Function       | -                     |
 | ----bind                | el-table-column Attributes                                                          | Object         | -                     |
 | ----noShowTip           | 是否换行 （设置：noShowTip:true）;开启虚拟列表不会换行                              | Boolean        | false                 |
+| ----isShowHidden        | 是否动态显示隐藏列设置（隐藏/显示列）                                               | Boolean        | false                 |
 | ----render              | 返回三个参数(text：当前值,row：当前整条数据 ,index：当前行)                         | function       | -                     |
 | ----slotName            | 插槽显示此列数据（其值是具名作用域插槽）                                            | String         | -                     |
 | ----slotNameMerge       | 合并表头插槽显示此列数据（其值是具名作用域插槽）                                    | String         | -                     |

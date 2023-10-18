@@ -9,7 +9,6 @@
           :key="col.prop"
           @click.native.stop
           :checked="!col.hidden"
-          :disabled="col.checkBoxDisabled"
           @change="checked => checkChanged(checked, index)"
         >{{ col.label }}</el-checkbox>
       </draggable>
@@ -56,7 +55,7 @@ export default {
     }
   },
   watch: {
-    columnSet: function (n) {
+    columnSet(n) {
       this.$emit('columnSetting', n)
       localStorage.setItem(this.localStorageKey, JSON.stringify(n))
     }
@@ -64,23 +63,40 @@ export default {
   methods: {
     getColumnSetCache() {
       let value = localStorage.getItem(this.localStorageKey)
-      // let columnOption = this.initColumnSet()
-      // let valueArr = JSON.parse(value) || []
-      // columnOption.map(item => {
-      //   let findEle = valueArr.find(ele => ele.label === item.label && ele.prop === item.prop)
-      //   item.hidden = findEle ? findEle.hidden : false
-      // })
-      // value = JSON.stringify(columnOption)
+      let columnOption = this.initColumnSet()
+      let valueArr = JSON.parse(value) || []
+      columnOption.map(item => {
+        let findEle = valueArr.find(ele => ele.label === item.label && ele.prop === item.prop)
+        item.hidden = findEle ? findEle.hidden : false
+      })
+      this.initColumnSet().map(val => {
+        columnOption.map(item => {
+          if (Object.hasOwn(val, 'isShowHidden')) {
+            if (val.label === item.label && val.prop === item.prop && val.isShowHidden) {
+              item.hidden = val.isShowHidden
+            }
+            if (val.label === item.label && val.prop === item.prop && !val.isShowHidden) {
+              item.hidden = val.isShowHidden
+            }
+          }
+        })
+      })
+      value = JSON.stringify(columnOption)
       // console.log('最终--', value ? JSON.parse(value) : this.initColumnSet())
       return value ? JSON.parse(value) : this.initColumnSet()
     },
     initColumnSet() {
-      const columnSet = this.columns.map((col, index) => ({
+      const columnSet = this.columns.map((col, index) => (col.isShowHidden ? {
         label: col.label,
         prop: col.prop,
         hidden: false,
-        checkBoxDisabled: false
+        isShowHidden: col.isShowHidden
+      } : {
+        label: col.label,
+        prop: col.prop,
+        hidden: false
       }))
+      // console.log('initColumnSet---', columnSet)
       return columnSet
     },
     checkChanged(checked, index) {
@@ -93,13 +109,13 @@ export default {
       if (obj.false && obj.false.length < 2) {
         this.columnSet.map((val, key) => {
           if (!val.hidden) {
-            this.$set(this.columnSet, key, { ...this.columnSet[key], checkBoxDisabled: true })
+            this.$set(this.columnSet, key, { ...this.columnSet[key] })
           }
         })
       } else {
         this.columnSet.map((val, key) => {
           if (!val.hidden) {
-            this.$set(this.columnSet, key, { ...this.columnSet[key], checkBoxDisabled: false })
+            this.$set(this.columnSet, key, { ...this.columnSet[key] })
           }
         })
       }

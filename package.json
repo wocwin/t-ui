@@ -19,7 +19,7 @@
   "dependencies": {
     "@vuepress-reco/vuepress-plugin-extract-code": "^1.0.4",
     "async-validator": "^4.2.5",
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "blueimp-md5": "^2.19.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.33",

@@ -693,6 +693,7 @@ export default {
     if (this.useVirtual) {
       this.initMounted()
     }
+    //修复table抖动
   },
   methods: {
     initMounted() {

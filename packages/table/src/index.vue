@@ -693,6 +693,8 @@ export default {
     if (this.useVirtual) {
       this.initMounted()
     }
+    // 修复table抖动
+    this.$on('hook:updated', this.doLayout)
   },
   methods: {
     initMounted() {
@@ -1226,6 +1228,11 @@ export default {
     },
     isShow(name) {
       return Object.keys(this.$slots).includes(name)
+    },
+    doLayout() {
+      this.$nextTick(() => {
+        this.$refs['el-table'].doLayout()
+      })
     }
   }
 }

@@ -38,26 +38,34 @@ export default {
         toolbar: [
           {
             text: '返回上一个页面1',
-            icon: 'el-icon-circle-plus-outline',
-            type: 'danger',
+            bind: {
+              icon: 'el-icon-edit',
+              type: 'danger'
+            },
             fun: this.getBack
           },
           {
             text: '返回上一个页面2',
-            icon: 'el-icon-circle-plus-outline',
-            type: 'danger',
+            bind: {
+              icon: 'el-icon-circle-plus-outline',
+              type: 'danger'
+            },
             fun: this.getBack
           },
           {
             text: '返回上一个页面3',
-            icon: 'el-icon-circle-plus-outline',
-            type: 'danger',
+            bind: {
+              icon: 'el-icon-circle-plus-outline',
+              type: 'danger'
+            },
             fun: this.getBack
           },
           {
             text: '返回上一个页面4',
-            icon: 'el-icon-circle-plus-outline',
-            type: 'danger',
+            bind: {
+              icon: 'el-icon-circle-plus-outline',
+              type: 'danger'
+            },
             fun: this.getBack
           }
         ]

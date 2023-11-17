@@ -57,8 +57,6 @@ export default {
         { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
         { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
         { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
-        { prop: 'date1', label: '日期', minWidth: '180', noShowColumn: true },
-        { prop: 'address2', label: '地址', minWidth: '220', noShowColumn: true }
       ]
     }
   },

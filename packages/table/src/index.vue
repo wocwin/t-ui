@@ -12,9 +12,11 @@
             v-for="(item, index) in getToolbarBtn"
             :key="index"
             @click="toolbarFun(item)"
-            :icon="item.icon ? item.icon : ''"
-            :type="item.type || 'primary'"
-            size="small"
+            v-bind="{
+              type:'primary',
+              size:'small',
+              ...item.bind
+            }"
           >{{ item.text }}</el-button>
           <el-popover
             ref="popoverClose"
@@ -74,45 +76,40 @@
     >
       <!-- 首列之 序列号/单选框/复选框 -->
       <div v-if="table.firstColumn">
-        <!-- 复选框 -->
         <el-table-column
-          :selectable="table.firstColumn.selectable"
-          :type="table.firstColumn.type"
-          :width="table.firstColumn.width || 50"
-          :label="table.firstColumn.label"
-          :fixed="table.firstColumn.fixed"
-          :reserve-selection="table.firstColumn.isPaging || false"
-          :align="table.firstColumn.align || 'center'"
+          v-bind="{
+            type:'selection',
+            width:table.firstColumn.width || 55,
+            label:table.firstColumn.label,
+            fixed:table.firstColumn.fixed,
+            align:table.firstColumn.align || 'center',
+            'reserve-selection':table.firstColumn.isPaging || false,
+            selectable:table.firstColumn.selectable,
+            ...table.firstColumn.bind,
+            ...$attrs
+          }"
           v-if="table.firstColumn.type === 'selection'"
-        ></el-table-column>
-        <!-- 单选框 -->
+        />
         <el-table-column
-          :type="table.firstColumn.type"
-          :width="table.firstColumn.width || 50"
-          :label="table.firstColumn.label"
-          :fixed="table.firstColumn.fixed"
-          :align="table.firstColumn.align || 'center'"
-          v-if="table.firstColumn.type === 'radio'"
+          v-else
+          v-bind="{
+            type:table.firstColumn.type,
+            width:table.firstColumn.width || 55,
+            label:table.firstColumn.label || table.firstColumn.type === 'radio'&&'单选'||table.firstColumn.type === 'index'&&'序列'||'',
+            fixed:table.firstColumn.fixed,
+            align:table.firstColumn.align || 'center',
+            ...table.firstColumn.bind,
+            ...$attrs
+          }"
         >
-          <template slot-scope="scope">
+          <template slot-scope="scope" v-if="table.firstColumn.type !== 'selection'">
             <el-radio
+              v-if="table.firstColumn.type === 'radio'"
               v-model="radioVal"
               :label="scope.$index + 1"
               @click.native.prevent="radioChange(scope.row, scope.$index + 1)"
             ></el-radio>
-          </template>
-        </el-table-column>
-        <!-- 序列号 -->
-        <el-table-column
-          :type="table.firstColumn.type"
-          :width="table.firstColumn.width || 50"
-          :label="table.firstColumn.label"
-          :fixed="table.firstColumn.fixed"
-          :align="table.firstColumn.align || 'center'"
-          v-if="table.firstColumn.type === 'index'"
-        >
-          <template slot-scope="scope">
-            <span>
+            <span v-if="table.firstColumn.type === 'index'">
               {{
               isShowPagination
               ? (table.currentPage - 1) * table.pageSize + scope.$index + 1
@@ -196,11 +193,9 @@
                       v-bind="$attrs"
                       ref="editCell"
                     >
-                      <!-- 遍历子组件非作用域插槽，并对父组件暴露 -->
                       <template v-for="(index, name) in $slots" v-slot:[name]>
                         <slot :name="name" />
                       </template>
-                      <!-- 遍历子组件作用域插槽，并对父组件暴露 -->
                       <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
                         <slot :name="name" v-bind="data"></slot>
                       </template>
@@ -273,14 +268,12 @@
         v-if="table.operator"
         :fixed="table.operatorConfig && table.operatorConfig.fixed"
         :label="(table.operatorConfig && table.operatorConfig.label) || '操作'"
-        :min-width="
-          (table.operatorConfig &&
-            (table.operatorConfig.width || table.operatorConfig.minWidth)) ||
-          100
-        "
+        :min-width="table.operatorConfig && table.operatorConfig.minWidth"
+        :width="table.operatorConfig && table.operatorConfig.width"
         :align="
           (table.operatorConfig && table.operatorConfig.align) || 'center'
         "
+        v-bind="{ ...table.operatorConfig&&table.operatorConfig.bind, ...$attrs }"
         class-name="operator"
       >
         <template slot-scope="scope">
@@ -289,11 +282,11 @@
               v-for="(item, index) in table.operator"
               :key="index"
               @click="item.fun && item.fun(scope.row, scope.$index, tableData)"
-              :type="item.type || 'text'"
-              :style="item.style"
-              :icon="item.icon ? item.icon : ''"
-              :disabled="item.disabled"
-              :size="item.size||'mini'"
+              v-bind="{
+                  type:'text',
+                  size:'mini',
+                  ...item.bind,
+                }"
               v-show="checkIsShow(scope, item)"
             >
               <!-- customRender渲染 -->
@@ -314,22 +307,14 @@
                   :index="scope.$index"
                 />
               </template>
-              <span v-if="!item.render && !item.customRender">
-                {{
-                item.text
-                }}
-              </span>
+              <span v-if="!item.render && !item.customRender">{{item.text}}</span>
             </el-button>
           </div>
         </template>
       </el-table-column>
     </el-table>
     <div v-if="isEdit" class="edit_cell">
-      <el-button type="dashed" block size="small" @click="() => $emit('add')">
-        {{
-        cellEditBtnTxt
-        }}
-      </el-button>
+      <el-button type="dashed" block size="small" @click="() => $emit('add')">{{cellEditBtnTxt}}</el-button>
     </div>
     <!-- 分页器 -->
     <el-pagination
@@ -367,6 +352,7 @@ import RenderCol from './renderCol.vue'
 import RenderHeader from './renderHeader.vue'
 import OptComponent from './OptComponent.vue'
 import { constantEscape } from '../../utils'
+import UseVirtualMixin from './mixins/useVirtualMixin.js'
 import Sortable from 'sortablejs'
 export default {
   name: 'TTable',
@@ -379,6 +365,7 @@ export default {
     RenderHeader,
     OptComponent
   },
+  mixins: [UseVirtualMixin],
   props: {
     // table所需数据
     table: {
@@ -405,65 +392,32 @@ export default {
       // required: true
     },
     // 是否开启tree树形结构样式
-    isShowTreeStyle: {
-      type: Boolean,
-      default: false
-    },
+    isShowTreeStyle: Boolean,
     // 表格标题
-    title: {
-      type: String,
-      default: ''
-    },
+    title: String,
     // 是否开启编辑模式(整行编辑模式)
-    isEditCell: {
-      type: Boolean,
-      default: false
-    },
+    isEditCell: Boolean,
     // 是否开启编辑保存按钮(整行编辑)
-    isShowFooterBtn: {
-      type: Boolean,
-      default: false
-    },
+    isShowFooterBtn: Boolean,
     // 整行编辑按钮文案
     cellEditBtnTxt: {
       type: String,
       default: '添加'
     },
     // 是否显示添加按钮
-    isEdit: {
-      type: Boolean,
-      default: false
-    },
+    isEdit: Boolean,
     // 是否显示设置（隐藏/显示列）
-    columnSetting: {
-      type: Boolean,
-      default: false
-    },
+    columnSetting: Boolean,
     // 是否复制单元格
-    isCopy: {
-      type: Boolean,
-      default: false
-    },
+    isCopy: Boolean,
     // 是否高亮选中行
-    highlightCurrentRow: {
-      type: Boolean,
-      default: false
-    },
+    highlightCurrentRow: Boolean,
     // 是否需要显示切换页条数
-    layoutSize: {
-      type: Boolean,
-      default: false
-    },
+    layoutSize: Boolean,
     // 是否显示分页
-    isShowPagination: {
-      type: Boolean,
-      default: false
-    },
+    isShowPagination: Boolean,
     // 单元格编辑是否开启键盘事件
-    isKeyup: {
-      type: Boolean,
-      default: false
-    },
+    isKeyup: Boolean,
     // 第几列合并
     mergeCol: {
       type: Number,
@@ -475,60 +429,29 @@ export default {
       default: '=='
     },
     // 是否自定义合并单元格
-    spanMethod: {
-      type: Function
-    },
+    spanMethod: Function,
     // 是否开启合并单元格
-    isMergedCell: {
-      type: Boolean,
-      default: false
-    },
+    isMergedCell: Boolean,
     // 是否开启对象模式渲染数据
-    isObjShowProp: {
-      type: Boolean,
-      default: false
-    },
+    isObjShowProp: Boolean,
     // 是否开启行拖拽
-    isRowSort: {
-      type: Boolean,
-      default: false
-    },
+    isRowSort: Boolean,
     // 是否开启点击整行选中单选框
-    rowClickRadio: {
-      type: Boolean,
-      default: false
-    },
+    rowClickRadio: Boolean,
     // 是否开启合计行隐藏复选框/单选框/序列
-    isTableColumnHidden: {
-      type: Boolean,
-      default: false
-    },
+    isTableColumnHidden: Boolean,
     // 如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件
-    sortable: {
-      type: [Boolean, String]
-    },
+    sortable: [Boolean, String],
     // 是否开启仅点击排序图标才排序
-    onlyIconSort: {
-      type: Boolean,
-      default: false
-    },
+    onlyIconSort: Boolean,
     // 是否开启组件sort-change 事件
-    isSortable: {
-      type: Boolean,
-      default: false
-    },
+    isSortable: Boolean,
     // 不排序条件判断规则
-    notSortJudge: {
-      type: String
-    },
+    notSortJudge: String,
     // 设置默认选中项（单选）defaultRadioCol值必须大于0！
-    defaultRadioCol: {
-      type: Number
-    },
+    defaultRadioCol: Number,
     // 按钮权限store.getters接收字段
-    btnPermissions: {
-      type: String
-    },
+    btnPermissions: String,
     // 每页显示个数选择器的选项设置
     pageSizes: {
       type: Array,
@@ -537,14 +460,9 @@ export default {
       }
     },
     // Table最大高度
-    maxHeight: {
-      type: [String, Number]
-    },
+    maxHeight: [String, Number],
     // 是否开启虚拟列表
-    useVirtual: {
-      type: Boolean,
-      default: false
-    }
+    useVirtual: Boolean
   },
   data() {
     return {
@@ -553,25 +471,7 @@ export default {
       tableData: this.table?.data || this.tableList,
       rowData: '',
       copyTableData: [], // 键盘事件
-      columnSet: [],
-      /**
-       * 虚拟列表
-       */
-      saveDATA: [], // 所有数据
-      tableRef: null, // 设置了滚动的那个盒子
-      tableWarp: null, // 被设置的transform元素
-      fixLeft: null, // 固定左侧--设置的transform元素
-      fixRight: null, // 固定右侧--设置的transform元素
-      tableFixedLeft: null, // 左侧固定列所在的盒子
-      tableFixedRight: null, // 右侧固定列所在的盒子
-      scrollTop: 0,
-      scrollNum: 0, // scrollTop / (itemHeight * pageList)
-      start: 0,
-      end: 30, // 3倍的pageList
-      starts: 0, // 备份
-      ends: 30, // 备份
-      pageList: 10, // 一屏显示
-      itemHeight: 48 // 每一行高度
+      columnSet: []
     }
   },
   watch: {
@@ -591,38 +491,6 @@ export default {
         this.tableData = val
       },
       deep: true // 深度监听
-    },
-    scrollNum(newV) {
-      // 因为初始化时已经添加了3屏的数据，所以只有当滚动到第3屏时才计算位移量
-      if (newV > 1) {
-        this.start = (newV - 1) * this.pageList
-        this.end = (newV + 2) * this.pageList
-        requestAnimationFrame(() => {
-          // 计算偏移量
-          this.tableWarp.style.transform = `translateY(${this.start *
-            this.itemHeight}px)`
-          if (this.fixLeft) {
-            this.fixLeft.style.transform = `translateY(${this.start *
-              this.itemHeight}px)`
-          }
-          if (this.fixRight) {
-            this.fixRight.style.transform = `translateY(${this.start *
-              this.itemHeight}px)`
-          }
-          this.tableData = this.saveDATA.slice(this.start, this.end)
-        })
-      } else {
-        requestAnimationFrame(() => {
-          this.tableData = this.saveDATA.slice(this.starts, this.ends)
-          this.tableWarp.style.transform = `translateY(0px)`
-          if (this.fixLeft) {
-            this.fixLeft.style.transform = `translateY(0px)`
-          }
-          if (this.fixRight) {
-            this.fixRight.style.transform = `translateY(0px)`
-          }
-        })
-      }
     }
   },
   activated() {
@@ -676,12 +544,6 @@ export default {
   filters: {
     constantEscape
   },
-  created() {
-    // 是否开启虚拟列表
-    if (this.useVirtual) {
-      this.init()
-    }
-  },
   mounted() {
     // 设置默认选中项（单选）
     if (this.defaultRadioCol) {
@@ -689,81 +551,10 @@ export default {
     }
     this.extendMethod()
     this.initSort()
-    // 是否开启虚拟列表
-    if (this.useVirtual) {
-      this.initMounted()
-    }
     // 修复table抖动
     this.$on('hook:updated', this.doLayout)
   },
   methods: {
-    initMounted() {
-      this.$nextTick(() => {
-        // 设置了滚动的盒子
-        this.tableRef = this.$refs['el-table'].bodyWrapper
-        // 左侧固定列所在的盒子
-        this.tableFixedLeft = document.querySelector(
-          '.el-table .el-table__fixed .el-table__fixed-body-wrapper'
-        )
-        // 右侧固定列所在的盒子
-        this.tableFixedRight = document.querySelector(
-          '.el-table .el-table__fixed-right .el-table__fixed-body-wrapper'
-        )
-        /**
-         * fixed-left | 主体 | fixed-right
-         */
-        // 主体改造
-        // 创建内容盒子divWarpPar并且高度设置为所有数据所需要的总高度
-        let divWarpPar = document.createElement('div')
-        // 如果这里还没获取到saveDATA数据就渲染会导致内容盒子高度为0，可以通过监听saveDATA的长度后再设置一次高度
-        divWarpPar.style.height = this.saveDATA.length * this.itemHeight + 'px'
-        // 新创建的盒子divWarpChild
-        let divWarpChild = document.createElement('div')
-        divWarpChild.className = 'fix-warp'
-        // 把tableRef的第一个子元素移动到新创建的盒子divWarpChild中
-        divWarpChild.append(this.tableRef.children[0])
-        // 把divWarpChild添加到divWarpPar中，最把divWarpPar添加到tableRef中
-        divWarpPar.append(divWarpChild)
-        this.tableRef.append(divWarpPar)
-        // left改造
-        let divLeftPar = document.createElement('div')
-        divLeftPar.style.height = this.saveDATA.length * this.itemHeight + 'px'
-        let divLeftChild = document.createElement('div')
-        divLeftChild.className = 'fix-left'
-        this.tableFixedLeft &&
-          divLeftChild.append(this.tableFixedLeft.children[0])
-        divLeftPar.append(divLeftChild)
-        this.tableFixedLeft && this.tableFixedLeft.append(divLeftPar)
-        // right改造
-        let divRightPar = document.createElement('div')
-        divRightPar.style.height = this.saveDATA.length * this.itemHeight + 'px'
-        let divRightChild = document.createElement('div')
-        divRightChild.className = 'fix-right'
-        this.tableFixedRight &&
-          divRightChild.append(this.tableFixedRight.children[0])
-        divRightPar.append(divRightChild)
-        this.tableFixedRight && this.tableFixedRight.append(divRightPar)
-        // 被设置的transform元素
-        this.tableWarp = document.querySelector(
-          '.el-table .el-table__body-wrapper .fix-warp'
-        )
-        this.fixLeft = document.querySelector(
-          '.el-table .el-table__fixed .el-table__fixed-body-wrapper .fix-left'
-        )
-        this.fixRight = document.querySelector(
-          '.el-table .el-table__fixed-right .el-table__fixed-body-wrapper .fix-right'
-        )
-        this.tableRef.addEventListener('scroll', this.onScroll)
-      })
-    },
-    init() {
-      this.saveDATA = this.table?.data
-      this.tableData = this.saveDATA.slice(this.start, this.end)
-    },
-    onScroll() {
-      this.scrollTop = this.tableRef.scrollTop
-      this.scrollNum = Math.floor(this.scrollTop / (this.itemHeight * this.pageList))
-    },
     // 行拖拽
     initSort() {
       if (!this.isRowSort) return
@@ -859,8 +650,6 @@ export default {
     },
     // 合并行隐藏复选框/单选框
     cellClassNameFuc({ row, column, rowIndex, columnIndex }) {
-      // row.index = rowIndex
-      // column.index = columnIndex
       if (!this.isTableColumnHidden) {
         return false
       }
@@ -1170,9 +959,10 @@ export default {
     },
     // 点击单选框单元格触发事件
     radioChange(row, index) {
-      // console.log('radioChange', row)
-      // this.radioVal = this.table.data.indexOf(row)
-      // this.$emit('radioChange', row, this.radioVal)
+      if (this.rowClickRadio) {
+        return
+      }
+      // console.log('radioChange----', row, index)
       this.radioClick(row, index)
     },
     // forbidden取值
@@ -1203,9 +993,6 @@ export default {
     },
     // 点击某行
     rowClick(row, column) {
-      if (this.rowClickRadio) {
-        this.radioClick(row, this.table.data.indexOf(row) + 1)
-      }
       this.rowData = row
       row.selectFlag = !row.selectFlag
       if (row.selectFlag) {
@@ -1213,6 +1000,11 @@ export default {
       } else {
         this.$refs['el-table'].setCurrentRow()
       }
+      if (!this.rowClickRadio) {
+        return
+      }
+      // console.log('点击某行--333333', this.table.data.indexOf(row) + 1)
+      this.radioClick(row, this.table.data.indexOf(row) + 1)
     },
     // 表格头部按钮
     toolbarFun(item) {
@@ -1241,14 +1033,10 @@ export default {
 .t-table {
   z-index: 0;
   background-color: #fff;
-
-  // padding: 10px;
-  // border-radius: 4px;
   ::v-deep .el-pagination {
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
-    // margin-right: 60px;
     margin-right: calc(2% - 20px);
     background-color: #fff;
   }

@@ -9,8 +9,9 @@
   >
     <!-- 编辑组件自定义插槽 -->
     <template v-if="configEdit.editSlotName">
-      <!-- <slot /> -->
-      <slot :name="configEdit.editSlotName" :scope="record" />
+      <div :class="prop" @keyup="(event) => $emit('Keyup',event,record.$index, prop)">
+        <slot :name="configEdit.editSlotName" :scope="record" />
+      </div>
     </template>
     <component
       v-if="!configEdit.editSlotName"

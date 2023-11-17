@@ -146,6 +146,11 @@ module.exports = {
           children: [
             'TTable/TAdaptivePage', // 一屏显示
             'TTable/base', // 基本
+            'TTable/sequence', // 序列
+            'TTable/radio', // 单选
+            'TTable/radioDefault', // 单选--默认选中
+            'TTable/checkbox', // 基本复选
+            'TTable/pageCheck', // 基本复选--翻页选中
             'TTable/pagination', // 分页
             'TTable/virtual', // 虚拟列表
             'TTable/notSort', // 指定列不需要排序
@@ -159,18 +164,20 @@ module.exports = {
             'TTable/filters', // 字典过滤
             'TTable/objRenderPorp', // 对象模式渲染
             'TTable/renderHeader', // 自定义列标题 label
-            'TTable/radio', // 单选
             'TTable/treeTable',
             'TTable/rules', // 单元格编辑--校验
             'TTable/singleEditKeyup', // 单元格编辑键盘事件
+            'TTable/singleEditSlot', // 单元格编辑-插槽-键盘事件
             'TTable/singleEditTable', // 开启单个单元格编辑
             'TTable/eventHandle', // 单元格编辑使用第三方组件事件
             'TTable/cellEditSave', // 单元格编辑保存单行操作
             'TTable/editTable', // 开启整行编辑模式
             'TTable/rowSort', // 行拖拽排序
-            'TTable/checkbox', // 基本复选
             'TTable/columnSet', // 显示隐藏列
             'TTable/operation', // 操作栏
+            'TTable/operatorBtn', // 操作栏
+            'TTable/operatorRender', // 操作栏
+            'TTable/operatorSlotName', // 操作栏
             'TTable/customRender', // customRender操作自定义渲染
             'TTable/tree', // TreeTable组件
             'TTable/help' // 使用帮助(Attributes)
@@ -195,7 +202,6 @@ module.exports = {
         //   collapsable: false,
         //   children: [
         //     'TUploadFile/base',
-        //     'UploadFile/base'
         //   ]
         // }
         // ]

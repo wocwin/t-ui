@@ -25,6 +25,7 @@ const columnSet = () => import('@/views/demo/TTable/columnSet')
 const operation = () => import('@/views/demo/TTable/operationInside')
 const customRender = () => import('@/views/demo/TTable/customRender')
 const tree = () => import('@/views/demo/TTable/tree')
+const virtual = () => import('@/views/demo/TTable/virtual')
 
 const TTableRouter = {
   path: '/t-table',
@@ -41,6 +42,12 @@ const TTableRouter = {
       name: '基本使用',
       component: Base,
       meta: { title: '基本使用' }
+    },
+    {
+      path: 'virtual',
+      name: '虚拟列表',
+      component: virtual,
+      meta: { title: '虚拟列表' }
     },
     {
       path: 'copy',

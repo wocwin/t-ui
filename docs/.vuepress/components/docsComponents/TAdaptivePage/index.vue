@@ -8,14 +8,7 @@
     :columns="table.columns"
     :isShowPagination="isShowPagination"
     height="100%"
-  >
-    <!-- <template #querybar>
-      <el-button>导出</el-button>
-    </template>
-    <template #toolbar>
-      <el-button>新增</el-button>
-    </template>-->
-  </t-adaptive-page>
+  />
 </template>
 <script>
 import tableData from './tableData.json'
@@ -37,7 +30,7 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        firstColumn: { type: 'index', label: '序列' },
+        firstColumn: { type: 'index' },
         data: [],
         columns: [
           { prop: 'factoryModelIdLabel', label: '工厂', minWidth: '100' },
@@ -190,8 +183,8 @@ export default {
         likeCargoName,
         workshopNum,
         workshopNum1,
-        beginDate: date[0] ? date[0] : null,
-        endDate: date[1] ? date[1] : null
+        beginDate: date && date[0] ? date[0] : null,
+        endDate: date && date[1] ? date[1] : null
       }
     }
   },

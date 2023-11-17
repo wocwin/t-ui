@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       table: {
         data: [
@@ -36,26 +36,35 @@ export default {
         toolbar: [
           {
             text: '返回上一个页面1',
-            icon: 'el-icon-circle-plus-outline',
-            type: 'danger',
+            bind: {
+              icon: 'el-icon-circle-plus-outline',
+              type: 'danger',
+            },
+
             fun: this.getBack
           },
           {
             text: '返回上一个页面2',
-            icon: 'el-icon-circle-plus-outline',
-            type: 'danger',
+            bind: {
+              icon: 'el-icon-circle-plus-outline',
+              type: 'danger',
+            },
             fun: this.getBack
           },
           {
             text: '返回上一个页面3',
-            icon: 'el-icon-circle-plus-outline',
-            type: 'danger',
+            bind: {
+              icon: 'el-icon-circle-plus-outline',
+              type: 'danger',
+            },
             fun: this.getBack
           },
           {
             text: '返回上一个页面4',
-            icon: 'el-icon-circle-plus-outline',
-            type: 'danger',
+            bind: {
+              icon: 'el-icon-circle-plus-outline',
+              type: 'danger',
+            },
             fun: this.getBack
           }
         ]
@@ -70,7 +79,7 @@ export default {
     }
   },
   methods: {
-    getBack (row) {
+    getBack(row) {
       console.log('选中行返回的数据', row)
     }
   }

@@ -68,6 +68,9 @@ export default {
     }
   },
   methods: {
+    handleClick(row) {
+      console.log('点击删除icon--', row)
+    },
     changeTablesort(prop, type) {
       let freeGood = []
       // 参与排序的数组

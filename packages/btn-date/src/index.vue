@@ -18,7 +18,7 @@
 import moment from 'moment'
 export default {
   name: 'TBtnDate',
-  data () {
+  data() {
     return {
       isShow: false,
       placeholder: '请选择时间范围',
@@ -31,10 +31,10 @@ export default {
   },
   methods: {
     // 自定义
-    userDefined () {
+    userDefined() {
       this.isShow = !this.isShow
     },
-    searchTime () {
+    searchTime() {
       if (this.range && this.range[0] && this.range[1]) {
         this.dateObj.startTime = moment(this.range[0])
         this.dateObj.endTime = moment(this.range[1])
@@ -46,7 +46,7 @@ export default {
       }
       this.submitDateRange()
     },
-    Today () {
+    Today() {
       this.range = []
       this.dateObj.startTime = moment(
         moment()
@@ -56,7 +56,7 @@ export default {
       this.dateObj.endTime = moment(moment().valueOf())
       this.submitDateRange()
     },
-    theWeek () {
+    theWeek() {
       this.range = []
       this.dateObj.startTime = moment(
         moment()
@@ -68,7 +68,7 @@ export default {
       this.dateObj.endTime = moment(moment().valueOf())
       this.submitDateRange()
     },
-    theMonth () {
+    theMonth() {
       this.range = []
       this.dateObj.startTime = moment(
         moment()
@@ -79,7 +79,7 @@ export default {
       this.dateObj.endTime = moment(moment().valueOf())
       this.submitDateRange()
     },
-    submitDateRange () {
+    submitDateRange() {
       if (this.range.length === 0) {
         this.range.push(this.dateObj.startTime._d)
         this.range.push(this.dateObj.endTime._d)

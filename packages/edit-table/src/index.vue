@@ -76,8 +76,11 @@
             v-for="(item, index) in table.operator"
             :key="index"
             @click="item.fun(scope.$index,tableData)"
-            :type="item.type"
-            size="small"
+            v-bind="{
+              type:'primary',
+              size:'small',
+              ...item.bind
+            }"
           >{{item.text}}</el-button>
         </template>
       </el-table-column>

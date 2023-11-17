@@ -860,6 +860,6 @@ export default {
 .el-tooltip__popper.is-dark {
   line-height: 14px;
   max-width: 15rem;
-  color: #fff !important;
+  // color: #fff !important;
 }
 </style>

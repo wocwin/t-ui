@@ -48,9 +48,11 @@
             v-else
             v-for="(item,key) in stepData[stepData.length-1].lastBtnArr"
             :key="key"
-            :type="item.type||'danger'"
             @click="item.fn(item)"
-            :disabled="item.disable||false"
+            v-bind="{
+              type:'danger',
+              ...item.bind
+            }"
           >{{item.btnTitle}}</el-button>
         </fix-btn>
       </div>
@@ -92,13 +94,13 @@ export default {
     }
   },
   methods: {
-    stepContent () {
+    stepContent() {
       return this.isShowLastSuccess
         ? this.stepData && this.stepData.slice(0, this.stepData.length - 1)
         : this.stepData
     },
     // 第四步完成
-    complete () {
+    complete() {
       this.$emit('complete', this.active)
     }
   }

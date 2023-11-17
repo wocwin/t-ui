@@ -37,22 +37,22 @@
 ##### 2.1 用法示例
 
 ```html
-<upload-file
+<t-upload-file
   @uploadSuccess="setFileId"
   @deleteSuccess="updateFileId"
   fileType=".jpg,.jpeg,.png,.pdf"
   setKey="authLetterFileIds"
   saveFileType="11"
-></upload-file>
+></t-upload-file>
 
-<upload-file
+<t-upload-file
   @uploadSuccess="setFileId"
   @deleteSuccess="updateFileId"
   extendTips="1、基本账户：开户许可证+企业客户授权书。$2、一般账户：xxxx。"
   fileType=".jpg,.jpeg,.png,.pdf"
   setKey="bankAcctFileId"
   saveFileType="7"
-></upload-file>
+></t-upload-file>
 ```
 
 ##### 2.3 用法示例 2 回显模块

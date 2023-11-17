@@ -48,8 +48,8 @@ export default {
           { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', widthSize: 1 }
         ],
         operatorList: [
-          { label: '提交', type: 'danger', fun: this.submitForm },
-          { label: '重置', type: 'primary', fun: this.resetForm }
+          { label: '提交', bind: { type: 'danger' }, fun: this.submitForm },
+          { label: '重置', bind: { type: 'primary' }, fun: this.resetForm }
         ],
         // 相关列表
         listTypeInfo: {

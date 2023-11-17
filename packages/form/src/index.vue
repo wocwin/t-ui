@@ -106,10 +106,11 @@
           v-for="(val,index) in formOpts.operatorList"
           :key="index"
           @click="val.fun(val)"
-          :type="val.type||'primary'"
-          :icon="val.icon"
-          :size="val.size || 'small'"
-          :disabled="val.disabled"
+          v-bind="{
+            type:'primary',
+            size:'small',
+            ...val.bind
+          }"
         >{{ val.label }}</el-button>
       </template>
     </div>

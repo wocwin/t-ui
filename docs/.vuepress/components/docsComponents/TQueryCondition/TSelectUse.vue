@@ -81,7 +81,7 @@ export default {
           { label: '单位111', width: '110px', prop: 'unitName' },
         ],
       },
-      workshopNum2: '', // 下拉选择值
+      workshopNum2: 8, // 下拉选择值
       queryData: {
         likeCargoNo: null,
         likeBookNo: null,
@@ -108,6 +108,7 @@ export default {
             keywords: { label: 'name', value: 'id' },
             table: this.table,
             columns: this.table.columns,
+            defaultSelectVal: 8
           },
           event: {
             radioChange: (val) => this.radioChange(val)

@@ -19,10 +19,10 @@ export default {
           sex: '男', // *性别: 0:男 1:女
         },
         fieldList: [
-          { label: '账号：', textShow: true, textValue: '张三' },
-          { label: '密码：', textShow: true, textValue: '123456' },
-          { label: '昵称：', textShow: true, textValue: '三丫子' },
-          { label: '性别：', textShow: true, textValue: '男' }
+          { label: '账号：', value: 'account', textShow: true },
+          { label: '密码：', value: 'password', textShow: true },
+          { label: '昵称：', value: 'name', textShow: true },
+          { label: '性别：', value: 'sex', textShow: true, textValue: '男' }
         ]
       }
     }

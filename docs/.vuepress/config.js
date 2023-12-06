@@ -71,6 +71,7 @@ module.exports = {
             'TSelectTable/radioPagination',
             'TSelectTable/isShowFirstColumn',
             'TSelectTable/isShowQuery',
+            'TSelectTable/isShowQuerySpan',
             'TSelectTable/radiovirtual', // 单选--虚拟列表
             'TSelectTable/multiplevirtual', // 多选-虚拟列表
             'TSelectTable/multiple',

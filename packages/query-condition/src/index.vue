@@ -5,7 +5,7 @@
     size="small"
     id="t_query_condition"
     class="t-query-condition"
-    :style="{'grid-template-areas': gridAreas, 'grid-template-columns': `repeat(${colLength}, minmax(220px, ${100 / colLength}%))`}"
+    :style="{'grid-template-areas': gridAreas, 'grid-template-columns': `repeat(${colLength}, minmax(0px, ${100 / colLength}%))`}"
     @submit.native.prevent
   >
     <el-form-item

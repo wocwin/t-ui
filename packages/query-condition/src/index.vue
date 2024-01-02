@@ -5,15 +5,20 @@
     size="small"
     id="t_query_condition"
     class="t-query-condition"
-    :style="{'grid-template-areas': gridAreas, 'grid-template-columns': `repeat(${colLength}, minmax(0px, ${100 / colLength}%))`}"
+    :style="{
+      'grid-template-areas': gridAreas,
+      'grid-template-columns': `repeat(${colLength}, minmax(0px, ${
+        100 / colLength
+      }%))`,
+    }"
     @submit.native.prevent
   >
     <el-form-item
       v-for="(opt, i) in cOpts"
       :key="i"
       :label="opt.label"
-      :style="{gridArea: i}"
-      :class="[opt.className,{'render_label':opt.labelRender}]"
+      :style="{ gridArea: i }"
+      :class="[opt.className, { render_label: opt.labelRender }]"
     >
       <!-- 自定义label -->
       <template #label v-if="opt.labelRender">
@@ -27,6 +32,7 @@
         v-if="!opt.slotName"
         v-bind="opt"
         :opt="opt"
+        :ref="opt.comp === 't-select-table' ? `tselecttableref-${i}` : ''"
         :form="form"
         :value="form[opt.dataIndex]"
         @change="change"
@@ -36,13 +42,29 @@
       v-if="Object.keys(cOpts).length > 0"
       label-width="0"
       style="grid-area: submit_btn"
-      :class="['btn',{'flex_end': cellLength % colLength === 0}]"
+      :class="['btn', { flex_end: cellLength % colLength === 0 }]"
     >
-      <el-button class="btn_check" @click="checkHandle" :loading="loading" v-bind="queryAttrs">查询</el-button>
-      <el-button v-if="reset" class="btn_reset" v-bind="resetAttrs" @click="resetHandle">重置</el-button>
+      <el-button
+        class="btn_check"
+        @click="checkHandle"
+        :loading="loading"
+        v-bind="queryAttrs"
+        >查询</el-button
+      >
+      <el-button
+        v-if="reset"
+        class="btn_reset"
+        v-bind="resetAttrs"
+        @click="resetHandle"
+        >重置</el-button
+      >
       <slot name="querybar"></slot>
-      <el-button v-if="originCellLength > colLength&&isShowOpen" type="text" @click="openCilck">
-        {{ open ? '收起' : '展开'}}
+      <el-button
+        v-if="originCellLength > colLength && isShowOpen"
+        type="text"
+        @click="openCilck"
+      >
+        {{ open ? "收起" : "展开" }}
         <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
       </el-button>
     </el-form-item>
@@ -143,7 +165,8 @@ export default {
         return acc
       }, {})
     },
-    gridAreas() { // grid布局按钮位置
+    gridAreas() {
+      // grid布局按钮位置
       const { colLength, cOpts } = this
       const fields = Object.keys(cOpts)
       let rowIndex = 0
@@ -180,14 +203,15 @@ export default {
     // 占用单元格长度
     span() {
       let span = 1
-      Object.keys(this.opts).forEach(key => {
+      Object.keys(this.opts).forEach((key) => {
         span = this.opts[key].span > 4 ? 4 : this.opts[key].span || 1
       })
       return span
     },
-    cellLength() { // 占用单元格长度
+    cellLength() {
+      // 占用单元格长度
       let length = 0
-      Object.keys(this.opts).forEach(key => {
+      Object.keys(this.opts).forEach((key) => {
         let span = this.opts[key].span > 4 ? 4 : this.opts[key].span || 1
         length += span
       })
@@ -196,9 +220,9 @@ export default {
     originCellLength() {
       const { colLength } = this
       let length = 0
-      Object.keys(this.opts).forEach(key => {
+      Object.keys(this.opts).forEach((key) => {
         let span = this.opts[key].span || 1
-        if (length % colLength + span > colLength) {
+        if ((length % colLength) + span > colLength) {
           length += colLength - (length % colLength)
         }
         length += span
@@ -211,7 +235,8 @@ export default {
       this.open = !this.open
       this.$emit('openCilck')
     },
-    getColLength() { // 行列数
+    getColLength() {
+      // 行列数
       const width = window.innerWidth
       let colLength = 4
       if (width > 768 && width < 1280) {
@@ -239,6 +264,15 @@ export default {
     },
     resetHandle() {
       this.form = this.initForm(this.opts)
+      // 获取所有的tselecttable
+      const refList = Object.keys(this.$refs).filter((item) =>
+        item.includes('tselecttableref')
+      )
+      if (refList.length > 0) {
+        refList.map((val) => {
+          this.$refs[val][0].clearSelectTable()
+        })
+      }
       this.checkHandle('reset')
       this.$emit('reset', this.form)
     },
@@ -250,7 +284,8 @@ export default {
     },
     checkHandle(flagText) {
       const formData = Object.keys(this.form).reduce((acc, field) => {
-        if (typeof this.form[field] === 'string') { // 去除前后空格
+        if (typeof this.form[field] === 'string') {
+          // 去除前后空格
           this.form[field] = this.form[field].trim()
         }
         acc[field] = this.form[field]
@@ -267,9 +302,10 @@ export default {
           let pagination = document.querySelectorAll('.el-pagination')
           let isPaginationInputFocus = false
           if (pagination) {
-            pagination.forEach(ele => {
+            pagination.forEach((ele) => {
               let paginationInputList = ele.getElementsByTagName('input')
-              let paginationInput = paginationInputList[paginationInputList.length - 1]
+              let paginationInput =
+                paginationInputList[paginationInputList.length - 1]
               // 判断是否有分页器筛选输入框获取焦点
               if (paginationInput === document.activeElement) {
                 isPaginationInputFocus = true

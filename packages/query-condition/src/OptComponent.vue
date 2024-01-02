@@ -3,6 +3,7 @@
     :is="comp"
     v-bind="typeof bind == 'function' ? bind(form) : {clearable:true,filterable:true,...bind}"
     :placeholder="placeholder||getPlaceholder(opt)"
+    :ref="comp === 't-select-table' ? `tselecttableref-${dataIndex}` : ''"
     v-on="cEvent"
     :value="value"
   >
@@ -66,6 +67,18 @@ export default {
     }
   },
   methods: {
+    // 清除下拉选择表格组件
+    clearSelectTable() {
+      // 获取所有的tselecttable ref
+      const refList = Object.keys(this.$refs).filter((item) =>
+        item.includes('tselecttableref')
+      )
+      if (refList.length > 0) {
+        refList.map((val) => {
+          this.$refs[val].clear()
+        })
+      }
+    },
     // 得到placeholder的显示
     getPlaceholder(row) {
       // console.log(222, row, form)

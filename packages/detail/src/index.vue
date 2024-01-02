@@ -1,11 +1,16 @@
 <template>
   <div class="t_detail">
-    <el-descriptions size="middle" :column="descColumn">
+    <el-descriptions
+      v-bind="{ size: 'middle', ...$attrs }"
+      v-on="$listeners"
+      :column="descColumn"
+    >
       <el-descriptions-item
         v-for="(item, key) in descData"
         :key="key"
         :label="item.label"
         :span="item.span || 1"
+        v-bind="{ ...item.bind, ...$attrs }"
       >
         <template v-if="item.slotName">
           <slot :name="item.slotName"></slot>
@@ -13,23 +18,38 @@
         <div v-else>
           <el-tooltip v-bind="$attrs" v-if="item.tooltip">
             <span>
-              <span
-                v-if="item.filters&&item.filters.list"
-              >{{dataList[item.fieldName] |constantEscape(listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</span>
+              <span v-if="item.filters && item.filters.list">{{
+                dataList[item.fieldName]
+                  | constantEscape(
+                    listTypeInfo[item.filters.list],
+                    item.filters.key || "dictValue",
+                    item.filters.label || "dictLabel"
+                  )
+              }}</span>
               <span v-else>{{ item.value }}</span>
-              <i :class="item.iconClass||'el-icon-warning-outline'" style="cursor: pointer;" />
+              <i
+                :class="item.iconClass || 'el-icon-warning-outline'"
+                style="cursor: pointer"
+              />
             </span>
             <template #content v-if="item.tooltip">
-              <span v-if="typeof item.tooltip === 'string'">{{item.tooltip}}</span>
+              <span v-if="typeof item.tooltip === 'string'">{{
+                item.tooltip
+              }}</span>
               <template v-else-if="typeof item.tooltip === 'function'">
                 <render-tooltip :createElementFunc="item.tooltip" />
               </template>
             </template>
           </el-tooltip>
           <span v-else>
-            <span
-              v-if="item.filters&&item.filters.list"
-            >{{dataList[item.fieldName] |constantEscape(listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</span>
+            <span v-if="item.filters && item.filters.list">{{
+              dataList[item.fieldName]
+                | constantEscape(
+                  listTypeInfo[item.filters.list],
+                  item.filters.key || "dictValue",
+                  item.filters.label || "dictLabel"
+                )
+            }}</span>
             <span v-else>{{ item.value }}</span>
           </span>
         </div>
@@ -66,7 +86,7 @@ export default {
     },
     descData: {
       type: Array,
-      default: () => ([])
+      default: () => []
     }
   }
 }

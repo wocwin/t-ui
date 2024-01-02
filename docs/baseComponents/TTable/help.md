@@ -92,6 +92,7 @@
 | onlyIconSort            | 是否开启仅点击排序图标才排序                                                        | Boolean          | false                 |
 | useVirtual              | 是否开启虚拟列表                                                                    | Boolean          | false                 |
 | maxHeight               | Table 的最大高度。合法的值为数字或者单位为 px 的高度。（开启虚拟列表是其值默认540） | String/Number    | false                 |
+| isPaginationCumulative  | 序列号显示是否分页累加                                                                 | Boolean          | false     |
 
 ## Methods 方法（继承el-table的所有方法）
 
@@ -114,167 +115,16 @@
 | sort-change   | 当表格的排序条件发生变化的时候会触发该事件 | { column, prop, order }                       |
 | rowSort       | 行拖拽排序后触发事件                       | 返回排序后的table数据                         |
 
-## 具体操作
 
-### 4.0 关于顶部工具栏
+## Slots插槽
 
-使用插槽 toolbar 传入即可
-
-```html
-<template #toolbar>
-  <el-select
-    v-model="optValue"
-    placeholder="请选择"
-    size="small"
-    @change="optionChange"
-  >
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    >
-    </el-option>
-  </el-select>
-</template>
-```
-
-### 4.1 若需要表格外操作栏(超过 3 个按钮，第 4 个按钮会以下拉的方式展示)
-
-配置 toolbar 即可（前提条件是，必须使用插槽 toolbar）
-
-```js
-toolbar: [
-  {
-    text: '返回上一个页面',
-    icon: 'el-icon-circle-plus-outline',
-    type: 'danger',
-    fun: this.getBack
-  }
-]
-```
-
-### 4.2 关于表格内操作栏
-
-配置 operator 即可
-
-```js
-operator: [
-  {
-    text: '预览',
-    type: 'primary',
-    icon: 'el-icon-delete'
-    fun: this.preview
-  },
-  {
-    text: '编辑',
-    type: 'danger',
-    fun: this.edit,
-    show: { key: 'status', val: [3,4] } // 表status值为3或者4时，显示此操作健 根据后台字段返回是数字还是字符串来显示
-  },
-  {
-    text: '撤销',
-    fun: this.revoke,
-    show: { key: 'status', val: ['1'] }
-  }
-]
-```
-
-#### 补充说明：多种状态控制按钮的显示与隐藏
-
-```js
-operator: [
-  {
-    text: '预览',
-    type: 'primary',
-    fun: this.preview,
-    noshow: [
-      { key: 'fields', val: 'isHasVal' },
-      { key: 'status', val: [0, 1, 99] },
-      { key: 'channelCode', val: ['bank'] }
-    ]
-    // noshow中的key值(fields/status/channelCode)是表格后台返回的字段
-    // 当val等于字符串'isHasVal'时,字段'fields'返回为空时，此行操作按钮隐藏
-    // 以上综合：当'status'为0/1/99并且'channelCode'为'bank'及'fields'为空时,隐藏按钮
-  }
-]
-```
-
-### 4.3 关于表格操作栏样式，如固定右侧，宽度
-
-```js
-operatorConfig: {
-  fixed: 'right',
-  width: 200,
-  label: '操作'
-}
-```
-
-### 4.4 关于表格某行文字颜色
-
-```js
-changeColor: {
-  key: 'status', // 状态
-  val: '0',  // 状态值
-  txtStyle: 'red' // 设置文字颜色也可以用“#ef473a”
-}
-```
-
-### 4.6 新增翻页选中功能（2020-02-27 添加）
-
-**页面代码新增：:row-key 属性和 selection-change 复选框事件**
-
-```html
-<t-table
-  :table="table"
-  @size-change="handlesSizeChange"
-  @page-change="handlesCurrentChange"
-  :row-key="getRowKey"
-  @selection-change="handlesSelectionChange"
-/>
-```
-
-**js 代码**
-
-```js
-// 获取列表数据的唯一标识
- getRowKey (row) {
-   return row.id
- },
- // 选中的数据
- handlesSelectionChange (val) {
-   this.chosenIds = val.map(item => item.id)
- },
-```
-
-==注意：==（参考配置参数）
-firstColumn: { type: 'selection', isPaging: true },
-type: 'selection' 表复选框
-isPaging: true 表可以跨页勾选
-
-### 4.7 新增隐藏某列及某单元格内容过长是否换行（还是隐藏并有 tip 提示）
-
-```js
-{ prop: 'name', label: '姓名', minWidth: '100', sort: true, noShowColumn: true },
-// 设置noShowColumn为true时，表格隐藏当前列
-{ prop: 'address', label: '地址', minWidth: '220', sort: true, noShowTip: true },
-  // 设置noShowTip为true时，表单元格换行显示
-```
-
-### 4.8 新增行内操作按钮权限配置
-
-```js
-operator: [
-        {
-          text: '编辑',
-          type: 'primary',
-          resCode: 'ent-account-edit',
-          fun: this.handleEdit
-        }
-      ],
-// 解析：根据后台返回按钮资源中若无“ent-account-edit”资源，此按钮将不会显示
-```
-
-## 关于 element-ui el-table 提供的一些方法，样式如何添加
-
-按照 el-table 写法直接使用即可，无需其他配置
+| 插槽名     | 说明                                              | 参数  |
+| :--------- | :------------------------------------------------ | :---- |
+| title      | TTable 左侧Title                                  | -     |
+| toolbar    | TTable 右侧toolbar                                | -     |
+| expand     | table.firstColumn.type：`expand` 展开行插槽       | scope |
+| -          | el-table-column某列自定义插槽（slotName命名）     | scope |
+| -          | el-table-column单元格编辑插槽（editSlotName命名） | scope |
+| -          | el-table-column表头合并插槽（slotNameMerge命名）  | scope |
+| -          | 操作列前一列自定义默认内容插槽                    | -     |
+| footer     | 底部操作区（默认隐藏，使用插槽展示“保存”按钮）    | -     |

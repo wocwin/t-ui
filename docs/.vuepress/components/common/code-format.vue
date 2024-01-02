@@ -173,9 +173,11 @@ export default {
   }
   .source {
     padding: 15px 15px 5px 15px;
+    // background-color: #f2f3f5;
   }
   .source_height {
     height: 600px;
+    background-color: #f2f3f5;
   }
   .meta {
     background-color: #fafafa;

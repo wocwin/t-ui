@@ -4,6 +4,7 @@ import Layout from '@/layout'
 /* 定义component */
 const TTableHeight = () => import('@/views/demo/Test/TTableHeight')
 const TAdaptivePage = () => import('@/views/demo/Test/TAdaptivePage')
+const Lefttree = () => import('@/views/demo/Test/TAdaptivePage/lefttree.vue')
 
 const demoRouter = {
   path: '/',
@@ -20,6 +21,12 @@ const demoRouter = {
       name: 'TAdaptivePage组件使用',
       component: TAdaptivePage,
       meta: { title: 'TAdaptivePage组件使用' }
+    },
+    {
+      path: 'lefttree',
+      name: '分栏布局',
+      component: Lefttree,
+      meta: { title: '分栏布局' }
     },
     {
       path: 't-table-height',

@@ -145,13 +145,13 @@ module.exports = {
           title: 'TTable组件',
           collapsable: false,
           children: [
-            'TTable/TAdaptivePage', // 一屏显示
             'TTable/base', // 基本
             'TTable/sequence', // 序列
             'TTable/radio', // 单选
             'TTable/radioDefault', // 单选--默认选中
             'TTable/checkbox', // 基本复选
             'TTable/pageCheck', // 基本复选--翻页选中
+            'TTable/expand', // 展开行
             'TTable/pagination', // 分页
             'TTable/virtual', // 虚拟列表
             'TTable/notSort', // 指定列不需要排序
@@ -184,13 +184,15 @@ module.exports = {
             'TTable/help' // 使用帮助(Attributes)
           ]
         },
-        // {
-        //   title: '表格编辑组件',
-        //   collapsable: false,
-        //   children: [
-        //     'TEditTable/base', // 编辑table组件
-        //   ]
-        // },
+        {
+          title: 'TAdaptivePage组件',
+          collapsable: false,
+          children: [
+            'TAdaptivePage/base',
+            'TAdaptivePage/selection',
+            'TAdaptivePage/lefttree',
+          ]
+        }
         // {
         //   title: 'TTreeTable组件',
         //   collapsable: false,

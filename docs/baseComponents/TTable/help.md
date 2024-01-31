@@ -24,6 +24,11 @@
 | --------bind            | el-table-column Attributes                                                          | Object           | -                     |
 | ---changeColor          | 整行文字颜色样式控制                                                                | Object           | {}                    |
 | ---firstColumn          | 表格首列(序号 index,复选框 selection,单选 radio）排列                               | object           | {}                    |
+| -------type             | selection/radio/index/expand                                                        | String           | -                     |
+| -------width            | 表格首列宽度                                                                        | string / number  | -                     |
+| -------fixed            | 表格首列固定                                                                        | string/boolean   | -                     |
+| -------label            | 表格首列表头文字                                                                    | String           | -                     |
+| -------bind             | 继承el-table-column所有Attributes                                                   | Object           | -                     |
 | ---total                | 数据总条数                                                                          | Number           | -                     |
 | ---pageSize             | 页数量                                                                              | Number           | -                     |
 | ---currentPage          | 是否需要显示切换页条数                                                              | Number           | -                     |
@@ -40,6 +45,8 @@
 | ----slotName            | 插槽显示此列数据（其值是具名作用域插槽）                                            | String           | -                     |
 | ----slotNameMerge       | 合并表头插槽显示此列数据（其值是具名作用域插槽）                                    | String           | -                     |
 | ----------param         | 具名插槽获取此行数据必须用解构接收{param}                                           | Object           | 当前行数据            |
+| ----isClickEdit         | 是否单击开启单元格编辑功能                                                          | Boolean          | false                 |
+| ----isShowEditIcon      | 表头是否显示编辑icon(默认显示，设置true:不显示)                                     | Boolean          | -                     |
 | ----canEdit             | 是否开启单元格编辑功能                                                              | Boolean          | false                 |
 | ----filters             | 字典过滤                                                                            | Object           | -                     |
 | ----------list          | listTypeInfo 里面对应的下拉数据源命名                                               | String           | -                     |
@@ -49,7 +56,7 @@
 | ----------rules         | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）                    | Object           | -                     |
 | ----------label         | placeholder 显示                                                                    | String           | -                     |
 | ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                                | String           | input                 |
-| ----------bind          | 第三方 UI 的 Attributes                                                             | Object           | -                     |
+| ----------bind          | 第三方 UI 的 Attributes及tooltip的Attributes                                        | Object           | -                     |
 | ----------eventHandle   | 第三方 UI 的 事件（返回两个参数，第一个自己自带，第二个 scope）                     | Object           | -                     |
 | ----------event         | 触发 handleEvent 事件的标志                                                         | String           | -                     |
 | ----------type          | 下拉或者复选框显示（select-arr/select-obj/checkbox）                                | String           | -                     |
@@ -92,7 +99,7 @@
 | onlyIconSort            | 是否开启仅点击排序图标才排序                                                        | Boolean          | false                 |
 | useVirtual              | 是否开启虚拟列表                                                                    | Boolean          | false                 |
 | maxHeight               | Table 的最大高度。合法的值为数字或者单位为 px 的高度。（开启虚拟列表是其值默认540） | String/Number    | false                 |
-| isPaginationCumulative  | 序列号显示是否分页累加                                                                 | Boolean          | false     |
+| isPaginationCumulative  | 序列号显示是否分页累加                                                              | Boolean          | false                 |
 
 ## Methods 方法（继承el-table的所有方法）
 
@@ -118,13 +125,13 @@
 
 ## Slots插槽
 
-| 插槽名     | 说明                                              | 参数  |
-| :--------- | :------------------------------------------------ | :---- |
-| title      | TTable 左侧Title                                  | -     |
-| toolbar    | TTable 右侧toolbar                                | -     |
-| expand     | table.firstColumn.type：`expand` 展开行插槽       | scope |
-| -          | el-table-column某列自定义插槽（slotName命名）     | scope |
-| -          | el-table-column单元格编辑插槽（editSlotName命名） | scope |
-| -          | el-table-column表头合并插槽（slotNameMerge命名）  | scope |
-| -          | 操作列前一列自定义默认内容插槽                    | -     |
-| footer     | 底部操作区（默认隐藏，使用插槽展示“保存”按钮）    | -     |
+| 插槽名  | 说明                                              | 参数  |
+| :------ | :------------------------------------------------ | :---- |
+| title   | TTable 左侧Title                                  | -     |
+| toolbar | TTable 右侧toolbar                                | -     |
+| expand  | table.firstColumn.type：`expand` 展开行插槽       | scope |
+| -       | el-table-column某列自定义插槽（slotName命名）     | scope |
+| -       | el-table-column单元格编辑插槽（editSlotName命名） | scope |
+| -       | el-table-column表头合并插槽（slotNameMerge命名）  | scope |
+| -       | 操作列前一列自定义默认内容插槽                    | -     |
+| footer  | 底部操作区（默认隐藏，使用插槽展示“保存”按钮）    | -     |

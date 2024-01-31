@@ -161,6 +161,7 @@ module.exports = {
             'TTable/slotNameMerge', // 表头合并插槽显示
             // 'TTable/headerGroupEditTable', // 表头合并单元格编辑功能
             'TTable/renderCol', // render列渲染
+            'TTable/renderFor', // 某列 render for循环渲染
             'TTable/slotName', // 插槽列渲染
             'TTable/filters', // 字典过滤
             'TTable/objRenderPorp', // 对象模式渲染

@@ -17,8 +17,7 @@
               size: 'small',
               ...item.bind,
             }"
-            >{{ item.text }}</el-button
-          >
+          >{{ item.text }}</el-button>
           <el-popover
             ref="popoverClose"
             popper-class="operator_popover operator_pop"
@@ -32,16 +31,9 @@
                 v-for="(item, index) in getToolbarDown"
                 :key="index"
                 @click="toolbarFun(item)"
-              >
-                {{ item.text }}
-              </li>
+              >{{ item.text }}</li>
             </ul>
-            <el-button
-              size="small"
-              type="primary"
-              icon="el-icon-setting"
-              slot="reference"
-            >
+            <el-button size="small" type="primary" icon="el-icon-setting" slot="reference">
               操作
               <i class="el-icon-arrow-down"></i>
             </el-button>
@@ -49,10 +41,7 @@
         </div>
         <slot name="toolbar"></slot>
         <!--列设置按钮-->
-        <div
-          class="header_right_wrap"
-          :style="{ marginLeft: isShow('toolbar') ? '12px' : 0 }"
-        >
+        <div class="header_right_wrap" :style="{ marginLeft: isShow('toolbar') ? '12px' : 0 }">
           <slot name="btn" />
           <column-set
             v-if="columnSetting"
@@ -118,10 +107,7 @@
             ...$attrs,
           }"
         >
-          <template
-            slot-scope="scope"
-            v-if="table.firstColumn.type !== 'selection'"
-          >
+          <template slot-scope="scope" v-if="table.firstColumn.type !== 'selection'">
             <el-radio
               v-if="table.firstColumn.type === 'radio'"
               v-model="radioVal"
@@ -131,7 +117,7 @@
             <template v-if="table.firstColumn.type === 'index'">
               <span v-if="isPaginationCumulative && isShowPagination">
                 {{
-                  (table.currentPage - 1) * table.pageSize + scope.$index + 1
+                (table.currentPage - 1) * table.pageSize + scope.$index + 1
                 }}
               </span>
               <span v-else>{{ scope.$index + 1 }}</span>
@@ -162,17 +148,15 @@
             v-bind="{ ...item.bind, ...$attrs }"
             v-on="$listeners"
           >
-            <template #header v-if="item.headerRequired || item.renderHeader">
-              <render-header
-                v-if="item.renderHeader"
-                :column="item"
-                :render="item.renderHeader"
-              />
+            <template #header v-if="item.headerRequired || item.renderHeader||item.isClickEdit">
+              <render-header v-if="item.renderHeader" :column="item" :render="item.renderHeader" />
               <div style="display: inline" v-if="item.headerRequired">
-                <span style="color: #f56c6c; fontsize: 16px; marginright: 3px"
-                  >*</span
-                >
+                <span style="color: #f56c6c; fontsize: 16px; marginright: 3px">*</span>
                 <span>{{ item.label }}</span>
+              </div>
+              <div v-if="item.isClickEdit">
+                <span>{{ item.label }}</span>
+                <i v-if="!item.isShowEditIcon" class="el-icon-edit"></i>
               </div>
             </template>
             <template slot-scope="scope">
@@ -227,24 +211,39 @@
                       <template v-for="(index, name) in $slots" v-slot:[name]>
                         <slot :name="name" />
                       </template>
-                      <template
-                        v-for="(index, name) in $scopedSlots"
-                        v-slot:[name]="data"
-                      >
+                      <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
                         <slot :name="name" v-bind="data"></slot>
                       </template>
                     </single-edit-cell>
                   </el-form>
                 </template>
+                <!-- 单击单元格编辑 -->
+                <template v-if="item.isClickEdit">
+                  <single-edit
+                    :isClickEdit="item.isClickEdit"
+                    :configEdit="item.configEdit"
+                    v-model="scope.row[scope.column.property]"
+                    v-on="$listeners"
+                    v-bind="$attrs"
+                    ref="editCell"
+                  >
+                    <template v-for="(index, name) in $slots" v-slot:[name]>
+                      <slot :name="name" />
+                    </template>
+                    <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+                      <slot :name="name" v-bind="data"></slot>
+                    </template>
+                  </single-edit>
+                </template>
                 <!-- 字典过滤 -->
                 <template v-if="item.filters && item.filters.list">
                   {{
-                    scope.row[item.prop]
-                      | constantEscape(
-                        table.listTypeInfo[item.filters.list],
-                        item.filters.key || "dictValue",
-                        item.filters.label || "dictLabel"
-                      )
+                  scope.row[item.prop]
+                  | constantEscape(
+                  table.listTypeInfo[item.filters.list],
+                  item.filters.key || "dictValue",
+                  item.filters.label || "dictLabel"
+                  )
                   }}
                 </template>
                 <div
@@ -253,17 +252,18 @@
                     !item.slotName &&
                     !item.customRender &&
                     !item.canEdit &&
+                    !item.isClickEdit &&
                     !item.filters
                   "
                   :style="{ color: txtChangeColor(scope) }"
                 >
                   <span v-if="isObjShowProp">
                     {{
-                      item.prop.includes(".")
-                        ? scope.row[item.prop.split(".")[0]][
-                            item.prop.split(".")[1]
-                          ]
-                        : scope.row[item.prop]
+                    item.prop.includes(".")
+                    ? scope.row[item.prop.split(".")[0]][
+                    item.prop.split(".")[1]
+                    ]
+                    : scope.row[item.prop]
                     }}
                   </span>
                   <span v-else>{{ scope.row[item.prop] }}</span>
@@ -314,10 +314,7 @@
         class-name="operator"
       >
         <template slot-scope="scope">
-          <div
-            class="operator_btn"
-            :style="table.operatorConfig && table.operatorConfig.style"
-          >
+          <div class="operator_btn" :style="table.operatorConfig && table.operatorConfig.style">
             <el-button
               v-for="(item, index) in table.operator"
               :key="index"
@@ -347,18 +344,22 @@
                   :index="scope.$index"
                 />
               </template>
-              <span v-if="!item.render && !item.customRender">{{
+              <span v-if="!item.render && !item.customRender">
+                {{
                 item.text
-              }}</span>
+                }}
+              </span>
             </el-button>
           </div>
         </template>
       </el-table-column>
     </el-table>
     <div v-if="isEdit" class="edit_cell">
-      <el-button type="dashed" block size="small" @click="() => $emit('add')">{{
+      <el-button type="dashed" block size="small" @click="() => $emit('add')">
+        {{
         cellEditBtnTxt
-      }}</el-button>
+        }}
+      </el-button>
     </div>
     <!-- 分页器 -->
     <el-pagination
@@ -378,10 +379,7 @@
       background
     ></el-pagination>
     <!-- 表格底部按钮 -->
-    <footer
-      class="handle_wrap"
-      v-if="isShowFooterBtn && tableData && tableData.length > 0"
-    >
+    <footer class="handle_wrap" v-if="isShowFooterBtn && tableData && tableData.length > 0">
       <slot name="footer" />
       <div v-if="!$slots.footer">
         <el-button type="primary" @click="save">保存</el-button>
@@ -393,6 +391,7 @@
 <script>
 import EditCell from '../../edit-table/src/EditCell.vue'
 import SingleEditCell from './singleEditCell.vue'
+import SingleEdit from './singleEdit.vue'
 import ColumnSet from './ColumnSet.vue'
 import TTableColumn from './TTableColumn.vue'
 import RenderCol from './renderCol.vue'
@@ -404,6 +403,7 @@ import Sortable from 'sortablejs'
 export default {
   name: 'TTable',
   components: {
+    SingleEdit,
     SingleEditCell,
     EditCell,
     ColumnSet,
@@ -704,9 +704,9 @@ export default {
       }
       if (
         this.tableData.length -
-          (this.tableData.length - this.table.pageSize < 0
-            ? 1
-            : this.tableData.length - this.table.pageSize) <=
+        (this.tableData.length - this.table.pageSize < 0
+          ? 1
+          : this.tableData.length - this.table.pageSize) <=
         rowIndex
       ) {
         return 'table_column_hidden'
@@ -851,9 +851,9 @@ export default {
               // 两个判断是为了兼容 elementui@2.15.7前后 el-table 不同的实现
               const isFixedParent =
                 item.$parent.$el.offsetParent.className ===
-                  'el-table__fixed-body-wrapper' ||
+                'el-table__fixed-body-wrapper' ||
                 item.$parent.$parent.$el.offsetParent.className ===
-                  'el-table__fixed-body-wrapper'
+                'el-table__fixed-body-wrapper'
               if (!isFixedParent) {
                 successLength = successLength + 1
               }

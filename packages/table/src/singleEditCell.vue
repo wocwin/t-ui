@@ -188,8 +188,10 @@ export default {
 </script>
 <style lang="scss">
 .single_edit_cell {
-  // min-height: 40px;
-  // line-height: 40px;
   cursor: pointer;
+  .el-form-item__error {
+    position: relative;
+    text-align: left;
+  }
 }
 </style>

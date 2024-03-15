@@ -22,6 +22,7 @@ export default {
           password: null, // *用户密码
           name: null, // *用户昵称
           sex: null, // *性别: 0:男 1:女
+          sex1: 1, // *性别: 0:男 1:女
           hobby: [], // *爱好: 0:男 1:女
           phone: null, // 手机号码
           qq: null, // qq
@@ -36,6 +37,7 @@ export default {
           { label: '密码', value: 'password', type: 'password', comp: 'el-input' },
           { label: '昵称', value: 'name', type: 'input', comp: 'el-input', isTrim: true },
           { label: '性别', value: 'sex', type: 'select-arr', comp: 'el-select', list: 'sexList', bind: { disabled: false }, arrLabel: 'key', arrKey: 'value' },
+          { label: '性别1', value: 'sex1', type: 'radio', comp: 'el-radio-group', list: 'sexList1', bind: { disabled: false } },
           { label: '平台用户', value: 'accountType', type: 'select-obj', comp: 'el-select', list: 'accountTypeList' },
           { label: '状态', value: 'status', type: 'select-arr', list: 'statusList', comp: 'el-select', arrLabel: 'key', arrKey: 'value' },
           { label: '爱好', value: 'hobby', type: 'checkbox', comp: 'el-checkbox-group', list: 'hobbyList', event: 'checkbox' },
@@ -61,6 +63,10 @@ export default {
           sexList: [
             { key: '女', value: 1 },
             { key: '男', value: 0 }
+          ],
+          sexList1: [
+            { label: '女', value: 1 },
+            { label: '男', value: 0 }
           ],
           accountTypeList: {
             0: '手机用户',

@@ -193,6 +193,7 @@ module.exports = {
             'TAdaptivePage/base',
             'TAdaptivePage/selection',
             'TAdaptivePage/lefttree',
+            'TAdaptivePage/virtual',
           ]
         }
         // {

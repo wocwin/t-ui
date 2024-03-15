@@ -1004,6 +1004,9 @@ export default {
     },
     // 当前页码
     handlesCurrentChange(val) {
+      if (this.table.firstColumn.type === 'radio') {
+        this.radioVal = ''
+      }
       this.$emit('page-change', val)
     },
     // 默认选中（单选项）---index必须是大于等于1（且只能默认选中第一页的数据）

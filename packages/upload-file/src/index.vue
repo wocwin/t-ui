@@ -4,6 +4,7 @@
     <el-upload
       ref="upload"
       :action="savePath"
+      :headers="headers"
       :multiple="multiple"
       :list-type="listType"
       :on-success="handleSuccess"
@@ -15,6 +16,7 @@
       :accept="fileType"
       :disabled="disabled"
       :file-list="tempArr"
+      :on-change="fileListChange"
       v-bind="$attrs"
       v-on="$listeners"
     >
@@ -39,6 +41,12 @@
           </span>
         </div>
       </div>
+      <div
+        class="right_tip"
+        slot="tip"
+        :style="{left:`${(totalLimit===1?1:totalLimit-this.tempArr.length===0?this.tempArr.length:this.tempArr.length+1)*160}px`}"
+        v-if="rightTip"
+      >{{rightTip}}</div>
       <div v-if="isDrag && listType !== 'picture-card'">
         <i slot="default" class="el-icon-upload"></i>
         <div class="el-upload__text">
@@ -82,10 +90,13 @@ export default {
   name: 'TUploadFile',
   data() {
     return {
+      headers: {
+        Authorization: 'getToken()'
+      },
       dialogImageUrl: '', // 上传图片后预览预判地址
       dialogVisible: false, // 放大图片弹框
       // 临时文件地址
-      tempArr: this.showFileList,
+      tempArr: this.showFileList.filter(item => item.url),
       isUpload: false
     }
   },
@@ -137,7 +148,7 @@ export default {
     // 服务器上传地址
     savePath: {
       type: String,
-      default: `https://jsonplaceholder.typicode.com/posts/`
+      default: `/marketing/common/upload`
     },
     // 是否禁用
     disabled: {
@@ -158,6 +169,10 @@ export default {
     fileNameLimit: {
       type: Number,
       default: 50
+    },
+    // listType='picture-card' 的right-tip 提示
+    rightTip: {
+      type: String,
     },
     // 文件列表的类型 text/picture/picture-card
     listType: {
@@ -184,7 +199,7 @@ export default {
   watch: {
     showFileList: {
       handler(val) {
-        this.tempArr = val
+        this.tempArr = val.filter(item => item.url)
       }
     }
   },
@@ -217,7 +232,7 @@ export default {
         return false
       }
       // 大小和类型验证都通过后，给自定义的列表中添加需要的数据
-      this.objAddItem(this.tempArr, file)
+      this.objAddItem(this.tempArr, file);
     },
     // 添加数据
     objAddItem(tempArr = [], file) {
@@ -228,13 +243,14 @@ export default {
         sort: tempArr.length, // 排序号
         progress: 0, // 进度条
         code: 200 // 上传状态
-      }
-      tempArr.push(tempObj)
-      this.$emit('changeFileList', tempArr)
+      };
+      tempArr.push(tempObj);
+      // console.log('添加数据--', tempArr)
+      // this.$emit('changeFileList', tempArr);
     },
     // 文件上传成功时
-    handleSuccess(response, file) {
-      // console.log('上传成功', response, this.tempArr)
+    handleSuccess(response, file, fileList) {
+      // console.log('上传成功', response, this.tempArr, fileList)
       if (response.code === 200) {
         this.tempArr.forEach((element, index) => {
           if (element.uid === file.uid) {
@@ -243,11 +259,14 @@ export default {
             element.relativeUrl = response.data?.fileName
             this.$messageUpload.success('文件上传成功')
             this.$set(this.tempArr, index, element)
-            this.$emit('changeFileList', this.tempArr)
           }
         })
+        const flag = this.tempArr.every(item => item.status === "success")
+        if (flag) {
+          this.$emit('changeFileList', this.tempArr)
+        }
       } else {
-        this.tempArr.forEach((element) => {
+        this.tempArr.forEach((element, index) => {
           if (element.uid === file.uid) {
             // this.tempArr.splice(index, 1) // 上传失败删除该记录
             this.$messageUpload.error(response.msg)
@@ -259,7 +278,7 @@ export default {
     /**
    * 文件上传时的钩子
    */
-    handleProgress(event, file) {
+    handleProgress(event, file, fileList) {
       // console.log('上传中', this.tempArr)
       // console.log(2222222222)
       // 编辑回显后在新增及弱网络初始化未上传文件进度展示0%
@@ -272,11 +291,11 @@ export default {
       this.tempArr.forEach((element, index) => {
         if (element.uid === file.uid) {
           // 更新这个uid下的进度
-          const progress = Math.floor(event.percent)
+          const progress = Math.floor(event.percent);
           // 防止上传完接口还没有返回成功值，所以此处给定progress的最大值为99，成功的钩子中再置为100
           element.progress = progress === 100 ? 99 : progress
           this.$set(this.tempArr, index, element)
-          this.$emit('changeFileList', this.tempArr)
+          // this.$emit('changeFileList', this.tempArr)
         }
       })
     },
@@ -298,24 +317,23 @@ export default {
     },
     // 文件上传失败删除该项
     handleError(err, file, fileList) {
-      console.log('失败', err, file, fileList)
-      console.log('失败--', this.tempArr)
-      // this.tempArr.forEach((element) => {
-      //   if (element.uid === file.uid) {
-      //     // 上传失败删除该记录
-      //     // this.tempArr.splice(index, 1)
-      //     this.$messageUpload.error('文件上传失败')
-      //     this.$emit('changeFileList', this.tempArr)
-      //   }
-      // })
+      // console.log('失败', err, file, fileList)
+      this.tempArr.forEach((element, index) => {
+        if (element.uid === file.uid) {
+          // 上传失败删除该记录
+          // this.tempArr.splice(index, 1)
+          this.$messageUpload.error('文件上传失败')
+          this.$emit('changeFileList', this.tempArr)
+        }
+      })
     },
-    onRemove(file) {
+    onRemove(file, fileList) {
       if (this.apiRemove) {
         this.$nextTick(() => {
           let data = {}
-          // console.log('77--', file)
+          console.log('77--', file)
           if (!file.fileId) {
-            data.fileUrl = file.fileUrl
+            data.fileUrl = file.response.data.fileUrl
           } else {
             data.fileId = file.fileId
             data.fileUrl = file.fileUrl
@@ -370,7 +388,7 @@ export default {
           this.$emit('isFinished', true, 'cancel')
         })
       } else {
-        // 当点击外部弹框提交的时候 && 没有正在上传文件的时候 返回true  同理点击取消为false
+        //当点击外部弹框提交的时候 && 没有正在上传文件的时候 返回true  同理点击取消为false
         type ? this.$emit('isFinished', true, 'noUpload') : this.$emit('isFinished', false, 'noUpload')
       }
     },
@@ -385,6 +403,17 @@ export default {
     // 清空文件列表方法
     clearFiles() {
       this.$refs.upload.clearFiles()
+    },
+    fileListChange(file, fileList) {
+      // console.log(4444, file)
+      // console.log(5555, fileList)
+      // const fileNum = fileList.length
+      // if (this.onceLimit < fileNum) {
+      //   this.isOnceLimit = true
+      //   // console.log(66666, this.isOnceLimit)
+      //   // this.tempArr = []
+      //   // this.$refs.upload.clearFiles()
+      // }
     }
   }
 }
@@ -448,6 +477,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
 
   .el-upload-list--picture-card {
@@ -524,6 +554,14 @@ export default {
     .el-upload--picture-card {
       display: none;
     }
+  }
+  .right_tip {
+    position: absolute;
+    color: #c0c4cc;
+    width: 100%;
+    left: 160px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 </style>

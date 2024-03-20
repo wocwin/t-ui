@@ -37,7 +37,7 @@
           </template>
           <!-- 自定义插槽 -->
           <template v-if="val.slotNameMerge">
-            <slot :name="val.slotNameMerge" :param="scope"></slot>
+            <slot :name="val.slotNameMerge" :param="scope" :scope="scope"></slot>
           </template>
           <!-- 单个单元格编辑 -->
           <template v-if="val.canEdit">

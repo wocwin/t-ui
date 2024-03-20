@@ -1,6 +1,12 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" isShowPagination :columns="columns" />
+    <t-table
+      title="显示复选框和序列号"
+      :table="table"
+      isShowPagination
+      :columns="columns"
+      @selection-change="selectionChange"
+    />
   </div>
 </template>
 
@@ -12,8 +18,10 @@ export default {
         total: 0,
         currentPage: 1,
         pageSize: 10,
-        // 是否显示复选框或序列号
-        firstColumn: { type: 'index', label: '序列' },
+        firstColumn: [
+          { type: 'selection' },
+          { type: 'index', label: '序列' }
+        ],
         data: [
           {
             id: '1',
@@ -45,6 +53,11 @@ export default {
         { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowColumn: true },
         { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
       ]
+    }
+  },
+  methods: {
+    selectionChange(selection) {
+      console.log(selection)
     }
   }
 }

@@ -7,7 +7,15 @@
           :active-value="1"
           :inactive-value="2"
           @change="handleStatusChange(param.row)"
-        ></el-switch>
+        />
+      </template>
+      <template #enableStatus1="{scope}">
+        <el-switch
+          v-model="scope.row.enableStatus"
+          :active-value="1"
+          :inactive-value="2"
+          @change="handleStatusChange(scope.row)"
+        />
       </template>
     </t-table>
   </div>
@@ -25,6 +33,7 @@ export default {
             name: '张三',
             status: '2',
             enableStatus: 1,
+            enableStatus1: 2,
             address: '广东省广州市天河区'
           },
           {
@@ -33,6 +42,7 @@ export default {
             name: '张三1',
             status: '1',
             enableStatus: 2,
+            enableStatus1: 1,
             address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
           },
           {
@@ -41,6 +51,7 @@ export default {
             name: '张三2',
             status: '3',
             enableStatus: 1,
+            enableStatus1: 2,
             address: '广东省广州市天河区3'
           }
         ],
@@ -77,9 +88,15 @@ export default {
           },
           {
             prop: 'enableStatus',
-            label: '插槽渲染',
+            label: '插槽渲染(param)',
             minWidth: '180',
             slotName: 'enableStatus'
+          },
+          {
+            prop: 'enableStatus1',
+            label: '插槽渲染(scope)',
+            minWidth: '180',
+            slotName: 'enableStatus1'
           },
           { prop: 'address', label: '地址', minWidth: '220' },
           { prop: 'date', label: '日期', minWidth: '180' },

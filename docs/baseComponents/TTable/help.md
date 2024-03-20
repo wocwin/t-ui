@@ -23,7 +23,7 @@
 | --------align           | 对齐方式 （left / center / right）                                                  | string           | 'center'              |
 | --------bind            | el-table-column Attributes                                                          | Object           | -                     |
 | ---changeColor          | 整行文字颜色样式控制                                                                | Object           | {}                    |
-| ---firstColumn          | 表格首列(序号 index,复选框 selection,单选 radio）排列                               | object           | {}                    |
+| ---firstColumn          | 表格首列(序号 index,复选框 selection,单选 radio）排列                               | object /Array    | -                     |
 | -------type             | selection/radio/index/expand                                                        | String           | -                     |
 | -------width            | 表格首列宽度                                                                        | string / number  | -                     |
 | -------fixed            | 表格首列固定                                                                        | string/boolean   | -                     |
@@ -43,8 +43,9 @@
 | ----isShowHidden        | 是否动态显示隐藏列设置（隐藏/显示列）                                               | Boolean          | false                 |
 | ----render              | 返回三个参数(text：当前值,row：当前整条数据 ,index：当前行)                         | function         | -                     |
 | ----slotName            | 插槽显示此列数据（其值是具名作用域插槽）                                            | String           | -                     |
+| ----------param/scope   | 具名插槽获取此行数据必须用解构接收{param或者scope}                                  | Object           | 当前行数据            |
 | ----slotNameMerge       | 合并表头插槽显示此列数据（其值是具名作用域插槽）                                    | String           | -                     |
-| ----------param         | 具名插槽获取此行数据必须用解构接收{param}                                           | Object           | 当前行数据            |
+| ----------param/scope   | 具名插槽获取此行数据必须用解构接收{param或者scope}                                  | Object           | 当前行数据            |
 | ----isClickEdit         | 是否单击开启单元格编辑功能                                                          | Boolean          | false                 |
 | ----isShowEditIcon      | 表头是否显示编辑icon(默认显示，设置true:不显示)                                     | Boolean          | -                     |
 | ----canEdit             | 是否开启单元格编辑功能                                                              | Boolean          | false                 |

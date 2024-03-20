@@ -1,16 +1,27 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" @radioChange="radioChange" />
+    <t-table
+      title="显示单选框和序列号"
+      :table="table"
+      isShowPagination
+      :columns="columns"
+      @radioChange="radioChange"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'redioDemo',
   data() {
     return {
       table: {
-        firstColumn: { type: 'radio' }, // 显示单选框
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+        firstColumn: [
+          { type: 'radio' },
+          { type: 'index', label: '序列' }
+        ],
         data: [
           {
             id: '1',
@@ -36,28 +47,18 @@ export default {
         ]
       },
       columns: [
-        {
-          prop: '', label: '序列号', minWidth: '100', render: (val, row, index) => {
-            return (
-              <div>
-                {index + 1}
-              </div>
-            )
-          },
-        },
-        { prop: 'name', label: '姓名', minWidth: '100' },
-        { prop: 'date', label: '日期', minWidth: '180' },
-        { prop: 'address', label: '地址', minWidth: '220' },
-        { prop: 'date', label: '日期', minWidth: '180' }
+        { prop: 'name', label: '姓名', minWidth: '100', sort: true, noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', sort: true, noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
       ]
     }
   },
   methods: {
     radioChange(row) {
-      console.log('单选传出数据', row)
-      // this.baseData.radioVal = this.baseData.table.data.indexOf(row)
-      // console.log('单选', row, this.baseData.radioVal)
-    },
-  }
+      console.log(row)
+    }
+  },
 }
 </script>

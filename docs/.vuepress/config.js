@@ -151,6 +151,8 @@ module.exports = {
             'TTable/radioDefault', // 单选--默认选中
             'TTable/checkbox', // 基本复选
             'TTable/pageCheck', // 基本复选--翻页选中
+            'TTable/firstRadioOrIndex', // 显示单选框和序列号
+            'TTable/firstSelectionOrIndex', //显示多选框和序列号
             'TTable/expand', // 展开行
             'TTable/pagination', // 分页
             'TTable/virtual', // 虚拟列表

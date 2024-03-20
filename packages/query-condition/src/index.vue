@@ -26,7 +26,7 @@
       </template>
       <!-- 自定义输入框插槽 -->
       <template v-if="opt.slotName">
-        <slot :name="opt.slotName" :param="form"></slot>
+        <slot :name="opt.slotName" :param="form" :scope="form"></slot>
       </template>
       <OptComponent
         v-if="!opt.slotName"
@@ -44,26 +44,10 @@
       style="grid-area: submit_btn"
       :class="['btn', { flex_end: cellLength % colLength === 0 }]"
     >
-      <el-button
-        class="btn_check"
-        @click="checkHandle"
-        :loading="loading"
-        v-bind="queryAttrs"
-        >查询</el-button
-      >
-      <el-button
-        v-if="reset"
-        class="btn_reset"
-        v-bind="resetAttrs"
-        @click="resetHandle"
-        >重置</el-button
-      >
+      <el-button class="btn_check" @click="checkHandle" :loading="loading" v-bind="queryAttrs">查询</el-button>
+      <el-button v-if="reset" class="btn_reset" v-bind="resetAttrs" @click="resetHandle">重置</el-button>
       <slot name="querybar"></slot>
-      <el-button
-        v-if="originCellLength > colLength && isShowOpen"
-        type="text"
-        @click="openCilck"
-      >
+      <el-button v-if="originCellLength > colLength && isShowOpen" type="text" @click="openCilck">
         {{ open ? "收起" : "展开" }}
         <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
       </el-button>

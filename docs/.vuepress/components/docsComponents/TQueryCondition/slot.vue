@@ -1,8 +1,8 @@
 <template>
   <div class="query-data">
     <t-query-condition ref="queryCondition" :opts="opts" isExpansion @submit="conditionEnter">
-      <template #likeTransportNo="{param}">
-        <el-input v-model="param.likeTransportNo" clearable placeholder="自定义插槽输入框" />
+      <template #likeTransportNo="{scope}">
+        <el-input v-model="scope.likeTransportNo" clearable placeholder="自定义插槽输入框" />
       </template>
       <template #likeTransportNo1="{param}">
         <el-checkbox-group v-model="param.likeTransportNo1">

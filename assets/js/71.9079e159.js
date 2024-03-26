@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[71],{1084:function(t,e,n){"use strict";n.r(e);var s=n(2),l=Object(s.a)({},(function(){var t=this.$createElement,e=this._self._c||t;return e("div",{staticClass:"t-layout-demo",staticStyle:{width:"100%"}},[e("t-layout",{attrs:{sectionTitle:"我的用款/用款详情",returnBtn:""}})],1)}),[],!1,null,null,null);e.default=l.exports}}]);

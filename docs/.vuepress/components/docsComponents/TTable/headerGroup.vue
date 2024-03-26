@@ -39,7 +39,7 @@ export default {
                   },
                 ]
               },
-              { prop: 'name', label: '姓名', minWidth: '100' },
+              { prop: 'address', label: '地址allShow', minWidth: '100', allShow: true },
               {
                 prop: 'date', label: '表头合并2', minWidth: '180',
                 children: [
@@ -126,7 +126,7 @@ export default {
             date1: '2019-09-25',
             name: '张三',
             status: '2',
-            address: '广东省广州市天河区',
+            address: '广东省广州市天河区广东省广州市天河区444',
             address1: '广东省广州市天河区',
           },
           // {
@@ -146,7 +146,7 @@ export default {
             date1: '2019-09-27',
             name: '张三2',
             status: '1',
-            address: '广东省广州市天河区3',
+            address: '广东省广州市天河区广东省广州市天河区5555',
             address1: '广东省广州市天河区3',
           },
           {

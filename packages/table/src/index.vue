@@ -1,5 +1,5 @@
 <template>
-  <div class="t-table" id="t_table">
+  <div class="t-table" id="t_table" ref="ttable" @scroll="handleScroll">
     <div class="header_wrap">
       <div class="header_title">
         {{ title }}
@@ -50,6 +50,11 @@
             @columnSetting="(v) => (columnSet = v)"
           />
         </div>
+      </div>
+    </div>
+    <div v-if="isShowGoTopButton" class="backToTop" style="bottom: 100px" @click="backToTop">
+      <div>
+        <i class="el-icon-caret-top" style="color:#5cb6ff;"></i>
       </div>
     </div>
     <el-table
@@ -196,7 +201,9 @@
             :type="item.type"
             :label="item.label"
             :prop="item.prop"
-            :min-width="item['min-width'] || item.minWidth || item.width"
+            :min-width="item['min-width'] || item.minWidth"
+            :class-name="item.allShow?'flex_column_width':''"
+            :width="item.allShow ? flexColumnWidth(item.prop,table.data,index,item['min-width'] || item.minWidth || item.width) : item.width"
             :sortable="item.sort || sortable"
             :align="item.align || 'center'"
             :fixed="item.fixed"
@@ -345,7 +352,13 @@
           </el-table-column>
         </template>
         <!-- 表头合并单元格 -->
-        <t-table-column v-else :key="index + 'i'" :item="item">
+        <t-table-column
+          v-else
+          :key="index + 'i'"
+          :item="item"
+          :table="table"
+          :tableRef="$refs['el-table']"
+        >
           <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name" />
           </template>
@@ -578,7 +591,9 @@ export default {
       tableData: this.table?.data || this.tableList,
       rowData: '',
       copyTableData: [], // 键盘事件
-      columnSet: []
+      columnSet: [],
+      isShowGoTopButton: false,
+      scrollTop: 0
     }
   },
   watch: {
@@ -670,6 +685,100 @@ export default {
     this.$on('hook:updated', this.doLayout)
   },
   methods: {
+    // 点击按钮时调用该函数，将页面滚动到顶部
+    backToTop() {
+      this.$refs.ttable.scrollTop = 0
+    },
+    handleScroll(e) {
+      let scrollTop = e.target.scrollTop
+      if (scrollTop > 100) { // 当滚动超过100px时显示“返回顶部”按钮
+        this.isShowGoTopButton = true
+      } else {
+        this.isShowGoTopButton = false
+      }
+    },
+    // 自适应表格列宽
+    flexColumnWidth(str, arr1, index, minWidth, flag = 'max') {
+      // str为该列的字段名(传字符串);tableData为该表格的数据源(传变量);
+      // flag为可选值，可不传该参数,传参时可选'max'或'equal',默认为'max'
+      // flag为'max'则设置列宽适配该列中最长的内容,flag为'equal'则设置列宽适配该列中第一行内容的长度。
+      // index 为当前常规列的索引
+      str = str + ''
+      let columnContent = ''
+      if (!arr1 || !arr1.length || arr1.length === 0 || arr1 === undefined) {
+        return 'auto'
+      }
+      if (!str || !str.length || str.length === 0 || str === undefined) {
+        return 'auto'
+      }
+      if (flag === 'equal') {
+        // 获取该列中第一个不为空的数据(内容)
+        for (let i = 0; i < arr1.length; i++) {
+          if ((arr1[i][str] + '').length > 0) {
+            columnContent = arr1[i][str]
+            break
+          }
+        }
+      } else {
+        // 获取该列中最长的数据(内容)
+        let index = 0
+        for (let i = 0; i < arr1.length; i++) {
+          if ((arr1[i][str] + '') != null) {
+            const nowTemp = arr1[i][str] + ''
+            const maxtemp = arr1[index][str] + ''
+            if (this.getColumnWidth(nowTemp) > this.getColumnWidth(maxtemp)) {
+              index = i
+            }
+          }
+        }
+        columnContent = arr1[index][str]
+      }
+      // console.log('该列数据[i]:', columnContent)
+      let flexWidth = 0
+      flexWidth = this.getColumnWidth(columnContent)
+      // console.log('列宽',str,flexWidth,minWidth);
+      // 之所以要加20是因为有个padding左右各10px,所以要加上20来抵消padding的值
+      if ((flexWidth + 20) < minWidth) {
+        // 设置最小宽度
+        return 'auto'
+      }
+      // console.log(flexWidth, minWidth, 'flexWidth---99');
+      // 计算当前操作的列下标，index只是常规列下标，要多计算首列的长度
+      let cellIndex = index + 1
+      if (!Array.isArray(this.table.firstColumn) && this.table.firstColumn) {
+        cellIndex = index + 1 + 1
+      } else if (Array.isArray(this.table.firstColumn) && this.table.firstColumn.length) {
+        cellIndex = index + 1 + this.table.firstColumn.length
+      }
+      setTimeout(() => {
+        if (this.$refs['el-table'] && this.$refs['el-table'].$el && this.$refs['el-table'].$el.querySelectorAll(` tr > td.el-table__cell:nth-child(` + cellIndex + `) > .cell`).length > 0) {
+          this.$refs['el-table'].$el.querySelectorAll(` tr > td.el-table__cell:nth-child(` + cellIndex + `) > .cell`).forEach(el => {
+            el.style.width = `${flexWidth + 20}px`
+          })
+        }
+      }, 300)
+
+      return flexWidth + 20 + 'px'
+    },
+    getColumnWidth(temp) {
+      // 以下分配的单位长度可根据实际需求进行调整
+      let flexWidth = 0
+      if (temp) {
+        for (const char of temp) {
+          if ((char >= 'A' && char <= 'Z') || (char >= 'a' && char <= 'z')) {
+            // 如果是英文字符，为字符分配8个单位宽度
+            flexWidth += 8
+          } else if (char >= '\u4e00' && char <= '\u9fa5') {
+            // 如果是中文字符，为字符分配15个单位宽度
+            flexWidth += 14
+          } else {
+            // 其他种类字符，为字符分配8个单位宽度
+            flexWidth += 9
+          }
+        }
+      }
+      return flexWidth
+    },
     // 行拖拽
     initSort() {
       if (!this.isRowSort) return
@@ -1167,19 +1276,29 @@ export default {
   }
   // style：ttable单元格内容过长省略号
   .el-table {
-    .el-tooltip {
-      div {
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        word-break: break-all;
-        line-height: 23px;
-        padding-left: 10px;
-        padding-right: 10px;
+    .el-table__cell {
+      .el-tooltip {
+        div {
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          line-height: 23px;
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+        .el-form-item {
+          overflow: visible;
+        }
       }
-      .el-form-item {
-        overflow: visible;
+    }
+    // 设置了allShow样式修改
+    .flex_column_width {
+      .el-tooltip {
+        div {
+          overflow: visible;
+        }
       }
     }
   }
@@ -1428,6 +1547,31 @@ export default {
     ::v-deep .el-button {
       border-color: #355db4;
       color: #355db4;
+    }
+  }
+  // 返回顶部icon
+  .backToTop {
+    position: fixed;
+    right: 10px;
+    bottom: 150px;
+    z-index: 100;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
+    background: #fff;
+    border-radius: 5px;
+    opacity: 0.6;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    > div {
+      border-top: 1px solid #eee;
+      padding: 10px;
+
+      &:first-child {
+        border-bottom: none;
+      }
     }
   }
 }

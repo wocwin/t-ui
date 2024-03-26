@@ -22,6 +22,8 @@
         :prop="val.prop"
         :label="val.label"
         :min-width="val['min-width'] || val.minWidth || val.width"
+        :class-name="val.allShow?'flex_column_width':''"
+        :width="val.allShow ? flexColumnWidth(val.prop,table.data,index,val['min-width'] || val.minWidth || val.width) : val.width"
         :sortable="val.sort"
         :render-header="val.renderHeader||(val.headerRequired&&renderHeader)"
         :align="val.align || 'center'"
@@ -84,6 +86,18 @@ export default {
         return {}
       },
       required: true
+    },
+    table: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    tableRef: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   methods: {
@@ -101,7 +115,103 @@ export default {
           <span>{column.label}</span>
         </div>
       )
+    },
+    // 自适应表格列宽
+    flexColumnWidth(str, arr1, index, minWidth, flag = 'max') {
+      // str为该列的字段名(传字符串);tableData为该表格的数据源(传变量);
+      // flag为可选值，可不传该参数,传参时可选'max'或'equal',默认为'max'
+      // flag为'max'则设置列宽适配该列中最长的内容,flag为'equal'则设置列宽适配该列中第一行内容的长度。
+      // index 为当前常规列的索引
+      str = str + ''
+      let columnContent = ''
+      if (!arr1 || !arr1.length || arr1.length === 0 || arr1 === undefined) {
+        return 'auto'
+      }
+      if (!str || !str.length || str.length === 0 || str === undefined) {
+        return 'auto'
+      }
+      if (flag === 'equal') {
+        // 获取该列中第一个不为空的数据(内容)
+        for (let i = 0; i < arr1.length; i++) {
+          if ((arr1[i][str] + '').length > 0) {
+            // console.log('该列数据[0]:', arr1[0][str])
+            columnContent = arr1[i][str]
+            break
+          }
+        }
+      } else {
+        // 获取该列中最长的数据(内容)
+        let index = 0
+        for (let i = 0; i < arr1.length; i++) {
+          if ((arr1[i][str] + '') != null) {
+            const now_temp = arr1[i][str] + ''
+            const max_temp = arr1[index][str] + ''
+            if (this.getColumnWidth(now_temp) > this.getColumnWidth(max_temp)) {
+              index = i
+            }
+          }
+        }
+        columnContent = arr1[index][str]
+      }
+      // console.log('该列数据[i]:', columnContent)
+      let flexWidth = 0
+      flexWidth = this.getColumnWidth(columnContent)
+      // console.log('列宽',str,flexWidth,minWidth);
+      // 之所以要加20是因为有个padding左右各10px,所以要加上20来抵消padding的值
+      if ((flexWidth + 20) < minWidth) {
+        // 设置最小宽度
+        return 'auto'
+      }
+      // console.log(flexWidth, minWidth, 999999);
+      // if (flexWidth > 250) {
+      //   // 设置最大宽度
+      //   flexWidth = 250
+      // }
+      // 计算当前操作的列下标，index只是常规列下标，要多计算首列的长度
+      let cellIndex = index + 1
+      if (!Array.isArray(this.table.firstColumn) && this.table.firstColumn) {
+        cellIndex = index + 1 + 1
+      } else if (Array.isArray(this.table.firstColumn) && this.table.firstColumn.length) {
+        cellIndex = index + 1 + this.table.firstColumn.length
+      }
+      setTimeout(() => {
+        if (this.tableRef && this.tableRef.$el && this.tableRef.$el.querySelectorAll(` tr > td.el-table__cell:nth-child(` + cellIndex + `) > .cell`).length > 0) {
+          this.tableRef.$el.querySelectorAll(` tr > td.el-table__cell:nth-child(` + cellIndex + `) > .cell`).forEach(el => {
+            el.style.width = `${flexWidth + 20}px`
+          })
+        }
+      }, 500);
+
+      return flexWidth + 20 + 'px'
+    },
+    getColumnWidth(temp) {
+      // 以下分配的单位长度可根据实际需求进行调整
+      let flexWidth = 0
+      if (temp) {
+        for (const char of temp) {
+          if ((char >= 'A' && char <= 'Z') || (char >= 'a' && char <= 'z')) {
+            // 如果是英文字符，为字符分配8个单位宽度
+            flexWidth += 8
+          } else if (char >= '\u4e00' && char <= '\u9fa5') {
+            // 如果是中文字符，为字符分配15个单位宽度
+            flexWidth += 14
+          } else {
+            // 其他种类字符，为字符分配8个单位宽度
+            flexWidth += 9
+          }
+        }
+      }
+      return flexWidth
     }
   }
 }
 </script>
+<style lang="scss">
+.flex_column_width {
+  .el-tooltip {
+    div {
+      overflow: visible;
+    }
+  }
+}
+</style>

@@ -103,6 +103,7 @@ module.exports = {
             'TForm/labelPosition', // 对齐方式
             'TForm/widthSize', // 每行展示多少项
             'TForm/rules', // 表单验证
+            'TForm/bindFun', // bind接收Function
             'TForm/eventHandle', // 事件使用
             'TForm/labelRender', // 自定义label
             'TForm/slotName', // 自定义输入框插槽

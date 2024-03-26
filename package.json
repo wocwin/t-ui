@@ -1,6 +1,6 @@
 {
   "name": "@wocwin/t-ui",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Vue 中基于Element-ui二次封装基础组件文档",
   "author": "wocwin <wocwin@163.com>",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "build": "vue-cli-service build",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "lib": "vue-cli-service build --target lib --name t-ui --dest lib packages/index.js",
+    "lib": "rimraf lib && vue-cli-service build --target lib --name t-ui --dest lib packages/index.js",
     "clean": "rimraf lib",
     "dist": "npm run clean  && npm run lib && webpack --config build/webpack.conf.js",
     "deploy": "deploy.sh"

@@ -38,7 +38,7 @@
             v-if="item.comp==='t-select-table'"
             :is="item.comp"
             :placeholder="item.placeholder||getPlaceholder(item)"
-            v-bind="{clearable:true,filterable:true,...item.bind}"
+            v-bind="typeof item.bind == 'function' ? item.bind(formOpts.formData) : {clearable:true,filterable:true,...item.bind}"
             :style="{width: item.width||'100%'}"
             v-on="cEvent(item,'t-select-table')"
           />
@@ -47,7 +47,7 @@
             :is="item.comp"
             v-model="formOpts.formData[item.value]"
             :placeholder="item.placeholder||getPlaceholder(item)"
-            v-bind="{clearable:true,filterable:true,...item.bind}"
+            v-bind="typeof item.bind == 'function' ? item.bind(formOpts.formData) : {clearable:true,filterable:true,...item.bind}"
             :style="{width: item.width||'100%'}"
             v-on="cEvent(item)"
           />
@@ -74,7 +74,7 @@
           :type="item.comp==='el-input'?item.type||'input':item.type||item.bind.type"
           :placeholder="item.placeholder||getPlaceholder(item)"
           @change="handleEvent(item.event, formOpts.formData[item.value],item)"
-          v-bind="{clearable:true,filterable:true,...item.bind}"
+          v-bind="typeof item.bind == 'function' ? item.bind(formOpts.formData) : {clearable:true,filterable:true,...item.bind}"
           :style="{width: item.width||'100%'}"
           v-on="cEvent(item)"
         >

@@ -26,11 +26,12 @@ export default {
           firstColumn: { type: 'index', label: '序列' }, // 显示序列号
           data: [],
           columns: [
-            { prop: 'name', label: '姓名', minWidth: '100', configEdit: { label: '姓名', type: 'input', editComponent: 'el-input' } },
+            { prop: 'name', label: '姓名', minWidth: '160', configEdit: { label: '姓名', type: 'input', editComponent: 'el-input' } },
             {
               prop: 'hobby',
               label: '爱好',
               minWidth: '180',
+              headerRequired: true,
               configEdit: {
                 label: '爱好',
                 type: 'select-arr',
@@ -44,18 +45,18 @@ export default {
             {
               prop: 'number',
               label: '计数器',
-              minWidth: '220',
+              minWidth: '320',
               configEdit: {
                 label: '计数器',
                 type: 'inputNumber',
-                bind: { controls: true, min: 0, max: 99 },
+                bind: { min: 0, max: 99 },
                 editComponent: 'el-input-number'
               }
             },
             {
               prop: 'checkbox',
               label: '复选框',
-              minWidth: '220',
+              minWidth: '520',
               configEdit: {
                 label: '复选框',
                 type: 'checkbox',

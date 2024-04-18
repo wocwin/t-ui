@@ -219,7 +219,9 @@ export default {
     },
     // 另一种获取的table数据
     save() {
-      console.log('另一种获取的table数据', this.$refs.singleEdit.save())
+      this.$refs.singleEdit.save((data) => {
+        console.log('另一种获取的table数据', data)
+      })
     },
     // 清除校验规则
     clearValidate() {

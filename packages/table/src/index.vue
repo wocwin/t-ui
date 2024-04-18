@@ -1,7 +1,7 @@
 <template>
   <div class="t-table" id="t_table" ref="ttable" @scroll="handleScroll">
     <div class="header_wrap">
-      <div class="header_title">
+      <div class="header_title" v-if="title||$slots.title">
         {{ title }}
         <slot name="title" />
       </div>
@@ -52,6 +52,9 @@
         </div>
       </div>
     </div>
+    <div class="title-tip" v-if="$slots.titleTip">
+      <slot name="titleTip" />
+    </div>
     <div v-if="isShowGoTopButton" class="backToTop" style="bottom: 100px" @click="backToTop">
       <div>
         <i class="el-icon-caret-top" style="color:#5cb6ff;"></i>
@@ -67,6 +70,7 @@
         radioStyle: radioStyleClass,
         treeProps: isShowTreeStyle,
         is_sort_icon: onlyIconSort,
+        t_edit_cell:isEditCell
       }"
       :max-height="useVirtual ? maxHeight || 540 : maxHeight"
       v-bind="$attrs"
@@ -202,8 +206,8 @@
             :label="item.label"
             :prop="item.prop"
             :min-width="item['min-width'] || item.minWidth"
-            :class-name="item.allShow?'flex_column_width':''"
-            :width="item.allShow ? flexColumnWidth(item.prop,table.data,index,item['min-width'] || item.minWidth || item.width) : item.width"
+            :class-name="item.allShow&&!isEditCell?'flex_column_width':''"
+            :width="item.allShow&&!isEditCell ? flexColumnWidth(item.prop,table.data,index,item['min-width'] || item.minWidth || item.width) : item.width"
             :sortable="item.sort || sortable"
             :align="item.align || 'center'"
             :fixed="item.fixed"
@@ -271,7 +275,7 @@
                       @Keyup="handleKeyup"
                       v-on="$listeners"
                       v-bind="$attrs"
-                      ref="editCell"
+                      ref="editSingleCell"
                     >
                       <template v-for="(index, name) in $slots" v-slot:[name]>
                         <slot :name="name" />
@@ -290,7 +294,7 @@
                     v-model="scope.row[scope.column.property]"
                     v-on="$listeners"
                     v-bind="$attrs"
-                    ref="editCell"
+                    ref="editClickCell"
                   >
                     <template v-for="(index, name) in $slots" v-slot:[name]>
                       <slot :name="name" />
@@ -339,12 +343,17 @@
                 <edit-cell
                   :configEdit="item.configEdit"
                   v-model="scope.row[scope.column.property]"
+                  :record="scope"
+                  :prop="item.prop"
                   v-bind="$attrs"
                   v-on="$listeners"
                   ref="editCell"
                 >
                   <template v-for="(index, name) in $slots" :slot="name">
                     <slot :name="name" />
+                  </template>
+                  <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+                    <slot :name="name" v-bind="data"></slot>
                   </template>
                 </edit-cell>
               </template>
@@ -981,10 +990,10 @@ export default {
       }
     },
     // 单行编辑&整行编辑返回数据
-    save() {
+    save(callback) {
       if (!this.isEditRules) {
         this.$emit('save', this.tableData)
-        return this.tableData
+        callback && callback(this.tableData)
       }
       // 表单规则校验
       let successLength = 0
@@ -1024,25 +1033,27 @@ export default {
             if (valid) {
               // 解决 <el-table-column> 加上fixed 属性后<el-table-body>重复渲染问题
               // 两个判断是为了兼容 elementui@2.15.7前后 el-table 不同的实现
-              const isFixedParent =
-                item.$parent.$el.offsetParent.className ===
-                'el-table__fixed-body-wrapper' ||
-                item.$parent.$parent.$el.offsetParent.className ===
-                'el-table__fixed-body-wrapper'
-              if (!isFixedParent) {
-                successLength = successLength + 1
-              }
+              // const isFixedParent =
+              //   item.$parent.$el.offsetParent.className ===
+              //   'el-table__fixed-body-wrapper' ||
+              //   item.$parent.$parent.$el.offsetParent.className ===
+              //   'el-table__fixed-body-wrapper'
+              // if (!isFixedParent) {
+              successLength = successLength + 1
+              // }
             } else {
               rulesError.push(val)
             }
           })
         })
       })
+      // setTimeout(() => {
+      // console.log('successLength--', successLength, rulesList.length)
       // 所有表单都校验成功
       if (successLength === rulesList.length) {
         if (this.isEditRules) {
           this.$emit('save', this.tableData)
-          return this.tableData
+          callback && callback(this.tableData)
         }
       } else {
         // 校验未通过的prop
@@ -1064,6 +1075,7 @@ export default {
         console.log('校验未通过的prop--label', propLabelError)
         this.$emit('validateError', propLabelError)
       }
+      // }, 300)
     },
     // 清空校验规则
     clearValidate() {
@@ -1326,7 +1338,7 @@ export default {
     align-items: center;
 
     .toolbar_top {
-      flex: 0 70%;
+      flex: 1;
       display: flex;
       padding: 10px 0;
       align-items: center;
@@ -1351,7 +1363,7 @@ export default {
     .header_title {
       display: flex;
       align-items: center;
-      flex: 0 30%;
+      flex: 1;
       padding: 10px 0;
       font-size: 16px;
       font-weight: bold;
@@ -1359,7 +1371,12 @@ export default {
       margin-left: 10px;
     }
   }
-
+  .title-tip {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 14px;
+  }
   .marginBttom {
     margin-bottom: -8px;
   }

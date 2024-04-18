@@ -105,11 +105,11 @@
 
 ## Methods 方法（继承el-table的所有方法）
 
-| 事件名        | 说明                                               | 参数 |
-| :------------ | :------------------------------------------------- | :--- |
-| save          | 保存方法（返回编辑后的所有数据）                   | -    |
-| resetFields   | 对表单进行重置，并移除校验结果（单元格编辑时生效） | —    |
-| clearValidate | 清空校验规则（单元格编辑时生效）                   | -    |
+| 事件名        | 说明                                               | 返回值              |
+| :------------ | :------------------------------------------------- | :------------------ |
+| save          | 保存方法（返回编辑后的所有数据）                   | callback(tableData) |
+| resetFields   | 对表单进行重置，并移除校验结果（单元格编辑时生效） | —                   |
+| clearValidate | 清空校验规则（单元格编辑时生效）                   | -                   |
 
 ## events 其他事件按照 el-table 直接使用（如 sort-change 排序事件）
 
@@ -127,13 +127,14 @@
 
 ## Slots插槽
 
-| 插槽名  | 说明                                              | 参数  |
-| :------ | :------------------------------------------------ | :---- |
-| title   | TTable 左侧Title                                  | -     |
-| toolbar | TTable 右侧toolbar                                | -     |
-| expand  | table.firstColumn.type：`expand` 展开行插槽       | scope |
-| -       | el-table-column某列自定义插槽（slotName命名）     | scope |
-| -       | el-table-column单元格编辑插槽（editSlotName命名） | scope |
-| -       | el-table-column表头合并插槽（slotNameMerge命名）  | scope |
-| -       | 操作列前一列自定义默认内容插槽                    | -     |
-| footer  | 底部操作区（默认隐藏，使用插槽展示“保存”按钮）    | -     |
+| 插槽名   | 说明                                              | 参数  |
+| :------- | :------------------------------------------------ | :---- |
+| title    | TTable 左侧Title                                  | -     |
+| titleTip | TTable 头部tip                                    | -     |
+| toolbar  | TTable 右侧toolbar                                | -     |
+| expand   | table.firstColumn.type：`expand` 展开行插槽       | scope |
+| -        | el-table-column某列自定义插槽（slotName命名）     | scope |
+| -        | el-table-column单元格编辑插槽（editSlotName命名） | scope |
+| -        | el-table-column表头合并插槽（slotNameMerge命名）  | scope |
+| -        | 操作列前一列自定义默认内容插槽                    | -     |
+| footer   | 底部操作区（默认隐藏，使用插槽展示“保存”按钮）    | -     |

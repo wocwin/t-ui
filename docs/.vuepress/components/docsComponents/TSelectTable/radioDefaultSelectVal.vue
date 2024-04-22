@@ -3,7 +3,7 @@
     :table="table"
     :columns="table.columns"
     :max-height="400"
-    :defaultSelectVal="2"
+    :defaultSelectVal="[2]"
     :keywords="{label:'name',value:'id'}"
     @radioChange="radioChange"
   ></t-select-table>

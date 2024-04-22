@@ -70,6 +70,8 @@ module.exports = {
             'TSelectTable/radioDefaultSelectVal',
             'TSelectTable/radioPagination',
             'TSelectTable/isShowFirstColumn',
+            'TSelectTable/multipleDynamicDefaultSelectVal',
+            'TSelectTable/radioDynamicDefaultSelectVal',
             'TSelectTable/isShowQuery',
             'TSelectTable/isShowQuerySpan',
             'TSelectTable/radiovirtual', // 单选--虚拟列表

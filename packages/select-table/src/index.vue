@@ -182,7 +182,8 @@ export default {
     },
     // 设置默认选中项--keywords.value值（单选是String, Number类型；多选时是数组）
     defaultSelectVal: {
-      type: [String, Number, Array]
+      type: Array,
+      default: () => []
     },
     // 下拉数据指向的label/value
     keywords: {
@@ -268,7 +269,7 @@ export default {
   },
   mounted() {
     // 设置默认选中项（单选）
-    if (this.defaultSelectValue && this.isDefaultSelectVal) {
+    if (this.defaultSelectValue.length > 0 && this.isDefaultSelectVal) {
       this.defaultSelect(this.defaultSelectValue)
     }
     // 获取查询条件组件的项
@@ -334,7 +335,7 @@ export default {
     defaultSelectVal: {
       handler(val) {
         this.defaultSelectValue = val
-        if (val && this.isDefaultSelectVal) {
+        if (val.length > 0 && this.isDefaultSelectVal) {
           this.defaultSelect(val)
         }
       },
@@ -541,7 +542,7 @@ export default {
         if (this.useVirtual) {
           this.onScroll()
         }
-        if (this.defaultSelectVal && this.isDefaultSelectVal) {
+        if (this.defaultSelectVal.length > 0 && this.isDefaultSelectVal) {
           this.defaultSelect(this.defaultSelectVal)
         }
         this.initTableData()
@@ -554,6 +555,7 @@ export default {
       this.isDefaultSelectVal = false
       this.defaultValue = val.map((item) => item[this.keywords.label])
       this.ids = val.map((item) => item[this.keywords.value])
+      if (val.length === 0) this.isDefaultSelectVal = true
       this.$emit('selectionChange', val, this.ids)
     },
     // 获取表格数据
@@ -613,7 +615,7 @@ export default {
     },
     // 默认选中（且只能默认选中第一页的数据）
     defaultSelect(defaultSelectVal) {
-      if (typeof defaultSelectVal === 'object' && this.multiple) {
+      if (this.multiple) {
         let multipleList = []
         defaultSelectVal.map((val) => {
           this.tableData.forEach((row) => {
@@ -641,7 +643,7 @@ export default {
       } else {
         let row, index
         this.tableData.map((val, i) => {
-          if (val[this.keywords.value] === defaultSelectVal) {
+          if (val[this.keywords.value] === defaultSelectVal[0]) {
             row = val
             index = i
           }
@@ -651,6 +653,7 @@ export default {
         setTimeout(() => {
           this.$refs.select.selectedLabel = row[this.keywords.label]
         }, 0)
+        this.$emit('radioChange', row, row[this.keywords.value])
       }
     },
     // 点击单选框单元格触发事件
@@ -674,6 +677,7 @@ export default {
           this.radioVal = ''
           this.isForbidden()
           this.defaultValue = {}
+          this.isDefaultSelectVal = true
           this.$emit('radioChange', {}, null) // 取消勾选就把回传数据清除
           this.blur()
         } else {
@@ -719,12 +723,14 @@ export default {
         (item) => item[this.keywords.label] === tag
       )
       this.$refs['el-table'].toggleRowSelection(row, false)
+      this.isDefaultSelectVal = true
     },
     // 清空后的回调
     clear() {
       if (this.multiple) {
         this.$refs['el-table'].clearSelection()
         this.defaultValue = []
+        this.isDefaultSelectVal = true
       } else {
         // 取消高亮
         this.$refs['el-table'].setCurrentRow(-1)
@@ -732,6 +738,7 @@ export default {
         this.radioVal = ''
         this.forbidden = false
         this.defaultValue = {}
+        this.isDefaultSelectVal = true
         this.$emit('radioChange', {}, null)
       }
     },

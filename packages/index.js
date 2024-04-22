@@ -20,7 +20,7 @@ import TTable from './table'
 import TTimerBtn from './timer-btn'
 import TTreeTable from './tree-table'
 // import TUploadExcel from './upload-excel'
-import TUploadFile from './upload-file'
+// import TUploadFile from './upload-file'
 import TModuleForm from './module-form'
 import TBtnDate from './btn-date'
 import TSelect from './select'
@@ -55,7 +55,7 @@ const components = [
   TTimerBtn,
   TTreeTable,
   // TUploadExcel,
-  TUploadFile,
+  // TUploadFile,
   TModuleForm,
   TComplexEditTable,
   TEditTable,
@@ -106,7 +106,7 @@ export {
   TTimerBtn,
   TTreeTable,
   // TUploadExcel,
-  TUploadFile,
+  // TUploadFile,
   TModuleForm,
   TComplexEditTable,
   TEditTable,

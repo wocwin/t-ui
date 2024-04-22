@@ -144,9 +144,9 @@ export default {
         let index = 0
         for (let i = 0; i < arr1.length; i++) {
           if ((arr1[i][str] + '') != null) {
-            const now_temp = arr1[i][str] + ''
-            const max_temp = arr1[index][str] + ''
-            if (this.getColumnWidth(now_temp) > this.getColumnWidth(max_temp)) {
+            const nowtemp = arr1[i][str] + ''
+            const maxTemp = arr1[index][str] + ''
+            if (this.getColumnWidth(nowtemp) > this.getColumnWidth(maxTemp)) {
               index = i
             }
           }
@@ -180,7 +180,7 @@ export default {
             el.style.width = `${flexWidth + 20}px`
           })
         }
-      }, 500);
+      }, 500)
 
       return flexWidth + 20 + 'px'
     },

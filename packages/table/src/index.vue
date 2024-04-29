@@ -989,11 +989,11 @@ export default {
         this.tableData = [...this.tableData, ...freeGood]
       }
     },
-    // 单行编辑&整行编辑返回数据
-    save(callback) {
+    // 单行编辑&整行编辑返回数据--事件返回
+    save() {
       if (!this.isEditRules) {
         this.$emit('save', this.tableData)
-        callback && callback(this.tableData)
+        return
       }
       // 表单规则校验
       let successLength = 0
@@ -1033,49 +1033,135 @@ export default {
             if (valid) {
               // 解决 <el-table-column> 加上fixed 属性后<el-table-body>重复渲染问题
               // 两个判断是为了兼容 elementui@2.15.7前后 el-table 不同的实现
-              // const isFixedParent =
-              //   item.$parent.$el.offsetParent.className ===
-              //   'el-table__fixed-body-wrapper' ||
-              //   item.$parent.$parent.$el.offsetParent.className ===
-              //   'el-table__fixed-body-wrapper'
-              // if (!isFixedParent) {
-              successLength = successLength + 1
-              // }
+              const isFixedParent =
+                item.$parent.$el.offsetParent.className ===
+                'el-table__fixed-body-wrapper' ||
+                item.$parent.$parent.$el.offsetParent.className ===
+                'el-table__fixed-body-wrapper'
+              if (!isFixedParent) {
+                successLength = successLength + 1
+              }
             } else {
               rulesError.push(val)
             }
           })
         })
       })
-      // setTimeout(() => {
-      // console.log('successLength--', successLength, rulesList.length)
-      // 所有表单都校验成功
-      if (successLength === rulesList.length) {
-        if (this.isEditRules) {
-          this.$emit('save', this.tableData)
-          callback && callback(this.tableData)
+      setTimeout(() => {
+        console.log('successLength--', successLength, rulesList.length)
+        // 所有表单都校验成功
+        if (successLength === rulesList.length) {
+          if (this.isEditRules) {
+            this.$emit('save', this.tableData)
+          }
+        } else {
+          // 校验未通过的prop
+          rulesError.map((item) => {
+            newArr.map((val) => {
+              if (item.includes(val)) {
+                propError.push(val)
+              }
+            })
+          })
+          // 去重获取校验未通过的prop--label
+          Array.from(new Set(propError)).map((item) => {
+            this.renderColumns.map((val) => {
+              if (item === val.prop) {
+                propLabelError.push(val.label)
+              }
+            })
+          })
+          console.log('校验未通过的prop--label', propLabelError)
+          this.$emit('validateError', propLabelError)
         }
-      } else {
-        // 校验未通过的prop
-        rulesError.map((item) => {
-          newArr.map((val) => {
-            if (item.includes(val)) {
-              propError.push(val)
-            }
-          })
-        })
-        // 去重获取校验未通过的prop--label
-        Array.from(new Set(propError)).map((item) => {
-          this.renderColumns.map((val) => {
-            if (item === val.prop) {
-              propLabelError.push(val.label)
-            }
-          })
-        })
-        console.log('校验未通过的prop--label', propLabelError)
-        this.$emit('validateError', propLabelError)
+      }, 300)
+    },
+    // 单行编辑&整行编辑返回数据---方法
+    saveMethod(callback) {
+      if (!this.isEditRules) {
+        callback && callback(this.tableData)
+        return
       }
-      // }, 300)
+      // 表单规则校验
+      let successLength = 0
+      let rulesList = []
+      let rulesError = []
+      let propError = []
+      let propLabelError = []
+      // 获取所有的form ref
+      const refList = Object.keys(this.$refs).filter((item) =>
+        item.includes('formRef')
+      )
+      // 获取单独设置规则项
+      const arr = this.renderColumns
+        .filter((val) => {
+          if (val.configEdit?.rules) {
+            return val
+          }
+        })
+        .map((item) => item.prop)
+      // 获取整体设置规则
+      const arr1 = this.table.rules && Object.keys(this.table.rules)
+      // 获取最终设置了哪些规则（其值是设置的--prop）
+      const newArr = [...arr, ...arr1]
+      // 最终需要校验的ref
+      newArr.map((val) => {
+        refList.map((item) => {
+          if (item.includes(val)) {
+            rulesList.push(item)
+          }
+        })
+      })
+      console.log('最终需要校验的数据', rulesList)
+      // 表单都校验
+      rulesList.map((val) => {
+        this.$refs[val].map((item) => {
+          item.validate((valid) => {
+            if (valid) {
+              // 解决 <el-table-column> 加上fixed 属性后<el-table-body>重复渲染问题
+              // 两个判断是为了兼容 elementui@2.15.7前后 el-table 不同的实现
+              const isFixedParent =
+                item.$parent.$el.offsetParent.className ===
+                'el-table__fixed-body-wrapper' ||
+                item.$parent.$parent.$el.offsetParent.className ===
+                'el-table__fixed-body-wrapper'
+              if (!isFixedParent) {
+                successLength = successLength + 1
+              }
+            } else {
+              rulesError.push(val)
+            }
+          })
+        })
+      })
+      setTimeout(() => {
+        console.log('successLength--方法', successLength, rulesList.length)
+        // 所有表单都校验成功
+        if (successLength === rulesList.length) {
+          if (this.isEditRules) {
+            callback && callback(this.tableData)
+          }
+        } else {
+          // 校验未通过的prop
+          rulesError.map((item) => {
+            newArr.map((val) => {
+              if (item.includes(val)) {
+                propError.push(val)
+              }
+            })
+          })
+          // 去重获取校验未通过的prop--label
+          Array.from(new Set(propError)).map((item) => {
+            this.renderColumns.map((val) => {
+              if (item === val.prop) {
+                propLabelError.push(val.label)
+              }
+            })
+          })
+          console.log('校验未通过的prop--label', propLabelError)
+          this.$emit('validateError', propLabelError)
+        }
+      }, 300)
     },
     // 清空校验规则
     clearValidate() {

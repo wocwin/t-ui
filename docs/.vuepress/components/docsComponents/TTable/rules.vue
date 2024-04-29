@@ -52,6 +52,7 @@ export default {
               year: null,
               time: null,
               remake: null,
+              unit: null,
               number: 12
             },
             {
@@ -61,6 +62,7 @@ export default {
               year: null,
               time: null,
               remake: null,
+              unit: null,
               number: 12
             }
           ],
@@ -219,8 +221,9 @@ export default {
     },
     // 另一种获取的table数据
     save() {
-      this.$refs.singleEdit.save((data) => {
-        console.log('另一种获取的table数据', data)
+      console.log('另一种获取的table数据--save', this.$refs.singleEdit)
+      this.$refs.singleEdit.saveMethod((data) => {
+        console.log('另一种获取的table数据--saveMethod', data)
       })
     },
     // 清除校验规则

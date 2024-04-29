@@ -253,7 +253,7 @@ export default {
       }
     },
     onInputExit() {
-      if ((this.configEdit?.type?.includes('multiple'))) {
+      if (this.configEdit?.type?.includes('multiple') || this.configEdit?.type?.includes('select')) {
         this.editMode = true
       } else {
         this.editMode = false
@@ -277,7 +277,7 @@ export default {
     },
     // 绑定的相关事件
     handleEvent(type, val, editCom) {
-      // console.log('组件', type, val, editCom)
+      console.log('组件', type, val, editCom)
       let changeCom = ['el-select', 'el-date-picker']
       // select
       if (changeCom.includes(editCom)) {

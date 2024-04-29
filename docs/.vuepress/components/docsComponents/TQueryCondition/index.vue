@@ -6,6 +6,7 @@
       isExpansion
       :loading="loading"
       @submit="conditionEnter"
+      :btnCheckBind="{btnTitle:'chaxun'}"
     >
       <template #likeTransportNo="{param}">
         <el-input v-model="param.likeTransportNo" clearable placeholder="自定义插槽输入框" />

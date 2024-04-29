@@ -6,11 +6,10 @@
     id="t_query_condition"
     class="t-query-condition"
     :style="{
-      'grid-template-areas': gridAreas,
-      'grid-template-columns': `repeat(${colLength}, minmax(0px, ${
-        100 / colLength
+    'grid-template-areas': gridAreas,
+    'grid-template-columns': `repeat(${colLength}, minmax(0px, ${100 / colLength
       }%))`,
-    }"
+  }"
     @submit.native.prevent
   >
     <el-form-item
@@ -44,11 +43,21 @@
       style="grid-area: submit_btn"
       :class="['btn', { flex_end: cellLength % colLength === 0 }]"
     >
-      <el-button class="btn_check" @click="checkHandle" :loading="loading" v-bind="queryAttrs">查询</el-button>
-      <el-button v-if="reset" class="btn_reset" v-bind="resetAttrs" @click="resetHandle">重置</el-button>
+      <el-button
+        class="btn_check"
+        @click="checkHandle"
+        :loading="loading"
+        v-bind="queryAttrs"
+      >{{ queryAttrs.btnTitle }}</el-button>
+      <el-button
+        v-if="reset"
+        class="btn_reset"
+        v-bind="resetAttrs"
+        @click="resetHandle"
+      >{{ resetAttrs.btnTitle }}</el-button>
       <slot name="querybar"></slot>
       <el-button v-if="originCellLength > colLength && isShowOpen" type="text" @click="openCilck">
-        {{ open ? "收起" : "展开" }}
+        {{ controlText }}
         <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
       </el-button>
     </el-form-item>
@@ -103,6 +112,15 @@ export default {
     isExpansion: {
       type: Boolean,
       default: false
+    },
+    isExpansionTxt: {
+      type: String,
+      default: '展开'
+    },
+    // 收起
+    isPackupTxt: {
+      type: String,
+      default: '收起'
     }
   },
   data() {
@@ -124,13 +142,17 @@ export default {
     }
   },
   computed: {
+    // 是否展开
+    controlText() {
+      return this.open ? this.isPackupTxt : this.isExpansionTxt
+    },
     // 查询按钮配置
     queryAttrs() {
-      return { type: 'primary', size: 'small', ...this.btnCheckBind }
+      return { type: 'primary', size: 'small', btnTitle: '查询', ...this.btnCheckBind }
     },
     // 重置按钮配置
     resetAttrs() {
-      return { size: 'small', ...this.btnResetBind }
+      return { size: 'small', btnTitle: '重置', ...this.btnResetBind }
     },
     cOpts() {
       const { open, opts, colLength, isShowOpen } = this
@@ -323,14 +345,17 @@ export default {
   gap: 2px 8px;
   margin-bottom: -7px;
   text-align: left;
+
   .el-select,
   .el-date-editor,
   .ant-calendar-picker {
     width: 100%;
   }
+
   .flex_end {
     grid-area: submit_btn;
     margin-top: 2px;
+
     .el-form-item__content {
       display: flex;
       justify-content: flex-end;
@@ -338,28 +363,34 @@ export default {
       overflow: visible !important;
     }
   }
+
   .btn {
     text-align: end;
   }
+
   .render_label {
     .el-form-item__label {
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: flex-end;
+
       &::before {
         margin-top: 1px;
       }
     }
   }
+
   .el-form-item {
     display: flex;
     margin-bottom: 6px;
+
     .el-form-item__label {
       flex-shrink: 0;
       min-width: 60px;
       padding-left: 8px;
     }
+
     .el-form-item__content {
       flex-grow: 1;
       // overflow: hidden;
@@ -369,15 +400,18 @@ export default {
       margin-left: 0 !important;
     }
   }
+
   .btn_check {
     position: relative;
     top: -1px;
   }
+
   .btn_reset {
     position: relative;
     top: -1px;
     margin-left: 8px;
   }
+
   [hidden] {
     display: none !important;
   }

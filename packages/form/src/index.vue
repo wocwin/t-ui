@@ -37,6 +37,7 @@
           <component
             v-if="item.comp==='t-select-table'"
             :is="item.comp"
+            :ref="`selectTableRef-${item.value}`"
             :placeholder="item.placeholder||getPlaceholder(item)"
             v-bind="typeof item.bind == 'function' ? item.bind(formOpts.formData) : {clearable:true,filterable:true,...item.bind}"
             :style="{width: item.width||'100%'}"
@@ -339,7 +340,17 @@ export default {
       })
     },
     // 重置表单
-    resetFields() {
+    resetFieldsSelf() {
+      // 获取所有的下拉表格组件 ref
+      const refList = Object.keys(this.$refs).filter((item) =>
+        item.includes('selectTableRef')
+      )
+      // 重置下拉表格组件
+      if (refList.length > 0) {
+        refList.map((val) => {
+          this.$refs[val][0].clear()
+        })
+      }
       return this.$refs.form.resetFields()
     },
     // 清空校验

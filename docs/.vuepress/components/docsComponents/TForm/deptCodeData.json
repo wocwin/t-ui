@@ -1,0 +1,87 @@
+{
+  "success": true,
+  "code": 200,
+  "msg": "成功",
+  "data": [
+    {
+      "code": "17",
+      "valueName": "好水易达黄边店",
+      "sort": null
+    },
+    {
+      "code": "32",
+      "valueName": "到水吉祥(金铂天地店)",
+      "sort": null
+    },
+    {
+      "code": "33",
+      "valueName": "到水吉祥(集贤店)",
+      "sort": null
+    },
+    {
+      "code": "34",
+      "valueName": "到水吉祥(花都店)",
+      "sort": null
+    },
+    {
+      "code": "36",
+      "valueName": "到水吉祥(京溪店)",
+      "sort": null
+    },
+    {
+      "code": "37",
+      "valueName": "到水吉祥(黄石店)",
+      "sort": null
+    },
+    {
+      "code": "38",
+      "valueName": "到水吉祥(东平店)",
+      "sort": null
+    },
+    {
+      "code": "39",
+      "valueName": "到水吉祥(梅花园店)",
+      "sort": null
+    },
+    {
+      "code": "40",
+      "valueName": "到水吉祥水超市总仓",
+      "sort": null
+    },
+    {
+      "code": "41",
+      "valueName": "到水吉祥水超市(鹤林店)",
+      "sort": null
+    },
+    {
+      "code": "42",
+      "valueName": "同和金铂广场店",
+      "sort": null
+    },
+    {
+      "code": "43",
+      "valueName": "新门店",
+      "sort": null
+    },
+    {
+      "code": "46",
+      "valueName": "肇庆店",
+      "sort": null
+    },
+    {
+      "code": "47",
+      "valueName": "到水吉祥(宝龙店)",
+      "sort": null
+    },
+    {
+      "code": "48",
+      "valueName": "hjj1231",
+      "sort": null
+    },
+    {
+      "code": "49",
+      "valueName": "hejj-东平hjj111",
+      "sort": null
+    }
+  ]
+}

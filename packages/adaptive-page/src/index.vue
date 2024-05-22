@@ -9,8 +9,8 @@
         <slot name="leftContent" />
       </div>
     </div>
-    <t-layout-page class="right_content">
-      <t-layout-page-item class="table_search">
+    <t-layout-page class="right_content" :style="pageStyle">
+      <t-layout-page-item class="table_search" :style="queryPageStyle">
         <t-query-condition ref="query-condition" v-bind="$attrs" v-on="$listeners">
           <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name" />
@@ -20,7 +20,7 @@
           </template>
         </t-query-condition>
       </t-layout-page-item>
-      <t-layout-page-item class="table_main">
+      <t-layout-page-item class="table_main" :style="tablePageStyle">
         <t-table ref="t-table" v-bind="$attrs" v-on="$listeners">
           <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name" />
@@ -52,7 +52,19 @@ export default {
       default: 260
     },
     queryRef: Object,
-    tableRef: Object
+    tableRef: Object,
+    pageStyle: {
+      type: Object,
+      default: () => { }
+    },
+    queryPageStyle: {
+      type: Object,
+      default: () => { }
+    },
+    tablePageStyle: {
+      type: Object,
+      default: () => { }
+    }
   },
   mounted() {
     this.$emit('update:queryRef', this.$refs['query-condition'])

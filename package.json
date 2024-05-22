@@ -6,6 +6,8 @@
   "license": "MIT",
   "private": false,
   "main": "lib/t-ui.umd.min.js",
+  "unpkg": "lib/t-ui.umd.min.js",
+  "jsdelivr": "lib/t-ui.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve --open --fix",
     "build": "vue-cli-service build",

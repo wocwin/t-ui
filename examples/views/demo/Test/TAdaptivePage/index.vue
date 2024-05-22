@@ -190,8 +190,8 @@ export default {
         likeCargoName,
         workshopNum,
         workshopNum1,
-        beginDate: date[0] ? date[0] : null,
-        endDate: date[1] ? date[1] : null
+        beginDate: date && date[0] ? date[0] : null,
+        endDate: date && date[1] ? date[1] : null
       }
     }
   },

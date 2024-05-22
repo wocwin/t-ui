@@ -4,7 +4,6 @@ import TCalendar from './calendar'
 import TDatePicker from './date-picker'
 import TDialog from './dialog'
 import TEditTable from './edit-table'
-import TComplexEditTable from './complex-edit-table'
 import TForm from './form'
 import TIcon from './icon'
 import TInput from './input'
@@ -18,7 +17,6 @@ import TStepWizard from './step-wizard'
 import TSticky from './sticky'
 import TTable from './table'
 import TTimerBtn from './timer-btn'
-import TTreeTable from './tree-table'
 // import TUploadExcel from './upload-excel'
 // import TUploadFile from './upload-file'
 import TModuleForm from './module-form'
@@ -53,11 +51,9 @@ const components = [
   TSticky,
   TTable,
   TTimerBtn,
-  TTreeTable,
   // TUploadExcel,
   // TUploadFile,
   TModuleForm,
-  TComplexEditTable,
   TEditTable,
   TBtnDate,
   TSelect,
@@ -104,11 +100,9 @@ export {
   TSticky,
   TTable,
   TTimerBtn,
-  TTreeTable,
   // TUploadExcel,
   // TUploadFile,
   TModuleForm,
-  TComplexEditTable,
   TEditTable,
   TBtnDate,
   TSelect,

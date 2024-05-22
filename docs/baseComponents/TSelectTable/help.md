@@ -56,7 +56,8 @@ TForm 表单组件
 | filterable        | 是否开启过滤(根据 keywords 的 label 值进行过滤) （开启虚拟列表不支持过滤）        | Boolean                   | true       |
 | reserveSelection  | 是否支持翻页选中                                                                  | Boolean                   | true       |
 | isShowPagination  | 开启分页                                                                          | Boolean                   | false      |
-| tableWidth        | table 宽度                                                                        | Number                    | 550        |
+| tableWidth        | table 宽度(单位：px) 若设置0，宽度100%                                            | Number/String             | 550        |
+| selectWidth       | select 宽度(单位：px) 若设置0，宽度100%                                           | Number/String             | 550        |
 | isShowQuery       | 是否允许配置查询条件(继承TQueryCondition的所有属性、事件、插槽)                   | Boolean                   | false      |
 | useVirtual        | 是否开启虚拟列表（可视高度显示10条数据）                                          | Boolean                   | false      |
 | maxHeight         | Table 的最大高度。合法的值为数字或者单位为 px 的高度。（开启虚拟列表其默认值540） | String/Number             | false      |

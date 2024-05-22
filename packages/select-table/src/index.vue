@@ -3,6 +3,7 @@
     ref="select"
     v-model="defaultValue"
     :class="{'t_select_table_tag_del':useVirtual&&multiple}"
+    :style="{ width: selectWidth ? `${selectWidth}px` : '100%' }"
     popper-class="t-select-table"
     :multiple="multiple"
     :value-key="keywords.value"
@@ -16,7 +17,10 @@
     v-on="$listeners"
   >
     <template #empty>
-      <div class="t-table-select__table" :style="{ width: `${tableWidth}px` }">
+      <div
+        class="t-table-select__table"
+        :style="{ width: tableWidth ? `${tableWidth}px` : '100%' }"
+      >
         <div class="table_query_condition" v-if="isShowQuery">
           <t-query-condition ref="t-query-condition" v-bind="$attrs" v-on="$listeners">
             <template v-for="(index, name) in $slots" v-slot:[name]>
@@ -200,9 +204,14 @@ export default {
       type: Boolean,
       default: false
     },
+    // select 宽度
+    selectWidth: {
+      type: [String, Number],
+      default: 550
+    },
     // table宽度
     tableWidth: {
-      type: Number,
+      type: [String, Number],
       default: 550
     },
     // 单选是否开启键盘事件

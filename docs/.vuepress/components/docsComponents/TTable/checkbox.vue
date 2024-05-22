@@ -7,6 +7,7 @@
       :columns="columns"
       @selection-change="selectionChange"
       isShowPagination
+      isShowFirstColumn="date"
     />
     <el-button type="danger" @click="cancelCheck">取消选中</el-button>
   </div>
@@ -50,7 +51,9 @@ export default {
             name: '张三1',
             status: '1',
             address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
-          }
+          },
+          {},
+          {}
         ]
       },
       columns: [

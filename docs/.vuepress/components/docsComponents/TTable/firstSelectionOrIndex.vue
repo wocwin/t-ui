@@ -6,6 +6,7 @@
       isShowPagination
       :columns="columns"
       @selection-change="selectionChange"
+      :isShowFirstColumn="isShowFirstColumn"
     />
   </div>
 </template>
@@ -14,7 +15,9 @@
 export default {
   data() {
     return {
+      isShowFirstColumn: 'date',
       table: {
+        border: true,
         total: 0,
         currentPage: 1,
         pageSize: 10,
@@ -43,15 +46,17 @@ export default {
             name: '张三2',
             status: '3',
             address: '广东省广州市天河区3'
-          }
+          },
+          {},
+          {},
         ]
       },
       columns: [
-        { prop: 'name', label: '姓名', minWidth: '100', sort: true, noShowColumn: true },
-        { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowColumn: true },
-        { prop: 'address', label: '地址', minWidth: '220', sort: true, noShowColumn: true },
-        { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowColumn: true },
-        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
+        { prop: 'name', label: '姓名', minWidth: '100', sort: true, noShowTip: true },
+        { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowTip: true },
+        { prop: 'address', label: '地址', minWidth: '220', sort: true, noShowTip: true },
+        { prop: 'date', label: '日期', minWidth: '180', sort: true, noShowTip: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowTip: true }
       ]
     }
   },

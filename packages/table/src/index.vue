@@ -79,6 +79,7 @@
       :border="table.border || isTableBorder"
       :span-method="spanMethod || objectSpanMethod"
       :cell-class-name="cellClassNameFuc"
+      :row-class-name="rowClassName || rowClassNameFuc"
       @sort-change="soltHandle"
       @row-click="rowClick"
       @cell-dblclick="cellDblclick"
@@ -94,7 +95,7 @@
             fixed: table.firstColumn.fixed,
             align: table.firstColumn.align || 'center',
             'reserve-selection': table.firstColumn.isPaging || false,
-            selectable: table.firstColumn.selectable,
+            selectable: table.firstColumn.selectable || selectable,
             ...table.firstColumn.bind,
             ...$attrs,
           }"
@@ -149,7 +150,7 @@
           fixed: item.fixed,
           align: item.align || 'center',
           'reserve-selection': item.isPaging || false,
-          selectable: item.selectable,
+          selectable: item.selectable || selectable,
           ...item.bind,
           ...$attrs,
           }"
@@ -591,7 +592,11 @@ export default {
     // Table最大高度
     maxHeight: [String, Number],
     // 是否开启虚拟列表
-    useVirtual: Boolean
+    useVirtual: Boolean,
+    // 判断某值在数据中不存在则不显示第一列复选框/单选框/序列号
+    isShowFirstColumn: String,
+    // 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。
+    rowClassName: [Function, String]
   },
   data() {
     return {
@@ -601,6 +606,7 @@ export default {
       rowData: '',
       copyTableData: [], // 键盘事件
       columnSet: [],
+      isShowFirstColumnIndex: [], // 需要禁用项的index
       isShowGoTopButton: false,
       scrollTop: 0
     }
@@ -622,6 +628,14 @@ export default {
         this.tableData = val
       },
       deep: true // 深度监听
+    },
+    isShowFirstColumn(val) {
+      this.tableData.map((item, index) => {
+        if (!item[val]) {
+          this.isShowFirstColumnIndex.push(index)
+        }
+      })
+      // console.log('isShowFirstColumn---watch', val, this.isShowFirstColumnIndex, [...new Set(this.isShowFirstColumnIndex)])
     }
   },
   activated() {
@@ -688,12 +702,36 @@ export default {
     if (this.defaultRadioCol) {
       this.defaultRadioSelect(this.defaultRadioCol)
     }
+    // 获取需要禁用
+    this.tableData.map((item, index) => {
+      if (!item[this.isShowFirstColumn]) {
+        this.isShowFirstColumnIndex.push(index)
+      }
+    })
+    // console.log('--isShowFirstColumnIndex---66', [...new Set(this.isShowFirstColumnIndex)])
     this.extendMethod()
     this.initSort()
     // 修复table抖动
     this.$on('hook:updated', this.doLayout)
   },
   methods: {
+    // 行的 className 的回调方法
+    rowClassNameFuc({ row, rowIndex }) {
+      // this.rowClassName(row, rowIndex)
+      if (this.isShowFirstColumn && [...new Set(this.isShowFirstColumnIndex)].includes(rowIndex)) {
+        return 'is_show_first_column'
+      } else {
+        return ''
+      }
+    },
+    // 禁用无数据的复选框
+    selectable(row) {
+      if (this.isShowFirstColumn) {
+        return row[this.isShowFirstColumn]
+      } else {
+        return true
+      }
+    },
     // 点击按钮时调用该函数，将页面滚动到顶部
     backToTop() {
       this.$refs.ttable.scrollTop = 0
@@ -1400,7 +1438,14 @@ export default {
       }
     }
   }
-
+  ::v-deep .el-table {
+    // 是否隐藏复选框/单选/序列
+    .is_show_first_column {
+      div {
+        display: none;
+      }
+    }
+  }
   .el-table th,
   .el-table td {
     padding: 8px 0;

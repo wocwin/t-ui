@@ -1,6 +1,6 @@
 <template>
   <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" @radioChange="radioChange" />
+    <t-table :table="table" :columns="columns" @radioChange="radioChange" isShowFirstColumn="date" />
   </div>
 </template>
 
@@ -32,7 +32,8 @@ export default {
             name: '张三2',
             status: '3',
             address: '广东省广州市天河区3'
-          }
+          },
+          {}
         ]
       },
       columns: [

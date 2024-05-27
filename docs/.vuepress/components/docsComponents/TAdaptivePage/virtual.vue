@@ -5,6 +5,7 @@
     @submit="conditionEnter"
     title="虚拟列表demo"
     isCopy
+    :tablePageStyle="{marginTop:0}"
     :table="table"
     use-virtual
     :maxHeight="400"

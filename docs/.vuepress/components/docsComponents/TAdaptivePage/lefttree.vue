@@ -5,6 +5,7 @@
     title="显示左侧tree结构"
     isCopy
     :table="table"
+    :tablePageStyle="{marginTop:0}"
     :columns="table.columns"
     :isShowPagination="isShowPagination"
     height="100%"

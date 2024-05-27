@@ -4,6 +4,8 @@
     @submit="conditionEnter"
     title="工厂物料清单管理"
     isCopy
+    :tablePageStyle="{marginTop:0}"
+    columnSetting
     :table="table"
     :columns="table.columns"
     :isShowPagination="isShowPagination"
@@ -65,10 +67,6 @@ export default {
           { prop: 'materialSourceLabel', label: '数据来源', minWidth: '100' },
           { prop: 'updateTime', label: '最后更新日期', minWidth: '100' },
           { prop: 'updateBy', label: '最后更新人', minWidth: '100' },
-          { prop: 'shortRuleLess', label: '改损', minWidth: '80' },
-          { prop: 'materialSourceLabel', label: '数据来源', minWidth: '100' },
-          { prop: 'updateTime', label: '最后更新日期', minWidth: '100' },
-          { prop: 'updateBy', label: '最后更新人', minWidth: '100' }
         ],
         operator: [
           {

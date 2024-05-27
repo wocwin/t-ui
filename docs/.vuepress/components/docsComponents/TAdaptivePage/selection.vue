@@ -6,6 +6,7 @@
     :table-ref.sync="TAdaptivePageTable"
     isCopy
     :table="table"
+    :tablePageStyle="{marginTop:0}"
     :columns="table.columns"
     :isShowPagination="isShowPagination"
     @selection-change="selectionChange"

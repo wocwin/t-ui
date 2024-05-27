@@ -21,7 +21,12 @@
         </t-query-condition>
       </t-layout-page-item>
       <t-layout-page-item class="table_main" :style="tablePageStyle">
-        <t-table ref="t-table" v-bind="$attrs" v-on="$listeners">
+        <t-table
+          ref="t-table"
+          :isSlotToolbar="isShow('toolbar')"
+          v-bind="{columnSetting,...$attrs}"
+          v-on="$listeners"
+        >
           <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name" />
           </template>
@@ -51,6 +56,7 @@ export default {
       type: [String, Number],
       default: 260
     },
+    columnSetting: Boolean,
     queryRef: Object,
     tableRef: Object,
     pageStyle: {

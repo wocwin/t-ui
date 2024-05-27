@@ -1,6 +1,9 @@
 <template>
   <div class="t-table" id="t_table" ref="ttable" @scroll="handleScroll">
-    <div class="header_wrap">
+    <div
+      class="header_wrap"
+      :style="{padding: (title||$slots.title||isShow('toolbar')||isSlotToolbar||columnSetting) ? '10px 0' : 0 }"
+    >
       <div class="header_title" v-if="title||$slots.title">
         {{ title }}
         <slot name="title" />
@@ -41,7 +44,10 @@
         </div>
         <slot name="toolbar"></slot>
         <!--列设置按钮-->
-        <div class="header_right_wrap" :style="{ marginLeft: isShow('toolbar') ? '12px' : 0 }">
+        <div
+          class="header_right_wrap"
+          :style="{ marginLeft: isShow('toolbar')||isSlotToolbar ? '12px' : 0 }"
+        >
           <slot name="btn" />
           <column-set
             v-if="columnSetting"
@@ -596,7 +602,9 @@ export default {
     // 判断某值在数据中不存在则不显示第一列复选框/单选框/序列号
     isShowFirstColumn: String,
     // 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。
-    rowClassName: [Function, String]
+    rowClassName: [Function, String],
+    // TAdaptivePage组件是否使用了Toolbar插槽
+    isSlotToolbar: Boolean
   },
   data() {
     return {
@@ -708,6 +716,7 @@ export default {
         this.isShowFirstColumnIndex.push(index)
       }
     })
+    // console.log('$slots-----555', this.$slots)
     // console.log('--isShowFirstColumnIndex---66', [...new Set(this.isShowFirstColumnIndex)])
     this.extendMethod()
     this.initSort()
@@ -1471,7 +1480,6 @@ export default {
     .toolbar_top {
       flex: 1;
       display: flex;
-      padding: 10px 0;
       align-items: center;
       justify-content: flex-end;
 
@@ -1495,7 +1503,6 @@ export default {
       display: flex;
       align-items: center;
       flex: 1;
-      padding: 10px 0;
       font-size: 16px;
       font-weight: bold;
       line-height: 35px;

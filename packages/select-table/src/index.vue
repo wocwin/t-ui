@@ -207,7 +207,7 @@ export default {
     // select 宽度
     selectWidth: {
       type: [String, Number],
-      default: 550
+      default: 0
     },
     // table宽度
     tableWidth: {

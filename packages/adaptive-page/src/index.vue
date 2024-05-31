@@ -24,6 +24,7 @@
         <t-table
           ref="t-table"
           :isSlotToolbar="isShow('toolbar')"
+          :isSlotTitle="isShow('title')"
           v-bind="{columnSetting,...$attrs}"
           v-on="$listeners"
         >

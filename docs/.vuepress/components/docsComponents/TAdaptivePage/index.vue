@@ -2,7 +2,7 @@
   <t-adaptive-page
     :opts="opts"
     @submit="conditionEnter"
-    title="工厂物料清单管理"
+    tableTitle="工厂物料清单管理"
     isCopy
     :tablePageStyle="{marginTop:0}"
     columnSetting
@@ -10,7 +10,9 @@
     :columns="table.columns"
     :isShowPagination="isShowPagination"
     height="100%"
-  />
+  >
+    <template #title>优先展示插槽，不写插槽展示tableTitle</template>
+  </t-adaptive-page>
 </template>
 <script>
 import tableData from './tableData.json'

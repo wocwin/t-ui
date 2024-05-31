@@ -67,6 +67,7 @@
 | ----------arrKey        | type:select-arr 时对应显示的数字字段                                                  | String                           | -                     |
 | listTypeInfo            | 下拉选择数据源{单元格编辑时需要}                                                      | Object                           | {}                    |
 | title                   | 表格左上标题                                                                          | String /slot                     | ''                    |
+| tableTitle              | 表格左上标题（为解决顶层容器会出现原生的title属性）同时存在优先展示插槽               | String /slot                     | ''                    |
 | toolbar                 | 表格外操作栏 (显示在 table 右侧)                                                      | slot                             | -                     |
 | footer                  | 底部操作区（默认隐藏，使用插槽展示“保存”按钮）                                        | slot                             | -                     |
 | isShowFooterBtn         | 是否显示保存按钮（一般整行编辑才会开启）                                              | Boolean                          | false                 |
@@ -104,6 +105,8 @@
 | isPaginationCumulative  | 序列号显示是否分页累加                                                                | Boolean                          | false                 |
 | isShowFirstColumn       | 判断某值在数据中不存在则不显示第一列复选框/单选框/序列号                              | String                           | -                     |
 | rowClassName            | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。         | Function({row, rowIndex})/String | -                     |
+| isSlotToolbar           | TAdaptivePage组件是否使用了Toolbar插槽                                                | Boolean                          | -                     |
+| isSlotTitle             | TAdaptivePage组件是否使用了title插槽                                                  | Boolean                          | -                     |
 
 ## Methods 方法（继承el-table的所有方法）
 

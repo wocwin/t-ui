@@ -2,11 +2,16 @@
   <div class="t-table" id="t_table" ref="ttable" @scroll="handleScroll">
     <div
       class="header_wrap"
-      :style="{padding: (title||$slots.title||isShow('toolbar')||isSlotToolbar||columnSetting) ? '10px 0' : 0 }"
+      :style="{padding: (tableTitle||title||$slots.title||isSlotTitle||isShow('toolbar')||isSlotToolbar||columnSetting) ? '10px 0' : 0 }"
     >
-      <div class="header_title" v-if="title||$slots.title">
-        {{ title }}
-        <slot name="title" />
+      <div class="header_title" v-if="tableTitle||title||$slots.title||isSlotTitle">
+        <template v-if="$slots.title||isSlotTitle">
+          <slot name="title" />
+        </template>
+        <template v-else>
+          <span v-if="tableTitle">{{tableTitle}}</span>
+          <span v-else>{{ title }}</span>
+        </template>
       </div>
       <div class="toolbar_top">
         <!-- 表格外操作 -->
@@ -529,6 +534,7 @@ export default {
     isShowTreeStyle: Boolean,
     // 表格标题
     title: String,
+    tableTitle: String,
     // 是否开启编辑模式(整行编辑模式)
     isEditCell: Boolean,
     // 是否开启编辑保存按钮(整行编辑)
@@ -604,7 +610,9 @@ export default {
     // 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。
     rowClassName: [Function, String],
     // TAdaptivePage组件是否使用了Toolbar插槽
-    isSlotToolbar: Boolean
+    isSlotToolbar: Boolean,
+    // TAdaptivePage组件是否使用了title插槽
+    isSlotTitle: Boolean
   },
   data() {
     return {

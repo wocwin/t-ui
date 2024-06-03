@@ -94,6 +94,7 @@ module.exports = {
             'TQueryCondition/linkage', // 联动使用
             'TQueryCondition/TSelectUse', // 结合TSelect使用
             'TQueryCondition/TDatePickerUse', // 结合TDatePicker使用
+            'TQueryCondition/widthSize', // 一行展示多少项
             'TQueryCondition/help', // 使用帮助(Attributes)
           ]
         },

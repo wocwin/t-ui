@@ -121,6 +121,21 @@ export default {
     isPackupTxt: {
       type: String,
       default: '收起'
+    },
+    // 是否开启一行显示几个查询条件
+    isShowWidthSize: {
+      type: Boolean,
+      default: false
+    },
+    // 一行显示几个查询条件(默认4,最小值2，最大值8)
+    widthSize: {
+      type: Number,
+      default: 4,
+      validator: val => val >= 2 && val <= 8
+    },
+    configChangedReset: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -136,9 +151,13 @@ export default {
   watch: {
     opts: {
       handler(opts) {
-        this.form = this.initForm(opts, true)
+        this.form = this.initForm(opts, !this.configChangedReset)
       },
       deep: true
+    },
+    widthSize(val) {
+      // console.log('watch----widthSize', val)
+      this.colLength = val
     }
   },
   computed: {
@@ -173,38 +192,69 @@ export default {
     },
     gridAreas() {
       // grid布局按钮位置
-      const { colLength, cOpts } = this
-      const fields = Object.keys(cOpts)
-      let rowIndex = 0
-      let rowSpan = 0
-      const areas = [[]]
-      for (let fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
-        const field = fields[fieldIndex]
-        const opt = cOpts[field]
-        const span = Math.min(opt.span ?? 1, 4) // 最大4
-        if (rowSpan + span > colLength) {
-          if (rowSpan < colLength) {
-            areas[rowIndex].push('.')
-          }
-          rowSpan = 0
-          areas[++rowIndex] = []
-        }
-        rowSpan += span
-        for (let index = 0; index < span; index++) {
-          areas[rowIndex].push(field)
-        }
+      let template = "'. . . .'"
+      switch (this.colLength) {
+        case 8:
+          template = "'. . . . . . . .'"
+          break
+        case 7:
+          template = "'. . . . . . .'"
+          break
+        case 6:
+          template = "'. . . . . .'"
+          break
+        case 5:
+          template = "'. . . . .'"
+          break
+        case 3:
+          template = "'. . .'"
+          break
+        case 2:
+          template = "'. .'"
+          break
       }
-      if (areas[rowIndex].length === colLength) {
-        areas.push(['submit_btn', 'submit_btn', 'submit_btn', 'submit_btn'])
+      let areas = [template]
+      Object.keys(this.opts).forEach(key => {
+        // 根据控件描述注定占用多少列及顺序
+        let span = 1
+        if (this.opts[key].span > 1 || this.opts[key].span <= 4) {
+          // 最多占用4列
+          span = this.opts[key].span
+        }
+        // 计算剩余多少未占用的位置
+        let count = 0
+        let scrstr = areas[areas.length - 1]
+        while (scrstr.indexOf('.') !== -1) {
+          scrstr = scrstr.replace(/\./, '')
+          count++
+        }
+        // 若剩余位置不足以放下下一个控件
+        if (count < span) {
+          areas.push(template)
+        }
+        let i = 0
+        while (i < span) {
+          areas[areas.length - 1] = areas[areas.length - 1].replace(/\./, key)
+          i++
+        }
+      })
+      // 若控件正好占满一行时，补充多一列放置btn
+      if (areas[areas.length - 1].indexOf('.') === -1) {
+        areas.push(template)
+      }
+      if (this.cellLength % this.colLength === 0) {
+        // 正好占满一行
+        areas[areas.length - 1] = areas[areas.length - 1].replace(
+          /\.'$/,
+          "submit_btn'"
+        )
       } else {
-        while (areas[rowIndex].length < colLength) {
-          areas[rowIndex].push('submit_btn')
-        }
+        areas[areas.length - 1] = areas[areas.length - 1].replace(
+          /\./g,
+          'submit_btn'
+        )
       }
-      return areas.reduce((acc, cur) => {
-        acc += `'${cur.join(' ')}'\n`
-        return acc
-      }, '')
+      return (areas + '').replace(/,/g, '')
     },
     // 占用单元格长度
     span() {
@@ -255,11 +305,9 @@ export default {
     initForm(opts, keepVal = false) {
       return Object.keys(opts).reduce((acc, field) => {
         if (keepVal && this.form) {
-          acc[field] = this.form[field]
-        } else if (opts[field].defaultVal) {
-          acc[field] = opts[field].defaultVal
+          acc[field] = this.form[field] ?? opts[field].defaultVal ?? null
         } else {
-          acc[field] = null
+          acc[field] = opts[field].defaultVal ?? null
         }
         return acc
       }, {})
@@ -332,7 +380,11 @@ export default {
     this.keyEvent()
   },
   mounted() {
-    this.colLength = this.getColLength()
+    if (this.isShowWidthSize) {
+      this.colLength = this.widthSize
+    } else {
+      this.colLength = this.getColLength()
+    }
     this.keyEvent()
   }
 }

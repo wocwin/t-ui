@@ -143,13 +143,10 @@ export default {
       type: Object,
       default: () => ({})
     },
-    // 一行显示几个输入项;最大值4
+    // 一行显示几个输入项;
     widthSize: {
       type: Number,
-      default: 2,
-      validator: (value) => {
-        return value <= 4
-      }
+      default: 2
     },
     // 是否开启动态新增表单项
     isDynamic: {
@@ -271,12 +268,7 @@ export default {
       deep: true // 深度监听
     },
     widthSize(val) {
-      if (val > 4) {
-        this.$message.warning('widthSize值不能大于4！')
-        this.colSize = 4
-      } else {
-        this.colSize = val
-      }
+      this.colSize = val
     }
   },
   mounted() {

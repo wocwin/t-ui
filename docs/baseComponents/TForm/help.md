@@ -21,7 +21,7 @@ TForm 表单组件
 | refObj              | form 表单校验规则方法 （可以参考 elementUI Form 表单方法中的 validate）                                 | obj              | -           |
 | className           | 自定义类名                                                                                              | String           | -           |
 | labelPosition       | 改变表单项 label 与输入框的布局方式(默认：right) /top                                                   | String           | 'right'     |
-| widthSize           | 每行显示几个输入项（默认两项） 最大值 4                                                                 | Number           | 2           |
+| widthSize           | 每行显示几个输入项（默认两项）                                                                          | Number           | 2           |
 | isTrim              | 全局是否开启清除前后空格(comp 为 el-input 且 type 不等于'password')                                     | Boolean          | true        |
 | formOpts            | 表单配置项                                                                                              | Object           | {}          |
 | ---listTypeInfo     | 下拉选择数据源（type:'select'有效）                                                                     | Object           | {}          |

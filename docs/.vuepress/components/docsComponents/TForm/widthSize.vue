@@ -5,6 +5,8 @@
       <el-radio-button :label="2">一行展示2项</el-radio-button>
       <el-radio-button :label="3">一行展示3项</el-radio-button>
       <el-radio-button :label="4">一行展示4项</el-radio-button>
+      <el-radio-button :label="5">一行展示5项</el-radio-button>
+      <el-radio-button :label="6">一行展示6项</el-radio-button>
     </el-radio-group>
     <t-form
       :ref-obj.sync="formOpts.ref"
@@ -23,7 +25,7 @@ export default {
       widthSize: 1,
       // form表单
       formOpts: {
-        labelPosition: 'right',
+        labelPosition: 'top',
         labelWidth: '80px',
         ref: null,
         formData: {

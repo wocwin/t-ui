@@ -56,7 +56,11 @@
         @click="resetHandle"
       >{{ resetAttrs.btnTitle }}</el-button>
       <slot name="querybar"></slot>
-      <el-button v-if="originCellLength > colLength && isShowOpen" type="text" @click="openCilck">
+      <el-button
+        v-if="originCellLength > (maxVisibleRows*colLength) && isShowOpen"
+        type="text"
+        @click="openCilck"
+      >
         {{ controlText }}
         <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
       </el-button>
@@ -127,15 +131,20 @@ export default {
       type: Boolean,
       default: false
     },
-    // 一行显示几个查询条件(默认4,最小值2，最大值8)
+    // 一行显示几个查询条件(默认4,最小值2)
     widthSize: {
       type: Number,
       default: 4,
-      validator: val => val >= 2 && val <= 8
+      validator: val => val >= 2
     },
     configChangedReset: {
       type: Boolean,
       default: false
+    },
+    // 收起时设置默认展示行数
+    maxVisibleRows: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -156,7 +165,6 @@ export default {
       deep: true
     },
     widthSize(val) {
-      // console.log('watch----widthSize', val)
       this.colLength = val
     }
   },
@@ -174,7 +182,7 @@ export default {
       return { size: 'small', btnTitle: '重置', ...this.btnResetBind }
     },
     cOpts() {
-      const { open, opts, colLength, isShowOpen } = this
+      const { open, opts, colLength, maxVisibleRows, isShowOpen } = this
       let renderSpan = 0
       return Object.keys(opts).reduce((acc, field) => {
         let opt = {
@@ -183,79 +191,114 @@ export default {
         // 收起、展开操作
         if (isShowOpen) {
           renderSpan += opt.span ?? 1
-          if (!open && renderSpan - 1 >= colLength) return acc
+          // if (!open && renderSpan - 1 >= colLength) return acc
+          if (!open && renderSpan - 1 >= (maxVisibleRows * colLength)) return acc
         }
         opt.dataIndex = field
         acc[field] = opt
         return acc
       }, {})
     },
-    gridAreas() {
-      // grid布局按钮位置
-      let template = "'. . . .'"
-      switch (this.colLength) {
-        case 8:
-          template = "'. . . . . . . .'"
-          break
-        case 7:
-          template = "'. . . . . . .'"
-          break
-        case 6:
-          template = "'. . . . . .'"
-          break
-        case 5:
-          template = "'. . . . .'"
-          break
-        case 3:
-          template = "'. . .'"
-          break
-        case 2:
-          template = "'. .'"
-          break
+    gridAreas() { // grid布局按钮位置
+      const { colLength, cOpts } = this
+      const fields = Object.keys(cOpts)
+      let rowIndex = 0
+      let rowSpan = 0
+      const areas = [[]]
+      for (let fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+        const field = fields[fieldIndex]
+        const opt = cOpts[field]
+        const span = Math.min(opt.span ?? 1, 4) // 最大4
+        if (rowSpan + span > colLength) {
+          if (rowSpan < colLength) {
+            areas[rowIndex].push('.')
+          }
+          rowSpan = 0
+          areas[++rowIndex] = []
+        }
+        rowSpan += span
+        for (let index = 0; index < span; index++) {
+          areas[rowIndex].push(field)
+        }
       }
-      let areas = [template]
-      Object.keys(this.opts).forEach(key => {
-        // 根据控件描述注定占用多少列及顺序
-        let span = 1
-        if (this.opts[key].span > 1 || this.opts[key].span <= 4) {
-          // 最多占用4列
-          span = this.opts[key].span
-        }
-        // 计算剩余多少未占用的位置
-        let count = 0
-        let scrstr = areas[areas.length - 1]
-        while (scrstr.indexOf('.') !== -1) {
-          scrstr = scrstr.replace(/\./, '')
-          count++
-        }
-        // 若剩余位置不足以放下下一个控件
-        if (count < span) {
-          areas.push(template)
-        }
-        let i = 0
-        while (i < span) {
-          areas[areas.length - 1] = areas[areas.length - 1].replace(/\./, key)
-          i++
-        }
-      })
-      // 若控件正好占满一行时，补充多一列放置btn
-      if (areas[areas.length - 1].indexOf('.') === -1) {
-        areas.push(template)
-      }
-      if (this.cellLength % this.colLength === 0) {
-        // 正好占满一行
-        areas[areas.length - 1] = areas[areas.length - 1].replace(
-          /\.'$/,
-          "submit_btn'"
-        )
+      if (areas[rowIndex].length === colLength) {
+        areas.push(Array(colLength).fill('submit_btn'))
       } else {
-        areas[areas.length - 1] = areas[areas.length - 1].replace(
-          /\./g,
-          'submit_btn'
-        )
+        while (areas[rowIndex].length < colLength) {
+          areas[rowIndex].push('submit_btn')
+        }
       }
-      return (areas + '').replace(/,/g, '')
+      return areas.reduce((acc, cur) => {
+        acc += `'${cur.join(' ')}'\n`
+        return acc
+      }, '')
     },
+    // gridAreas() {
+    //   // grid布局按钮位置
+    //   let template = "'. . . .'"
+    //   switch (this.colLength) {
+    //     case 8:
+    //       template = "'. . . . . . . .'"
+    //       break
+    //     case 7:
+    //       template = "'. . . . . . .'"
+    //       break
+    //     case 6:
+    //       template = "'. . . . . .'"
+    //       break
+    //     case 5:
+    //       template = "'. . . . .'"
+    //       break
+    //     case 3:
+    //       template = "'. . .'"
+    //       break
+    //     case 2:
+    //       template = "'. .'"
+    //       break
+    //   }
+    //   let areas = [template]
+    //   Object.keys(this.opts).forEach(key => {
+    //     // 根据控件描述注定占用多少列及顺序
+    //     let span = 1
+    //     if (this.opts[key].span > 1 || this.opts[key].span <= 4) {
+    //       // 最多占用4列
+    //       span = this.opts[key].span
+    //     }
+    //     // 计算剩余多少未占用的位置
+    //     let count = 0
+    //     let scrstr = areas[areas.length - 1]
+    //     while (scrstr.indexOf('.') !== -1) {
+    //       scrstr = scrstr.replace(/\./, '')
+    //       count++
+    //     }
+    //     // 若剩余位置不足以放下下一个控件
+    //     if (count < span) {
+    //       areas.push(template)
+    //     }
+    //     let i = 0
+    //     while (i < span) {
+    //       areas[areas.length - 1] = areas[areas.length - 1].replace(/\./, key)
+    //       i++
+    //     }
+    //   })
+    //   // 若控件正好占满一行时，补充多一列放置btn
+    //   if (areas[areas.length - 1].indexOf('.') === -1) {
+    //     areas.push(template)
+    //   }
+    //   if (this.cellLength % this.colLength === 0) {
+    //     // 正好占满一行
+    //     areas[areas.length - 1] = areas[areas.length - 1].replace(
+    //       /\.'$/,
+    //       "submit_btn'"
+    //     )
+    //   } else {
+    //     areas[areas.length - 1] = areas[areas.length - 1].replace(
+    //       /\./g,
+    //       'submit_btn'
+    //     )
+    //   }
+    //   return (areas + '').replace(/,/g, '')
+    // },
     // 占用单元格长度
     span() {
       let span = 1

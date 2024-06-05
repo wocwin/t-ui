@@ -27,6 +27,7 @@
 | configChangedReset | 更新opts是否重置（默认重置）                    | Boolean | false                                             |
 | isShowWidthSize    | 是否开启动态设置每行显示数                      | Boolean | false                                             |
 | widthSize          | 每行显示多少项，最小值2最大值8                  | Number  | 4                                                 |
+| maxVisibleRows     | 收起时设置默认展示行数                          | Number  | 1                                                 |
 
 ### 3. opts 配置参数（opts Attributes）
 

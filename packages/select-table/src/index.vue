@@ -1,127 +1,147 @@
 <template>
-  <el-select
-    ref="select"
-    v-model="defaultValue"
-    :class="{'t_select_table_tag_del':useVirtual&&multiple}"
-    :style="{ width: selectWidth ? `${selectWidth}px` : '100%' }"
-    popper-class="t-select-table"
-    :multiple="multiple"
-    :value-key="keywords.value"
-    :filterable="useVirtual?false:filterable"
-    :filter-method="filterMethod||filterMethodHandle"
-    @visible-change="visibleChange"
-    @remove-tag="removeTag"
-    @clear="clear"
-    @keyup.native="selectKeyup"
-    v-bind="selectAttr"
-    v-on="$listeners"
-  >
-    <template #empty>
-      <div
-        class="t-table-select__table"
-        :style="{ width: tableWidth ? `${tableWidth}px` : '100%' }"
-      >
-        <div class="table_query_condition" v-if="isShowQuery">
-          <t-query-condition ref="t-query-condition" v-bind="$attrs" v-on="$listeners">
-            <template v-for="(index, name) in $slots" v-slot:[name]>
-              <slot :name="name" />
-            </template>
-            <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
-              <slot :name="name" v-bind="data"></slot>
-            </template>
-          </t-query-condition>
-        </div>
-        <el-table
-          ref="el-table"
-          :data="tableData"
-          :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup }"
-          border
-          :row-key="getRowKey"
-          :max-height="useVirtual?maxHeight||540:maxHeight"
-          highlight-current-row
-          @row-click="rowClick"
-          @cell-dblclick="cellDblclick"
-          @selection-change="handlesSelectionChange"
-          v-bind="$attrs"
-          v-on="$listeners"
+  <div class="t_select_table_box">
+    <el-input
+      v-if="isShowInput"
+      v-model="selectInputVal"
+      v-bind="{clearable: true,...inputAttr}"
+      @focus="(e)=>$emit('input-focus',e)"
+      @blur="(e)=>$emit('input-blur',e)"
+      @click="(e)=>$emit('input-click',e)"
+      @clear="(e)=>$emit('input-clear',e)"
+      :style="{ width: inputWidth ? `${inputWidth}px` : '100%' }"
+    >
+      <template v-for="(index, name) in $slots" v-slot:[name]>
+        <slot :name="name" />
+      </template>
+      <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+        <slot :name="name" v-bind="data"></slot>
+      </template>
+    </el-input>
+    <el-select
+      v-else
+      ref="select"
+      v-model="defaultValue"
+      :class="{'t_select_table_tag_del':useVirtual&&multiple}"
+      :style="{ width: selectWidth ? `${selectWidth}px` : '100%' }"
+      popper-class="t-select-table"
+      :multiple="multiple"
+      :value-key="keywords.value"
+      :filterable="useVirtual?false:filterable"
+      :filter-method="filterMethod||filterMethodHandle"
+      @visible-change="visibleChange"
+      @remove-tag="removeTag"
+      @clear="clear"
+      @keyup.native="selectKeyup"
+      v-bind="selectAttr"
+      v-on="$listeners"
+    >
+      <template #empty>
+        <div
+          class="t-table-select__table"
+          :style="{ width: tableWidth ? `${tableWidth}px` : '100%' }"
         >
-          <el-table-column
-            v-if="multiple"
-            type="selection"
-            width="50"
-            align="center"
-            :reserve-selection="reserveSelection"
-            fixed
-          ></el-table-column>
-          <el-table-column
-            type="radio"
-            width="50"
-            :label="radioTxt"
-            fixed
-            align="center"
-            v-if="!multiple && isShowFirstColumn"
-          >
-            <template slot-scope="scope">
-              <el-radio
-                v-model="radioVal"
-                :label="scope.$index + 1"
-                @click.native.prevent="radioChangeHandle(scope.row, scope.$index + 1)"
-              ></el-radio>
-            </template>
-          </el-table-column>
-          <template v-for="(item, index) in columns">
-            <el-table-column
-              :key="index + 'i'"
-              :type="item.type"
-              :label="item.label"
-              :prop="item.prop"
-              :min-width="item['min-width'] || item.minWidth || item.width"
-              :align="item.align || 'center'"
-              :fixed="item.fixed"
-              :show-overflow-tooltip="useVirtual?true:item.noShowTip?false:true"
-              v-bind="{ ...item.bind, ...$attrs }"
-              v-on="$listeners"
-            >
-              <template slot-scope="scope">
-                <!-- render方式 -->
-                <template v-if="item.render">
-                  <render-col
-                    :column="item"
-                    :row="scope.row"
-                    :render="item.render"
-                    :index="scope.$index"
-                  />
-                </template>
-                <!-- 作用域插槽 -->
-                <template v-if="item.slotName">
-                  <slot :name="item.slotName" :scope="scope"></slot>
-                </template>
-                <div v-if="!item.render && !item.slotName">
-                  <span>{{ scope.row[item.prop] }}</span>
-                </div>
+          <div class="table_query_condition" v-if="isShowQuery">
+            <t-query-condition ref="t-query-condition" v-bind="$attrs" v-on="$listeners">
+              <template v-for="(index, name) in $slots" v-slot:[name]>
+                <slot :name="name" />
               </template>
-            </el-table-column>
-          </template>
-          <slot></slot>
-        </el-table>
-        <div class="t-table-select__page">
-          <el-pagination
-            v-show="tableData && tableData.length && isShowPagination"
-            :current-page="table.currentPage"
-            @current-change="handlesCurrentChange"
-            :page-sizes="[10, 20, 50, 100]"
-            :pager-count="5"
-            :page-size="table.pageSize"
-            layout="total,  prev, pager, next, jumper"
-            :total="table.total"
+              <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
+                <slot :name="name" v-bind="data"></slot>
+              </template>
+            </t-query-condition>
+          </div>
+          <el-table
+            ref="el-table"
+            :data="tableData"
+            :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup }"
+            border
+            :row-key="getRowKey"
+            :max-height="useVirtual?maxHeight||540:maxHeight"
+            highlight-current-row
+            @row-click="rowClick"
+            @cell-dblclick="cellDblclick"
+            @selection-change="handlesSelectionChange"
             v-bind="$attrs"
             v-on="$listeners"
-            background
-          ></el-pagination>
+          >
+            <el-table-column
+              v-if="multiple"
+              type="selection"
+              width="50"
+              align="center"
+              :reserve-selection="reserveSelection"
+              fixed
+            ></el-table-column>
+            <el-table-column
+              type="radio"
+              width="50"
+              :label="radioTxt"
+              fixed
+              align="center"
+              v-if="!multiple && isShowFirstColumn"
+            >
+              <template slot-scope="scope">
+                <el-radio
+                  v-model="radioVal"
+                  :label="scope.$index + 1"
+                  @click.native.prevent="radioChangeHandle(scope.row, scope.$index + 1)"
+                ></el-radio>
+              </template>
+            </el-table-column>
+            <template v-for="(item, index) in columns">
+              <el-table-column
+                :key="index + 'i'"
+                :type="item.type"
+                :label="item.label"
+                :prop="item.prop"
+                :min-width="item['min-width'] || item.minWidth || item.width"
+                :align="item.align || 'center'"
+                :fixed="item.fixed"
+                :show-overflow-tooltip="useVirtual?true:item.noShowTip?false:true"
+                v-bind="{ ...item.bind, ...$attrs }"
+                v-on="$listeners"
+              >
+                <template slot-scope="scope">
+                  <!-- render方式 -->
+                  <template v-if="item.render">
+                    <render-col
+                      :column="item"
+                      :row="scope.row"
+                      :render="item.render"
+                      :index="scope.$index"
+                    />
+                  </template>
+                  <!-- 作用域插槽 -->
+                  <template v-if="item.slotName">
+                    <slot :name="item.slotName" :scope="scope"></slot>
+                  </template>
+                  <div v-if="!item.render && !item.slotName">
+                    <span>{{ scope.row[item.prop] }}</span>
+                  </div>
+                </template>
+              </el-table-column>
+            </template>
+            <slot></slot>
+          </el-table>
+          <div class="t-table-select__page">
+            <el-pagination
+              v-show="tableData && tableData.length && isShowPagination"
+              :current-page="table.currentPage"
+              @current-change="handlesCurrentChange"
+              :page-sizes="[10, 20, 50, 100]"
+              :pager-count="5"
+              :page-size="table.pageSize"
+              layout="total,  prev, pager, next, jumper"
+              :total="table.total"
+              v-bind="$attrs"
+              v-on="$listeners"
+              background
+            ></el-pagination>
+          </div>
         </div>
-      </div>
-    </template>
-  </el-select>
+      </template>
+    </el-select>
+  </div>
 </template>
 
 <script>
@@ -149,6 +169,23 @@ export default {
     columns: {
       type: Array,
       default: () => []
+    },
+    // 是否显示input框回显
+    isShowInput: {
+      type: Boolean,
+      default: false
+    },
+    // input框的宽度
+    inputWidth: {
+      type: [String, Number],
+      default: 550
+    },
+    // input属性
+    inputAttr: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     },
     // 单选文案
     radioTxt: {
@@ -234,6 +271,14 @@ export default {
       return {
         clearable: true,
         ...this.$attrs
+      }
+    },
+    selectInputVal: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
       }
     }
   },

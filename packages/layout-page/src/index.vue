@@ -1,9 +1,14 @@
 <template>
-  <div id="t_layout_page" class="t_layout_page" @scroll="e => scrollTop = e.target.scrollTop">
+  <div
+    id="t_layout_page"
+    class="t_layout_page"
+    ref="TLayoutPageRef"
+    @scroll="(e) => (scrollTop = e.target.scrollTop)"
+  >
     <slot />
     <div class="back_to_top" v-if="showGoTopButton">
       <div v-if="isShowGoTopButton" @click="backToTop">
-        <i :class="topIcon" class="top_icon" style="color:#5cb6ff;"></i>
+        <i :class="topIcon" class="top_icon" style="color: #5cb6ff"></i>
       </div>
     </div>
   </div>
@@ -50,6 +55,18 @@ export default {
       this.$el.scrollTop = 0
     }
   },
+  mounted() {
+    const pageItems = this.$refs.TLayoutPageRef.querySelectorAll('.t_layout_page_item')
+    if (pageItems.length === 2) {
+      pageItems[0].style.marginBottom = '8px'
+    }
+    if (pageItems.length > 2) {
+      pageItems.forEach((item) => {
+        item.style.marginBottom = '8px'
+      })
+      pageItems[pageItems.length - 1].style.marginBottom = '0'
+    }
+  },
   activated() {
     if (!this.keepScrollDisabled) {
       this.$el.scrollTop = this.scrollTop
@@ -61,6 +78,7 @@ export default {
 .t_layout_page {
   display: flex;
   flex-direction: column;
+  padding: 10px;
   width: 100%;
   height: 100%;
   overflow-y: auto;

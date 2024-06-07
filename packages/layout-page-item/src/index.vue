@@ -20,7 +20,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .t_layout_page_item {
-  margin: 8px;
+  // margin: 8px;
   padding: 16px;
   background: #fff;
   border-radius: 4px;

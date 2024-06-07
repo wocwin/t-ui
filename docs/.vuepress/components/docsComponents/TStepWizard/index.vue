@@ -1,17 +1,19 @@
 <template>
-  <div style="width: 100%">
-    <t-step-wizard
-      style="min-height: 400px"
-      :stepData="stepData"
-      :active="active"
-      :successTitle="successTitle"
-      @complete="complete"
-    >
-      <template #first>第一步</template>
-      <template #second>第二步骤</template>
-      <template #third>第三步骤</template>
-    </t-step-wizard>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-step-wizard
+        style="min-height: 400px"
+        :stepData="stepData"
+        :active="active"
+        :successTitle="successTitle"
+        @complete="complete"
+      >
+        <template #first>第一步</template>
+        <template #second>第二步骤</template>
+        <template #third>第三步骤</template>
+      </t-step-wizard>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

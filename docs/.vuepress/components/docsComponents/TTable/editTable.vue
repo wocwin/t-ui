@@ -1,18 +1,20 @@
 <template>
-  <div class="t-table-edit-cell" style="width:100%;">
-    <t-table
-      isEdit
-      isEditCell
-      isShowFooterBtn
-      :table="editConfig.table"
-      :columns="editConfig.table.columns"
-      :listTypeInfo="editConfig.listTypeInfo"
-      @handleEvent="handleEvent"
-      @save="save"
-      @add="editAdd"
-      cellEditBtnTxt="新增一行"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        isEdit
+        isEditCell
+        isShowFooterBtn
+        :table="editConfig.table"
+        :columns="editConfig.table.columns"
+        :listTypeInfo="editConfig.listTypeInfo"
+        @handleEvent="handleEvent"
+        @save="save"
+        @add="editAdd"
+        cellEditBtnTxt="新增一行"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

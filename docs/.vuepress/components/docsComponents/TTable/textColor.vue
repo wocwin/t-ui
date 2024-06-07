@@ -1,12 +1,14 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table :table="table" :columns="columns" />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       table: {
         data: [
@@ -36,12 +38,12 @@ export default {
         changeColor: { key: 'status', val: '3', txtStyle: '#ef473a' }
       },
       columns: [
-          { prop: 'name', label: '姓名', minWidth: '100' , noShowColumn: true },
-          { prop: 'date', label: '日期', minWidth: '180' , noShowColumn: true },
-          { prop: 'address', label: '地址', minWidth: '220' , noShowColumn: true },
-          { prop: 'date', label: '日期', minWidth: '180' , noShowColumn: true },
-          { prop: 'address', label: '地址', minWidth: '220' , noShowColumn: true }
-        ],
+        { prop: 'name', label: '姓名', minWidth: '100', noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true },
+        { prop: 'date', label: '日期', minWidth: '180', noShowColumn: true },
+        { prop: 'address', label: '地址', minWidth: '220', noShowColumn: true }
+      ],
     }
   }
 }

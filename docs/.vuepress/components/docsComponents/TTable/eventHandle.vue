@@ -1,25 +1,27 @@
 <template>
-  <div class="t-table-single-edit-cell" style="width:100%;">
-    <t-table
-      :table="singleEditConfig.table"
-      :columns="singleEditConfig.table.columns"
-      :listTypeInfo="singleEditConfig.listTypeInfo"
-      @handleEvent="handleEvent"
-      @save="singleSave"
-    >
-      <!-- 自定义单元格编辑组件(多选下拉选择) -->
-      <template #editHobby="{scope}">
-        <el-select v-model="scope.row[scope.column.property]" multiple>
-          <el-option
-            v-for="item in singleEditConfig.listTypeInfo.hobbyList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </template>
-    </t-table>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        :table="singleEditConfig.table"
+        :columns="singleEditConfig.table.columns"
+        :listTypeInfo="singleEditConfig.listTypeInfo"
+        @handleEvent="handleEvent"
+        @save="singleSave"
+      >
+        <!-- 自定义单元格编辑组件(多选下拉选择) -->
+        <template #editHobby="{scope}">
+          <el-select v-model="scope.row[scope.column.property]" multiple>
+            <el-option
+              v-for="item in singleEditConfig.listTypeInfo.hobbyList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </template>
+      </t-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

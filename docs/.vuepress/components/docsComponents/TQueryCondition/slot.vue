@@ -1,18 +1,20 @@
 <template>
-  <div class="query-data">
-    <t-query-condition ref="queryCondition" :opts="opts" isExpansion @submit="conditionEnter">
-      <template #likeTransportNo="{scope}">
-        <el-input v-model="scope.likeTransportNo" clearable placeholder="自定义插槽输入框" />
-      </template>
-      <template #likeTransportNo1="{param}">
-        <el-checkbox-group v-model="param.likeTransportNo1">
-          <el-checkbox label="显示禁用科目"></el-checkbox>
-          <el-checkbox label="显示辅助核算"></el-checkbox>
-          <el-checkbox label="显示无余额无发生科目"></el-checkbox>
-        </el-checkbox-group>
-      </template>
-    </t-query-condition>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-query-condition ref="queryCondition" :opts="opts" isExpansion @submit="conditionEnter">
+        <template #likeTransportNo="{scope}">
+          <el-input v-model="scope.likeTransportNo" clearable placeholder="自定义插槽输入框" />
+        </template>
+        <template #likeTransportNo1="{param}">
+          <el-checkbox-group v-model="param.likeTransportNo1">
+            <el-checkbox label="显示禁用科目"></el-checkbox>
+            <el-checkbox label="显示辅助核算"></el-checkbox>
+            <el-checkbox label="显示无余额无发生科目"></el-checkbox>
+          </el-checkbox-group>
+        </template>
+      </t-query-condition>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 <script>
 export default {

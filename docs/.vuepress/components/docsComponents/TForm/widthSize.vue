@@ -1,20 +1,22 @@
 <template>
-  <div class="dh-form-demo">
-    <el-radio-group v-model="widthSize" size="small" style="margin-bottom:15px;">
-      <el-radio-button :label="1">一行展示</el-radio-button>
-      <el-radio-button :label="2">一行展示2项</el-radio-button>
-      <el-radio-button :label="3">一行展示3项</el-radio-button>
-      <el-radio-button :label="4">一行展示4项</el-radio-button>
-      <el-radio-button :label="5">一行展示5项</el-radio-button>
-      <el-radio-button :label="6">一行展示6项</el-radio-button>
-    </el-radio-group>
-    <t-form
-      :ref-obj.sync="formOpts.ref"
-      :formOpts="formOpts"
-      :widthSize="widthSize"
-      @handleEvent="handleEvent"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <el-radio-group v-model="widthSize" size="small" style="margin-bottom:15px;">
+        <el-radio-button :label="1">一行展示</el-radio-button>
+        <el-radio-button :label="2">一行展示2项</el-radio-button>
+        <el-radio-button :label="3">一行展示3项</el-radio-button>
+        <el-radio-button :label="4">一行展示4项</el-radio-button>
+        <el-radio-button :label="5">一行展示5项</el-radio-button>
+        <el-radio-button :label="6">一行展示6项</el-radio-button>
+      </el-radio-group>
+      <t-form
+        :ref-obj.sync="formOpts.ref"
+        :formOpts="formOpts"
+        :widthSize="widthSize"
+        @handleEvent="handleEvent"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

@@ -1,21 +1,23 @@
 <template>
-  <div class="dh-form-demo">
-    <el-button type="danger" @click="add">新增</el-button>
-    <el-button type="danger" @click="edit">编辑</el-button>
-    <t-dialog
-      :title="title"
-      width="40%"
-      class="ent-choose"
-      :visible="dialogSelectEnt"
-      @update:visible="dialogSelectEnt = false"
-    >
-      <t-form :ref-obj.sync="formOpts.ref" ref="dialogForm" :formOpts="formOpts" :widthSize="1" />
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogSelectEnt = false">取 消</el-button>
-        <el-button type="primary" @click="submit">确 定</el-button>
-      </div>
-    </t-dialog>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <el-button type="danger" @click="add">新增</el-button>
+      <el-button type="danger" @click="edit">编辑</el-button>
+      <t-dialog
+        :title="title"
+        width="40%"
+        class="ent-choose"
+        :visible="dialogSelectEnt"
+        @update:visible="dialogSelectEnt = false"
+      >
+        <t-form :ref-obj.sync="formOpts.ref" ref="dialogForm" :formOpts="formOpts" :widthSize="1" />
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogSelectEnt = false">取 消</el-button>
+          <el-button type="primary" @click="submit">确 定</el-button>
+        </div>
+      </t-dialog>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

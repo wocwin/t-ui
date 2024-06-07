@@ -1,24 +1,26 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="table.columns">
-      <template #enableStatus="{param}">
-        <el-switch
-          v-model="param.row.enableStatus"
-          :active-value="1"
-          :inactive-value="2"
-          @change="handleStatusChange(param.row)"
-        />
-      </template>
-      <template #enableStatus1="{scope}">
-        <el-switch
-          v-model="scope.row.enableStatus"
-          :active-value="1"
-          :inactive-value="2"
-          @change="handleStatusChange(scope.row)"
-        />
-      </template>
-    </t-table>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table :table="table" :columns="table.columns">
+        <template #enableStatus="{param}">
+          <el-switch
+            v-model="param.row.enableStatus"
+            :active-value="1"
+            :inactive-value="2"
+            @change="handleStatusChange(param.row)"
+          />
+        </template>
+        <template #enableStatus1="{scope}">
+          <el-switch
+            v-model="scope.row.enableStatus"
+            :active-value="1"
+            :inactive-value="2"
+            @change="handleStatusChange(scope.row)"
+          />
+        </template>
+      </t-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

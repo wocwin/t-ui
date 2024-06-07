@@ -1,6 +1,6 @@
 <template>
-  <div class="excel-upload" style="width: 100%;">
-    <t-layout sectionTitle="Excel上传组件">
+  <t-layout-page>
+    <t-layout-page-item>
       <t-step-wizard
         style="min-height:400px;"
         :stepData="stepData"
@@ -61,13 +61,13 @@
           </div>
         </template>
       </t-step-wizard>
-    </t-layout>
-  </div>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 <script>
 export default {
   name: 'excelUpload',
-  data () {
+  data() {
     return {
       active: 0,
       stepData: [
@@ -110,10 +110,10 @@ export default {
       tableHeader: []
     }
   },
-  created () {
+  created() {
   },
   methods: {
-    beforeUpload (file) {
+    beforeUpload(file) {
       this.fileName = file.name
       const isLt1M = file.size / 1024 / 1024 < 1
       if (isLt1M) {
@@ -125,18 +125,18 @@ export default {
       })
       return false
     },
-    handleSuccess ({ results, header }) {
+    handleSuccess({ results, header }) {
       this.importRecNum = results.length
       this.tableData = results
       this.tableHeader = header
     },
     // 第二步确认提交
-    submitBtn (val) {
+    submitBtn(val) {
       this.active += 2
       this.fileName = ''
     },
     // 第一步--下一步
-    next () {
+    next() {
       if (this.fileName) {
         this.active += 1
       } else {
@@ -148,15 +148,15 @@ export default {
       }
     },
     // 第二步---上一步
-    stepBack () {
+    stepBack() {
       this.active -= 1
     },
     // 第三步完成
-    complete () {
+    complete() {
       this.active = 0
     },
     // 下载模板
-    downloadTemplate () {
+    downloadTemplate() {
       console.log('下载模板')
     }
   }

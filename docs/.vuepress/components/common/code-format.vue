@@ -1,11 +1,11 @@
 <template>
   <div
     class="code-format"
-    :class="{ hover: hovering,styleModule:isShowModule }"
+    :class="{ hover: hovering, styleModule: isShowModule }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
-    <div class="source" :class="{ 'source_height': sourceHeight}">
+    <div class="source" :class="{ source_height: sourceHeight }">
       <slot name="source"></slot>
     </div>
     <div class="meta" ref="meta">
@@ -43,7 +43,8 @@
           type="text"
           class="control-button copy-button"
           @click.stop="copyCode"
-        >复制代码</el-button>
+          >复制代码</el-button
+        >
       </div>
     </div>
     <t-dialog
@@ -63,12 +64,12 @@ export default {
   props: {
     sourceHeight: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isShowModule: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -172,8 +173,8 @@ export default {
     float: right;
   }
   .source {
-    padding: 15px 15px 5px 15px;
-    // background-color: #f2f3f5;
+    // padding: 15px 15px 5px 15px;
+    background-color: #f2f3f5;
   }
   .source_height {
     height: 600px;

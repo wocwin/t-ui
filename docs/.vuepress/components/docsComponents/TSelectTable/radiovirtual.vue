@@ -1,11 +1,15 @@
 <template>
-  <t-select-table
-    :table="table"
-    :columns="table.columns"
-    use-virtual
-    :keywords="{label:'name',value:'id'}"
-    @radioChange="radioChange"
-  ></t-select-table>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-select-table
+        :table="table"
+        :columns="table.columns"
+        use-virtual
+        :keywords="{label:'name',value:'id'}"
+        @radioChange="radioChange"
+      ></t-select-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

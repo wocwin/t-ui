@@ -1,12 +1,16 @@
 <template>
-  <t-select-table
-    :table="table"
-    :columns="table.columns"
-    :max-height="400"
-    :defaultSelectVal="[2]"
-    :keywords="{label:'name',value:'id'}"
-    @radioChange="radioChange"
-  ></t-select-table>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-select-table
+        :table="table"
+        :columns="table.columns"
+        :max-height="400"
+        :defaultSelectVal="[2]"
+        :keywords="{label:'name',value:'id'}"
+        @radioChange="radioChange"
+      ></t-select-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

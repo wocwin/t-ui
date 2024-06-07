@@ -1,7 +1,15 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table isCopy title="自定义排序" :table="table" :columns="table.columns" :isShowPagination="false"></t-table>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        isCopy
+        title="自定义排序"
+        :table="table"
+        :columns="table.columns"
+        :isShowPagination="false"
+      ></t-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

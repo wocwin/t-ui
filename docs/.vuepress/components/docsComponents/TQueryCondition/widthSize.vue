@@ -1,28 +1,30 @@
 <template>
-  <div class="query-data">
-    <el-radio-group v-model="widthSize" size="small" style="margin-bottom:15px;">
-      <el-radio-button :label="2">一行展示2项</el-radio-button>
-      <el-radio-button :label="3">一行展示3项</el-radio-button>
-      <el-radio-button :label="4">一行展示4项</el-radio-button>
-      <el-radio-button :label="5">一行展示5项</el-radio-button>
-      <el-radio-button :label="6">一行展示6项</el-radio-button>
-      <el-radio-button :label="7">一行展示7项</el-radio-button>
-      <el-radio-button :label="8">一行展示8项</el-radio-button>
-    </el-radio-group>
-    <t-query-condition
-      ref="queryCondition"
-      :opts="opts"
-      isExpansion
-      :loading="loading"
-      @submit="conditionEnter"
-      isShowWidthSize
-      :widthSize="widthSize"
-    >
-      <template #likeTransportNo="{param}">
-        <el-input v-model="param.likeTransportNo" clearable placeholder="自定义插槽输入框" />
-      </template>
-    </t-query-condition>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <el-radio-group v-model="widthSize" size="small" style="margin-bottom:15px;">
+        <el-radio-button :label="2">一行展示2项</el-radio-button>
+        <el-radio-button :label="3">一行展示3项</el-radio-button>
+        <el-radio-button :label="4">一行展示4项</el-radio-button>
+        <el-radio-button :label="5">一行展示5项</el-radio-button>
+        <el-radio-button :label="6">一行展示6项</el-radio-button>
+        <el-radio-button :label="7">一行展示7项</el-radio-button>
+        <el-radio-button :label="8">一行展示8项</el-radio-button>
+      </el-radio-group>
+      <t-query-condition
+        ref="queryCondition"
+        :opts="opts"
+        isExpansion
+        :loading="loading"
+        @submit="conditionEnter"
+        isShowWidthSize
+        :widthSize="widthSize"
+      >
+        <template #likeTransportNo="{param}">
+          <el-input v-model="param.likeTransportNo" clearable placeholder="自定义插槽输入框" />
+        </template>
+      </t-query-condition>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 <script>
 import moment from 'moment'

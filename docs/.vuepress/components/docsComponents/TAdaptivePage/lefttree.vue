@@ -8,7 +8,6 @@
     :tablePageStyle="{marginTop:0}"
     :columns="table.columns"
     :isShowPagination="isShowPagination"
-    height="100%"
   >
     <template #leftContent>
       <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>

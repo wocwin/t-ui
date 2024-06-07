@@ -2,7 +2,7 @@
 
 ---
 
-<common-code-format sourceHeight>
+<common-code-format>
   <docsComponents-TAdaptivePage-virtual slot="source"></docsComponents-TAdaptivePage-virtual>
 
 <<< @/docs/.vuepress/components/docsComponents/TAdaptivePage/virtual.vue

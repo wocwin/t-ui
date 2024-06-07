@@ -1,33 +1,35 @@
 <template>
-  <div class="t-table-single-edit-cell" style="width:100%;">
-    <t-table
-      ref="singleEdit"
-      :table="singleEditConfig.table"
-      :columns="singleEditConfig.table.columns"
-      :listTypeInfo="singleEditConfig.listTypeInfo"
-      @handleEvent="handleEvent"
-      @save="singleSave"
-      @validateError="validateError"
-      isShowFooterBtn
-    >
-      <template #toolbar>
-        <el-button type="primary" @click="save">另一种获取table数据</el-button>
-        <el-button @click="clearValidate">清除校验规则</el-button>
-        <el-button type="primary" @click="reset">重置表单</el-button>
-      </template>
-      <!-- 自定义单元格编辑组件(多选下拉选择) -->
-      <template #editHobby="{scope}">
-        <el-select v-model="scope.row[scope.column.property]" multiple>
-          <el-option
-            v-for="item in singleEditConfig.listTypeInfo.hobbyList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </template>
-    </t-table>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        ref="singleEdit"
+        :table="singleEditConfig.table"
+        :columns="singleEditConfig.table.columns"
+        :listTypeInfo="singleEditConfig.listTypeInfo"
+        @handleEvent="handleEvent"
+        @save="singleSave"
+        @validateError="validateError"
+        isShowFooterBtn
+      >
+        <template #toolbar>
+          <el-button type="primary" @click="save">另一种获取table数据</el-button>
+          <el-button @click="clearValidate">清除校验规则</el-button>
+          <el-button type="primary" @click="reset">重置表单</el-button>
+        </template>
+        <!-- 自定义单元格编辑组件(多选下拉选择) -->
+        <template #editHobby="{scope}">
+          <el-select v-model="scope.row[scope.column.property]" multiple>
+            <el-option
+              v-for="item in singleEditConfig.listTypeInfo.hobbyList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </template>
+      </t-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

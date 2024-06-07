@@ -1,19 +1,21 @@
 <template>
-  <div class="t-search-demo" style="min-height:100px;width:100%;padding:10px;">
-    <t-search
-      tips="请输入用户名"
-      :searchValue="searchValue"
-      :selectValue="selectValue"
-      @click="search"
-      @change="typeChange"
-      :searchCondition="searchCondition"
-    ></t-search>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-search
+        tips="请输入用户名"
+        :searchValue="searchValue"
+        :selectValue="selectValue"
+        @click="search"
+        @change="typeChange"
+        :searchCondition="searchCondition"
+      ></t-search>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       searchValue: '', // 查询条件
       selectValue: '0', // 初始化查询条件
@@ -34,10 +36,10 @@ export default {
     }
   },
   methods: {
-    search (val) {
+    search(val) {
       console.log('点击查询按钮', val)
     },
-    typeChange (val) {
+    typeChange(val) {
       this.searchValue = ''
       this.selectValue = val
     }

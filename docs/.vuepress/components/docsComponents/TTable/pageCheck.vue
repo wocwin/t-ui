@@ -1,14 +1,16 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table
-      :table="table"
-      :columns="table.columns"
-      @selection-change="selectionChange"
-      @page-change="pageChange"
-      :row-key="getRowKey"
-      isShowPagination
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        :table="table"
+        :columns="table.columns"
+        @selection-change="selectionChange"
+        @page-change="pageChange"
+        :row-key="getRowKey"
+        isShowPagination
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

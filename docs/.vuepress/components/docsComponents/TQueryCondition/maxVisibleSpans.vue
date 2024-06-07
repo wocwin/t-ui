@@ -1,13 +1,15 @@
 <template>
-  <div class="query-data">
-    <t-query-condition
-      ref="queryCondition"
-      labelWidth="140px"
-      :opts="opts"
-      :maxVisibleRows="2"
-      @submit="conditionEnter"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-query-condition
+        ref="queryCondition"
+        labelWidth="140px"
+        :opts="opts"
+        :maxVisibleRows="2"
+        @submit="conditionEnter"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 <script>
 import moment from "moment";

@@ -1,12 +1,14 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table :table="table" :columns="columns" />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       table: {
         data: [
@@ -100,15 +102,15 @@ export default {
   },
   methods: {
     // 新增
-    add (val) {
+    add(val) {
       console.log('新增', val)
     },
     // 编辑
-    edit (val) {
+    edit(val) {
       console.log('编辑', val)
     },
     // 删除
-    handleDelete (val) {
+    handleDelete(val) {
       console.log('删除', val)
     }
   }

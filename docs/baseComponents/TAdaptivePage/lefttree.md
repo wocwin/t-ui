@@ -2,7 +2,7 @@
 
 ---
 
-<common-code-format sourceHeight>
+<common-code-format>
   <docsComponents-TAdaptivePage-lefttree slot="source"></docsComponents-TAdaptivePage-lefttree>
 
 <<< @/docs/.vuepress/components/docsComponents/TAdaptivePage/lefttree.vue

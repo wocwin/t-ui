@@ -1,14 +1,16 @@
 <template>
-  <div class="t-table-single-edit-cell" style="width:100%;">
-    <t-table
-      :table="singleEditConfig.table"
-      :columns="singleEditConfig.table.columns"
-      :listTypeInfo="singleEditConfig.listTypeInfo"
-      @handleEvent="handleEvent"
-      @save="singleSave"
-      isKeyup
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        :table="singleEditConfig.table"
+        :columns="singleEditConfig.table.columns"
+        :listTypeInfo="singleEditConfig.listTypeInfo"
+        @handleEvent="handleEvent"
+        @save="singleSave"
+        isKeyup
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

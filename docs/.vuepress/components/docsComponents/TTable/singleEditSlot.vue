@@ -1,19 +1,21 @@
 <template>
-  <div class="t-table-single-edit-cell" style="width:100%;">
-    <t-table
-      :table="singleEditConfig.table"
-      :columns="singleEditConfig.table.columns"
-      :listTypeInfo="singleEditConfig.listTypeInfo"
-      @handleEvent="handleEvent"
-      @save="singleSave"
-      isKeyup
-    >
-      <!-- 自定义单元格编辑插槽 -->
-      <template #remake="{scope}">
-        <el-input v-model="scope.row[scope.column.property]" placeholder="插槽设置"></el-input>
-      </template>
-    </t-table>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        :table="singleEditConfig.table"
+        :columns="singleEditConfig.table.columns"
+        :listTypeInfo="singleEditConfig.listTypeInfo"
+        @handleEvent="handleEvent"
+        @save="singleSave"
+        isKeyup
+      >
+        <!-- 自定义单元格编辑插槽 -->
+        <template #remake="{scope}">
+          <el-input v-model="scope.row[scope.column.property]" placeholder="插槽设置"></el-input>
+        </template>
+      </t-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

@@ -1,17 +1,19 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table
-      :table="table"
-      :isShowPagination="false"
-      isCopy
-      isObjShowProp
-      :columns="table.columns"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        :table="table"
+        :isShowPagination="false"
+        isCopy
+        isObjShowProp
+        :columns="table.columns"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       table: {
         columns: [

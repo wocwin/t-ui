@@ -1,7 +1,9 @@
 <template>
-  <div class="dh-form-demo">
-    <t-form :ref-obj.sync="formOpts.ref" :formOpts="formOpts" :widthSize="4" />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-form :ref-obj.sync="formOpts.ref" :formOpts="formOpts" :widthSize="4" />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

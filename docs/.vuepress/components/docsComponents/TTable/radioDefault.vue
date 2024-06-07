@@ -1,13 +1,15 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table
-      :table="table"
-      rowClickRadio
-      :columns="columns"
-      @radioChange="radioChange"
-      :defaultRadioCol="1"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        :table="table"
+        rowClickRadio
+        :columns="columns"
+        @radioChange="radioChange"
+        :defaultRadioCol="1"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

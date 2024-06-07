@@ -1,31 +1,33 @@
 <template>
-  <div class="dh-form-demo">
-    <t-form :ref-obj.sync="formOpts.ref" :formOpts="formOpts" :widthSize="1">
-      <template #wechat>
-        <div style="display:flex;">
-          <el-input v-model="formOpts.formData.wechat" placeholder="自定义输入框插槽"></el-input>
-        </div>
-      </template>
-      <!-- 平台用户下拉子组件自定义插槽 -->
-      <template #accountType>
-        <el-option
-          v-for="(item,key) in formOpts.listTypeInfo.accountTypeList"
-          :key="key"
-          :label="item"
-          :value="key"
-        ></el-option>
-      </template>
-      <!-- 状态子组件自定义插槽 -->
-      <template #status>
-        <el-option
-          v-for="(item,key) in formOpts.listTypeInfo.statusList"
-          :key="key"
-          :label="item.key"
-          :value="item.value"
-        ></el-option>
-      </template>
-    </t-form>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-form :ref-obj.sync="formOpts.ref" :formOpts="formOpts" :widthSize="1">
+        <template #wechat>
+          <div style="display:flex;">
+            <el-input v-model="formOpts.formData.wechat" placeholder="自定义输入框插槽"></el-input>
+          </div>
+        </template>
+        <!-- 平台用户下拉子组件自定义插槽 -->
+        <template #accountType>
+          <el-option
+            v-for="(item,key) in formOpts.listTypeInfo.accountTypeList"
+            :key="key"
+            :label="item"
+            :value="key"
+          ></el-option>
+        </template>
+        <!-- 状态子组件自定义插槽 -->
+        <template #status>
+          <el-option
+            v-for="(item,key) in formOpts.listTypeInfo.statusList"
+            :key="key"
+            :label="item.key"
+            :value="item.value"
+          ></el-option>
+        </template>
+      </t-form>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

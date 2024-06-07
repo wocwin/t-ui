@@ -1,11 +1,13 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table :table="table" :isShowPagination="false" :columns="table.columns">
-      <template #slotNameHeader="{param}">{{param.row.date1}}</template>
-      <template #slotNameHeader1="{param}">{{param.row.name}}</template>
-      <template #slotNameHeader12="{param}">{{param.row.date1}}</template>
-    </t-table>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table :table="table" :isShowPagination="false" :columns="table.columns">
+        <template #slotNameHeader="{param}">{{param.row.date1}}</template>
+        <template #slotNameHeader1="{param}">{{param.row.name}}</template>
+        <template #slotNameHeader12="{param}">{{param.row.date1}}</template>
+      </t-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

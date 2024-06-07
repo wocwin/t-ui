@@ -1,6 +1,8 @@
 <template>
-  <div class="t-dialog-demo" style="width:100%;min-height:100px;padding:15px;">
-    <el-button type="danger" @click="openDialog">基本弹窗</el-button>
+  <t-layout-page>
+    <t-layout-page-item>
+      <el-button type="danger" @click="openDialog">基本弹窗</el-button>
+    </t-layout-page-item>
     <t-dialog
       title="请选择企业"
       width="40%"
@@ -27,7 +29,7 @@
         <el-button type="primary" @click="dialogSelectEnt = false">确 定</el-button>
       </div>
     </t-dialog>
-  </div>
+  </t-layout-page>
 </template>
 <script>
 export default {

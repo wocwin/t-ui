@@ -9,7 +9,6 @@
     :table="table"
     :columns="table.columns"
     :isShowPagination="isShowPagination"
-    height="100%"
   >
     <template #title>优先展示插槽，不写插槽展示tableTitle</template>
   </t-adaptive-page>

@@ -1,13 +1,17 @@
 <template>
-  <t-tree-select
-    :options="treeList"
-    placeholder="请选择tree多选结构"
-    width="50%"
-    :defaultValue="defaultValue"
-    :treeProps="treeProps"
-    @handleNodeClick="selectDrop"
-    multiple
-  />
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-tree-select
+        :options="treeList"
+        placeholder="请选择tree多选结构"
+        width="50%"
+        :defaultValue="defaultValue"
+        :treeProps="treeProps"
+        @handleNodeClick="selectDrop"
+        multiple
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 <script>
 export default {

@@ -1,21 +1,23 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table
-      isCopy
-      title="指定姓名是'张三2'的行不需要排序"
-      :table="table"
-      :columns="table.columns"
-      sortable="custom"
-      isSortable
-      notSortJudge="item.name == '张三2'"
-      :isShowPagination="false"
-    ></t-table>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        isCopy
+        title="指定姓名是'张三2'的行不需要排序"
+        :table="table"
+        :columns="table.columns"
+        sortable="custom"
+        isSortable
+        notSortJudge="item.name == '张三2'"
+        :isShowPagination="false"
+      ></t-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       table: {
         data: [

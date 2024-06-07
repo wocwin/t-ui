@@ -1,6 +1,8 @@
 <template>
-  <div class="t-dialog-demo" style="width:100%;min-height:100px;padding:15px;">
-    <el-button type="danger" @click="openDialog">PDF预览弹窗</el-button>
+  <t-layout-page>
+    <t-layout-page-item>
+      <el-button type="danger" @click="openDialog">PDF预览弹窗</el-button>
+    </t-layout-page-item>
     <t-protocol
       :protocolVisible="protocolVisible"
       :protocolTitle="protocolTitle"
@@ -9,11 +11,11 @@
       ref="pdf"
       @update:visible="protocolHide"
     />
-  </div>
+  </t-layout-page>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       protocolVisible: false,
       protocolTitle: '协议预览',
@@ -21,10 +23,10 @@ export default {
     }
   },
   methods: {
-    openDialog () {
+    openDialog() {
       this.protocolVisible = true
     },
-    protocolHide () {
+    protocolHide() {
       this.protocolVisible = false
     }
   }

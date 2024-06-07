@@ -1,7 +1,14 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table :table="table" :columns="columns" @radioChange="radioChange" isShowFirstColumn="date" />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        :table="table"
+        :columns="columns"
+        @radioChange="radioChange"
+        isShowFirstColumn="date"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

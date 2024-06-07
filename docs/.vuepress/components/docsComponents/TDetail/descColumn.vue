@@ -1,12 +1,13 @@
 <template>
   <t-layout-page>
-    <el-radio-group v-model="descColumn" size="small">
-      <el-radio-button :label="1">一行展示</el-radio-button>
-      <el-radio-button :label="2">一行展示2项</el-radio-button>
-      <el-radio-button :label="3">一行展示3项</el-radio-button>
-      <el-radio-button :label="4">一行展示4项</el-radio-button>
-    </el-radio-group>
     <t-layout-page-item>
+      <el-radio-group v-model="descColumn" size="small">
+        <el-radio-button :label="1">一行展示</el-radio-button>
+        <el-radio-button :label="2">一行展示2项</el-radio-button>
+        <el-radio-button :label="3">一行展示3项</el-radio-button>
+        <el-radio-button :label="4">一行展示4项</el-radio-button>
+      </el-radio-group>
+
       <t-detail :descData="descData" :descColumn="descColumn" />
     </t-layout-page-item>
   </t-layout-page>

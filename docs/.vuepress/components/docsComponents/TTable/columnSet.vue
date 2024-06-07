@@ -1,15 +1,17 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table
-      columnSetting
-      title="列显示隐藏及拖拽排序"
-      :table="table"
-      :columns="columns"
-      :columnSetBind="{btnTxt:'列设置',title:'随便取一个title',type:'primary',icon:'el-icon-plus'}"
-    >
-      <template #amount="{param}">{{param.row.amount}}</template>
-    </t-table>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        columnSetting
+        title="列显示隐藏及拖拽排序"
+        :table="table"
+        :columns="columns"
+        :columnSetBind="{btnTxt:'列设置',title:'随便取一个title',type:'primary',icon:'el-icon-plus'}"
+      >
+        <template #amount="{param}">{{param.row.amount}}</template>
+      </t-table>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

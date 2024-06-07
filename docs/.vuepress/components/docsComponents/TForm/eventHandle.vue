@@ -1,12 +1,14 @@
 <template>
-  <div class="dh-form-demo">
-    <t-form
-      :ref-obj.sync="formOpts.ref"
-      :formOpts="formOpts"
-      :widthSize="1"
-      @handleEvent="handleEvent"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-form
+        :ref-obj.sync="formOpts.ref"
+        :formOpts="formOpts"
+        :widthSize="1"
+        @handleEvent="handleEvent"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

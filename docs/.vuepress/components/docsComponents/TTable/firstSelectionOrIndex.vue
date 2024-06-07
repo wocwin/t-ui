@@ -1,14 +1,16 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table
-      title="显示复选框和序列号"
-      :table="table"
-      isShowPagination
-      :columns="columns"
-      @selection-change="selectionChange"
-      :isShowFirstColumn="isShowFirstColumn"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        title="显示复选框和序列号"
+        :table="table"
+        isShowPagination
+        :columns="columns"
+        @selection-change="selectionChange"
+        :isShowFirstColumn="isShowFirstColumn"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

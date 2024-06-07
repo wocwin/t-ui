@@ -2,7 +2,7 @@
 
 ---
 
-<common-code-format sourceHeight>
+<common-code-format>
   <docsComponents-TAdaptivePage-index slot="source"></docsComponents-TAdaptivePage-index>
 
 <<< @/docs/.vuepress/components/docsComponents/TAdaptivePage/index.vue

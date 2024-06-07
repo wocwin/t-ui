@@ -1,7 +1,9 @@
 <template>
-  <div class="query-data">
-    <t-query-condition ref="queryCondition" :opts="opts" @submit="conditionEnter" />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-query-condition ref="queryCondition" :opts="opts" @submit="conditionEnter" />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 <script>
 export default {

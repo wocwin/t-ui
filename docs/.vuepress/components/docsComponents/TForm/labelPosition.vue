@@ -1,17 +1,19 @@
 <template>
-  <div class="dh-form-demo">
-    <el-radio-group v-model="formOpts.labelPosition" size="small" style="margin-bottom:15px;">
-      <el-radio-button label="left">左对齐</el-radio-button>
-      <el-radio-button label="right">右对齐</el-radio-button>
-      <el-radio-button label="top">顶部对齐</el-radio-button>
-    </el-radio-group>
-    <t-form
-      :ref-obj.sync="formOpts.ref"
-      :formOpts="formOpts"
-      :widthSize="1"
-      @handleEvent="handleEvent"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <el-radio-group v-model="formOpts.labelPosition" size="small" style="margin-bottom:15px;">
+        <el-radio-button label="left">左对齐</el-radio-button>
+        <el-radio-button label="right">右对齐</el-radio-button>
+        <el-radio-button label="top">顶部对齐</el-radio-button>
+      </el-radio-group>
+      <t-form
+        :ref-obj.sync="formOpts.ref"
+        :formOpts="formOpts"
+        :widthSize="1"
+        @handleEvent="handleEvent"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

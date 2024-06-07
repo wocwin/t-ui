@@ -1,7 +1,9 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table :table="table" highlight-current-row :columns="columns" />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table :table="table" highlight-current-row :columns="columns" />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

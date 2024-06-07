@@ -1,6 +1,6 @@
 <template>
-  <div class="t-date-picker-demo">
-    <div class="box_content">
+  <t-layout-page>
+    <t-layout-page-item>
       <div class="box_flex">
         <div>选择日</div>
         <t-date-picker v-model="date" @change="change($event,'date','date')" />
@@ -17,8 +17,8 @@
         <div>选择年</div>
         <t-date-picker v-model="date3" type="year" @change="change($event,'year','date3')" />
       </div>
-    </div>
-    <div class="box_content">
+    </t-layout-page-item>
+    <t-layout-page-item>
       <div class="box_flex">
         <div>选择日期范围（默认显示）</div>
         <t-date-picker
@@ -45,8 +45,8 @@
           @change="change($event,'daterange','date5')"
         />
       </div>
-    </div>
-    <div class="box_content">
+    </t-layout-page-item>
+    <t-layout-page-item>
       <div class="box_flex">
         <div>选择月份范围</div>
         <t-date-picker
@@ -64,8 +64,8 @@
           @change="change($event,'monthrange','date7')"
         />
       </div>
-    </div>
-    <div class="box_content">
+    </t-layout-page-item>
+    <t-layout-page-item>
       <div class="box_flex">
         <div>选择日期&时间</div>
         <t-date-picker v-model="date8" type="datetime" @change="change($event,'datetime','date8')" />
@@ -79,8 +79,8 @@
           @change="change($event,'datetime','date9')"
         />
       </div>
-    </div>
-    <div class="box_content">
+    </t-layout-page-item>
+    <t-layout-page-item>
       <div class="box_flex">
         <div>选择日期&时间范围</div>
         <t-date-picker
@@ -99,8 +99,8 @@
           @change="change($event,'datetimerange','date11')"
         />
       </div>
-    </div>
-  </div>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>
@@ -142,23 +142,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.t-date-picker-demo {
-  overflow-y: auto;
-  max-height: 300px;
-  .box_content {
-    display: flex;
-    padding: 10px;
-    border: 1px dashed #ccc;
-    margin-top: 10px;
-    flex-wrap: wrap;
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-  .box_flex {
-    display: flex;
-    flex-direction: column;
-    margin-right: 5px;
-  }
+.box_flex {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
 }
 </style>

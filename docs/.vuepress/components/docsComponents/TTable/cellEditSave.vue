@@ -1,12 +1,14 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table
-      :isShowPagination="false"
-      :table="table"
-      :columns="table.columns"
-      :listTypeInfo="table.listTypeInfo"
-    />
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        :isShowPagination="false"
+        :table="table"
+        :columns="table.columns"
+        :listTypeInfo="table.listTypeInfo"
+      />
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

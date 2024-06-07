@@ -1,6 +1,8 @@
 <template>
-  <div class="t-dialog-demo" style="width:100%;min-height:100px;padding:15px;">
-    <el-button type="danger" @click="openDialog">短信验证弹窗</el-button>
+  <t-layout-page>
+    <t-layout-page-item>
+      <el-button type="danger" @click="openDialog">短信验证弹窗</el-button>
+    </t-layout-page-item>
     <t-phone
       :phoneVisible="phoneVisible"
       :legalPhone="legalPhone"
@@ -8,27 +10,27 @@
       :personTxt="personTxt"
       @phoneConfirm="phoneConfirm"
     />
-  </div>
+  </t-layout-page>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       phoneVisible: false,
-      personTxt:'法人',
+      personTxt: '法人',
       legalPhone: '13888888888' // 法人手机号码
     }
   },
   methods: {
-    openDialog () {
+    openDialog() {
       this.phoneVisible = true
     },
     // 点击确定
-    phoneConfirm (smsCode) {
+    phoneConfirm(smsCode) {
       console.log('点击确定按钮', smsCode)
       this.phoneVisible = false
     },
-    phoneHide () {
+    phoneHide() {
       this.phoneVisible = false
     }
   }

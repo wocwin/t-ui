@@ -1,17 +1,17 @@
 <template>
-  <t-layout-page style="flex-direction: row;">
-    <t-select-table
-      ref="selectTable"
-      :table="table"
-      :columns="table.columns"
-      :max-height="540"
-      :keywords="{ label: 'name', value: 'id' }"
-      style="width: 50%;"
-      @radioChange="radioChange"
-    />
-    <el-button style="margin-left: 15px" type="primary" @click="clear"
-      >清空选中</el-button
-    >
+  <t-layout-page>
+    <t-layout-page-item style="display:flex;flex-direction: row;">
+      <t-select-table
+        ref="selectTable"
+        :table="table"
+        :columns="table.columns"
+        :max-height="540"
+        :keywords="{ label: 'name', value: 'id' }"
+        style="width: 50%;"
+        @radioChange="radioChange"
+      />
+      <el-button style="margin-left: 15px" type="primary" @click="clear">清空选中</el-button>
+    </t-layout-page-item>
   </t-layout-page>
 </template>
 

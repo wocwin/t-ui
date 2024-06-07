@@ -2,7 +2,7 @@
 
 ---
 
-<common-code-format sourceHeight>
+<common-code-format>
   <docsComponents-TAdaptivePage-selection slot="source"></docsComponents-TAdaptivePage-selection>
 
 <<< @/docs/.vuepress/components/docsComponents/TAdaptivePage/selection.vue

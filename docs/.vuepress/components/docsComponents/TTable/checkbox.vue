@@ -1,16 +1,18 @@
 <template>
-  <div class="t-table" style="width:100%;">
-    <t-table
-      ref="tableCheckbox"
-      columnSetting
-      :table="table"
-      :columns="columns"
-      @selection-change="selectionChange"
-      isShowPagination
-      isShowFirstColumn="date"
-    />
-    <el-button type="danger" @click="cancelCheck">取消选中</el-button>
-  </div>
+  <t-layout-page>
+    <t-layout-page-item>
+      <t-table
+        ref="tableCheckbox"
+        columnSetting
+        :table="table"
+        :columns="columns"
+        @selection-change="selectionChange"
+        isShowPagination
+        isShowFirstColumn="date"
+      />
+      <el-button type="danger" @click="cancelCheck">取消选中</el-button>
+    </t-layout-page-item>
+  </t-layout-page>
 </template>
 
 <script>

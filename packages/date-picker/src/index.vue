@@ -14,14 +14,9 @@ export default {
   name: 'TDatePicker',
   data() {
     return {
-      // time: this.value,
       dateOptions: this.pickerOptions
     }
   },
-  // model: {
-  //   prop: 'value',
-  //   event: 'change'
-  // },
   props: {
     value: {
       type: [String, Date, Array]
@@ -282,6 +277,7 @@ export default {
       return shortcuts
     },
     dateChange(val) {
+      console.log('日期组件---change', val)
       const { type } = this
       if (type === 'daterange' && val) {
         let startTime = val[0]

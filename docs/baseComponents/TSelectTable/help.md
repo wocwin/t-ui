@@ -64,6 +64,8 @@ TForm 表单组件
 | isShowInput       | 是否输入框显示                                                                    | Boolean                   | false      |
 | inputWidth        | input输入框的宽度(单位：px) 若设置0，宽度100%                                     | Number/String             | 550        |
 | inputAttr         | 继承所有el-input的属性                                                            | Object                    | -          |
+| toolbar             | el-table 头部插槽（位置：查询条件下面）                                                 | slot                      | -          |
+| footer              | el-table 底部插槽（位置：分页器上面）                                                   | slot                      | -          |
 
 ### 3. 事件（events）继承 el-table 、el-select 、el-pagination事件
 

@@ -1333,7 +1333,7 @@ export default {
     // 当前页码
     handlesCurrentChange(val) {
       // 如果第一列是单选框
-      if (this.table.firstColumn.type === 'radio') {
+      if (this.table?.firstColumn?.type === 'radio') {
         // 将单选框的值置空
         this.radioVal = ''
       }

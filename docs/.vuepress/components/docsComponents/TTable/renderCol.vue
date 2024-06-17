@@ -7,7 +7,11 @@
 </template>
 
 <script>
+import TVHtml from './com/TVHtml.vue'
 export default {
+  components: {
+    TVHtml
+  },
   data() {
     return {
       table: {
@@ -17,6 +21,7 @@ export default {
             date: '2019-09-25',
             name: '张三',
             status: '2',
+            vhtml: '<span style="color:red">红色</span>',
             address: '广东省广州市天河区'
           },
           {
@@ -24,12 +29,14 @@ export default {
             date: '2019-09-26',
             name: '张三1',
             status: '1',
+            vhtml: '<span style="color:green">绿色</span>',
             address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
           },
           {
             id: '3',
             date: '2019-09-27',
             name: '张三2',
+            vhtml: '<span style="color:blue">蓝色</span>',
             status: '3',
             address: '广东省广州市天河区3'
           }
@@ -82,7 +89,14 @@ export default {
               )
             },
           },
-          { prop: 'address', label: '地址', minWidth: '220' },
+          {
+            prop: 'vhtml', label: '自定义组件渲染', minWidth: '220',
+            render: (text) => {
+              return (
+                <t-v-html html={text} />
+              )
+            }
+          },
           { prop: 'date', label: '日期', minWidth: '180' },
           { prop: 'address', label: '地址', minWidth: '220' }
         ],

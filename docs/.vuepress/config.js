@@ -80,6 +80,7 @@ module.exports = {
             'TSelectTable/multipleDefaultSelectVal',
             'TSelectTable/showPagination',
             'TSelectTable/formDemo',
+            'TSelectTable/slotUse',
             'TSelectTable/help', // 使用帮助(Attributes)
           ]
         },

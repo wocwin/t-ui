@@ -50,6 +50,7 @@
               </template>
             </t-query-condition>
           </div>
+          <slot name="toolbar"></slot>
           <el-table
             ref="el-table"
             :data="tableData"
@@ -123,6 +124,7 @@
             </template>
             <slot></slot>
           </el-table>
+          <slot name="footer"></slot>
           <div class="t-table-select__page">
             <el-pagination
               v-show="tableData && tableData.length && isShowPagination"

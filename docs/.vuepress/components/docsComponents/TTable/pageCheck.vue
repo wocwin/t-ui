@@ -8,6 +8,7 @@
         @page-change="pageChange"
         :row-key="getRowKey"
         isShowPagination
+        isShowFirstColumn="factoryModelIdLabel"
       />
     </t-layout-page-item>
   </t-layout-page>

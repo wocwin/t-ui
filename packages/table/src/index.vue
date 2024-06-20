@@ -223,9 +223,7 @@
             :sortable="item.sort || sortable"
             :align="item.align || 'center'"
             :fixed="item.fixed"
-            :show-overflow-tooltip="
-              useVirtual ? true : item.noShowTip ? false : true
-            "
+            :show-overflow-tooltip="isShowOverflowTooltip(item)"
             v-bind="{ ...item.bind, ...$attrs }"
             v-on="$listeners"
           >
@@ -270,6 +268,9 @@
                     :model="tableData[scope.$index]"
                     :rules="isEditRules ? table.rules : {}"
                     class="t_edit_cell_form"
+                    :class="{
+                        t_edit_cell_form_rules: isEditRules,
+                      }"
                     :ref="`formRef-${scope.$index}-${
                       item.prop || scope.column.property
                     }`"
@@ -636,6 +637,13 @@ export default {
         } else {
           this.tableData = val
         }
+        // 获取需要禁用
+        this.tableData.map((item, index) => {
+          // console.log('this.isShowFirstColumn---', this.isShowFirstColumn, item[this.isShowFirstColumn])
+          if (!item[this.isShowFirstColumn]) {
+            this.isShowFirstColumnIndex.push(index)
+          }
+        })
       },
       deep: true // 深度监听
     },
@@ -707,6 +715,12 @@ export default {
         (this.table.rules && Object.keys(this.table.rules).length > 0) ||
         this.columns.some((item) => item?.configEdit?.rules)
       )
+    },
+    // 文字过长是否显示省略号
+    isShowOverflowTooltip() {
+      return (item) => {
+        return this.useVirtual ? true : item.noShowTip ? false : !this.isShowFirstColumn
+      }
     }
   },
   // 过滤器
@@ -718,14 +732,6 @@ export default {
     if (this.defaultRadioCol) {
       this.defaultRadioSelect(this.defaultRadioCol)
     }
-    // 获取需要禁用
-    this.tableData.map((item, index) => {
-      if (!item[this.isShowFirstColumn]) {
-        this.isShowFirstColumnIndex.push(index)
-      }
-    })
-    // console.log('$slots-----555', this.$slots)
-    // console.log('--isShowFirstColumnIndex---66', [...new Set(this.isShowFirstColumnIndex)])
     this.extendMethod()
     this.initSort()
     // 修复table抖动
@@ -734,7 +740,7 @@ export default {
   methods: {
     // 行的 className 的回调方法
     rowClassNameFuc({ row, rowIndex }) {
-      // this.rowClassName(row, rowIndex)
+      // console.log(row, rowIndex, [...new Set(this.isShowFirstColumnIndex)].includes(rowIndex))
       if (this.isShowFirstColumn && [...new Set(this.isShowFirstColumnIndex)].includes(rowIndex)) {
         return 'is_show_first_column'
       } else {
@@ -1678,6 +1684,16 @@ export default {
       margin-bottom: 0;
       .el-form-item__content {
         line-height: 12px;
+      }
+    }
+  }
+  // 单元格编辑有规则校验
+  .el-table {
+    .cell {
+      .t_edit_cell_form_rules {
+        .single_edit_cell {
+          margin-bottom: 15px;
+        }
       }
     }
   }

@@ -8,6 +8,7 @@
         @page-change="pageChange"
         :row-key="getRowKey"
         isShowPagination
+        isShowFirstColumn="factoryModelIdLabel"
       />
     </t-layout-page-item>
   </t-layout-page>
@@ -23,7 +24,7 @@ export default {
         total: 0,
         currentPage: 1,
         pageSize: 10,
-        firstColumn: { type: 'selection', isPaging: true },
+        firstColumn: { type: 'selection', isPaging: true, fixed: true },
         data: [],
         columns: [
           { prop: 'factoryModelIdLabel', label: '工厂', minWidth: '180' },

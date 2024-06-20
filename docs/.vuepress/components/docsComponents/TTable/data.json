@@ -252,33 +252,7 @@
         "createTime": "2022-09-08 15:11:26",
         "enableStatus": 1
       },
-      {
-        "materialTypeLabel": "坩埚",
-        "erpCodeJoin": "",
-        "factoryModelId": 1,
-        "shortRuleMore": 0.0,
-        "claspType": "",
-        "enableStatusLabel": "启用",
-        "baseUnit": "",
-        "materialPropertyLabel": "自产",
-        "updateBy": "韦宏波",
-        "materialSourceLabel": "自增",
-        "id": "1567343974251294722",
-        "power": "RP",
-        "singleWeight": 1.02,
-        "materialSource": 1,
-        "materialSpecs": "sa",
-        "materialType": 6,
-        "materialCode": "GG154",
-        "updateTime": "2022-09-07",
-        "factoryModelIdLabel": "东日新能源",
-        "shortRuleLess": 0.0,
-        "materialProperty": 1,
-        "materialName": "坩埚21",
-        "createBy": "韦宏波",
-        "createTime": "2022-09-07 10:48:18",
-        "enableStatus": 1
-      }
+      {}
     ]
   }
 }

@@ -13,7 +13,6 @@ import '@/directive'
 import * as filters from './utils/filters' // global filters
 import { message } from './utils/resetMessage' // 防止重复点击重复弹出message弹框
 import api from '@/api' // 接口api
-import VueClipboard from 'vue-clipboard2' // 复制插件
 // import { Message } from 'element-ui'
 
 import Tui from '../packages' // 二次封装组件
@@ -24,7 +23,6 @@ Vue.use(vueSeamlessScroll)
 Vue.use(Element)
 Vue.use(Tui)
 
-Vue.use(VueClipboard)
 
 Vue.prototype.$http = api
 Vue.prototype.$messageUpload = message

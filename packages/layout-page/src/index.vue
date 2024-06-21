@@ -2,6 +2,7 @@
   <div
     id="t_layout_page"
     class="t_layout_page"
+    :class="{ layout_page_no_margin: isNoMargin }"
     ref="TLayoutPageRef"
     @scroll="(e) => (scrollTop = e.target.scrollTop)"
   >
@@ -18,6 +19,10 @@ export default {
   name: 'TLayoutPage',
   props: {
     keepScrollDisabled: Boolean,
+    isNoMargin: {
+      type: Boolean,
+      default: false
+    },
     // 是否显示返回顶部按钮
     showGoTopButton: {
       type: Boolean,
@@ -109,5 +114,8 @@ export default {
       font-size: 20px;
     }
   }
+}
+.layout_page_no_margin {
+  padding: 0;
 }
 </style>

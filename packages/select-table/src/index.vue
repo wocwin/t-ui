@@ -666,17 +666,29 @@ export default {
         }
       })
     },
+    // 复制内容
+    copyDomText(val) {
+      // 获取需要复制的元素以及元素内的文本内容
+      const text = val
+      // 添加一个input元素放置需要的文本内容
+      const input = document.createElement('input')
+      input.value = text
+      document.body.appendChild(input)
+      // 选中并复制文本到剪切板
+      input.select()
+      document.execCommand('copy')
+      // 移除input元素
+      document.body.removeChild(input)
+    },
     // 双击复制单元格内容
     cellDblclick(row, column) {
       let label = row[column.property]
-      this.$copyText(label).then(
-        () => {
-          this.$message.success('已复制')
-        },
-        () => {
-          this.$message.error('复制失败')
-        }
-      )
+      try {
+        this.copyDomText(label)
+        this.$message.success('已复制')
+      } catch (e) {
+        this.$message.error('复制失败')
+      }
     },
     // 默认选中（且只能默认选中第一页的数据）
     defaultSelect(defaultSelectVal) {
@@ -856,6 +868,7 @@ export default {
       }
     }
   }
+
   // 选中行样式
   .highlightCurrentRow {
     ::v-deep tbody {
@@ -897,6 +910,11 @@ export default {
       overflow-x: auto;
       overflow-y: hidden;
       padding-bottom: 10px;
+    }
+    ::v-deep tbody {
+      .el-table__row {
+        cursor: pointer;
+      }
     }
   }
   // style：ttable单元格内容过长省略号

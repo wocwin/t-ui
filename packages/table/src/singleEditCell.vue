@@ -13,8 +13,36 @@
         <slot :name="configEdit.editSlotName" :scope="record" />
       </div>
     </template>
+    <template v-if="configEdit.isSelfCom">
+      <component
+        v-if="configEdit.editComponent === 't-select-table'"
+        :ref="`tselecttableRef-${record.$index}-${prop}`"
+        :is="configEdit.editComponent"
+        :placeholder="configEdit.placeholder || getPlaceholder(configEdit)"
+        v-bind="
+          typeof configEdit.bind == 'function'
+            ? configEdit.bind(record)
+            : { clearable: true, filterable: true, ...configEdit.bind }
+        "
+        :style="{ width: configEdit.width || '100%' }"
+        v-on="cEvent(configEdit, 't-select-table')"
+      />
+      <component
+        v-else
+        :is="configEdit.editComponent"
+        v-model="childValue"
+        :placeholder="configEdit.placeholder || getPlaceholder(configEdit)"
+        v-bind="
+          typeof configEdit.bind == 'function'
+            ? configEdit.bind(record)
+            : { clearable: true, filterable: true, ...configEdit.bind }
+        "
+        :style="{ width: configEdit.width || '100%' }"
+        v-on="cEvent(configEdit)"
+      />
+    </template>
     <component
-      v-if="!configEdit.editSlotName"
+      v-if="!configEdit.editSlotName && !configEdit.isSelfCom"
       :is="configEdit.editComponent||'el-input'"
       v-model="record.row[prop]"
       :type="configEdit.type"
@@ -95,15 +123,25 @@ export default {
   },
   computed: {
     cEvent() {
-      return ({ eventHandle }) => {
+      return ({ eventHandle }, type = '') => {
         let event = { ...eventHandle }
         let changeEvent = {}
         Object.keys(event).forEach(v => {
-          changeEvent[v] = (e) => {
-            if (e) {
-              event[v] && event[v](e, this.record, arguments)
+          changeEvent[v] = (e, ids) => {
+            if (type === 't-select-table') {
+              const argument = {
+                row: e,
+                ids: ids,
+                prop: this.prop,
+                scope: this.record
+              }
+              event[v] && event[v](argument)
             } else {
-              event[v] && event[v](this.record, arguments)
+              if (e) {
+                event[v] && event[v](e, this.record, arguments)
+              } else {
+                event[v] && event[v](this.record, arguments)
+              }
             }
           }
         })
@@ -182,6 +220,18 @@ export default {
         placeholder = row.label
       }
       return placeholder
+    },
+    // 重置t-select-table
+    resetTselectTableFields() {
+      // 获取所有的t-select-table ref
+      const refList = Object.keys(this.$refs).filter((item) =>
+        item.includes('tselecttableRef')
+      )
+      if (refList.length > 0) {
+        refList.forEach((item) => {
+          this.$refs[item].clear()
+        })
+      }
     }
   }
 }

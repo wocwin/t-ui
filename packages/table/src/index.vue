@@ -280,6 +280,9 @@
                       :configEdit="item.configEdit"
                       v-model="scope.row[scope.column.property]"
                       :prop="item.prop"
+                      :ref="`singleEditRef-${scope.$index}-${
+                      item.prop || scope.column.property
+                    }`"
                       :record="scope"
                       @handleEvent="
                         (event, model) =>
@@ -288,7 +291,6 @@
                       @Keyup="handleKeyup"
                       v-on="$listeners"
                       v-bind="$attrs"
-                      ref="editSingleCell"
                     >
                       <template v-for="(index, name) in $slots" v-slot:[name]>
                         <slot :name="name" />
@@ -732,15 +734,20 @@ export default {
     if (this.defaultRadioCol) {
       this.defaultRadioSelect(this.defaultRadioCol)
     }
+    // 假数据时，不显示首列序号/单选/复现框
+    this.tableData.map((item, index) => {
+      if (!item[this.isShowFirstColumn]) {
+        this.isShowFirstColumnIndex.push(index)
+      }
+    })
     this.extendMethod()
     this.initSort()
     // 修复table抖动
     this.$on('hook:updated', this.doLayout)
   },
   methods: {
-    // 行的 className 的回调方法
+    // 行的 className 的回调方法--不显示首列序号/单选/复现框
     rowClassNameFuc({ row, rowIndex }) {
-      // console.log(row, rowIndex, [...new Set(this.isShowFirstColumnIndex)].includes(rowIndex))
       if (this.isShowFirstColumn && [...new Set(this.isShowFirstColumnIndex)].includes(rowIndex)) {
         return 'is_show_first_column'
       } else {
@@ -1240,11 +1247,24 @@ export default {
       const refList = Object.keys(this.$refs).filter((item) =>
         item.includes('formRef')
       )
-      refList.map((val) => {
-        this.$refs[val].map((item) => {
-          item.resetFields()
+      // 重置表单
+      refList.length > 0 &&
+        refList.map((val) => {
+          this.$refs[val].map((item) => {
+            item.resetFields()
+          })
         })
-      })
+      // 重置下拉表格
+      const refEditList = Object.keys(this.$refs).filter((item) =>
+        item.includes('singleEditRef')
+      )
+      if (refEditList.length > 0) {
+        refEditList.map((val) => {
+          this.$refs[val].map((item) => {
+            item.resetTselectTableFields()
+          })
+        })
+      }
     },
     // 头部标题是否需要加头部必填*符号
     renderHeader(h, { column }) {

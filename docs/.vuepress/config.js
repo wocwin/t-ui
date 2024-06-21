@@ -176,6 +176,7 @@ module.exports = {
             'TTable/renderHeader', // 自定义列标题 label
             'TTable/treeTable',
             'TTable/rules', // 单元格编辑--校验
+            'TTable/rulesSelectTable', // 单元格编辑--TSelectTable使用校验
             'TTable/editSingle', // 单元格编辑
             'TTable/singleEditKeyup', // 单元格编辑键盘事件
             'TTable/singleEditSlot', // 单元格编辑-插槽-键盘事件

@@ -73,6 +73,7 @@ export default {
         likeCargoNo: null,
         likeBookNo: null,
         likeTransportNo: null,
+        workshopNum: null,
         likeCargoName: null
       }
     }
@@ -87,6 +88,38 @@ export default {
             optionSource: ADDRESS_TYPES,
           },
           span: 2
+        },
+        workshopNum: {
+          label: '车间',
+          comp: 'el-select',
+          changeEvent: 'change',
+          span: 2,
+          child: [
+            {
+              comp: 'el-option',
+              value: 'W1',
+              bind: {
+                label: '前纺一车间',
+                key: 'W1'
+              }
+            },
+            {
+              comp: 'el-option',
+              value: 'W2',
+              bind: {
+                label: '前纺二车间',
+                key: 'W2'
+              }
+            },
+            {
+              comp: 'el-option',
+              value: 'W3',
+              bind: {
+                label: '前纺三车间',
+                key: 'W3'
+              }
+            }
+          ]
         },
         likeBookNo: {
           labelRender: () => {

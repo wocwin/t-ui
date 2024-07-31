@@ -8,7 +8,7 @@
         :max-height="540"
         :keywords="{ label: 'name', value: 'id' }"
         style="width: 50%;"
-        @radioChange="radioChange"
+        @radioChange="(...args)=>radioChange(args,'单选')"
       />
       <el-button style="margin-left: 15px" type="primary" @click="clear">清空选中</el-button>
     </t-layout-page-item>
@@ -48,8 +48,8 @@ export default {
       }
     },
     // 单选
-    radioChange(row) {
-      console.log("传给后台的值", row);
+    radioChange(args, type) {
+      console.log("传给后台的值", args, type);
     },
     clear() {
       this.$refs.selectTable.clear();

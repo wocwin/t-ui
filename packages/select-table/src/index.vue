@@ -330,7 +330,7 @@ export default {
     }
     // 获取查询条件组件的项
     this.$refs['t-query-condition'] && Object.values(this.$refs['t-query-condition'].opts).map(val => {
-      if (val.comp.includes('select')) {
+      if (val.comp.includes('select') || val.comp.includes('date')) {
         val.event = {
           'visible-change': (val) => this.selectVisibleChange(val)
         }

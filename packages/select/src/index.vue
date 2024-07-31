@@ -18,7 +18,7 @@
       v-model="selectChecked"
       @change="selectAll"
       class="all_checkbox"
-    >全选</el-checkbox>
+    >{{selectAllText}}</el-checkbox>
     <el-option
       v-for="(item,index) in optionSource"
       :key="index+'i'"
@@ -56,6 +56,11 @@ export default {
     multiple: {
       type: Boolean,
       default: false
+    },
+    // 全选文字
+    selectAllText: {
+      type: String,
+      default: '全选'
     },
     // 选择框宽度
     width: {

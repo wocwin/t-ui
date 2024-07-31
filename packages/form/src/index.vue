@@ -53,21 +53,6 @@
             v-on="cEvent(item)"
           />
         </template>
-        <!-- <child-component
-          v-if="!item.slotName&&!item.textShow&&!item.isSelfCom"
-          v-bind="item"
-          :item="item"
-          :form="formOpts"
-          :value="formOpts.formData[item.value]"
-          @handleEvent="handleEvent"
-        >
-          <template v-for="(index, name) in $slots" v-slot:[name]>
-            <slot :name="name" />
-          </template>
-          <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
-            <slot :name="name" v-bind="data"></slot>
-          </template>
-        </child-component>-->
         <component
           v-if="!item.slotName&&!item.textShow&&!item.isSelfCom"
           :is="item.comp"
@@ -119,12 +104,10 @@
 </template>
 <script>
 import RenderComp from './renderComp'
-// import ChildComponent from './ChildComponent'
 export default {
   name: 'TForm',
   components: {
     RenderComp
-    // ChildComponent
   },
   props: {
     // 自定义类名

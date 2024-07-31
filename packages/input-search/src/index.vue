@@ -22,7 +22,7 @@
         :loading="btnLoading"
         class="load-more"
         @click="getMore"
-      >加载更多({{ data.total }})</el-button>
+      >{{moreTxt}}({{ data.total }})</el-button>
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@
 <script>
 export default {
   name: 'TInputSearch',
-  data () {
+  data() {
     return {
       isShow: false,
       isFocus: false,
@@ -48,43 +48,47 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    moreTxt: {
+      type: String,
+      default: '加载更多'
     }
   },
-  mounted () {
+  mounted() {
     window.addEventListener('click', this.onClickOutsideHandler)
   },
   // 方法
   methods: {
-    inputFocus () {
+    inputFocus() {
       this.isShow = true
       this.isFocus = true
       this.loading = true
       this.$emit('inputChange', this.value)
     },
-    inputChange (val) {
+    inputChange(val) {
       this.loading = true
       this.$emit('inputChange', val)
     },
-    inputBlur () {
+    inputBlur() {
       this.isFocus = false
     },
-    onClickOutsideHandler (event) {
+    onClickOutsideHandler(event) {
       const e = document.getElementById(this.id)
       if (this.isShow && !e.contains(event.target) && !this.isFocus) {
         this.isShow = false
       }
     },
-    clickItem (item) {
+    clickItem(item) {
       this.isShow = false
       this.value = item.name
       this.$emit('clickItem', item)
     },
-    getMore () {
+    getMore() {
       this.btnLoading = true
       this.$emit('inputChange', this.value, 'more')
     }
   },
-  destroyed () {
+  destroyed() {
     window.removeEventListener('click', this.onClickOutsideHandler)
   }
 }

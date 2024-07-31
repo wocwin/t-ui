@@ -13,9 +13,9 @@
   >
     <el-option v-model="selectTree" class="option-style" disabled>
       <div class="check-box" v-if="multiple&&checkBoxBtn">
-        <el-button type="text" @click="handlecheckAll">全选</el-button>
-        <el-button type="text" @click="handleReset">清空</el-button>
-        <el-button type="text" @click="handleReverseCheck">反选</el-button>
+        <el-button type="text" @click="handlecheckAll">{{checkAllText}}</el-button>
+        <el-button type="text" @click="handleReset">{{resetText}}</el-button>
+        <el-button type="text" @click="handleReverseCheck">{{reverseCheckText}}</el-button>
       </div>
       <el-tree
         :data="options"
@@ -48,6 +48,21 @@ export default {
     // 单选默认展示数据必须是{id:***,label:***}格式
     defaultData: {
       type: Object
+    },
+    // 全选文字
+    checkAllText: {
+      type: String,
+      default: '全选'
+    },
+    // 清空文字
+    resetText: {
+      type: String,
+      default: '清空'
+    },
+    // 反选文字
+    reverseCheckText: {
+      type: String,
+      default: '反选'
     },
     // 可用选项的数组
     options: {

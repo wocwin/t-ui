@@ -59,7 +59,7 @@
     <footer class="handle_wrap" v-if="footer!==null">
       <slot name="footer" />
       <div v-if="!$slots.footer">
-        <el-button @click="back">取消</el-button>
+        <el-button @click="back">{{cancelTxt}}</el-button>
         <el-button
           type="primary"
           v-if="handleType==='edit'"
@@ -98,6 +98,10 @@ export default {
     isGoBackEvent: {
       type: Boolean,
       default: false
+    },
+    cancelTxt: {
+      type: String,
+      default: '取消'
     },
     // 操作按钮文字
     btnTxt: {

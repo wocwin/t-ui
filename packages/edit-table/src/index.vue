@@ -4,7 +4,7 @@
       <div class="header_btn">
         <slot name="btn" />
         <div v-if="!$slots.btn">
-          <el-button type="primary" @click="() => $emit('add')">新增</el-button>
+          <el-button type="primary" @click="() => $emit('add')">{{addTxt}}</el-button>
         </div>
       </div>
     </div>
@@ -89,7 +89,7 @@
     <footer class="handle_wrap" v-if="footer!==null">
       <slot name="footer" />
       <div v-if="!$slots.footer">
-        <el-button type="primary" @click="()=>$emit('save',tableData)">保存</el-button>
+        <el-button type="primary" @click="()=>$emit('save',tableData)">{{saveTxt}}</el-button>
       </div>
     </footer>
   </div>
@@ -110,6 +110,14 @@ export default {
         return {}
       },
       required: true
+    },
+    saveTxt: {
+      type: String,
+      default: '保存'
+    },
+    addTxt: {
+      type: String,
+      default: '新增'
     },
     // 是否显示底部操作按钮 :footer="null"
     footer: Object

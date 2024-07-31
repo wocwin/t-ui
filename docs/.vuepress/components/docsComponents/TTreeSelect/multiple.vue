@@ -1,5 +1,5 @@
 <template>
-  <t-layout-page>
+  <div>
     <t-layout-page-item>
       <t-tree-select
         :options="treeList"
@@ -11,7 +11,7 @@
         multiple
       />
     </t-layout-page-item>
-  </t-layout-page>
+  </div>
 </template>
 <script>
 export default {

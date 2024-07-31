@@ -43,27 +43,37 @@
       style="grid-area: submit_btn"
       :class="['btn', { flex_end: cellLength % colLength === 0 }]"
     >
-      <el-button
-        class="btn_check"
-        @click="checkHandle"
-        :loading="loading"
-        v-bind="queryAttrs"
-      >{{ queryAttrs.btnTitle }}</el-button>
-      <el-button
-        v-if="reset"
-        class="btn_reset"
-        v-bind="resetAttrs"
-        @click="resetHandle"
-      >{{ resetAttrs.btnTitle }}</el-button>
-      <slot name="querybar"></slot>
-      <el-button
-        v-if="originCellLength > (maxVisibleRows*colLength) && isShowOpen"
-        type="text"
-        @click="openCilck"
-      >
-        {{ controlText }}
-        <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
-      </el-button>
+      <template v-if="isFooter">
+        <slot name="footerBtn" />
+        <template v-if="!$slots.footerBtn">
+          <el-button
+            class="btn_check"
+            @click="checkHandle"
+            :loading="loading"
+            v-bind="queryAttrs"
+          >{{ queryAttrs.btnTitle }}</el-button>
+          <el-button
+            v-if="reset"
+            class="btn_reset"
+            v-bind="resetAttrs"
+            @click="resetHandle"
+          >{{ resetAttrs.btnTitle }}</el-button>
+          <slot name="querybar"></slot>
+          <el-button
+            v-if="originCellLength > (maxVisibleRows*colLength) && showOpen"
+            type="text"
+            @click="openCilck"
+          >
+            {{ controlText }}
+            <i :class="open ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+          </el-button>
+          <more-choose
+            :isDropDownSelectMore="isDropDownSelectMore"
+            v-bind="$attrs"
+            @getCheckList="(event) =>$emit('getCheckList', event)"
+          />
+        </template>
+      </template>
     </el-form-item>
   </el-form>
 </template>
@@ -71,11 +81,14 @@
 <script>
 import OptComponent from './OptComponent'
 import RenderComp from './renderComp.vue'
+import MoreChoose from './moreChoose'
+
 export default {
   name: 'TQueryCondition',
   components: {
     OptComponent,
-    RenderComp
+    RenderComp,
+    MoreChoose
   },
   props: {
     // 配置项
@@ -145,10 +158,21 @@ export default {
     maxVisibleRows: {
       type: Number,
       default: 1
+    },
+    // 是否以下拉方式展示更多条件
+    isDropDownSelectMore: {
+      type: Boolean,
+      default: false
+    },
+    // 是否显示底部操作按钮
+    isFooter: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
+      showOpen: this.isShowOpen,
       open: !!this.isExpansion,
       colLength: null,
       form: Object.keys(this.opts).reduce((acc, field) => {
@@ -169,6 +193,11 @@ export default {
     }
   },
   computed: {
+    // 以下拉方式展示更多条件--属性
+    popoverAttrsBind() {
+      const popoverAttrs = { showTxt: '更多', title: '所有条件', allTxt: '全选', reverseTxt: '反选', clearTxt: '清空', ...this.popoverAttrs }
+      return { placement: 'bottom', width: 220, trigger: 'click', ...popoverAttrs }
+    },
     // 是否展开
     controlText() {
       return this.open ? this.isPackupTxt : this.isExpansionTxt
@@ -182,14 +211,14 @@ export default {
       return { size: 'small', btnTitle: '重置', ...this.btnResetBind }
     },
     cOpts() {
-      const { open, opts, colLength, maxVisibleRows, isShowOpen } = this
+      const { open, opts, colLength, maxVisibleRows, showOpen } = this
       let renderSpan = 0
       return Object.keys(opts).reduce((acc, field) => {
         let opt = {
           ...opts[field]
         }
         // 收起、展开操作
-        if (isShowOpen) {
+        if (showOpen) {
           renderSpan += opt.span ?? 1
           // if (!open && renderSpan - 1 >= colLength) return acc
           if (!open && renderSpan - 1 >= (maxVisibleRows * colLength)) return acc
@@ -233,72 +262,6 @@ export default {
         return acc
       }, '')
     },
-    // gridAreas() {
-    //   // grid布局按钮位置
-    //   let template = "'. . . .'"
-    //   switch (this.colLength) {
-    //     case 8:
-    //       template = "'. . . . . . . .'"
-    //       break
-    //     case 7:
-    //       template = "'. . . . . . .'"
-    //       break
-    //     case 6:
-    //       template = "'. . . . . .'"
-    //       break
-    //     case 5:
-    //       template = "'. . . . .'"
-    //       break
-    //     case 3:
-    //       template = "'. . .'"
-    //       break
-    //     case 2:
-    //       template = "'. .'"
-    //       break
-    //   }
-    //   let areas = [template]
-    //   Object.keys(this.opts).forEach(key => {
-    //     // 根据控件描述注定占用多少列及顺序
-    //     let span = 1
-    //     if (this.opts[key].span > 1 || this.opts[key].span <= 4) {
-    //       // 最多占用4列
-    //       span = this.opts[key].span
-    //     }
-    //     // 计算剩余多少未占用的位置
-    //     let count = 0
-    //     let scrstr = areas[areas.length - 1]
-    //     while (scrstr.indexOf('.') !== -1) {
-    //       scrstr = scrstr.replace(/\./, '')
-    //       count++
-    //     }
-    //     // 若剩余位置不足以放下下一个控件
-    //     if (count < span) {
-    //       areas.push(template)
-    //     }
-    //     let i = 0
-    //     while (i < span) {
-    //       areas[areas.length - 1] = areas[areas.length - 1].replace(/\./, key)
-    //       i++
-    //     }
-    //   })
-    //   // 若控件正好占满一行时，补充多一列放置btn
-    //   if (areas[areas.length - 1].indexOf('.') === -1) {
-    //     areas.push(template)
-    //   }
-    //   if (this.cellLength % this.colLength === 0) {
-    //     // 正好占满一行
-    //     areas[areas.length - 1] = areas[areas.length - 1].replace(
-    //       /\.'$/,
-    //       "submit_btn'"
-    //     )
-    //   } else {
-    //     areas[areas.length - 1] = areas[areas.length - 1].replace(
-    //       /\./g,
-    //       'submit_btn'
-    //     )
-    //   }
-    //   return (areas + '').replace(/,/g, '')
-    // },
     // 占用单元格长度
     span() {
       let span = 1
@@ -330,6 +293,7 @@ export default {
     }
   },
   methods: {
+
     openCilck() {
       this.open = !this.open
       this.$emit('openCilck')
@@ -338,10 +302,12 @@ export default {
       // 行列数
       const width = window.innerWidth
       let colLength = 4
-      if (width > 768 && width < 1280) {
+      if (width > 1000 && width < 1280) {
         colLength = 3
-      } else if (width <= 768) {
+      } else if (width > 768 && width <= 1000) {
         colLength = 2
+      } else if (width <= 768) {
+        colLength = 1
       }
       return colLength
     },
@@ -417,6 +383,9 @@ export default {
           }
         }
       }
+    },
+    isShow(name) {
+      return Object.keys(this.$slots).includes(name)
     }
   },
   activated() {
@@ -429,6 +398,15 @@ export default {
       this.colLength = this.getColLength()
     }
     this.keyEvent()
+    // 使用自定义按钮插槽默认展开所有查询条件
+    if (this.isShow('footerBtn') || !this.isFooter) {
+      this.open = true
+    }
+    // 以下拉方式展示更多条件禁用展开&收起功能
+    if (this.isDropDownSelectMore) {
+      this.open = true
+      this.showOpen = false
+    }
   }
 }
 </script>
@@ -461,6 +439,17 @@ export default {
 
   .btn {
     text-align: end;
+    .more_dropdown_icon {
+      margin-left: 8px;
+      cursor: pointer;
+      .out_box {
+        color: #409eff;
+        font-size: 12px;
+      }
+      .el-icon-arrow-down {
+        color: #409eff;
+      }
+    }
   }
 
   .render_label {
@@ -488,10 +477,6 @@ export default {
 
     .el-form-item__content {
       flex-grow: 1;
-      // overflow: hidden;
-      // display: flex;
-      // align-items: center;
-      // justify-content: flex-end;
       margin-left: 0 !important;
     }
   }

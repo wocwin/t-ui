@@ -94,6 +94,10 @@ module.exports = {
             'TQueryCondition/TDatePickerUse', // 结合TDatePicker使用
             'TQueryCondition/widthSize', // 一行展示多少项
             'TQueryCondition/maxVisibleSpans', // 收起时默认显示几行
+            'TQueryCondition/footerBtn', // 自定义按钮
+            'TQueryCondition/footer', // 不显示按钮
+            'TQueryCondition/btnCheckBind', // 自定义按钮文案
+            'TQueryCondition/isDropDownSelectMore', // 下拉选择动态条件
             'TQueryCondition/help', // 使用帮助(Attributes)
           ]
         },

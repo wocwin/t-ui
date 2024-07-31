@@ -8,11 +8,9 @@ import TForm from './form'
 import TIcon from './icon'
 import TInput from './input'
 import TInputSearch from './input-search'
-import TLayout from './layout'
 import TPhone from './phone'
 import TProtocol from './protocol'
 import TQueryCondition from './query-condition'
-import TSearch from './search'
 import TStepWizard from './step-wizard'
 import TSticky from './sticky'
 import TTable from './table'
@@ -20,7 +18,6 @@ import TTimerBtn from './timer-btn'
 // import TUploadExcel from './upload-excel'
 // import TUploadFile from './upload-file'
 import TModuleForm from './module-form'
-import TBtnDate from './btn-date'
 import TSelect from './select'
 import TPaginationSelect from './pagination-select'
 import TDetail from './detail'
@@ -29,7 +26,6 @@ import TTreeSelect from './tree-select'
 import TButton from './button'
 import TAdaptivePage from './adaptive-page'
 import TCascader from './cascader'
-// import TTheme from './theme'
 import { version } from '../package.json'
 // 存储组件列表
 const components = [
@@ -42,11 +38,9 @@ const components = [
   TIcon,
   TInput,
   TInputSearch,
-  TLayout,
   TPhone,
   TProtocol,
   TQueryCondition,
-  TSearch,
   TStepWizard,
   TSticky,
   TTable,
@@ -55,7 +49,6 @@ const components = [
   // TUploadFile,
   TModuleForm,
   TEditTable,
-  TBtnDate,
   TSelect,
   TPaginationSelect,
   TDetail,
@@ -64,7 +57,6 @@ const components = [
   TTreeSelect,
   TAdaptivePage,
   TCascader
-  // TTheme
 ]
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
@@ -91,11 +83,9 @@ export {
   TIcon,
   TInput,
   TInputSearch,
-  TLayout,
   TPhone,
   TProtocol,
   TQueryCondition,
-  TSearch,
   TStepWizard,
   TSticky,
   TTable,
@@ -104,7 +94,6 @@ export {
   // TUploadFile,
   TModuleForm,
   TEditTable,
-  TBtnDate,
   TSelect,
   TPaginationSelect,
   TDetail,
@@ -113,7 +102,6 @@ export {
   TTreeSelect,
   TAdaptivePage,
   TCascader
-  // TTheme
 }
 export default {
   version,

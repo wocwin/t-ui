@@ -43,12 +43,9 @@ module.exports = {
           title: '常用组件',
           collapsable: false,
           children: [
-            // 'TTheme/base', // 主题设置
             'TInput/base', // input组件
             'TButton/base', // button组件
             'TTimerBtn/base', // 获取验证码倒计时组件
-            'TSearch/base', // 下拉搜索查询组件
-            'TLayout/base', // 布局组件
             'TLayoutPage/base', // 局部布局组件
             'TStepWizard/base', // 步驟组件
             'TDatePicker/base', // 日期组件

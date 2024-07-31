@@ -1,7 +1,14 @@
 <template>
-  <t-layout-page>
+  <t-layout-page class="row_class_name">
     <t-layout-page-item>
-      <t-table onlyIconSort title="此排序仅可点击图标才生效" :table="table" :columns="columns" size="mini" />
+      <t-table
+        onlyIconSort
+        title="此排序仅可点击图标才生效"
+        :table="table"
+        :columns="columns"
+        size="mini"
+        :rowClassName="rowClassName"
+      />
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -104,6 +111,23 @@ export default {
     handledeleteTable(val) {
       console.log("删除", val);
     },
+    rowClassName({ row, rowIndex }) {
+      if (rowIndex % 2 === 0) {
+        return "warning-row"
+      } else {
+        return "success-row"
+      }
+    },
   },
 };
 </script>
+<style lang="scss">
+.row_class_name {
+  .el-table .warning-row {
+    color: #b88230;
+  }
+  .el-table .success-row {
+    color: #67c23a;
+  }
+}
+</style>

@@ -42,7 +42,7 @@
               >{{ item.text }}</li>
             </ul>
             <el-button size="small" type="primary" icon="el-icon-setting" slot="reference">
-              操作
+              {{toolbarTxt}}
               <i class="el-icon-arrow-down"></i>
             </el-button>
           </el-popover>
@@ -477,7 +477,7 @@
     <footer class="handle_wrap" v-if="isShowFooterBtn && tableData && tableData.length > 0">
       <slot name="footer" />
       <div v-if="!$slots.footer">
-        <el-button type="primary" @click="save">保存</el-button>
+        <el-button type="primary" @click="save">{{saveTxt}}</el-button>
       </div>
     </footer>
   </div>
@@ -532,6 +532,14 @@ export default {
         return []
       }
       // required: true
+    },
+    toolbarTxt: {
+      type: String,
+      default: '操作'
+    },
+    saveTxt: {
+      type: String,
+      default: '保存'
     },
     // 是否开启tree树形结构样式
     isShowTreeStyle: Boolean,
@@ -639,13 +647,14 @@ export default {
         } else {
           this.tableData = val
         }
+        this.isShowFirstColumnIndex = []
         // 获取需要禁用
         this.tableData.map((item, index) => {
-          // console.log('this.isShowFirstColumn---', this.isShowFirstColumn, item[this.isShowFirstColumn])
           if (!item[this.isShowFirstColumn]) {
             this.isShowFirstColumnIndex.push(index)
           }
         })
+        // console.log('table.data--this.isShowFirstColumn---watch', this.tableData, this.isShowFirstColumnIndex)
       },
       deep: true // 深度监听
     },
@@ -748,6 +757,7 @@ export default {
   methods: {
     // 行的 className 的回调方法--不显示首列序号/单选/复现框
     rowClassNameFuc({ row, rowIndex }) {
+      // console.log('9999', [...new Set(this.isShowFirstColumnIndex)])
       if (this.isShowFirstColumn && [...new Set(this.isShowFirstColumnIndex)].includes(rowIndex)) {
         return 'is_show_first_column'
       } else {
@@ -1145,9 +1155,9 @@ export default {
       }, 300)
     },
     // 单行编辑&整行编辑返回数据---方法
-    saveMethod(callback) {
+    async saveMethod(callback) {
       if (!this.isEditRules) {
-        callback && callback(this.tableData)
+        callback && await callback(this.tableData)
         return
       }
       // 表单规则校验
@@ -1202,34 +1212,34 @@ export default {
           })
         })
       })
-      setTimeout(() => {
-        console.log('successLength--方法', successLength, rulesList.length)
-        // 所有表单都校验成功
-        if (successLength === rulesList.length) {
-          if (this.isEditRules) {
-            callback && callback(this.tableData)
-          }
-        } else {
-          // 校验未通过的prop
-          rulesError.map((item) => {
-            newArr.map((val) => {
-              if (item.includes(val)) {
-                propError.push(val)
-              }
-            })
-          })
-          // 去重获取校验未通过的prop--label
-          Array.from(new Set(propError)).map((item) => {
-            this.renderColumns.map((val) => {
-              if (item === val.prop) {
-                propLabelError.push(val.label)
-              }
-            })
-          })
-          console.log('校验未通过的prop--label', propLabelError)
-          this.$emit('validateError', propLabelError)
+      // setTimeout(() => {
+      console.log('successLength--方法', successLength, rulesList.length)
+      // 所有表单都校验成功
+      if (successLength === rulesList.length) {
+        if (this.isEditRules) {
+          callback && await callback(this.tableData)
         }
-      }, 300)
+      } else {
+        // 校验未通过的prop
+        rulesError.map((item) => {
+          newArr.map((val) => {
+            if (item.includes(val)) {
+              propError.push(val)
+            }
+          })
+        })
+        // 去重获取校验未通过的prop--label
+        Array.from(new Set(propError)).map((item) => {
+          this.renderColumns.map((val) => {
+            if (item === val.prop) {
+              propLabelError.push(val.label)
+            }
+          })
+        })
+        console.log('校验未通过的prop--label', propLabelError)
+        this.$emit('validateError', propLabelError)
+      }
+      // }, 300)
     },
     // 清空校验规则
     clearValidate() {

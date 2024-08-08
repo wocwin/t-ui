@@ -176,7 +176,7 @@ export default {
       open: !!this.isExpansion,
       colLength: null,
       form: Object.keys(this.opts).reduce((acc, field) => {
-        acc[field] = this.opts[field].defaultVal || null
+        acc[field] = this.opts[field].defaultVal ?? null
         return acc
       }, {})
     }

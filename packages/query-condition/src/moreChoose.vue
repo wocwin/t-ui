@@ -140,11 +140,12 @@ export default {
         obj[item.prop] = {
           label: item.label,
           comp: item.comp,
-          bind: item.bind,
-          child: item && item.child,
-          slotName: item && item.slotName,
-          span: item && item.span,
-          defaultVal: item && item.defaultVal
+          event: item?.event,
+          bind: item?.bind,
+          child: item?.child,
+          slotName: item?.slotName,
+          span: item?.span,
+          defaultVal: item?.defaultVal
         }
         if (item.comp === 'el-select') {
           obj[item.prop].child = item.list.reduce((acc, cur) => {

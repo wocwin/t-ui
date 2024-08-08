@@ -147,8 +147,7 @@ export default {
     // 一行显示几个查询条件(默认4,最小值2)
     widthSize: {
       type: Number,
-      default: 4,
-      validator: val => val >= 2
+      default: 4
     },
     configChangedReset: {
       type: Boolean,
@@ -237,10 +236,11 @@ export default {
       for (let fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
         const field = fields[fieldIndex]
         const opt = cOpts[field]
-        const span = Math.min(opt.span ?? 1, 4) // 最大4
+        const span = Math.min(opt.span ?? 1, Math.min(this.colLength, 4)) // 最大4
         if (rowSpan + span > colLength) {
-          if (rowSpan < colLength) {
+          while (rowSpan < colLength) {
             areas[rowIndex].push('.')
+            rowSpan += 1
           }
           rowSpan = 0
           areas[++rowIndex] = []

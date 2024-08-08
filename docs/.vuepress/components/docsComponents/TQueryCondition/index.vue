@@ -100,6 +100,7 @@ export default {
         },
         workshopNum: {
           label: '车间',
+          span: 4,
           comp: 'el-select',
           changeEvent: 'change',
           // defaultVal: 'W1',
@@ -135,6 +136,7 @@ export default {
         date1: {
           label: '日期',
           comp: 'el-date-picker',
+          span: 3,
           bind: {
             valueFormat: 'yyyy-MM-dd'
           }

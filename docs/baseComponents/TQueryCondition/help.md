@@ -34,18 +34,18 @@
 
 
 ### 2-1 以下拉方式展示更多条件--配置参数（Attributes）
-| 参数            | 说明                                                | 类型             | 默认值     |
-| :-------------- | :-------------------------------------------------- | :--------------- | :--------- |
-| popoverAttrs    | el-popover配置及中文文案                            | object           | 具体看源码 |
-| moreCheckList   | 数据源                                              | Array            | -          |
-| -----label      | 标题                                                | string           | -          |
-| -----comp       | 组件名称，可直接指定全局注册的组件                  | string,component | -          |
-| -----prop       | 接收字段（即后台接收字段）                          | string           | -          |
-| -----bind       | 组件配置参数（Attributes）                          | object           | -          |
-| -----slotName   | 自定义输入框插槽                                    | string           | -          |
-| -----span       | 控件占用的列宽，默认占用 1 列，最多 4 列 (独占一行) | number           | 1          |
-| -----defaultVal | 默认值                                              | string           | -          |
-| -----list       | el-select 组件options 数据                          | Array            | -          |
+| 参数            | 说明                                               | 类型             | 默认值     |
+| :-------------- | :------------------------------------------------- | :--------------- | :--------- |
+| popoverAttrs    | el-popover配置及中文文案                           | object           | 具体看源码 |
+| moreCheckList   | 数据源                                             | Array            | -          |
+| -----label      | 标题                                               | string           | -          |
+| -----comp       | 组件名称，可直接指定全局注册的组件                 | string,component | -          |
+| -----prop       | 接收字段（即后台接收字段）                         | string           | -          |
+| -----bind       | 组件配置参数（Attributes）                         | object           | -          |
+| -----slotName   | 自定义输入框插槽                                   | string           | -          |
+| -----span       | 控件占用的列宽，默认占用 1 列，最大值 4 (独占一行) | number           | 1          |
+| -----defaultVal | 默认值                                             | string           | -          |
+| -----list       | el-select 组件options 数据                         | Array            | -          |
 
 
 ### 3. opts 配置参数（opts Attributes）

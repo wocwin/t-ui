@@ -6,7 +6,7 @@
         v-model="selectVlaue"
         :optionSource="stepList"
         valueKey="label"
-        customLabel="`${item.label}（${item.id}）`"
+        customLabel="`${_item.label}（${_item.id}）`"
         @change="selectChange"
       ></t-select>
     </t-layout-page-item>

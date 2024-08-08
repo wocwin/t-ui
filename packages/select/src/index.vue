@@ -68,7 +68,8 @@ export default {
     },
     // 是否自定义设置下拉label
     customLabel: {
-      type: String
+      type: String,
+      default: ''
     },
     // 传入的option数组中，要作为最终选择项的键值key
     valueKey: {
@@ -148,9 +149,12 @@ export default {
       this.$emit('current-change', val)
     },
     // 自定义label显示
-    customLabelHandler(item) {
-      // eslint-disable-next-line no-eval
-      return eval(this.customLabel)
+    customLabelHandler(_item) {
+      let fun = new Function('_item', 'return ' + this.customLabel)
+      // let fun = function (_item) {
+      //   return this.customLabel
+      // }
+      return fun(_item)
     }
   }
 }

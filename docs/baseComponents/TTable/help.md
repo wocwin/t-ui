@@ -34,6 +34,8 @@
 | ---currentPage          | 是否需要显示切换页条数                                                                | Number                           | -                     |
 | columns                 | 表头信息                                                                              | Array                            | []                    |
 | ----sort                | 排序 （设置：sort:true）                                                              | Boolean                          | false                 |
+| ----allShow             | 是否开启列宽自动适应单元格显示内容                                                    | Boolean                          | false                 |
+| ----align               | 设置每列对齐方式,此优先级`高于`整体的对齐方式`                                        | string                           | 'center'              |
 | ----headerRequired      | 是否显示表头必填'\*'                                                                  | Boolean                          | false                 |
 | ----renderHeader        | 列标题 Label 区域渲染使用的可以用 jsx 方式                                            | Function                         | -                     |
 | ----allShow             | 自动根据内容撑满列宽(默认取自己设置的minWidth,设置allShow:true，自动根据内容撑满列宽) | Boolean                          | -                     |
@@ -57,6 +59,7 @@
 | ----configEdit          | 表格编辑配置（开启编辑功能有效）                                                      | Object                           | -                     |
 | ----------rules         | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）                      | Object                           | -                     |
 | ----------label         | placeholder 显示                                                                      | String                           | -                     |
+| ----------className     | 每一项的自定义class                                                                   | String                           | -                     |
 | ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                                  | String                           | input                 |
 | ----------bind          | 第三方 UI 的 Attributes及tooltip的Attributes                                          | Object                           | -                     |
 | ----------eventHandle   | 第三方 UI 的 事件（返回两个参数，第一个自己自带，第二个 scope）                       | Object                           | -                     |
@@ -107,6 +110,7 @@
 | rowClassName            | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。         | Function({row, rowIndex})/String | -                     |
 | isSlotToolbar           | TAdaptivePage组件是否使用了Toolbar插槽                                                | Boolean                          | -                     |
 | isSlotTitle             | TAdaptivePage组件是否使用了title插槽                                                  | Boolean                          | -                     |
+| align                   | 整体对齐方式 (选值`left`、`center`、`right`)                                          | String                           | 'center'              |
 
 ## Methods 方法（继承el-table的所有方法）
 

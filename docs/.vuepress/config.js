@@ -160,6 +160,8 @@ module.exports = {
             'TTable/pageCheck', // 基本复选--翻页选中
             'TTable/firstRadioOrIndex', // 显示单选框和序列号
             'TTable/firstSelectionOrIndex', //显示多选框和序列号
+            'TTable/allShow', //列宽自动适应单元格显示内容
+            'TTable/align', //对齐方式
             'TTable/expand', // 展开行
             'TTable/pagination', // 分页
             'TTable/virtual', // 虚拟列表

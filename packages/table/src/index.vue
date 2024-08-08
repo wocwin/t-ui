@@ -104,7 +104,7 @@
             width: table.firstColumn.width || 55,
             label: table.firstColumn.label,
             fixed: table.firstColumn.fixed,
-            align: table.firstColumn.align || 'center',
+            align: table.firstColumn.align || align,
             'reserve-selection': table.firstColumn.isPaging || false,
             selectable: table.firstColumn.selectable || selectable,
             ...table.firstColumn.bind,
@@ -124,7 +124,7 @@
               (table.firstColumn.type === 'expand' && '') ||
               '',
             fixed: table.firstColumn.fixed,
-            align: table.firstColumn.align || 'center',
+            align: table.firstColumn.align || align,
             ...table.firstColumn.bind,
             ...$attrs,
           }"
@@ -159,7 +159,7 @@
           width: item.width || 55,
           label: item.label,
           fixed: item.fixed,
-          align: item.align || 'center',
+          align: item.align || align,
           'reserve-selection': item.isPaging || false,
           selectable: item.selectable || selectable,
           ...item.bind,
@@ -180,7 +180,7 @@
               (item.type === 'expand' && '') ||
               '',
             fixed: item.fixed,
-            align: item.align || 'center',
+            align: item.align || align,
             ...item.bind,
             ...$attrs,
           }"
@@ -221,7 +221,7 @@
             :class-name="item.allShow&&!isEditCell?'flex_column_width':''"
             :width="item.allShow&&!isEditCell ? flexColumnWidth(item.prop,table.data,index,item['min-width'] || item.minWidth || item.width) : item.width"
             :sortable="item.sort || sortable"
-            :align="item.align || 'center'"
+            :align="item.align || align"
             :fixed="item.fixed"
             :show-overflow-tooltip="isShowOverflowTooltip(item)"
             v-bind="{ ...item.bind, ...$attrs }"
@@ -381,6 +381,7 @@
           :key="index + 'i'"
           :item="item"
           :table="table"
+          :align="align"
           :tableRef="$refs['el-table']"
         >
           <template v-for="(index, name) in $slots" v-slot:[name]>
@@ -400,7 +401,7 @@
         :min-width="table.operatorConfig && table.operatorConfig.minWidth"
         :width="table.operatorConfig && table.operatorConfig.width"
         :align="
-          (table.operatorConfig && table.operatorConfig.align) || 'center'
+          (table.operatorConfig && table.operatorConfig.align) || align
         "
         v-bind="{
           ...(table.operatorConfig && table.operatorConfig.bind),
@@ -540,6 +541,11 @@ export default {
     saveTxt: {
       type: String,
       default: '保存'
+    },
+    // table 全局对齐方式，可选项'left' | 'center' | 'right'
+    align: {
+      type: String,
+      default: 'center'
     },
     // 是否开启tree树形结构样式
     isShowTreeStyle: Boolean,

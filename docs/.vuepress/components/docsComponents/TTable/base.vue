@@ -6,6 +6,8 @@
         title="此排序仅可点击图标才生效"
         :table="table"
         :columns="columns"
+        :header-cell-style="{background: 'red',height: '50px'}"
+        :row-style="{ height: '52px'}"
         size="mini"
         :rowClassName="rowClassName"
       />

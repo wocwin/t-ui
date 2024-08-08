@@ -3,7 +3,7 @@
     :prop="item.prop"
     :label="item.label"
     :type="item.type"
-    :align="item.align || 'center'"
+    :align="item.align || align"
     :fixed="item.fixed"
     :min-width="item['min-width'] || item.minWidth || item.width"
   >
@@ -26,7 +26,7 @@
         :width="val.allShow ? flexColumnWidth(val.prop,table.data,index,val['min-width'] || val.minWidth || val.width) : val.width"
         :sortable="val.sort"
         :render-header="val.renderHeader||(val.headerRequired&&renderHeader)"
-        :align="val.align || 'center'"
+        :align="val.align || align"
         :fixed="val.fixed"
         :show-overflow-tooltip="val.noShowTip"
         v-bind="{...val.bind,...$attrs}"
@@ -98,6 +98,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    align: {
+      type: String,
+      default: 'center'
     }
   },
   methods: {

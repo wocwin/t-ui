@@ -170,7 +170,7 @@ module.exports = {
             'TTable/mergedCell', // 合并单元格
             'TTable/headerGroup', // 表头合并
             'TTable/slotNameMerge', // 表头合并插槽显示
-            // 'TTable/headerGroupEditTable', // 表头合并单元格编辑功能
+            'TTable/headerGroupEditTable', // 表头合并单元格编辑功能
             'TTable/renderCol', // render列渲染
             'TTable/renderFor', // 某列 render for循环渲染
             'TTable/slotName', // 插槽列渲染

@@ -30,13 +30,14 @@
       <component
         v-else
         :is="configEdit.editComponent"
-        v-model="childValue"
+        v-model="record.row[prop]"
         :placeholder="configEdit.placeholder || getPlaceholder(configEdit)"
         v-bind="
           typeof configEdit.bind == 'function'
             ? configEdit.bind(record)
             : { clearable: true, filterable: true, ...configEdit.bind }
         "
+        @change="()=>$emit('handleEvent',configEdit.event, record.row[prop],configEdit.editComponent)"
         :style="{ width: configEdit.width || '100%' }"
         v-on="cEvent(configEdit)"
       />

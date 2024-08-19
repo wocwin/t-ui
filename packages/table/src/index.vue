@@ -383,6 +383,8 @@
           :table="table"
           :align="align"
           :tableRef="$refs['el-table']"
+          v-bind="$attrs"
+          v-on="$listeners"
         >
           <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name" />

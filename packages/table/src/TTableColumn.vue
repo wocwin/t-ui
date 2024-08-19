@@ -5,10 +5,17 @@
     :type="item.type"
     :align="item.align || align"
     :fixed="item.fixed"
-    :min-width="item['min-width'] || item.minWidth || item.width"
+    :min-width="item['min-width'] || item.minWidth"
+    :width="item.width"
   >
     <template v-for="(val, index) of item.children">
-      <t-table-column v-if="val.children" :key="index" :item="val">
+      <t-table-column
+        v-if="val.children"
+        :key="index"
+        :item="val"
+        v-bind="$attrs"
+        v-on="$listeners"
+      >
         <template v-for="(index, name) in $slots" v-slot:[name]>
           <slot :name="name" />
         </template>
@@ -21,7 +28,7 @@
         :key="val.prop"
         :prop="val.prop"
         :label="val.label"
-        :min-width="val['min-width'] || val.minWidth || val.width"
+        :min-width="val['min-width'] || val.minWidth"
         :class-name="val.allShow?'flex_column_width':''"
         :width="val.allShow ? flexColumnWidth(val.prop,table.data,index,val['min-width'] || val.minWidth || val.width) : val.width"
         :sortable="val.sort"
@@ -45,14 +52,12 @@
           <template v-if="val.canEdit">
             <single-edit-cell
               :isShowRules="false"
-              :canEdit="val.canEdit"
               :configEdit="val.configEdit"
-              v-model="scope.row[scope.column.property]"
               :prop="val.prop"
               :record="scope"
               @handleEvent="(event,model) => $emit('handleEvent',event,model,scope.$index)"
               v-bind="$attrs"
-              ref="editCell"
+              v-on="$listeners"
             >
               <template v-for="(index, name) in $slots" v-slot:[name]>
                 <slot :name="name" />

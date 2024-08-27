@@ -54,7 +54,7 @@
           <el-table
             ref="el-table"
             :data="tableData"
-            :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup }"
+            :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup ,isShowSelectRadio:!radioVal}"
             border
             :row-key="getRowKey"
             :max-height="useVirtual?maxHeight||540:maxHeight"
@@ -71,6 +71,7 @@
               width="50"
               align="center"
               :reserve-selection="reserveSelection"
+              :selectable="selectable"
               fixed
             ></el-table-column>
             <el-table-column
@@ -85,43 +86,43 @@
                 <el-radio
                   v-model="radioVal"
                   :label="scope.$index + 1"
-                  @click.native.prevent="radioChangeHandle(scope.row, scope.$index + 1)"
+                  :disabled="scope.row.isRadioDisabled"
+                  @click.stop="radioChangeHandle(scope.row, scope.$index + 1)"
                 ></el-radio>
               </template>
             </el-table-column>
-            <template v-for="(item, index) in columns">
-              <el-table-column
-                :key="index + 'i'"
-                :type="item.type"
-                :label="item.label"
-                :prop="item.prop"
-                :min-width="item['min-width'] || item.minWidth || item.width"
-                :align="item.align || 'center'"
-                :fixed="item.fixed"
-                :show-overflow-tooltip="useVirtual?true:item.noShowTip?false:true"
-                v-bind="{ ...item.bind, ...$attrs }"
-                v-on="$listeners"
-              >
-                <template slot-scope="scope">
-                  <!-- render方式 -->
-                  <template v-if="item.render">
-                    <render-col
-                      :column="item"
-                      :row="scope.row"
-                      :render="item.render"
-                      :index="scope.$index"
-                    />
-                  </template>
-                  <!-- 作用域插槽 -->
-                  <template v-if="item.slotName">
-                    <slot :name="item.slotName" :scope="scope"></slot>
-                  </template>
-                  <div v-if="!item.render && !item.slotName">
-                    <span>{{ scope.row[item.prop] }}</span>
-                  </div>
+            <el-table-column
+              v-for="(item, index) in columns"
+              :key="index + 'j'"
+              :type="item.type"
+              :label="item.label"
+              :prop="item.prop"
+              :min-width="item['min-width'] || item.minWidth"
+              :width="item.width"
+              :align="item.align || 'center'"
+              :fixed="item.fixed"
+              v-bind="{ 'show-overflow-tooltip': true,...item.bind, ...$attrs }"
+              v-on="$listeners"
+            >
+              <template slot-scope="scope">
+                <!-- render方式 -->
+                <template v-if="item.render">
+                  <render-col
+                    :column="item"
+                    :row="scope.row"
+                    :render="item.render"
+                    :index="scope.$index"
+                  />
                 </template>
-              </el-table-column>
-            </template>
+                <!-- 作用域插槽 -->
+                <template v-if="item.slotName">
+                  <slot :name="item.slotName" :scope="scope"></slot>
+                </template>
+                <div v-if="!item.render && !item.slotName">
+                  <span>{{ scope.row[item.prop] }}</span>
+                </div>
+              </template>
+            </el-table-column>
             <slot></slot>
           </el-table>
           <slot name="footer"></slot>
@@ -266,7 +267,9 @@ export default {
     // Table最大高度
     maxHeight: {
       type: [String, Number]
-    }
+    },
+    // Function(row: any, index: number) 的返回值用来决定这一行的 CheckBox 是否可以勾选
+    selectable: Function
   },
   computed: {
     selectAttr() {
@@ -737,6 +740,7 @@ export default {
     // 点击单选框单元格触发事件
     radioChangeHandle(row, index) {
       console.log('不是单选框事件，而是rowClick事件')
+      if (row.isRadioDisabled) return
       this.isDefaultSelectVal = false
       // this.radioClick(row, index)
     },
@@ -776,23 +780,20 @@ export default {
     },
     // 单击行
     async rowClick(row) {
+      // console.log('this.isRadio--', this.isRadio)
+      if (row.isRadioDisabled) return
       if (!this.multiple) {
-        let rowIndex
-        // console.log('this.tableData--', this.tableData)
-        // eslint-disable-next-line no-unused-expressions
-        this.tableData.forEach((item, index) => {
-          if (item[this.keywords.value] === row[this.keywords.value]) {
-            // console.log('index', index)
-            rowIndex = index
+        const rowIndex = this.table?.data.findIndex(
+          item => item[this.keywords.value] === row[this.keywords.value]
+        )
+        if (rowIndex !== -1) {
+          this.isDefaultSelectVal = false
+          await this.radioClick(row, rowIndex + 1)
+          if (this.radioVal) {
+            this.isRadio = true
+          } else {
+            this.isRadio = false
           }
-        })
-        this.isDefaultSelectVal = false
-        await this.radioClick(row, rowIndex + 1)
-        // console.log('rowClick---', row, rowIndex)
-        if (this.radioVal) {
-          this.isRadio = true
-        } else {
-          this.isRadio = false
         }
       }
     },
@@ -846,12 +847,6 @@ export default {
 .t-select-table {
   // 单选样式
   .radioStyle {
-    ::v-deep .el-table__cell {
-      .cell {
-        // text-align: center;
-      }
-    }
-
     ::v-deep .el-radio {
       .el-radio__label {
         display: none;
@@ -894,7 +889,14 @@ export default {
       }
     }
   }
-
+  // 单选禁用不高亮
+  .isShowSelectRadio {
+    ::v-deep tbody {
+      .current-row td {
+        color: #606266;
+      }
+    }
+  }
   .t-table-select__table {
     ::v-deep tbody {
       .keyup-hover-row {

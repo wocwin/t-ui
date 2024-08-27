@@ -64,6 +64,8 @@ module.exports = {
           children: [
             'TSelectTable/radio',
             'TSelectTable/isKeyup',
+            'TSelectTable/isRadioDisabled',
+            'TSelectTable/selectable',
             'TSelectTable/radioDefaultSelectVal',
             'TSelectTable/radioPagination',
             'TSelectTable/isShowFirstColumn',

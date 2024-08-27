@@ -60,8 +60,8 @@
 | ----------rules         | 规则（可依据 elementUI el-form 配置————对应 columns 的 prop 值）                      | Object                           | -                     |
 | ----------label         | placeholder 显示                                                                      | String                           | -                     |
 | ----------className     | 每一项的自定义class                                                                   | String                           | -                     |
-| ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                                  | String                           | input                 |
-| ----------bind          | 第三方 UI 的 Attributes及tooltip的Attributes                                          | Object                           | -                     |
+| ----------editComponent | 组件名称可直接指定全局注册的组件，也可引入第三方组件                                  | String/component                 | input                 |
+| ----------bind          | 第三方 UI 的 Attributes,`function`时返回值`scope`                                     | Object/function                  | -                     |
 | ----------eventHandle   | 第三方 UI 的 事件（返回两个参数，第一个自己自带，第二个 scope）                       | Object                           | -                     |
 | ----------event         | 触发 handleEvent 事件的标志                                                           | String                           | -                     |
 | ----------type          | 下拉或者复选框显示（select-arr/select-obj/checkbox）                                  | String                           | -                     |
@@ -100,6 +100,7 @@
 | columnSetBind           | 列设置按钮配置（继承el-button所有属性）                                               | Object                           | -                     |
 | ----btnTxt              | 按钮显示文字                                                                          | String                           | '列设置'              |
 | ----title               | 点击按钮下拉显示title                                                                 | String                           | '列设置'              |
+| ----isShowTitle         | 点击按钮下拉是否显示title                                                             | Boolean                          | true                  |
 | ----size                | el-button的size                                                                       | String                           | 'small'               |
 | ----icon                | el-button的icon                                                                       | String                           | 'el-icon-s-operation' |
 | onlyIconSort            | 是否开启仅点击排序图标才排序                                                          | Boolean                          | false                 |
@@ -120,7 +121,7 @@
 | resetFields   | 对表单进行重置，并移除校验结果（单元格编辑时生效） | —                   |
 | clearValidate | 清空校验规则（单元格编辑时生效）                   | -                   |
 
-## events 其他事件按照 el-table 直接使用（如 sort-change 排序事件）
+## events 继承el-table/el-pagination 组件事件（如 sort-change 排序事件、size-change pageSize 改变时事件）
 
 | 事件名        | 说明                                       | 返回值                                        |
 | :------------ | :----------------------------------------- | :-------------------------------------------- |

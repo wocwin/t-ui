@@ -25,7 +25,7 @@ export default {
             id: '1',
             date: '2019-09-25',
             name: '张三',
-            status: '1',
+            status: 1,
             amount: 3000,
             address: '广东省广州市天河区'
           },
@@ -33,7 +33,7 @@ export default {
             id: '2',
             date: '2019-09-26',
             name: '张三1',
-            status: '2',
+            status: 2,
             amount: 2000,
             address: '广东省广州市天广东省广州市天河区2广东省广州市天河区2河区2'
           },
@@ -41,24 +41,24 @@ export default {
             id: '2',
             date: '2019-09-27',
             name: '张三2',
-            status: '3',
+            status: 1,
             amount: 4000,
             address: '广东省广州市天河区3'
           }
         ]
       },
       columns: [
-        { prop: 'name', label: '姓名', minWidth: '100', fixed: true, },
+        { prop: 'name', label: '姓名', minWidth: '100', },
         { prop: 'date', label: '日期', minWidth: '160', },
-        { prop: 'address', label: '地址', minWidth: '220', isShowHidden: true, },
+        { prop: 'address', label: '地址', minWidth: '220', },
         {
-          prop: 'status', label: '状态', minWidth: '100', isShowHidden: true,
+          prop: 'status', label: '状态', minWidth: '100',
           render: (text, record) => {
             return (
               <el-switch
-                active-value={'1'}
-                inactive-value={'2'}
-                v-model={record.enableStatus}
+                active-value={1}
+                inactive-value={2}
+                v-model={record.status}
                 onChange={() => this.handleStatusChange(record)}
               >
                 {text}

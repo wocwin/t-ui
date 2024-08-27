@@ -1,17 +1,19 @@
 <template>
   <el-dropdown trigger="click" placement="bottom">
     <el-button v-bind="columnBind">{{columnBind.btnTxt||'列设置'}}</el-button>
-    <el-dropdown-menu divided slot="dropdown">
-      <span class="title">{{columnBind.title||'列设置'}}</span>
-      <draggable class="t_table_column_setting_dropdown" v-model="columnSet">
-        <el-checkbox
-          v-for="(col, index) in columnSet"
-          :key="col.prop"
-          @click.native.stop
-          :checked="!col.hidden"
-          @change="checked => checkChanged(checked, index)"
-        >{{ col.label }}</el-checkbox>
-      </draggable>
+    <el-dropdown-menu slot="dropdown" class="column_set_dropdown">
+      <div class="title" v-if="columnBind.isShowTitle">{{columnBind.title||'列设置'}}</div>
+      <el-dropdown-item :divided="columnBind.isShowTitle">
+        <draggable class="t_table_column_setting_dropdown" v-model="columnSet">
+          <el-checkbox
+            v-for="(col, index) in columnSet"
+            :key="col.prop"
+            @click.native.stop
+            :checked="!col.hidden"
+            @change="checked => checkChanged(checked, index)"
+          >{{ col.label }}</el-checkbox>
+        </draggable>
+      </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -45,7 +47,7 @@ export default {
   computed: {
     columnBind() {
       const columnSetBind = { btnTxt: '列设置', title: '列设置', ...this.columnSetBind }
-      return { size: 'small', icon: 'el-icon-s-operation', ...this.$attrs, ...columnSetBind }
+      return { size: 'small', icon: 'el-icon-s-operation', isShowTitle: true, ...this.$attrs, ...columnSetBind }
     },
     localStorageKey() {
       // 配置数据缓存唯一标记
@@ -81,7 +83,9 @@ export default {
           }
         })
       })
-      value = JSON.stringify(columnOption)
+      if (columnOption.length !== valueArr.length) {
+        value = JSON.stringify(columnOption)
+      }
       // console.log('最终--', value ? JSON.parse(value) : this.initColumnSet())
       return value ? JSON.parse(value) : this.initColumnSet()
     },
@@ -124,14 +128,20 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.el-dropdown-menu {
-  padding: 15px;
+.column_set_dropdown {
+  padding: 0px;
   font-size: 14px;
   .title {
     font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px 0 10px;
   }
   ::v-deep .el-checkbox__input.is-checked + .el-checkbox__label {
     color: #262626;
+    cursor: move;
   }
   .t_table_column_setting_dropdown {
     display: flex;

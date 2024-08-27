@@ -83,7 +83,7 @@ export default {
 .t_layout_page {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 8px;
   width: 100%;
   height: 100%;
   overflow-y: auto;

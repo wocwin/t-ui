@@ -29,9 +29,9 @@ TForm 表单组件
 | ------isHideItem    | 动态显示隐藏某一项(function传出formData)                                                                | Boolean/Function | false       |
 | ------slotName      | 自定义表单某一项输入框                                                                                  | slot             | -           |
 | ------childSlotName | 自定义表单某一下拉选择项子组件插槽（el-option）                                                         | slot             | -           |
-| ------comp          | form 表单每一项组件是输入框还是下拉选择等（可使用第三方 UI 如 el-select/el-input 也可以使用自定义组件） | String           | -           |
-| ------formItemBind  | 表单每一项属性（继承el-form-item的 Attributes）                                                         | Object           | {}          |
-| ------bind          | 表单每一项属性（继承第三方 UI 的 Attributes，如 el-input 中的 clearable 清空功能）默认清空及下拉过滤    | Object/Function  | {}          |
+| ------comp          | form 表单每一项组件是输入框还是下拉选择等（可使用第三方 UI 如 el-select/el-input 也可以使用自定义组件） | String/component | -           |
+| ------formItemBind  | 表单每一项属性（继承el-form-item的 Attributes）                                                         | Object           | -           |
+| ------bind          | 继承第三方 UI 的 Attributes）默认清空及下拉过滤;`function`时返回值`formData`                            | Object/Function  | -           |
 | ------isTrim        | 是否不清除前后空格(comp 为 el-input 且 type 不等于'password')                                           | Boolean          | false       |
 | ------type          | form 表单每一项类型                                                                                     | String           | 是          |
 | ------widthSize     | form 表单某一项所占比例(如果占一整行则设置 1)                                                           | Number           | 2           |

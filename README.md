@@ -4,10 +4,9 @@
 
 > 基于 Element-plus 二次封装基础组件地址
 
-## [Vue2 基于ant-design-vue封装基础组件码云地址](https://gitee.com/wocwin/t-antd-ui)
-## [Vue2 基于ant-design-vue封装基础组件GitHub地址](https://github.com/wocwin/t-antd-ui)
+## [T-ui使用Demo项目](https://github.com/wocwin/wocwin-vue2)
 
-> 基于 ant-design-vue 二次封装基础组件地址
+>`wocwin-vue2`是常规基于Vue2、Vuex、webpack 开源的一套后台管理模板；此项目全面使用了`T-ui`二次封装基础组件库
 
 ## 介绍
 
@@ -33,6 +32,7 @@
 ## 拆分基于ant-design-vue封装的组件（1.1.2版本）
 
 >### [Vue2 基于ant-design-vue封装基础组件地址](https://github.com/wocwin/t-antd-ui)
+
 ## 动态效果图
 
 <img src="./public/Tui__demo.gif">
@@ -60,6 +60,26 @@ import { TTable, TLayoutPage, TLayoutPageItem, TForm, TQueryCondition } from '@w
 import Tui from '../packages'
 Vue.use(Tui)
 ```
+## 全部组件如下
+| 组件名称        | 说明                                                                                                                                                      |
+| :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TLayoutPage     | 布局页面                                                                                                                                                  |
+| TLayoutPageItem | 布局页面子项                                                                                                                                              |
+| TAdaptivePage   | [一屏组件](https://wocwin.github.io/t-ui/baseComponents/TAdaptivePage/base.html?_blank)（继承TTable 及 TQueryCondition 组件的所有属性、事件、插槽、方法） |
+| TQueryCondition | [条件查询组件](https://wocwin.github.io/t-ui/baseComponents/TQueryCondition/base.html?_blank)                                                             |
+| TTable          | [表格组件](https://wocwin.github.io/t-ui/baseComponents/TTable/base.html?_blank)                                                                          |
+| TForm           | [表单组件](https://wocwin.github.io/t-ui/baseComponents/TForm/base.html?_blank)                                                                           |
+| TSelectTable    | [下拉选择表格组件](https://wocwin.github.io/t-ui/baseComponents/TSelectTable/radio.html?_blank)                                                           |
+| TSelect         | [下拉选择组件](https://wocwin.github.io/t-ui/baseComponents/TSelect/base.html?_blank)                                                                     |
+| TDetail         | [详情组件](https://wocwin.github.io/t-ui/baseComponents/TDetail/base.html?_blank)                                                                         |
+| TButton         | [防抖按钮组件](https://wocwin.github.io/t-ui/baseComponents/TButton/base.html?_blank)                                                                     |
+| TStepWizard     | [步骤条组件](https://wocwin.github.io/t-ui/baseComponents/TStepWizard/base.html?_blank)                                                                   |
+| TTimerBtn       | 定时按钮组件                                                                                                                                              |
+| TModuleForm     | [模块表单/详情组件](https://wocwin.github.io/t-ui/baseComponents/TModuleForm/base.html?_blank)                                                            |
+| TDatePicker     | [日期选择器组件](https://wocwin.github.io/t-ui/baseComponents/TDatePicker/base.html?_blank)                                                               |
+| TInput          | [input组件](https://wocwin.github.io/t-ui/baseComponents/TInput/base.html?_blank)                                                                         |
+| TDialog         | [弹窗组件](https://wocwin.github.io/t-ui/baseComponents/TDialog/base.html?_blank)                                                                         |
+| TTreeSelect     | [下拉树形结构组件](https://wocwin.github.io/t-ui/baseComponents/TTreeSelect/base.html?_blank)                                                             |
 
 ## 安装依赖
 

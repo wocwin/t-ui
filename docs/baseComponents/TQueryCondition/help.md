@@ -52,17 +52,17 @@
 
 | 参数        | 说明                                                                       | 类型             | 默认值  |
 | :---------- | :------------------------------------------------------------------------- | :--------------- | :------ |
-| label       | 表单字段说明标题                                                           | string           | 无      |
-| className   | 自定义 class                                                               | string           | 无      |
-| labelRender | 自定义 label（render 函数 jsx 方式编写）                                   | function         | 无      |
-| slotName    | 自定义输入框插槽(作用域插槽解构接收{param或者scope}返回当前所有表单初始值) | string           | 无      |
-| comp        | 组件名称，可直接指定全局注册的组件                                         | string,component | 无      |
-| defaultVal  | 默认值                                                                     | -                | 无      |
+| label       | 表单字段说明标题                                                           | string           | -       |
+| className   | 自定义 class                                                               | string           | -       |
+| labelRender | 自定义 label（render 函数 jsx 方式编写）                                   | function         | -       |
+| slotName    | 自定义输入框插槽(作用域插槽解构接收{param或者scope}返回当前所有表单初始值) | string           | -       |
+| comp        | 组件名称，可直接指定全局注册的组件                                         | string,component | -       |
+| defaultVal  | 默认值                                                                     | -                | -       |
 | span        | 控件占用的列宽，默认占用 1 列，最多 4 列 (独占一行)                        | number           | 1       |
 | changeEvent | 默认事件为@input，可指定其他事件（下拉选择和日期需要指定“change 事件”）    | string           | 'input' |
-| bind        | 渲染时组件会调用 v-bind 指定设置该配置更新元素的属性(继承第三方组件属性)   | object，function | 无      |
-| event       | 配置组件事件，与写组件时@change 等同理                                     | object           | 无      |
-| child       | 子组件列表，类似 select 组件存在 options 子组件的则需要用到                | Array            | 无      |
+| bind        | 继承第三方组件Attributes;`function`时返回值`form`                          | object，function | -       |
+| event       | 配置组件事件，与写组件时@change 等同理                                     | object           | -       |
+| child       | 子组件列表，类似 select 组件存在 options 子组件的则需要用到                | Array            | -       |
 
 ### 4. 事件（events）
 

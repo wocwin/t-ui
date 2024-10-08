@@ -545,36 +545,28 @@ export default {
         this.$refs.select.$el['@@clickoutsideContext'].documentHandler = this.documentHandler
       }
     },
-    // 单选键盘事件
-    selectKeyup(e) {
-      if (!this.multiple) {
-        if (!this.isKeyup) return
-        if (this.tableData.length === 0) return
-        let refsElTable = this.$refs['el-table']
-        switch (e.keyCode) {
-          case 40: // 下键
-            if (this.tableData[this.nowIndex * 1 + 1] !== undefined) {
-              refsElTable.setCurrentRow(this.tableData[this.nowIndex * 1 + 1])
-              this.nowIndex = this.nowIndex * 1 + 1
-            } else {
-              this.nowIndex = 0
-              refsElTable.setCurrentRow(this.tableData[0])
-            }
-            break
-          case 38: // 上键
-            if (this.tableData[this.nowIndex * 1 - 1] !== undefined && this.nowIndex > 0) {
-              refsElTable.setCurrentRow(this.tableData[this.nowIndex * 1 - 1])
-              this.nowIndex = this.nowIndex * 1 - 1
-            } else {
-              this.nowIndex = 0
-              refsElTable.setCurrentRow(this.tableData[0])
-            }
-            break
-          case 13: // 回车
-            this.tableData[this.nowIndex] && this.rowClick(this.tableData[this.nowIndex])
-            break
+    // 日期范围选择触发
+    disabledDateOption() {
+      return {
+        onPick: () => {
+          this.$refs.select.visible = true
         }
       }
+    },
+    // 单个日期选择或者日期时间确认触发
+    dateChange() {
+      this.$refs.select.visible = true
+    },
+    // 单选键盘事件
+    selectKeyup(e) {
+      if (this.multiple || !this.isKeyup || this.tableData.length === 0) return
+      let refsElTable = this.$refs['el-table']
+      const newIndex = this.nowIndex * 1
+      const nextIndex = e.keyCode === 40 ? newIndex + 1 : e.keyCode === 38 ? newIndex - 1 : newIndex
+      const validNextIndex = Math.max(0, Math.min(nextIndex, this.tableData.length - 1))
+      refsElTable.setCurrentRow(this.tableData[validNextIndex])
+      this.nowIndex = validNextIndex
+      if (e.keyCode === 13) this.tableData[validNextIndex] && this.rowClick(this.tableData[validNextIndex])
     },
     // 搜索过滤
     filterMethodHandle(val) {

@@ -100,6 +100,7 @@ module.exports = {
             'TQueryCondition/footer', // 不显示按钮
             'TQueryCondition/btnCheckBind', // 自定义按钮文案
             'TQueryCondition/isDropDownSelectMore', // 下拉选择动态条件
+            'TQueryCondition/handleEventChange',
             'TQueryCondition/help', // 使用帮助(Attributes)
           ]
         },

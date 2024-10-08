@@ -6,6 +6,7 @@
     :ref="comp === 't-select-table' ? `tselecttableref-${dataIndex}` : ''"
     v-on="cEvent"
     :value="value"
+    style="width:100%"
   >
     <OptComponent v-for="(cOpt, i) in child" :key="i" v-bind="cOpt" :value="cOpt.value" />
   </component>

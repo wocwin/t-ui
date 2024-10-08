@@ -201,6 +201,7 @@ module.exports = {
             'TTable/operatorSlotName', // 操作栏
             'TTable/customRender', // customRender操作自定义渲染
             'TTable/tree', // TreeTable组件
+            'TTable/tableLoading', // table Loading
             'TTable/help' // 使用帮助(Attributes)
           ]
         },

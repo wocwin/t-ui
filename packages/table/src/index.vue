@@ -1,5 +1,6 @@
 <template>
-  <div class="t-table" id="t_table" ref="ttable" @scroll="handleScroll">
+  <div class="t-table" id="t_table" ref="ttable" @scroll="handleScroll" v-loading="tableLoading"
+  :element-loading-text="loadingTxt">
     <div
       class="header_wrap"
       :style="{padding: (tableTitle||title||$slots.title||isSlotTitle||isShow('toolbar')||isSlotToolbar||columnSetting) ? '10px 0' : 0 }"
@@ -631,7 +632,12 @@ export default {
     // TAdaptivePage组件是否使用了Toolbar插槽
     isSlotToolbar: Boolean,
     // TAdaptivePage组件是否使用了title插槽
-    isSlotTitle: Boolean
+    isSlotTitle: Boolean,
+    tableLoading: Boolean,
+    loadingTxt: {
+      type: String,
+      default: '加载中...'
+    }
   },
   data() {
     return {

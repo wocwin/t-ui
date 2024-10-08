@@ -85,7 +85,7 @@ Vue.use(Tui)
 
 ```shell
 npm install
-
+>nodeJs版本需要小于16
 ```
 
 ## 本地运行 src 中组件示例

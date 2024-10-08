@@ -8,6 +8,12 @@
         :span="item.span || 1"
         v-bind="{ ...item.bind, ...$attrs }"
       >
+      <template slot="label">
+        <render-label v-if="item.labelRender" :render="item.labelRender" :item="item" />
+        <span v-else :style="{ fontWeight: isLabelBold ? 'bold' : '' }"
+          >{{ item.label }}<span v-if="isColon">：</span></span
+        >
+      </template>
         <template v-if="item.slotName">
           <slot :name="item.slotName"></slot>
         </template>
@@ -62,10 +68,12 @@
 <script>
 import RenderTooltip from '../../module-form/src/renderTooltip.vue'
 import { constantEscape } from '../../utils'
+import RenderLabel from "./renderLabel.vue"
 export default {
   name: 'TDetail',
   components: {
-    RenderTooltip
+    RenderTooltip,
+    RenderLabel
   },
   // 过滤器
   filters: {
@@ -89,6 +97,16 @@ export default {
     descData: {
       type: Array,
       default: () => []
+    },
+      // 是否显示冒号
+    isColon: {
+      type: Boolean,
+      default: true
+    },
+    // label是否加粗显示
+    isLabelBold: {
+      type: Boolean,
+      default: true
     }
   }
 }

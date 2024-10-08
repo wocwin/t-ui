@@ -55,6 +55,13 @@
 <<< @/docs/.vuepress/components/docsComponents/TDetail/index.vue
 </common-code-format>
 
+## 自定义label
+<common-code-format>
+  <docsComponents-TDetail-labelRender slot="source"></docsComponents-TDetail-labelRender>
+
+<<< @/docs/.vuepress/components/docsComponents/TDetail/labelRender.vue
+</common-code-format>
+
 ## TDetail Attributes
 
 ---

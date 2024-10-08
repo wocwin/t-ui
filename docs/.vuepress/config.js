@@ -121,6 +121,9 @@ module.exports = {
             'TForm/assignment', // 赋值回显
             'TForm/submit', // 切换页面获取表单数据
             'TForm/dynamic', // 动态增减表单项
+            'TForm/btnisHide', // 操作按钮动态显示&隐藏
+            'TForm/btnRender', // 操作按钮render渲染
+            'TForm/btnSlotName', // 操作按钮插槽显示
             'TForm/help' // 使用帮助(Attributes)
           ]
         },

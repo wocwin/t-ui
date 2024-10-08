@@ -74,6 +74,9 @@ export default {
         likeBookNo: null,
         likeTransportNo: null,
         workshopNum: null,
+        date: null,
+        date1: null,
+        date2: null,
         likeCargoName: null
       }
     }
@@ -88,6 +91,23 @@ export default {
             optionSource: ADDRESS_TYPES,
           },
           span: 2
+        },
+        date: {
+          label: '日期时间范围',
+          comp: 't-date-picker',
+          span: 2,
+          bind: {
+            type: 'datetimerange',
+            'default-time': ['00:00:00', '23:59:59']
+          }
+        },
+        date2: {
+          label: '日期',
+          comp: 't-date-picker',
+          span: 2,
+          bind: {
+            type: 'date',
+          }
         },
         workshopNum: {
           label: '车间',
@@ -132,6 +152,14 @@ export default {
           placeholder: '自定义label',
           comp: 'el-input',
           span: 2
+        },
+        date1: {
+          label: '日期范围1',
+          comp: 't-date-picker',
+          span: 2,
+          bind: {
+            type: 'daterange',
+          }
         },
         likeTransportNo: {
           label: '运单编号',

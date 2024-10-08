@@ -246,8 +246,8 @@ export default {
     },
     // select 宽度
     selectWidth: {
-      type: [String, Number],
-      default: 0
+      type: Number,
+      default: 550
     },
     // table宽度
     tableWidth: {
@@ -333,11 +333,27 @@ export default {
     }
     // 获取查询条件组件的项
     this.$refs['t-query-condition'] && Object.values(this.$refs['t-query-condition'].opts).map(val => {
-      if (val.comp.includes('select') || val.comp.includes('date')) {
+      if (val.comp.includes('select')) {
         val.event = {
           'visible-change': (val) => this.selectVisibleChange(val)
         }
       }
+      if (val.comp.includes('date')) {
+        if (val.bind?.type == 'date') {
+          val.event = {
+            'change': (val) => this.dateChange(val)
+          }
+        } else {
+          val.bind['picker-options'] = this.disabledDateOption()
+          if (val.bind?.type == 'datetimerange') {
+            val.event = {
+              'change': (val) => this.dateChange(val)
+            }
+          }
+        }
+        val.bind['popper-class'] = 't_select_table_date'
+      }
+      // console.log('9999---', val)
     })
     // 是否开启虚拟列表
     if (this.useVirtual) {
@@ -957,5 +973,8 @@ export default {
   line-height: 14px;
   max-width: 15rem;
   // color: #fff !important;
+}
+.t_select_table_date {
+  z-index: 9999 !important;
 }
 </style>

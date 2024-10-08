@@ -213,6 +213,8 @@ module.exports = {
             'TAdaptivePage/selection',
             'TAdaptivePage/lefttree',
             'TAdaptivePage/virtual',
+            'TAdaptivePage/contentSlot',
+            'TAdaptivePage/help',
           ]
         }
         // {

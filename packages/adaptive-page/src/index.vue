@@ -20,7 +20,12 @@
           </template>
         </t-query-condition>
       </t-layout-page-item>
-      <t-layout-page-item class="table_main" :style="tablePageStyle">
+      <slot name="content" />
+      <t-layout-page-item
+        class="table_main"
+        :style="tablePageStyle"
+        :class="{ 't_table_self-filling': isTTableSelfFilling }"
+      >
         <t-table
           ref="t-table"
           :isSlotToolbar="isShow('toolbar')"
@@ -72,7 +77,9 @@ export default {
     tablePageStyle: {
       type: Object,
       default: () => { }
-    }
+    },
+    // 是否table自动撑满
+    isTTableSelfFilling: Boolean
   },
   mounted() {
     this.$emit('update:queryRef', this.$refs['query-condition'])
@@ -135,6 +142,13 @@ export default {
           .el-table__fixed-right::before {
             height: 0px;
           }
+        }
+      }
+    }
+    .t_table_self-filling {
+      .t-table {
+        :deep(.el-table) {
+          height: 100vh;
         }
       }
     }

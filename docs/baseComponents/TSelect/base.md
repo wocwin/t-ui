@@ -44,21 +44,24 @@
    <<< @/docs/.vuepress/components/docsComponents/TSelect/multiplePagination.vue
 </common-code-format>
 
+## 选中值返回对象
+
+<common-code-format>
+  <docsComponents-TSelect-returnObject slot="source"></docsComponents-TSelect-returnObject>
+  在组件中配置：`returnObject` ；必须设置 `value-key` 属性且具有唯一性
+
+   <<< @/docs/.vuepress/components/docsComponents/TSelect/returnObject.vue
+</common-code-format>
+
 ## t-select——下拉 组件组件
 
 **概述：**
-
-`下拉选择组件————可实现单选多选（多选可使用全选功能）`
-
 **代码示例：**
 
 ```html
 <t-select
   v-model="selectVlaue"
-  multiple
   :optionSource="listTypeInfo.stepList"
-  valueKey="label"
-  @change="selectChange"
 />
 ```
 

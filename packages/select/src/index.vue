@@ -23,7 +23,7 @@
       v-for="(item,index) in optionSource"
       :key="index+'i'"
       :label="customLabel?customLabelHandler(item):item[labelKey]"
-      :value="item[valueKey]"
+      :value="returnObject?item:item[valueKey]"
     />
     <div class="t_select__pagination" v-if="isShowPagination">
       <el-pagination
@@ -50,7 +50,7 @@ export default {
   name: 'TSelect',
   props: {
     value: {
-      type: [String, Number, Array, Boolean]
+      type: [String, Number, Array, Boolean, Object]
     },
     // 是否多选
     multiple: {
@@ -101,6 +101,11 @@ export default {
           total: 0 // 总条数
         }
       }
+    },
+    // 选中值返回对象
+    returnObject: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

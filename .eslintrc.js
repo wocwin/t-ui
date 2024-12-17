@@ -11,7 +11,8 @@ module.exports = {
     'space-before-function-paren': 0,
     'no-tabs': 'off',
     'eqeqeq': 'off',
-    'no-unused-vars': 'off'
+    'no-unused-vars': 'off',
+    'no-unused-expressions': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'

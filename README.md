@@ -85,7 +85,8 @@ Vue.use(Tui)
 
 ```shell
 npm install
->nodeJs版本需要小于16
+>nodeJs版本小于16
+>nodeJs版本大于16：需在`package.json`的`scripts`命令中添加`SET NODE_OPTIONS=--openssl-legacy-provider`
 ```
 
 ## 本地运行 src 中组件示例

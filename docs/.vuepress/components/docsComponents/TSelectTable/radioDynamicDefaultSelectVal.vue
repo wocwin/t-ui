@@ -1,12 +1,7 @@
 <template>
   <t-layout-page>
     <t-layout-page-item style="display: flex; flex-direction: column">
-      <el-button
-        type="danger"
-        style="margin-bottom: 10px; width: 200px"
-        @click="mod"
-        >动态赋值</el-button
-      >
+      <el-button type="danger" style="margin-bottom: 10px; width: 200px" @click="mod">动态赋值</el-button>
       <t-select-table
         :table="table"
         :columns="table.columns"

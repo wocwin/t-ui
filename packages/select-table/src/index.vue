@@ -55,31 +55,30 @@
             ref="el-table"
             :data="tableData"
             :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup ,isShowSelectRadio:!radioVal}"
-            border
             :row-key="getRowKey"
             :max-height="useVirtual?maxHeight||540:maxHeight"
             highlight-current-row
             @row-click="rowClick"
             @cell-dblclick="cellDblclick"
             @selection-change="handlesSelectionChange"
-            v-bind="$attrs"
+            v-bind="{border, size: tableSize, 'highlight-current-row': true,...$attrs}"
             v-on="$listeners"
           >
             <el-table-column
               v-if="multiple"
               type="selection"
-              width="50"
-              align="center"
+              :width="tableSize === 'large' ? 65 : 55"
+              :align="align || 'center'"
+              :fixed="multipleFixed"
               :reserve-selection="reserveSelection"
               :selectable="selectable"
-              fixed
             ></el-table-column>
             <el-table-column
               type="radio"
-              width="50"
+              :width="tableSize === 'large' ? 65 : 55"
               :label="radioTxt"
-              fixed
-              align="center"
+              :fixed="radioFixed"
+              :align="align || 'center'"
               v-if="!multiple && isShowFirstColumn"
             >
               <template slot-scope="scope">
@@ -87,7 +86,7 @@
                   v-model="radioVal"
                   :label="scope.$index + 1"
                   :disabled="scope.row.isRadioDisabled"
-                  @click.stop="radioChangeHandle(scope.row, scope.$index + 1)"
+                  @click.native.prevent="radioChangeHandle(scope.row, scope.$index + 1)"
                 ></el-radio>
               </template>
             </el-table-column>
@@ -99,7 +98,7 @@
               :prop="item.prop"
               :min-width="item['min-width'] || item.minWidth"
               :width="item.width"
-              :align="item.align || 'center'"
+              :align="item.align ||align || 'center'"
               :fixed="item.fixed"
               v-bind="{ 'show-overflow-tooltip': true,...item.bind, ...$attrs }"
               v-on="$listeners"
@@ -268,8 +267,43 @@ export default {
     maxHeight: {
       type: [String, Number]
     },
+    // 是否固定多选
+    multipleFixed: Boolean,
+    // 是否固定单选
+    radioFixed: Boolean,
     // Function(row: any, index: number) 的返回值用来决定这一行的 CheckBox 是否可以勾选
-    selectable: Function
+    selectable: Function,
+    // table是否显示边框
+    border: {
+      type: Boolean,
+      default: true
+    },
+    // table大小 可选值：`medium`、`small`、`mini`
+    tableSize: {
+      type: String,
+      default: ''
+    },
+    align: {
+      type: String,
+      default: 'center'
+    },
+    // 单选框--是否开启点击整行选中
+    rowClickRadio: {
+      type: Boolean,
+      default: true
+    },
+    // 多选--之前选中的数据不在新数据源下，是否隐藏`tag`删除icon
+    multipleDisableDelete: {
+      type: Boolean,
+      default: true
+    },
+    // 单选--是否开启回显label
+    isRadioEchoLabel: {
+      type: Boolean,
+      default: true
+    },
+    // 单选--回显不是第一页的label
+    radioSelectValLabel: String
   },
   computed: {
     selectAttr() {
@@ -285,6 +319,10 @@ export default {
       set(val) {
         this.$emit('input', val)
       }
+    },
+    // 获取tableData的label
+    tableDataLabelList() {
+      return this.tableData.map(item => item[this.keywords.label])
     }
   },
   data() {
@@ -293,10 +331,12 @@ export default {
       radioVal: '',
       defaultSelectValue: this.defaultSelectVal, // 默认选中
       isDefaultSelectVal: true, // 是否已经重新选择了
+      isVisible: false, // 是否显示下拉框
       isRadio: false,
       forbidden: true, // 判断单选选中及取消选中
       tableData: this.table?.data, // table数据
       defaultValue: this.value,
+      radioDefaultSelectValLabel: this.radioSelectValLabel, // 单选回显label
       ids: [], // 多选id集合
       tabularMap: {}, // 存储下拉tale的所有name
       /**
@@ -362,7 +402,7 @@ export default {
   },
   watch: {
     value: {
-      handler() {
+      handler(val) {
         this.$nextTick(() => {
           // 多选
           if (this.multiple) {
@@ -377,7 +417,7 @@ export default {
           } else {
             this.defaultValue = this.value
               ? { [this.keywords.value]: this.value }
-              : ''
+              : {}
           }
           this.findLabel()
         })
@@ -392,6 +432,16 @@ export default {
           this.tableData = this.saveDATA.slice(this.start, this.end)
         } else {
           this.tableData = val
+          // 解决查询后，之前选中的数据若不在查询结果中，则禁用删除
+          if (this.multiple && this.multipleDisableDelete) {
+            this.$refs.select?.$el?.querySelectorAll('.el-tag').forEach((item) => {
+              if (this.tableDataLabelList.includes(item.querySelector('.el-select__tags-text').innerText)) {
+                item.querySelector('.el-tag__close').style = 'display: block'
+              } else {
+                item.querySelector('.el-tag__close').style = 'display: none'
+              }
+            })
+          }
         }
         this.$nextTick(() => {
           this.tableData &&
@@ -416,11 +466,19 @@ export default {
               this.defaultSelect(this.defaultSelectValue)
             }
           } else {
+            console.log('this.defaultSelectValue---watch---1111', this.defaultSelectValue)
             this.defaultSelect(this.defaultSelectValue)
           }
         }
+        // this.findLabel()
       },
       deep: true
+    },
+    radioSelectValLabel: {
+      handler(val) {
+        this.radioDefaultSelectValLabel = val
+
+      },
     },
     num(newV) {
       // 因为初始化时已经添加了3屏的数据，所以只有当滚动到第3屏时才计算位移量
@@ -527,7 +585,7 @@ export default {
         })
         if (flag) {
           this.tableData.map((item, index) => {
-            if (item.id === this.defaultValue?.id) {
+            if (item[this.keywords.value] === (this.defaultValue && this.defaultValue[this.keywords.value])) {
               this.radioVal = index + 1
             }
           })
@@ -566,6 +624,22 @@ export default {
       const validNextIndex = Math.max(0, Math.min(nextIndex, this.tableData.length - 1))
       refsElTable.setCurrentRow(this.tableData[validNextIndex])
       this.nowIndex = validNextIndex
+      // 键盘向上/下滚动条根据移动的选择区域而滚动
+      if (e.keyCode === 40 || e.keyCode === 38) {
+        const rowHeight = refsElTable.$el.querySelectorAll(".el-table__row")[0]?.clientHeight
+        const headerHeight = refsElTable.$el.querySelectorAll(".el-table__header")[0]?.clientHeight
+        const attrsMaxHeight =
+          (typeof (this["max-height"] || this["maxHeight"]) === "number"
+            ? this["max-height"] || this["maxHeight"]
+            : parseFloat(this["max-height"] || this["maxHeight"])) || 0
+        const maxHeight = attrsMaxHeight ? attrsMaxHeight - headerHeight : 0
+        const height = rowHeight * (nextIndex + 3)
+        const scrollTop = height > maxHeight ? height - maxHeight : 0
+        const scrollContainer = refsElTable.$el.querySelector(".el-table__body-wrapper");
+        if (scrollContainer) {
+          scrollContainer.scrollTop = scrollTop
+        }
+      }
       if (e.keyCode === 13) this.tableData[validNextIndex] && this.rowClick(this.tableData[validNextIndex])
     },
     // 搜索过滤
@@ -610,6 +684,7 @@ export default {
     },
     // 表格显示隐藏回调
     visibleChange(visible) {
+      this.isVisible = visible
       if (visible) {
         // 是否开启虚拟列表
         if (this.useVirtual) {
@@ -651,7 +726,7 @@ export default {
           const arr = this.tableData.filter(
             (item) =>
               item[this.keywords.value] ===
-              this.defaultValue[this.keywords.value]
+              (this.defaultValue && this.defaultValue[this.keywords.value])
           )
           if (arr.length > 0) {
             this.$refs['el-table'].setCurrentRow(arr[0])
@@ -670,12 +745,17 @@ export default {
           }
         } else {
           if (this.$refs.select) {
-            // console.log('this.defaultValue---findLabel', this.defaultValue)
-            this.$refs.select.selectedLabel =
-              (this.defaultValue && this.defaultValue[this.keywords.label]) || ''
+            if (this.isRadioEchoLabel) {
+              this.$refs.select.selectedLabel = !this.isEmptyObject(this.defaultValue) ? this.defaultValue[this.keywords.label] : this.radioDefaultSelectValLabel
+            } else {
+              this.$refs.select.selectedLabel = !this.isEmptyObject(this.defaultValue) ? this.defaultValue[this.keywords.label] : ''
+            }
           }
         }
       })
+    },
+    isEmptyObject(obj) {
+      return obj && Object.keys(obj).length === 0;
     },
     // 复制内容
     copyDomText(val) {
@@ -730,27 +810,31 @@ export default {
           })
         }, 0)
       } else {
-        let row, index
-        this.tableData.map((val, i) => {
-          if (val[this.keywords.value] === defaultSelectVal[0]) {
-            row = val
-            index = i
-          }
-        })
-        this.radioVal = index + 1
-        this.defaultValue = row
         setTimeout(() => {
+          let row, index
+          this.tableData.map((val, i) => {
+            if (val[this.keywords.value] === defaultSelectVal[0]) {
+              row = val
+              index = i
+            }
+          })
+          this.radioVal = index + 1
+          this.defaultValue = row || {}
           this.$refs.select.selectedLabel = row && row[this.keywords.label]
+          this.$emit('radioChange', row, row && row[this.keywords.value])
+          if (!this.isVisible) {
+            this.findLabel()
+          }
         }, 0)
-        this.$emit('radioChange', row, row && row[this.keywords.value])
       }
     },
     // 点击单选框单元格触发事件
     radioChangeHandle(row, index) {
-      console.log('不是单选框事件，而是rowClick事件')
+      if (this.rowClickRadio) return
       if (row.isRadioDisabled) return
+      // console.log('不是单选框事件，而是rowClick事件', row, index)
       this.isDefaultSelectVal = false
-      // this.radioClick(row, index)
+      this.radioClick(row, index)
     },
     // forbidden取值
     isForbidden() {
@@ -761,35 +845,29 @@ export default {
     },
     // 单选抛出事件radioChange
     radioClick(row, index) {
-      this.forbidden = !!this.forbidden
-      if (this.radioVal) {
-        if (this.radioVal === index) {
-          this.radioVal = ''
-          this.isForbidden()
-          this.defaultValue = {}
-          this.isDefaultSelectVal = true
-          this.defaultSelectValue = []
-          this.$emit('radioChange', {}, null) // 取消勾选就把回传数据清除
-          this.blur()
-        } else {
-          this.isForbidden()
-          this.radioVal = index
-          this.defaultValue = row
-          this.$emit('radioChange', row, row[this.keywords.value])
-          this.blur()
-        }
+      this.forbidden = !this.forbidden;
+      const emitData = this.radioVal === index ? {} : { ...row };
+      const emitValue = this.radioVal === index ? null : row[this.keywords.value];
+      if (this.radioVal !== index) {
+        this.radioVal = index;
+        this.defaultValue = { ...row };
+        this.isDefaultSelectVal = true;
+        this.defaultSelectValue = [];
       } else {
-        this.isForbidden()
-        this.radioVal = index
-        this.defaultValue = row
-        this.$emit('radioChange', row, row[this.keywords.value])
-        this.blur()
+        this.radioVal = '';
+        this.defaultValue = {};
+        this.isDefaultSelectVal = true;
+        this.defaultSelectValue = [];
       }
+      this.isForbidden();
+      this.$emit('radioChange', emitData, emitValue);
+      this.blur();
     },
     // 单击行
     async rowClick(row) {
       // console.log('this.isRadio--', this.isRadio)
       if (row.isRadioDisabled) return
+      if (!this.rowClickRadio) return
       if (!this.multiple) {
         const rowIndex = this.table?.data.findIndex(
           item => item[this.keywords.value] === row[this.keywords.value]

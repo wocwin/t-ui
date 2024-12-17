@@ -63,6 +63,7 @@ module.exports = {
           collapsable: false,
           children: [
             'TSelectTable/radio',
+            'TSelectTable/rowClickRadio',
             'TSelectTable/isKeyup',
             'TSelectTable/isRadioDisabled',
             'TSelectTable/selectable',
@@ -71,6 +72,7 @@ module.exports = {
             'TSelectTable/isShowFirstColumn',
             'TSelectTable/multipleDynamicDefaultSelectVal',
             'TSelectTable/radioDynamicDefaultSelectVal',
+            'TSelectTable/defaultSelectValLabel',
             'TSelectTable/isShowQuery',
             'TSelectTable/isShowQuerySpan',
             'TSelectTable/radiovirtual', // 单选--虚拟列表

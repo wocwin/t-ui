@@ -1,6 +1,6 @@
 {
   "name": "@wocwin/t-ui",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "Vue 中基于Element-ui二次封装基础组件文档",
   "author": "wocwin <wocwin@163.com>",
   "license": "MIT",
@@ -9,11 +9,12 @@
   "unpkg": "lib/t-ui.umd.min.js",
   "jsdelivr": "lib/t-ui.umd.min.js",
   "scripts": {
-    "serve": "vue-cli-service serve --open --fix",
-    "build": "vue-cli-service build",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "lib": "rimraf lib && vue-cli-service build --target lib --name t-ui --dest lib packages/index.js",
+    "serve": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --open --fix",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
+    "pub": "npm publish --registry=https://registry.npmjs.org/",
+    "docs:dev": "SET NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
+    "docs:build": "SET NODE_OPTIONS=--openssl-legacy-provider && vuepress build docs",
+    "lib": "rimraf lib && SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --target lib --name t-ui --dest lib packages/index.js",
     "clean": "rimraf lib",
     "dist": "npm run clean  && npm run lib && webpack --config build/webpack.conf.js",
     "deploy": "deploy.sh"

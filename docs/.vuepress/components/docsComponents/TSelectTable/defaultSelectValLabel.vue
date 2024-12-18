@@ -9,7 +9,7 @@
         :keywords="{label:'materialCode',value:'id'}"
         @page-change="pageChange"
         @radioChange="radioChange"
-        :defaultSelectValLabel="defaultSelectValLabel"
+        :radioSelectValLabel="radioSelectValLabel"
         :defaultSelectVal="defaultSelectVal"
         isShowPagination
       ></t-select-table>
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       defaultSelectVal: [], // 回显
-      defaultSelectValLabel: 'GG1011', // 回显
+      radioSelectValLabel: 'GG1011', // 回显
       table: {
         total: 0,
         currentPage: 1,
@@ -63,10 +63,10 @@ export default {
       this.table.currentPage = val
       if (val == 2) {
         this.defaultSelectVal = ['1567343444607168514']
-        this.defaultSelectValLabel = ''
+        this.radioSelectValLabel = ''
       } else {
         this.defaultSelectVal = []
-        this.defaultSelectValLabel = 'GG1011'
+        this.radioSelectValLabel = 'GG1011'
       }
       this.getList(this.table.currentPage)
     },

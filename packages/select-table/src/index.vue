@@ -477,8 +477,7 @@ export default {
     radioSelectValLabel: {
       handler(val) {
         this.radioDefaultSelectValLabel = val
-
-      },
+      }
     },
     num(newV) {
       // 因为初始化时已经添加了3屏的数据，所以只有当滚动到第3屏时才计算位移量
@@ -626,16 +625,16 @@ export default {
       this.nowIndex = validNextIndex
       // 键盘向上/下滚动条根据移动的选择区域而滚动
       if (e.keyCode === 40 || e.keyCode === 38) {
-        const rowHeight = refsElTable.$el.querySelectorAll(".el-table__row")[0]?.clientHeight
-        const headerHeight = refsElTable.$el.querySelectorAll(".el-table__header")[0]?.clientHeight
+        const rowHeight = refsElTable.$el.querySelectorAll('.el-table__row')[0]?.clientHeight
+        const headerHeight = refsElTable.$el.querySelectorAll('.el-table__header')[0]?.clientHeight
         const attrsMaxHeight =
-          (typeof (this["max-height"] || this["maxHeight"]) === "number"
-            ? this["max-height"] || this["maxHeight"]
-            : parseFloat(this["max-height"] || this["maxHeight"])) || 0
+          (typeof (this['max-height'] || this['maxHeight']) === 'number'
+            ? this['max-height'] || this['maxHeight']
+            : parseFloat(this['max-height'] || this['maxHeight'])) || 0
         const maxHeight = attrsMaxHeight ? attrsMaxHeight - headerHeight : 0
         const height = rowHeight * (nextIndex + 3)
         const scrollTop = height > maxHeight ? height - maxHeight : 0
-        const scrollContainer = refsElTable.$el.querySelector(".el-table__body-wrapper");
+        const scrollContainer = refsElTable.$el.querySelector('.el-table__body-wrapper')
         if (scrollContainer) {
           scrollContainer.scrollTop = scrollTop
         }
@@ -755,7 +754,7 @@ export default {
       })
     },
     isEmptyObject(obj) {
-      return obj && Object.keys(obj).length === 0;
+      return obj && Object.keys(obj).length === 0
     },
     // 复制内容
     copyDomText(val) {
@@ -845,23 +844,23 @@ export default {
     },
     // 单选抛出事件radioChange
     radioClick(row, index) {
-      this.forbidden = !this.forbidden;
-      const emitData = this.radioVal === index ? {} : { ...row };
-      const emitValue = this.radioVal === index ? null : row[this.keywords.value];
+      this.forbidden = !this.forbidden
+      const emitData = this.radioVal === index ? {} : { ...row }
+      const emitValue = this.radioVal === index ? null : row[this.keywords.value]
       if (this.radioVal !== index) {
-        this.radioVal = index;
-        this.defaultValue = { ...row };
-        this.isDefaultSelectVal = true;
-        this.defaultSelectValue = [];
+        this.radioVal = index
+        this.defaultValue = { ...row }
+        this.isDefaultSelectVal = true
+        this.defaultSelectValue = []
       } else {
-        this.radioVal = '';
-        this.defaultValue = {};
-        this.isDefaultSelectVal = true;
-        this.defaultSelectValue = [];
+        this.radioVal = ''
+        this.defaultValue = {}
+        this.isDefaultSelectVal = true
+        this.defaultSelectValue = []
       }
-      this.isForbidden();
-      this.$emit('radioChange', emitData, emitValue);
-      this.blur();
+      this.isForbidden()
+      this.$emit('radioChange', emitData, emitValue)
+      this.blur()
     },
     // 单击行
     async rowClick(row) {

@@ -10,9 +10,7 @@
       >
         <template slot="label">
           <render-label v-if="item.labelRender" :render="item.labelRender" :item="item" />
-          <span v-else :style="{ fontWeight: isLabelBold ? 'bold' : '' }">
-            {{ item.label }}
-          </span>
+          <span v-else :style="{ fontWeight: isLabelBold ? 'bold' : '' }">{{ item.label }}</span>
         </template>
         <template v-if="item.slotName">
           <slot :name="item.slotName"></slot>
@@ -68,7 +66,7 @@
 <script>
 import RenderTooltip from '../../module-form/src/renderTooltip.vue'
 import { constantEscape } from '../../utils'
-import RenderLabel from "./renderLabel.vue"
+import RenderLabel from './renderLabel.vue'
 export default {
   name: 'TDetail',
   components: {

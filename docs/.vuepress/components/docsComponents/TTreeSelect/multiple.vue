@@ -18,7 +18,7 @@ export default {
   name: 'TTreeSelectDemo',
   data() {
     return {
-      defaultValue: ['1', '2'], // 默认值
+      defaultValue: [], // 默认值
       treeProps: {
         value: 'id',
         children: 'children',

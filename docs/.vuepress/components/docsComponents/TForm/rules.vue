@@ -31,7 +31,8 @@ export default {
           valDate: '', // el日期选择范围
           email: '', // 邮箱
           desc: '', // 描述
-          status: '' // *状态: 0：停用，1：启用(默认为1)',
+          status: '', // *状态: 0：停用，1：启用(默认为1)',
+          status1: null
         },
         fieldList: [
           { label: '账号', value: 'account', type: 'input', comp: 'el-input', event: 'account' },
@@ -44,6 +45,20 @@ export default {
           { label: '创建时间', value: 'createDate', type: 'year', bind: { valueFormat: 'yyyy' }, comp: 'el-date-picker' },
           { label: '日期', value: 'valDate', comp: 't-date-picker', rules: { required: true, message: '请选择element日期', trigger: 'change' }, bind: { type: 'daterange', isPickerOptions: true } },
           { label: '邮箱', value: 'email', type: 'input', comp: 'el-input' },
+          {
+            label: 'treeSelect', value: 'status1', placeholder: 't-tree-select多选', comp: 't-tree-select', isSelfCom: true, bind: {
+              options: [],
+              treeProps: {
+                value: 'id',
+                children: 'children',
+                label: 'name'
+              },
+              multiple: true,
+            },
+            eventHandle: {
+              handleNodeClick: (val) => this.selectDrop(val)
+            }
+          },
           { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', className: 't-form-block' }
         ],
         rules: {
@@ -53,6 +68,7 @@ export default {
           phone: [{ required: true, message: '请输入手机号码', trigger: 'blur' }],
           sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
           hobby: [{ required: true, message: '请至少选择一个爱好', trigger: 'change' }],
+          status1: [{ required: true, message: '请选择treeSelect', trigger: 'change' }],
           email: [{ validator: this.validatorEmail, message: '自定义配置校验规则', trigger: 'blur' }
           ]
         },
@@ -87,8 +103,64 @@ export default {
       }
     }
   },
+  mounted() {
+    const treeList = [
+      {
+        id: '1',
+        name: '一级 1菈妮',
+        children: [
+          {
+            id: '1-1',
+            name: '二级 1-1',
+            children: [
+              {
+                id: '1-1-1',
+                name: '三级 1-1-1',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: '一级 2',
+        id: '2',
+        children: [
+          {
+            id: '2-1',
+            name: '二级 2-1',
+            children: [
+              {
+                id: '2-1-1',
+                name: '三级 2-1-1',
+              },
+            ],
+          },
+          {
+            id: '2-2',
+            name: '二级 2-2',
+            children: [
+              {
+                id: '2-2-1',
+                name: '三级 2-2-1鸡腿'
+              },
+            ],
+          },
+        ],
+      },
+    ]
+    this.formOpts.fieldList.map(val => {
+      switch (val.value) {
+        case 'status1':
+          val.bind.options = treeList
+          break
+      }
+    })
+  },
   // 方法
   methods: {
+    selectDrop(val) {
+      console.log('t-tree-select多选', val)
+    },
     // 邮箱校验
     validatorEmail(rule, value, callback) {
       if (value && !/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(value)) {

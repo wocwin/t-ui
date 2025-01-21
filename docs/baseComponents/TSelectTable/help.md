@@ -65,10 +65,10 @@
 | rowClickRadio<el-tag>1.2.10</el-tag>         | 是否开启整行选中(单选)                                                            | Boolean                   | true       |
 | multipleFixed<el-tag>1.2.10</el-tag>         | table 是否固定多选                                                                | Boolean                   | false      |
 | radioFixed<el-tag>1.2.10</el-tag>            | table 是否固定单选                                                                | Boolean                   | false      |
-| multipleDisableDelete<el-tag>1.2.10</el-tag> | 多选--之前选中的数据不在新数据源下，是否隐藏tag删除icon                         | Boolean                   | true       |
+| multipleDisableDelete<el-tag>1.2.10</el-tag> | 多选--之前选中的数据不在新数据源下，是否隐藏tag删除icon                           | Boolean                   | true       |
 | border<el-tag>1.2.10</el-tag>                | 下拉表格是否显示边框                                                              | Boolean                   | true       |
-| tableSize<el-tag>1.2.10</el-tag>             | 下拉表格大小可选值 `medium、small、mini`                                          | String                    | -         |
-| radioSelectValLabel<el-tag>1.2.10</el-tag>  | 单选回显label需要动态配置defaultSelectVal 才有选中效果    | String                    | -         |
+| tableSize<el-tag>1.2.10</el-tag>             | 下拉表格大小可选值 `medium、small、mini`                                          | String                    | -          |
+| radioSelectValLabel<el-tag>1.2.10</el-tag>   | 单选回显label需要动态配置defaultSelectVal 才有选中效果                            | String                    | -          |
 
 ### 3. 事件（events）继承 el-table 、el-select 、el-pagination事件
 

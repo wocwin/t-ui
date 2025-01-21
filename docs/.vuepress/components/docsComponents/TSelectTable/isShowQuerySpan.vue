@@ -79,6 +79,11 @@ export default {
   computed: {
     opts() {
       return {
+        likeTransportNo: {
+          label: '运单编号',
+          comp: 'el-input',
+          span: 4
+        },
         likeCargoNo: {
           label: '货源编号',
           comp: 't-select',
@@ -99,11 +104,7 @@ export default {
           comp: 'el-input',
           span: 4
         },
-        likeTransportNo: {
-          label: '运单编号',
-          comp: 'el-input',
-          span: 4
-        },
+
         likeCargoName: {
           label: '货品名称',
           comp: 'el-input',

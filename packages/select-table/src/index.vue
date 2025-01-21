@@ -22,7 +22,7 @@
       ref="select"
       v-model="defaultValue"
       :class="{'t_select_table_tag_del':useVirtual&&multiple}"
-      :style="{ width: selectWidth ? `${selectWidth}px` : '100%' }"
+      :style="{ width: '100%' }"
       popper-class="t-select-table"
       :multiple="multiple"
       :value-key="keywords.value"
@@ -243,11 +243,6 @@ export default {
       type: Boolean,
       default: false
     },
-    // select 宽度
-    selectWidth: {
-      type: Number,
-      default: 550
-    },
     // table宽度
     tableWidth: {
       type: [String, Number],
@@ -371,30 +366,7 @@ export default {
     if (this.defaultSelectValue.length > 0 && this.isDefaultSelectVal) {
       this.defaultSelect(this.defaultSelectValue)
     }
-    // 获取查询条件组件的项
-    this.$refs['t-query-condition'] && Object.values(this.$refs['t-query-condition'].opts).map(val => {
-      if (val.comp.includes('select')) {
-        val.event = {
-          'visible-change': (val) => this.selectVisibleChange(val)
-        }
-      }
-      if (val.comp.includes('date')) {
-        if (val.bind?.type == 'date') {
-          val.event = {
-            'change': (val) => this.dateChange(val)
-          }
-        } else {
-          val.bind['picker-options'] = this.disabledDateOption()
-          if (val.bind?.type == 'datetimerange') {
-            val.event = {
-              'change': (val) => this.dateChange(val)
-            }
-          }
-        }
-        val.bind['popper-class'] = 't_select_table_date'
-      }
-      // console.log('9999---', val)
-    })
+    this.queryConditionVisibleChange() // 判断是否显示下拉框
     // 是否开启虚拟列表
     if (this.useVirtual) {
       this.initMounted()
@@ -593,8 +565,33 @@ export default {
         }
       }
     },
+    queryConditionVisibleChange() {
+      this.$refs['t-query-condition'] && Object.values(this.$refs['t-query-condition'].opts).map(val => {
+        if (val.comp.includes('select')) {
+          val.event = {
+            'visible-change': (val) => this.selectVisibleChange(val)
+          }
+        }
+        if (val.comp.includes('date')) {
+          if (val.bind?.type == 'date') {
+            val.event = {
+              'change': (val) => this.dateChange(val)
+            }
+          } else {
+            val.bind['picker-options'] = this.disabledDateOption()
+            if (val.bind?.type == 'datetimerange') {
+              val.event = {
+                'change': (val) => this.dateChange(val)
+              }
+            }
+          }
+          val.bind['popper-class'] = 't_select_table_date'
+        }
+      })
+    },
     // 解决内嵌select选中后外层下拉框消失问题
     selectVisibleChange(value) {
+      // console.log('6666----解决内嵌select选中后外层下拉框消失问题', value)
       if (value) {
         this.documentHandler = this.$refs.select.$el['@@clickoutsideContext'].documentHandler
         this.$refs.select.$el['@@clickoutsideContext'].documentHandler = (mouseup = {}, mousedown = {}) => { }
@@ -685,6 +682,7 @@ export default {
     visibleChange(visible) {
       this.isVisible = visible
       if (visible) {
+        this.queryConditionVisibleChange()
         // 是否开启虚拟列表
         if (this.useVirtual) {
           this.onScroll()

@@ -12,6 +12,7 @@ module.exports = {
     'no-tabs': 'off',
     'eqeqeq': 'off',
     'no-unused-vars': 'off',
+    camelcase: 'off', // 全局取消检测骆驼式变量名
     'no-unused-expressions': 'off'
   },
   parserOptions: {

@@ -9,6 +9,7 @@
         @radioChange="radioChange"
         :tableWidth="1000"
         isShowQuery
+        multiple
         :opts="opts"
         @submit="conditionEnter"
       ></t-select-table>
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import selectData from './selectData.json'
 const ADDRESS_TYPES = [
   {
     label: '前纺一车间',
@@ -69,11 +71,13 @@ export default {
           { label: '单位111', width: '110px', prop: 'unitName' },
         ],
       },
+      workshopNumList: [],
       queryData: {
         likeCargoNo: null,
         likeBookNo: null,
         likeTransportNo: null,
         workshopNum: null,
+        workshopNum1: null,
         date: null,
         date1: null,
         date2: null,
@@ -84,6 +88,16 @@ export default {
   computed: {
     opts() {
       return {
+        likeTransportNo: {
+          label: '运单编号',
+          comp: 'el-input',
+          span: 2
+        },
+        likeCargoName: {
+          label: '货品名称',
+          comp: 'el-input',
+          span: 2
+        },
         likeCargoNo: {
           label: '货源编号',
           comp: 't-select',
@@ -110,36 +124,35 @@ export default {
           }
         },
         workshopNum: {
-          label: '车间',
-          comp: 'el-select',
-          changeEvent: 'change',
+          label: "t-select单选",
+          comp: "t-select",
           span: 2,
-          child: [
-            {
-              comp: 'el-option',
-              value: 'W1',
-              bind: {
-                label: '前纺一车间',
-                key: 'W1'
-              }
-            },
-            {
-              comp: 'el-option',
-              value: 'W2',
-              bind: {
-                label: '前纺二车间',
-                key: 'W2'
-              }
-            },
-            {
-              comp: 'el-option',
-              value: 'W3',
-              bind: {
-                label: '前纺三车间',
-                key: 'W3'
-              }
+          bind: {
+            optionSource: this.workshopNumList,
+            valueKey: "materialCode",
+            labelKey: "materialName",
+          },
+          event: {
+            change: (val) => {
+              console.log('change---车间-单选', val)
             }
-          ]
+          }
+        },
+        workshopNum1: {
+          label: "t-select多选",
+          comp: "t-select",
+          span: 2,
+          bind: {
+            multiple: true,
+            optionSource: this.workshopNumList,
+            valueKey: "materialCode",
+            labelKey: "materialName",
+          },
+          event: {
+            change: (val) => {
+              console.log('change---车间-多选', val)
+            }
+          }
         },
         likeBookNo: {
           labelRender: () => {
@@ -161,26 +174,31 @@ export default {
             type: 'daterange',
           }
         },
-        likeTransportNo: {
-          label: '运单编号',
-          comp: 'el-input',
-          span: 2
-        },
-        likeCargoName: {
-          label: '货品名称',
-          comp: 'el-input',
-          span: 2
-        },
+
       }
     },
   },
+  mounted() {
+    this.getData()
+  },
   methods: {
+    async getData() {
+      const res = await selectData
+      if (res.success) {
+        // console.log('获取品名下拉数据', res.data)
+        this.workshopNumList = res.data
+      }
+    },
     // 单选
     radioChange(row) {
       console.log('传给后台的值', row)
     },
     conditionEnter(data) {
       console.log('点击搜索查询', data)
+    },
+    // 车间编号
+    change(formData) {
+      console.log('车间编号--change事件触发', formData)
     }
   }
 }

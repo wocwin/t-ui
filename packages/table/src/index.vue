@@ -1,9 +1,15 @@
 <template>
-  <div class="t-table" id="t_table" ref="ttable" @scroll="handleScroll" v-loading="tableLoading"
-  :element-loading-text="loadingTxt">
+  <div
+    class="t-table"
+    id="t_table"
+    ref="ttable"
+    @scroll="handleScroll"
+    v-loading="tableLoading"
+    :element-loading-text="loadingTxt"
+  >
     <div
       class="header_wrap"
-      :style="{padding: (tableTitle||title||$slots.title||isSlotTitle||isShow('toolbar')||isSlotToolbar||columnSetting) ? '10px 0' : 0 }"
+      :style="{padding: (tableTitle||title||$slots.title||isSlotTitle||isShow('toolbar')||isSlotToolbar||columnSetting||getToolbarBtn.length>0) ? '10px 0' : 0 }"
     >
       <div class="header_title" v-if="tableTitle||title||$slots.title||isSlotTitle">
         <template v-if="$slots.title||isSlotTitle">
@@ -213,7 +219,7 @@
         <template v-if="!item.children">
           <!-- 常规表头-->
           <el-table-column
-            v-if="item.isShowCol === false ? item.isShowCol : true"
+            v-if="typeof item.isShowCol == 'function' ? item.isShowCol(item) : !item.isShowCol"
             :key="index + 'i'"
             :type="item.type"
             :label="item.label"
@@ -1451,8 +1457,8 @@ export default {
       }
       if (!this.rowClickRadio) {
         return
+        // console.log('点击某行--333333', this.table.data.indexOf(row) + 1)
       }
-      // console.log('点击某行--333333', this.table.data.indexOf(row) + 1)
       this.radioClick(row, this.table.data.indexOf(row) + 1)
     },
     // 表格头部按钮

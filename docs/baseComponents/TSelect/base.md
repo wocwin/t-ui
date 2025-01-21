@@ -53,6 +53,24 @@
    <<< @/docs/.vuepress/components/docsComponents/TSelect/returnObject.vue
 </common-code-format>
 
+## 多选禁用
+
+<common-code-format>
+  <docsComponents-TSelect-multipleDisabled slot="source"></docsComponents-TSelect-multipleDisabled>
+  在组件中数据源：`optionSource` 不满足条件时，新增`disabled`属性，设置为`true`即可
+
+   <<< @/docs/.vuepress/components/docsComponents/TSelect/multipleDisabled.vue
+</common-code-format>
+
+## 单选禁用
+
+<common-code-format>
+  <docsComponents-TSelect-singleDisabled slot="source"></docsComponents-TSelect-singleDisabled>
+  在组件中数据源：`optionSource` 不满足条件时，新增`disabled`属性，设置为`true`即可
+
+   <<< @/docs/.vuepress/components/docsComponents/TSelect/singleDisabled.vue
+</common-code-format>
+
 ## t-select——下拉 组件组件
 
 **概述：**

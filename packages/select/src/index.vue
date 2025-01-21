@@ -24,6 +24,7 @@
       :key="index+'i'"
       :label="customLabel?customLabelHandler(item):item[labelKey]"
       :value="returnObject?item:item[valueKey]"
+      :disabled="item.disabled"
     />
     <div class="t_select__pagination" v-if="isShowPagination">
       <el-pagination

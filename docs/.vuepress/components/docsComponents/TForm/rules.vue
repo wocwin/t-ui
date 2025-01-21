@@ -160,6 +160,7 @@ export default {
   methods: {
     selectDrop(val) {
       console.log('t-tree-select多选', val)
+      this.formOpts.formData.status1 = val
     },
     // 邮箱校验
     validatorEmail(rule, value, callback) {

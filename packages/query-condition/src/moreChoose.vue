@@ -145,20 +145,12 @@ export default {
           child: item?.child,
           slotName: item?.slotName,
           span: item?.span,
+          type: item?.type,
+          list: item?.list,
+          eventFlag: item?.eventFlag,
+          arrLabel: item?.arrLabel,
+          arrKey: item?.arrKey,
           defaultVal: item?.defaultVal
-        }
-        if (item.comp === 'el-select') {
-          obj[item.prop].child = item.list.reduce((acc, cur) => {
-            acc.push({
-              comp: 'el-option',
-              value: cur[item.valueKey || 'key'],
-              bind: {
-                label: cur[item.labelKey || 'label'],
-                key: cur[item.valueKey || 'key']
-              }
-            })
-            return acc
-          }, [])
         }
         return obj
       }, {})

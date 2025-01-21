@@ -93,6 +93,7 @@ module.exports = {
             'TQueryCondition/slot', // 插槽使用
             'TQueryCondition/labelRender', // tsx自定义label使用
             'TQueryCondition/defaultVal', // 默认值
+            'TQueryCondition/event', // 第三方组件事件
             'TQueryCondition/linkage', // 联动使用
             'TQueryCondition/TSelectUse', // 结合TSelect使用
             'TQueryCondition/TDatePickerUse', // 结合TDatePicker使用

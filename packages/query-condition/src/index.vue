@@ -27,7 +27,7 @@
       <template v-if="opt.slotName">
         <slot :name="opt.slotName" :param="form" :scope="form"></slot>
       </template>
-      <OptComponent
+      <!-- <OptComponent
         v-if="!opt.slotName"
         v-bind="opt"
         :opt="opt"
@@ -35,7 +35,45 @@
         :form="form"
         :value="form[opt.dataIndex]"
         @change="change"
-      />
+      />-->
+      <template v-if="opt.isSelfCom">
+        <component
+          :is="opt.comp"
+          :ref="opt.comp === 't-select-table' ? `tselecttableref-${i}` : ''"
+          v-model="form[opt.dataIndex]"
+          :placeholder="opt.placeholder || getPlaceholder(opt)"
+          v-bind="
+            typeof opt.bind == 'function'
+              ? opt.bind(form)
+              : { clearable: true, filterable: true, ...$attrs, ...opt.bind }
+          "
+          :style="{ width: opt.width || '100%' }"
+          @change="handleEvent({ type: opt.eventFlag, val: form[opt.dataIndex] })"
+          v-on="cEvent(opt)"
+        />
+      </template>
+      <component
+        v-if="!opt.isSelfCom && !opt.slotName"
+        :is="opt.comp"
+        v-bind="
+          typeof opt.bind == 'function'
+            ? opt.bind(form)
+            : { clearable: true, filterable: true, ...$attrs, ...opt.bind }
+        "
+        :placeholder="opt.placeholder || getPlaceholder(opt)"
+        @change="handleEvent({ type: opt.eventFlag, val: form[opt.dataIndex] })"
+        v-on="cEvent(opt)"
+        v-model="form[opt.dataIndex]"
+      >
+        <component
+          :is="compChildName(opt)"
+          v-for="(value, key, index) in selectListType(opt)"
+          :key="index"
+          :disabled="value.disabled"
+          :label="compChildLabel(opt, value)"
+          :value="compChildValue(opt, value, key)"
+        >{{ compChildShowLabel(opt, value) }}</component>
+      </component>
     </el-form-item>
     <el-form-item
       v-if="Object.keys(cOpts).length > 0"
@@ -167,6 +205,11 @@ export default {
     isFooter: {
       type: Boolean,
       default: true
+    },
+    // 下拉数据源，使用el-select
+    listTypeInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
@@ -192,6 +235,90 @@ export default {
     }
   },
   computed: {
+    cEvent() {
+      return ({ event }, type) => {
+        let eventHandle = { ...event }
+        let changeEvent = {}
+        Object.keys(eventHandle).forEach((v) => {
+          changeEvent[v] = (e, ids) => {
+            if (type === 't-select-table') {
+              eventHandle[v] && eventHandle[v](e, ids, arguments)
+            } else {
+              eventHandle[v] && eventHandle[v](e, this.form, arguments)
+            }
+          }
+        })
+        return { ...changeEvent }
+      }
+    },
+    selectListType() {
+      return ({ list }) => {
+        if (this.listTypeInfo) {
+          return this.listTypeInfo[list]
+        } else {
+          return []
+        }
+      }
+    },
+    // 子组件名称
+    compChildName() {
+      return ({ type }) => {
+        switch (type) {
+          case 'checkbox':
+            return 'el-checkbox'
+          case 'radio':
+            return 'el-radio'
+          case 'select-arr':
+          case 'select-obj':
+            return 'el-option'
+        }
+      }
+    },
+    // 子子组件label
+    compChildLabel() {
+      return ({ type, arrLabel }, value) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.value
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrLabel || 'dictLabel']
+          case 'select-obj':
+            return value
+        }
+      }
+    },
+    // 子子组件value
+    compChildValue() {
+      return ({ type, arrKey }, value, key) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.value
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrKey || 'dictValue']
+          case 'select-obj':
+            return key
+        }
+      }
+    },
+    // 子子组件文字展示
+    compChildShowLabel() {
+      return ({ type, arrLabel }, value) => {
+        switch (type) {
+          case 'radio':
+          case 'checkbox':
+            return value.label
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrLabel || 'dictLabel']
+          case 'select-obj':
+            return value
+        }
+      }
+    },
     // 以下拉方式展示更多条件--属性
     popoverAttrsBind() {
       const popoverAttrs = { showTxt: '更多', title: '所有条件', allTxt: '全选', reverseTxt: '反选', clearTxt: '清空', ...this.popoverAttrs }
@@ -327,13 +454,13 @@ export default {
     },
     resetHandle() {
       this.form = this.initForm(this.opts)
-      // 获取所有的tselecttable
+      // 清除下拉选择表格组件
       const refList = Object.keys(this.$refs).filter((item) =>
         item.includes('tselecttableref')
       )
       if (refList.length > 0) {
         refList.map((val) => {
-          this.$refs[val][0].clearSelectTable()
+          this.$refs[val][0].clear()
         })
       }
       this.checkHandle('reset')
@@ -386,6 +513,29 @@ export default {
     },
     isShow(name) {
       return Object.keys(this.$slots).includes(name)
+    },
+    // 得到placeholder的显示
+    getPlaceholder(row) {
+      let placeholder
+      if (typeof row.comp === 'string' && row.comp) {
+        if (row.comp.includes('input')) {
+          placeholder = '请输入' + row.label
+        } else if (
+          row.comp.includes('select') ||
+          row.comp.includes('date') ||
+          row.comp.includes('cascader')
+        ) {
+          placeholder = '请选择' + row.label
+        } else {
+          placeholder = row.label
+        }
+      } else {
+        placeholder = row.label
+      }
+      return placeholder
+    },
+    handleEvent(type, val) {
+      this.$emit('handleEvent', type, val)
     }
   },
   activated() {

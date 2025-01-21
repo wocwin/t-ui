@@ -7,6 +7,7 @@
         isExpansion
         :loading="loading"
         @submit="conditionEnter"
+        :listTypeInfo="listTypeInfo"
         :btnCheckBind="{btnTitle:'自定义查询'}"
         :btnResetBind="{btnTitle:'自定义重置'}"
       >
@@ -48,6 +49,9 @@ export default {
         date1: null,
         date2: null,
         date: null,
+      },
+      listTypeInfo: {
+        workshopNumList: ADDRESS_TYPES,
       }
     }
   },
@@ -83,55 +87,20 @@ export default {
         workshopNum1: {
           label: '车间2',
           comp: 'el-select',
-          changeEvent: 'change',
           // defaultVal: 'W1',
-          bind: {
-          },
-          child: ADDRESS_TYPES.reduce((acc, cur) => {
-            acc.push({
-              comp: 'el-option',
-              value: cur.key,
-              bind: {
-                label: cur.label,
-                key: cur.key
-              }
-            })
-            return acc
-          }, [])
+          type: 'select-arr',
+          list: 'workshopNumList',
+          arrLabel: 'label',
+          arrKey: 'key',
         },
         workshopNum: {
           label: '车间',
           comp: 'el-select',
-          changeEvent: 'change',
           // defaultVal: 'W1',
-          bind: {
-          },
-          child: [
-            {
-              comp: 'el-option',
-              value: 'W1',
-              bind: {
-                label: '前纺一车间',
-                key: 'W1'
-              }
-            },
-            {
-              comp: 'el-option',
-              value: 'W2',
-              bind: {
-                label: '前纺二车间',
-                key: 'W2'
-              }
-            },
-            {
-              comp: 'el-option',
-              value: 'W3',
-              bind: {
-                label: '前纺三车间',
-                key: 'W3'
-              }
-            }
-          ]
+          type: 'select-arr',
+          list: 'workshopNumList',
+          arrLabel: 'label',
+          arrKey: 'key',
         },
         date1: {
           label: '日期',

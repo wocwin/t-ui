@@ -7,6 +7,7 @@
         isDropDownSelectMore
         :loading="loading"
         @submit="conditionEnter"
+        :listTypeInfo="listTypeInfo"
         :moreCheckList="moreCheckList"
         @getCheckList="getChildCheck"
       >
@@ -47,8 +48,12 @@ export default {
         date1: null,
         // date: null,
       },
-      sexList: [],
       hobbyList: [],
+      listTypeInfo: {
+        workshopNumList: ADDRESS_TYPES,
+        sexList: [],
+        hobbyList: [],
+      },
       opts: {
         likeCargoNo: {
           label: '货源编号',
@@ -79,51 +84,19 @@ export default {
         workshopNum1: {
           label: '车间2',
           comp: 'el-select',
-          child: ADDRESS_TYPES.reduce((acc, cur) => {
-            acc.push({
-              comp: 'el-option',
-              value: cur.key,
-              bind: {
-                label: cur.label,
-                key: cur.key
-              }
-            })
-            return acc
-          }, [])
+          type: 'select-arr',
+          list: 'workshopNumList',
+          arrLabel: 'label',
+          arrKey: 'key',
         },
         workshopNum: {
           label: '车间',
           comp: 'el-select',
-          changeEvent: 'change',
-          // defaultVal: 'W1',
-          bind: {
-          },
-          child: [
-            {
-              comp: 'el-option',
-              value: 'W1',
-              bind: {
-                label: '前纺一车间',
-                key: 'W1'
-              }
-            },
-            {
-              comp: 'el-option',
-              value: 'W2',
-              bind: {
-                label: '前纺二车间',
-                key: 'W2'
-              }
-            },
-            {
-              comp: 'el-option',
-              value: 'W3',
-              bind: {
-                label: '前纺三车间',
-                key: 'W3'
-              }
-            }
-          ]
+
+          type: 'select-arr',
+          list: 'workshopNumList',
+          arrLabel: 'label',
+          arrKey: 'key',
         },
         date1: {
           label: '日期',
@@ -141,7 +114,13 @@ export default {
       return [
         { label: '姓名', comp: 'el-input', prop: 'name' },
         { label: '年龄', comp: 'el-input', prop: 'age' },
-        { label: '性别', comp: 'el-select', prop: 'sex', valueKey: "value", list: this.sexList },
+        {
+          label: '性别', comp: 'el-select', prop: 'sex',
+          type: 'select-arr',
+          list: 'sexList',
+          arrLabel: 'label',
+          arrKey: 'value',
+        },
         {
           label: "爱好", comp: "t-select", prop: 'hobby', span: 2, bind: { multiple: true, optionSource: this.hobbyList, valueKey: "value", },
         },
@@ -178,14 +157,15 @@ export default {
   // 方法
   methods: {
     getList() {
-      this.sexList = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
-      this.hobbyList = [
+      this.listTypeInfo.sexList = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
+      this.listTypeInfo.hobbyList = [
         { label: '吉他', value: '0' },
         { label: '看书', value: '1' },
         { label: '美剧', value: '2' },
         { label: '旅游', value: '3' },
         { label: '音乐', value: '4' }
       ]
+      this.hobbyList = this.listTypeInfo.hobbyList
     },
     getChildCheck(val) {
       this.checkQuery = val

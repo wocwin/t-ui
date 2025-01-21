@@ -184,6 +184,7 @@ export default {
           label: "下拉选择表格组件",
           comp: "t-select-table",
           span: 2,
+          isSelfCom: true,
           bind: {
             maxHeight: 400,
             keywords: { label: "name", value: "id" },
@@ -197,6 +198,7 @@ export default {
         workshopNum3: {
           label: "下拉选择表格组件",
           comp: "t-select-table",
+          isSelfCom: true,
           span: 2,
           bind: {
             maxHeight: 400,

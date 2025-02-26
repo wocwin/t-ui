@@ -6,7 +6,7 @@
 
 :::
 
-## Install
+## 安装
 
 ```js
 npm install @wocwin/t-ui -S
@@ -14,13 +14,78 @@ npm install @wocwin/t-ui -S
 yarn add @wocwin/t-ui -S
 ```
 
-## Usage
+## npm 方式安装使用
+> ### 前提条件：使用项目必须全局注册 Element-ui组件库
 
 ```js
-// main.js
-import Tui from "@wocwin/t-ui"
-
+// 先安装
+npm i @wocwin/t-ui
+// 1、 在main.js中按下引入(全局使用)
+import Tui from '@wocwin/t-ui'
 Vue.use(Tui)
+
+// 2、按需引入，在单个vue文件如下引入，在注册；或者在main.js中如下引入在注册，皆可！
+import { TTable, TLayoutPage, TLayoutPageItem, TForm, TQueryCondition } from '@wocwin/t-ui'
+
+```
+## Copy packages文件夹在项目中全局使用
+
+```js
+// 1、把packages文件夹复制，放在自己项目中
+// 2、假设 packages 与 src是同级，那么src下 main.js 如下操作即可全局使用t-ui
+import Tui from '../packages'
+Vue.use(Tui)
+```
+## 浏览器直接引入使用（Use CDN in Project）(v1.3.0支持)--建议使用npm安装使用
+```html
+<head>
+  <!-- Import elemtn-ui style -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+  <div id="app">
+    <t-select
+      placeholder="请选择工序"
+      v-model="selectVlaue"
+      :option-source="stepList"
+      value-key="label"
+      style="width: 200px;"
+      @change="selectChange"
+    ></t-select>
+  </div>
+  <!-- Import Vue  -->
+  <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+  <!-- Import elemtn-ui -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- 引入t-ui的组件库 -->
+  <script src="https://unpkg.com/@wocwin/t-ui@latest"></script>
+</body>
+<script>
+   new Vue({
+    el: '#app',
+    data() {
+      return {
+        selectVlaue: null,
+        stepList: [
+          { label: '开始', id: 1 },
+          { label: 'POSUI', id: 2 },
+          { label: '11', id: 3 },
+          { label: 'GX123', id: 4 },
+          { label: '烘干破碎', id: 5 },
+          { label: '车间仓库', id: 6 },
+          { label: 'ui3333', id: 7 },
+          { label: 'hhh333', id: 8 }]
+      }
+    },
+    methods: {
+      // 复选框
+      selectChange(val) {
+        console.log('selectChange', val, this.selectVlaue)
+      }
+    }
+  })
+</script>
+
 ```
 ## 全部组件如下
 | 组件名称        | 说明                                                                                                                                                      |

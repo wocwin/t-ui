@@ -52,7 +52,7 @@ import { TTable, TLayoutPage, TLayoutPageItem, TForm, TQueryCondition } from '@w
 
 ```
 
-## 直接在项目中全局使用
+## Copy packages文件夹在项目中全局使用
 
 ```js
 // 1、把packages文件夹复制，放在自己项目中
@@ -60,6 +60,59 @@ import { TTable, TLayoutPage, TLayoutPageItem, TForm, TQueryCondition } from '@w
 import Tui from '../packages'
 Vue.use(Tui)
 ```
+
+## 浏览器直接引入使用（Use CDN in Project）(v1.3.0支持)--建议使用npm安装使用
+```html
+<head>
+  <!-- Import elemtn-ui style -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+  <div id="app">
+    <t-select
+      placeholder="请选择工序"
+      v-model="selectVlaue"
+      :option-source="stepList"
+      value-key="label"
+      style="width: 200px;"
+      @change="selectChange"
+    ></t-select>
+  </div>
+  <!-- Import Vue  -->
+  <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+  <!-- Import elemtn-ui -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- 引入t-ui的组件库 -->
+  <script src="https://unpkg.com/@wocwin/t-ui@latest"></script>
+</body>
+<script>
+   new Vue({
+    el: '#app',
+    data() {
+      return {
+        selectVlaue: null,
+        stepList: [
+          { label: '开始', id: 1 },
+          { label: 'POSUI', id: 2 },
+          { label: '11', id: 3 },
+          { label: 'GX123', id: 4 },
+          { label: '烘干破碎', id: 5 },
+          { label: '车间仓库', id: 6 },
+          { label: 'ui3333', id: 7 },
+          { label: 'hhh333', id: 8 }]
+      }
+    },
+    methods: {
+      // 复选框
+      selectChange(val) {
+        console.log('selectChange', val, this.selectVlaue)
+      }
+    }
+  })
+</script>
+
+```
+
 ## 全部组件如下
 | 组件名称        | 说明                                                                                                                                                      |
 | :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |

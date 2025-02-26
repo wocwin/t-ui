@@ -12,7 +12,12 @@
         multiple
         :opts="opts"
         @submit="conditionEnter"
-      ></t-select-table>
+        :tableLoading="tableLoading"
+      >
+        <template #querybar>
+          <el-button size="small" type="primary" @click="refresh">刷新</el-button>
+        </template>
+      </t-select-table>
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -82,7 +87,8 @@ export default {
         date1: null,
         date2: null,
         likeCargoName: null
-      }
+      },
+      tableLoading: false,
     }
   },
   computed: {
@@ -183,11 +189,19 @@ export default {
   },
   methods: {
     async getData() {
+      this.tableLoading = true
       const res = await selectData
       if (res.success) {
         // console.log('获取品名下拉数据', res.data)
         this.workshopNumList = res.data
       }
+      setTimeout(() => {
+        this.tableLoading = false
+      }, 3000)
+    },
+    // 刷新
+    refresh() {
+      this.getData()
     },
     // 单选
     radioChange(row) {

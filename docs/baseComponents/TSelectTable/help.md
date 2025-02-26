@@ -69,6 +69,8 @@
 | border<el-tag>1.2.10</el-tag>                | 下拉表格是否显示边框                                                              | Boolean                   | true       |
 | tableSize<el-tag>1.2.10</el-tag>             | 下拉表格大小可选值 `medium、small、mini`                                          | String                    | -          |
 | radioSelectValLabel<el-tag>1.2.10</el-tag>   | 单选回显label需要动态配置defaultSelectVal 才有选中效果                            | String                    | -          |
+| tableLoading<el-tag>1.3.1</el-tag>           | table loading                                                                     | Boolean                   | false      |
+| loadingTxt<el-tag>1.3.1</el-tag>             | table loading文字提示                                                             | string                    | 加载中...  |
 
 ### 3. 事件（events）继承 el-table 、el-select 、el-pagination事件
 

@@ -82,6 +82,7 @@ module.exports = {
             'TSelectTable/showPagination',
             'TSelectTable/formDemo',
             'TSelectTable/slotUse',
+            'TSelectTable/tableLoading',
             'TSelectTable/help', // 使用帮助(Attributes)
           ]
         },

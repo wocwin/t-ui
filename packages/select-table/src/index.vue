@@ -50,96 +50,100 @@
               </template>
             </t-query-condition>
           </div>
-          <slot name="toolbar"></slot>
-          <el-table
-            ref="el-table"
-            :data="tableData"
-            :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup ,isShowSelectRadio:!radioVal}"
-            :row-key="getRowKey"
-            :max-height="useVirtual?maxHeight||540:maxHeight"
-            highlight-current-row
-            @row-click="rowClick"
-            @cell-dblclick="cellDblclick"
-            @selection-change="handlesSelectionChange"
-            v-bind="{border, size: tableSize, 'highlight-current-row': true,...$attrs}"
-            v-on="$listeners"
-          >
-            <el-table-column
-              v-if="multiple"
-              type="selection"
-              :width="tableSize === 'large' ? 65 : 55"
-              :align="align || 'center'"
-              :fixed="multipleFixed"
-              :reserve-selection="reserveSelection"
-              :selectable="selectable"
-            ></el-table-column>
-            <el-table-column
-              type="radio"
-              :width="tableSize === 'large' ? 65 : 55"
-              :label="radioTxt"
-              :fixed="radioFixed"
-              :align="align || 'center'"
-              v-if="!multiple && isShowFirstColumn"
-            >
-              <template slot-scope="scope">
-                <el-radio
-                  v-model="radioVal"
-                  :label="scope.$index + 1"
-                  :disabled="scope.row.isRadioDisabled"
-                  @click.native.prevent="radioChangeHandle(scope.row, scope.$index + 1)"
-                ></el-radio>
-              </template>
-            </el-table-column>
-            <el-table-column
-              v-for="(item, index) in columns"
-              :key="index + 'j'"
-              :type="item.type"
-              :label="item.label"
-              :prop="item.prop"
-              :min-width="item['min-width'] || item.minWidth"
-              :width="item.width"
-              :align="item.align ||align || 'center'"
-              :fixed="item.fixed"
-              v-bind="{ 'show-overflow-tooltip': true,...item.bind, ...$attrs }"
-              v-on="$listeners"
-            >
-              <template slot-scope="scope">
-                <!-- render方式 -->
-                <template v-if="item.render">
-                  <render-col
-                    :column="item"
-                    :row="scope.row"
-                    :render="item.render"
-                    :index="scope.$index"
-                  />
-                </template>
-                <!-- 作用域插槽 -->
-                <template v-if="item.slotName">
-                  <slot :name="item.slotName" :scope="scope"></slot>
-                </template>
-                <div v-if="!item.render && !item.slotName">
-                  <span>{{ scope.row[item.prop] }}</span>
-                </div>
-              </template>
-            </el-table-column>
-            <slot></slot>
-          </el-table>
-          <slot name="footer"></slot>
-          <div class="t-table-select__page">
-            <el-pagination
-              v-show="tableData && tableData.length && isShowPagination"
-              :current-page="table.currentPage"
-              @current-change="handlesCurrentChange"
-              :page-sizes="[10, 20, 50, 100]"
-              :pager-count="5"
-              :page-size="table.pageSize"
-              layout="total,  prev, pager, next, jumper"
-              :total="table.total"
-              v-bind="$attrs"
-              v-on="$listeners"
-              background
-            ></el-pagination>
+          <div class="header_wrap" :style="{paddingBottom: isShowSlot('toolbar') ? '10px' : 0 }">
+            <slot name="toolbar"></slot>
           </div>
+          <div class="table_content" v-loading="tableLoading" :element-loading-text="loadingTxt">
+            <el-table
+              ref="el-table"
+              :data="tableData"
+              :class="{ radioStyle: !multiple, highlightCurrentRow: isRadio,keyUpStyle:isKeyup ,isShowSelectRadio:!radioVal}"
+              :row-key="getRowKey"
+              :max-height="useVirtual?maxHeight||540:maxHeight"
+              highlight-current-row
+              @row-click="rowClick"
+              @cell-dblclick="cellDblclick"
+              @selection-change="handlesSelectionChange"
+              v-bind="{border, size: tableSize, 'highlight-current-row': true,...$attrs}"
+              v-on="$listeners"
+            >
+              <el-table-column
+                v-if="multiple"
+                type="selection"
+                :width="tableSize === 'large' ? 65 : 55"
+                :align="align || 'center'"
+                :fixed="multipleFixed"
+                :reserve-selection="reserveSelection"
+                :selectable="selectable"
+              ></el-table-column>
+              <el-table-column
+                type="radio"
+                :width="tableSize === 'large' ? 65 : 55"
+                :label="radioTxt"
+                :fixed="radioFixed"
+                :align="align || 'center'"
+                v-if="!multiple && isShowFirstColumn"
+              >
+                <template slot-scope="scope">
+                  <el-radio
+                    v-model="radioVal"
+                    :label="scope.$index + 1"
+                    :disabled="scope.row.isRadioDisabled"
+                    @click.native.prevent="radioChangeHandle(scope.row, scope.$index + 1)"
+                  ></el-radio>
+                </template>
+              </el-table-column>
+              <el-table-column
+                v-for="(item, index) in columns"
+                :key="index + 'j'"
+                :type="item.type"
+                :label="item.label"
+                :prop="item.prop"
+                :min-width="item['min-width'] || item.minWidth"
+                :width="item.width"
+                :align="item.align ||align || 'center'"
+                :fixed="item.fixed"
+                v-bind="{ 'show-overflow-tooltip': true,...item.bind, ...$attrs }"
+                v-on="$listeners"
+              >
+                <template slot-scope="scope">
+                  <!-- render方式 -->
+                  <template v-if="item.render">
+                    <render-col
+                      :column="item"
+                      :row="scope.row"
+                      :render="item.render"
+                      :index="scope.$index"
+                    />
+                  </template>
+                  <!-- 作用域插槽 -->
+                  <template v-if="item.slotName">
+                    <slot :name="item.slotName" :scope="scope"></slot>
+                  </template>
+                  <div v-if="!item.render && !item.slotName">
+                    <span>{{ scope.row[item.prop] }}</span>
+                  </div>
+                </template>
+              </el-table-column>
+              <slot></slot>
+            </el-table>
+            <div class="t-table-select__page">
+              <el-pagination
+                v-show="tableData && tableData.length && isShowPagination"
+                :current-page="table.currentPage"
+                @current-change="handlesCurrentChange"
+                :page-sizes="[10, 20, 50, 100]"
+                :pager-count="5"
+                :page-size="table.pageSize"
+                layout="total,  prev, pager, next, jumper"
+                :total="table.total"
+                v-bind="$attrs"
+                v-on="$listeners"
+                background
+              ></el-pagination>
+            </div>
+          </div>
+          <slot name="footer"></slot>
         </div>
       </template>
     </el-select>
@@ -298,7 +302,12 @@ export default {
       default: true
     },
     // 单选--回显不是第一页的label
-    radioSelectValLabel: String
+    radioSelectValLabel: String,
+    tableLoading: Boolean,
+    loadingTxt: {
+      type: String,
+      default: '加载中...'
+    }
   },
   computed: {
     selectAttr() {
@@ -914,6 +923,9 @@ export default {
     // 触发select显示
     focus() {
       this.$refs.select.focus()
+    },
+    isShowSlot(name) {
+      return Object.keys(this.$slots).includes(name)
     }
   }
 }
@@ -995,6 +1007,11 @@ export default {
       overflow-x: auto;
       overflow-y: hidden;
       padding-bottom: 10px;
+    }
+    .header_wrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
     ::v-deep tbody {
       .el-table__row {

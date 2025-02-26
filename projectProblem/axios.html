@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>axios二次封装，接口统一存放,满足RESTful风格 | Tui基础组件文档库</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <meta name="description" content="基于Element-ui二次封装基础组件示例">
+    
+    <link rel="preload" href="/t-ui/assets/css/0.styles.482a796a.css" as="style"><link rel="preload" href="/t-ui/assets/js/app.8c220ab8.js" as="script"><link rel="preload" href="/t-ui/assets/js/2.d3d250b0.js" as="script"><link rel="preload" href="/t-ui/assets/js/1.169e74d9.js" as="script"><link rel="preload" href="/t-ui/assets/js/330.d7a8001a.js" as="script"><link rel="prefetch" href="/t-ui/assets/js/10.5651c118.js"><link rel="prefetch" href="/t-ui/assets/js/100.3d02645a.js"><link rel="prefetch" href="/t-ui/assets/js/101.9e2ff4a9.js"><link rel="prefetch" href="/t-ui/assets/js/102.6c11832a.js"><link rel="prefetch" href="/t-ui/assets/js/103.119658eb.js"><link rel="prefetch" href="/t-ui/assets/js/104.5ef75a3b.js"><link rel="prefetch" href="/t-ui/assets/js/105.3552ee24.js"><link rel="prefetch" href="/t-ui/assets/js/106.c965f30c.js"><link rel="prefetch" href="/t-ui/assets/js/107.3148bef0.js"><link rel="prefetch" href="/t-ui/assets/js/108.d0411fd2.js"><link rel="prefetch" href="/t-ui/assets/js/109.de32040a.js"><link rel="prefetch" href="/t-ui/assets/js/11.bfd92e44.js"><link rel="prefetch" href="/t-ui/assets/js/110.1698411f.js"><link rel="prefetch" href="/t-ui/assets/js/111.829d0afd.js"><link rel="prefetch" href="/t-ui/assets/js/112.2853bdd8.js"><link rel="prefetch" href="/t-ui/assets/js/113.4d8ddffe.js"><link rel="prefetch" href="/t-ui/assets/js/114.74616d8c.js"><link rel="prefetch" href="/t-ui/assets/js/115.1dd47ba5.js"><link rel="prefetch" href="/t-ui/assets/js/116.8430ea67.js"><link rel="prefetch" href="/t-ui/assets/js/117.2a1d870c.js"><link rel="prefetch" href="/t-ui/assets/js/118.80e37eac.js"><link rel="prefetch" href="/t-ui/assets/js/119.55399f41.js"><link rel="prefetch" href="/t-ui/assets/js/12.3d98912e.js"><link rel="prefetch" href="/t-ui/assets/js/120.5a935139.js"><link rel="prefetch" href="/t-ui/assets/js/121.0ef78e97.js"><link rel="prefetch" href="/t-ui/assets/js/122.db039cf7.js"><link rel="prefetch" href="/t-ui/assets/js/123.8bfce634.js"><link rel="prefetch" href="/t-ui/assets/js/124.d49b4505.js"><link rel="prefetch" href="/t-ui/assets/js/125.d64f224b.js"><link rel="prefetch" href="/t-ui/assets/js/126.f5387c8d.js"><link rel="prefetch" href="/t-ui/assets/js/127.01993407.js"><link rel="prefetch" href="/t-ui/assets/js/128.1e298171.js"><link rel="prefetch" href="/t-ui/assets/js/129.b2111323.js"><link rel="prefetch" href="/t-ui/assets/js/13.2a2704fa.js"><link rel="prefetch" href="/t-ui/assets/js/130.e1db13e0.js"><link rel="prefetch" href="/t-ui/assets/js/131.093ed097.js"><link rel="prefetch" href="/t-ui/assets/js/132.2fc9ef9f.js"><link rel="prefetch" href="/t-ui/assets/js/133.ed92eb23.js"><link rel="prefetch" href="/t-ui/assets/js/134.e7670fdd.js"><link rel="prefetch" href="/t-ui/assets/js/135.c1236607.js"><link rel="prefetch" href="/t-ui/assets/js/136.adfb1ace.js"><link rel="prefetch" href="/t-ui/assets/js/137.ec538877.js"><link rel="prefetch" href="/t-ui/assets/js/138.3bdbd489.js"><link rel="prefetch" href="/t-ui/assets/js/139.e89f8be7.js"><link rel="prefetch" href="/t-ui/assets/js/14.736c8bbb.js"><link rel="prefetch" href="/t-ui/assets/js/140.bdeabe16.js"><link rel="prefetch" href="/t-ui/assets/js/141.66886850.js"><link rel="prefetch" href="/t-ui/assets/js/142.7911f40f.js"><link rel="prefetch" href="/t-ui/assets/js/143.676fbcd1.js"><link rel="prefetch" href="/t-ui/assets/js/144.7fca0d24.js"><link rel="prefetch" href="/t-ui/assets/js/145.5f407862.js"><link rel="prefetch" href="/t-ui/assets/js/146.bbb2e66b.js"><link rel="prefetch" href="/t-ui/assets/js/147.dd0c51e2.js"><link rel="prefetch" href="/t-ui/assets/js/148.9dfdcedf.js"><link rel="prefetch" href="/t-ui/assets/js/149.a24fe367.js"><link rel="prefetch" href="/t-ui/assets/js/15.281237c3.js"><link rel="prefetch" href="/t-ui/assets/js/150.05776da6.js"><link rel="prefetch" href="/t-ui/assets/js/151.db7e4309.js"><link rel="prefetch" href="/t-ui/assets/js/152.644ff63b.js"><link rel="prefetch" href="/t-ui/assets/js/153.4a63d242.js"><link rel="prefetch" href="/t-ui/assets/js/154.761d95c0.js"><link rel="prefetch" href="/t-ui/assets/js/155.da8ce82a.js"><link rel="prefetch" href="/t-ui/assets/js/156.63b94f37.js"><link rel="prefetch" href="/t-ui/assets/js/157.28d13a28.js"><link rel="prefetch" href="/t-ui/assets/js/158.552f5763.js"><link rel="prefetch" href="/t-ui/assets/js/159.7f61c9e3.js"><link rel="prefetch" href="/t-ui/assets/js/16.c5216e1f.js"><link rel="prefetch" href="/t-ui/assets/js/160.a8326a2f.js"><link rel="prefetch" href="/t-ui/assets/js/161.f2f11d1e.js"><link rel="prefetch" href="/t-ui/assets/js/162.45944776.js"><link rel="prefetch" href="/t-ui/assets/js/163.a8be35fc.js"><link rel="prefetch" href="/t-ui/assets/js/164.eb4825b6.js"><link rel="prefetch" href="/t-ui/assets/js/165.1aa0c80d.js"><link rel="prefetch" href="/t-ui/assets/js/166.9f935024.js"><link rel="prefetch" href="/t-ui/assets/js/167.56cf7969.js"><link rel="prefetch" href="/t-ui/assets/js/168.f28de425.js"><link rel="prefetch" href="/t-ui/assets/js/169.376a4cd0.js"><link rel="prefetch" href="/t-ui/assets/js/17.136ac1f5.js"><link rel="prefetch" href="/t-ui/assets/js/170.fe6a4fca.js"><link rel="prefetch" href="/t-ui/assets/js/171.a348d8fb.js"><link rel="prefetch" href="/t-ui/assets/js/172.6873a009.js"><link rel="prefetch" href="/t-ui/assets/js/173.7ac6b95d.js"><link rel="prefetch" href="/t-ui/assets/js/174.cc0ed7b1.js"><link rel="prefetch" href="/t-ui/assets/js/175.3c58c0c9.js"><link rel="prefetch" href="/t-ui/assets/js/176.148f2390.js"><link rel="prefetch" href="/t-ui/assets/js/177.14cfd7cf.js"><link rel="prefetch" href="/t-ui/assets/js/178.1faaabf5.js"><link rel="prefetch" href="/t-ui/assets/js/179.ccf5a48d.js"><link rel="prefetch" href="/t-ui/assets/js/18.852cb452.js"><link rel="prefetch" href="/t-ui/assets/js/180.57e86427.js"><link rel="prefetch" href="/t-ui/assets/js/181.349ef97b.js"><link rel="prefetch" href="/t-ui/assets/js/182.950f1c27.js"><link rel="prefetch" href="/t-ui/assets/js/183.e6ccbd5e.js"><link rel="prefetch" href="/t-ui/assets/js/184.10fefa2c.js"><link rel="prefetch" href="/t-ui/assets/js/185.9ce1a267.js"><link rel="prefetch" href="/t-ui/assets/js/186.83aee87a.js"><link rel="prefetch" href="/t-ui/assets/js/187.0b3c3453.js"><link rel="prefetch" href="/t-ui/assets/js/188.b5d68809.js"><link rel="prefetch" href="/t-ui/assets/js/189.c6d82bec.js"><link rel="prefetch" href="/t-ui/assets/js/19.cf77a784.js"><link rel="prefetch" href="/t-ui/assets/js/190.45e62926.js"><link rel="prefetch" href="/t-ui/assets/js/191.3f6810d3.js"><link rel="prefetch" href="/t-ui/assets/js/192.f7628680.js"><link rel="prefetch" href="/t-ui/assets/js/193.ae75a979.js"><link rel="prefetch" href="/t-ui/assets/js/194.d7c309fc.js"><link rel="prefetch" href="/t-ui/assets/js/195.6839ae43.js"><link rel="prefetch" href="/t-ui/assets/js/196.13c6d487.js"><link rel="prefetch" href="/t-ui/assets/js/197.4d3dc5f2.js"><link rel="prefetch" href="/t-ui/assets/js/198.699be5ff.js"><link rel="prefetch" href="/t-ui/assets/js/199.c8e680c8.js"><link rel="prefetch" href="/t-ui/assets/js/20.561f975c.js"><link rel="prefetch" href="/t-ui/assets/js/200.303307d5.js"><link rel="prefetch" href="/t-ui/assets/js/201.ef18cf99.js"><link rel="prefetch" href="/t-ui/assets/js/202.e802e542.js"><link rel="prefetch" href="/t-ui/assets/js/203.1eb1a7cc.js"><link rel="prefetch" href="/t-ui/assets/js/204.9db4cca2.js"><link rel="prefetch" href="/t-ui/assets/js/205.ad4e3ca1.js"><link rel="prefetch" href="/t-ui/assets/js/206.1983a7ab.js"><link rel="prefetch" href="/t-ui/assets/js/207.d0bf8d47.js"><link rel="prefetch" href="/t-ui/assets/js/208.d14c4b34.js"><link rel="prefetch" href="/t-ui/assets/js/209.a52b7c38.js"><link rel="prefetch" href="/t-ui/assets/js/21.892b22dc.js"><link rel="prefetch" href="/t-ui/assets/js/210.9002800d.js"><link rel="prefetch" href="/t-ui/assets/js/211.7c36864b.js"><link rel="prefetch" href="/t-ui/assets/js/212.80ce3a56.js"><link rel="prefetch" href="/t-ui/assets/js/213.f1fee393.js"><link rel="prefetch" href="/t-ui/assets/js/214.60a00f35.js"><link rel="prefetch" href="/t-ui/assets/js/215.e26411da.js"><link rel="prefetch" href="/t-ui/assets/js/216.44416a66.js"><link rel="prefetch" href="/t-ui/assets/js/217.0ffdbe0b.js"><link rel="prefetch" href="/t-ui/assets/js/218.8d49f075.js"><link rel="prefetch" href="/t-ui/assets/js/219.6118dd78.js"><link rel="prefetch" href="/t-ui/assets/js/22.d5be6ae4.js"><link rel="prefetch" href="/t-ui/assets/js/220.ae437e2c.js"><link rel="prefetch" href="/t-ui/assets/js/221.4dc10301.js"><link rel="prefetch" href="/t-ui/assets/js/222.13b20094.js"><link rel="prefetch" href="/t-ui/assets/js/223.0d569184.js"><link rel="prefetch" href="/t-ui/assets/js/224.025cee19.js"><link rel="prefetch" href="/t-ui/assets/js/225.028c509d.js"><link rel="prefetch" href="/t-ui/assets/js/226.220420d5.js"><link rel="prefetch" href="/t-ui/assets/js/227.fccba5b1.js"><link rel="prefetch" href="/t-ui/assets/js/228.0fd97142.js"><link rel="prefetch" href="/t-ui/assets/js/229.327ba3d2.js"><link rel="prefetch" href="/t-ui/assets/js/23.632d55e2.js"><link rel="prefetch" href="/t-ui/assets/js/230.df526b0a.js"><link rel="prefetch" href="/t-ui/assets/js/231.bab9faba.js"><link rel="prefetch" href="/t-ui/assets/js/232.3a9b6102.js"><link rel="prefetch" href="/t-ui/assets/js/233.400ceaec.js"><link rel="prefetch" href="/t-ui/assets/js/234.c2d526e8.js"><link rel="prefetch" href="/t-ui/assets/js/235.74af2336.js"><link rel="prefetch" href="/t-ui/assets/js/236.4083638f.js"><link rel="prefetch" href="/t-ui/assets/js/237.b2a5bb8a.js"><link rel="prefetch" href="/t-ui/assets/js/238.f095cbda.js"><link rel="prefetch" href="/t-ui/assets/js/239.595ee527.js"><link rel="prefetch" href="/t-ui/assets/js/24.085537e8.js"><link rel="prefetch" href="/t-ui/assets/js/240.7d961f4c.js"><link rel="prefetch" href="/t-ui/assets/js/241.51e00abd.js"><link rel="prefetch" href="/t-ui/assets/js/242.da307f15.js"><link rel="prefetch" href="/t-ui/assets/js/243.a3c7cf96.js"><link rel="prefetch" href="/t-ui/assets/js/244.23deb9f3.js"><link rel="prefetch" href="/t-ui/assets/js/245.45796fd0.js"><link rel="prefetch" href="/t-ui/assets/js/246.637a2ac0.js"><link rel="prefetch" href="/t-ui/assets/js/247.bf695907.js"><link rel="prefetch" href="/t-ui/assets/js/248.c370a647.js"><link rel="prefetch" href="/t-ui/assets/js/249.2051bb79.js"><link rel="prefetch" href="/t-ui/assets/js/25.1f7bf8a9.js"><link rel="prefetch" href="/t-ui/assets/js/250.59dafded.js"><link rel="prefetch" href="/t-ui/assets/js/251.3cfedff6.js"><link rel="prefetch" href="/t-ui/assets/js/252.c2562865.js"><link rel="prefetch" href="/t-ui/assets/js/253.dd325bdf.js"><link rel="prefetch" href="/t-ui/assets/js/254.789e3ae8.js"><link rel="prefetch" href="/t-ui/assets/js/255.ca866c6e.js"><link rel="prefetch" href="/t-ui/assets/js/256.cfdb2c71.js"><link rel="prefetch" href="/t-ui/assets/js/257.80d77745.js"><link rel="prefetch" href="/t-ui/assets/js/258.04026428.js"><link rel="prefetch" href="/t-ui/assets/js/259.13ef62af.js"><link rel="prefetch" href="/t-ui/assets/js/26.2e1daf84.js"><link rel="prefetch" href="/t-ui/assets/js/260.96d969c5.js"><link rel="prefetch" href="/t-ui/assets/js/261.031d4b46.js"><link rel="prefetch" href="/t-ui/assets/js/262.16c7f8d7.js"><link rel="prefetch" href="/t-ui/assets/js/263.6cb79cf1.js"><link rel="prefetch" href="/t-ui/assets/js/264.f174e641.js"><link rel="prefetch" href="/t-ui/assets/js/265.dfbfb72d.js"><link rel="prefetch" href="/t-ui/assets/js/266.b0be1311.js"><link rel="prefetch" href="/t-ui/assets/js/267.23ba4325.js"><link rel="prefetch" href="/t-ui/assets/js/268.bff04858.js"><link rel="prefetch" href="/t-ui/assets/js/269.c75cbf24.js"><link rel="prefetch" href="/t-ui/assets/js/27.d0f06b03.js"><link rel="prefetch" href="/t-ui/assets/js/270.e49ff98c.js"><link rel="prefetch" href="/t-ui/assets/js/271.b680cd18.js"><link rel="prefetch" href="/t-ui/assets/js/272.aa5e1e02.js"><link rel="prefetch" href="/t-ui/assets/js/273.40bfd3bd.js"><link rel="prefetch" href="/t-ui/assets/js/274.96b52a5d.js"><link rel="prefetch" href="/t-ui/assets/js/275.40247b6a.js"><link rel="prefetch" href="/t-ui/assets/js/276.c5d99233.js"><link rel="prefetch" href="/t-ui/assets/js/277.03dc3127.js"><link rel="prefetch" href="/t-ui/assets/js/278.1d1d6eb0.js"><link rel="prefetch" href="/t-ui/assets/js/279.79813978.js"><link rel="prefetch" href="/t-ui/assets/js/28.f7c80a13.js"><link rel="prefetch" href="/t-ui/assets/js/280.4ea6228f.js"><link rel="prefetch" href="/t-ui/assets/js/281.d93ea4c6.js"><link rel="prefetch" href="/t-ui/assets/js/282.c138b771.js"><link rel="prefetch" href="/t-ui/assets/js/283.2515e0db.js"><link rel="prefetch" href="/t-ui/assets/js/284.37fc45a6.js"><link rel="prefetch" href="/t-ui/assets/js/285.6ac0dd9f.js"><link rel="prefetch" href="/t-ui/assets/js/286.6b2cfa8b.js"><link rel="prefetch" href="/t-ui/assets/js/287.ab8e4409.js"><link rel="prefetch" href="/t-ui/assets/js/288.807bc144.js"><link rel="prefetch" href="/t-ui/assets/js/289.87b87285.js"><link rel="prefetch" href="/t-ui/assets/js/29.64faca6a.js"><link rel="prefetch" href="/t-ui/assets/js/290.5d4b2dea.js"><link rel="prefetch" href="/t-ui/assets/js/291.c78036c3.js"><link rel="prefetch" href="/t-ui/assets/js/292.b7ff81d7.js"><link rel="prefetch" href="/t-ui/assets/js/293.25a3345f.js"><link rel="prefetch" href="/t-ui/assets/js/294.a1f848f3.js"><link rel="prefetch" href="/t-ui/assets/js/295.5aecd583.js"><link rel="prefetch" href="/t-ui/assets/js/296.57e888a6.js"><link rel="prefetch" href="/t-ui/assets/js/297.864a543c.js"><link rel="prefetch" href="/t-ui/assets/js/298.39894b32.js"><link rel="prefetch" href="/t-ui/assets/js/299.74f07689.js"><link rel="prefetch" href="/t-ui/assets/js/3.9d8246e7.js"><link rel="prefetch" href="/t-ui/assets/js/30.db6e672c.js"><link rel="prefetch" href="/t-ui/assets/js/300.da51f0bc.js"><link rel="prefetch" href="/t-ui/assets/js/301.b0fa2720.js"><link rel="prefetch" href="/t-ui/assets/js/302.9e298786.js"><link rel="prefetch" href="/t-ui/assets/js/303.eaae5d4b.js"><link rel="prefetch" href="/t-ui/assets/js/304.af24f847.js"><link rel="prefetch" href="/t-ui/assets/js/305.3d6cdbf2.js"><link rel="prefetch" href="/t-ui/assets/js/306.b021f79c.js"><link rel="prefetch" href="/t-ui/assets/js/307.f57c288b.js"><link rel="prefetch" href="/t-ui/assets/js/308.2acc8a86.js"><link rel="prefetch" href="/t-ui/assets/js/309.fc46950b.js"><link rel="prefetch" href="/t-ui/assets/js/31.015e9bfb.js"><link rel="prefetch" href="/t-ui/assets/js/310.6801494f.js"><link rel="prefetch" href="/t-ui/assets/js/311.94f6078c.js"><link rel="prefetch" href="/t-ui/assets/js/312.2fbbb188.js"><link rel="prefetch" href="/t-ui/assets/js/313.8d13d128.js"><link rel="prefetch" href="/t-ui/assets/js/314.4e997a1d.js"><link rel="prefetch" href="/t-ui/assets/js/315.8c72f888.js"><link rel="prefetch" href="/t-ui/assets/js/316.10ff3d7d.js"><link rel="prefetch" href="/t-ui/assets/js/317.4ba5d808.js"><link rel="prefetch" href="/t-ui/assets/js/318.b52e01ce.js"><link rel="prefetch" href="/t-ui/assets/js/319.685f2702.js"><link rel="prefetch" href="/t-ui/assets/js/32.345a4124.js"><link rel="prefetch" href="/t-ui/assets/js/320.159eff3d.js"><link rel="prefetch" href="/t-ui/assets/js/321.92a1b785.js"><link rel="prefetch" href="/t-ui/assets/js/322.29ccab61.js"><link rel="prefetch" href="/t-ui/assets/js/323.6eeb2c54.js"><link rel="prefetch" href="/t-ui/assets/js/324.e796eb9d.js"><link rel="prefetch" href="/t-ui/assets/js/325.0f149731.js"><link rel="prefetch" href="/t-ui/assets/js/326.5cd0f5ec.js"><link rel="prefetch" href="/t-ui/assets/js/327.a3022abc.js"><link rel="prefetch" href="/t-ui/assets/js/328.2323f722.js"><link rel="prefetch" href="/t-ui/assets/js/329.b9cbf9d3.js"><link rel="prefetch" href="/t-ui/assets/js/33.11ffa0f4.js"><link rel="prefetch" href="/t-ui/assets/js/331.8c8e158c.js"><link rel="prefetch" href="/t-ui/assets/js/332.a7c57d45.js"><link rel="prefetch" href="/t-ui/assets/js/34.fff3bbfd.js"><link rel="prefetch" href="/t-ui/assets/js/35.b80c020b.js"><link rel="prefetch" href="/t-ui/assets/js/36.734850ad.js"><link rel="prefetch" href="/t-ui/assets/js/37.7adca1c7.js"><link rel="prefetch" href="/t-ui/assets/js/38.803b5f1b.js"><link rel="prefetch" href="/t-ui/assets/js/39.adddb408.js"><link rel="prefetch" href="/t-ui/assets/js/4.d27206c1.js"><link rel="prefetch" href="/t-ui/assets/js/40.53a401e7.js"><link rel="prefetch" href="/t-ui/assets/js/41.df0c2f6e.js"><link rel="prefetch" href="/t-ui/assets/js/42.a1d23368.js"><link rel="prefetch" href="/t-ui/assets/js/43.e90555d4.js"><link rel="prefetch" href="/t-ui/assets/js/44.21ab80ff.js"><link rel="prefetch" href="/t-ui/assets/js/45.839f256a.js"><link rel="prefetch" href="/t-ui/assets/js/46.0ba39306.js"><link rel="prefetch" href="/t-ui/assets/js/47.e4780e69.js"><link rel="prefetch" href="/t-ui/assets/js/48.795785d1.js"><link rel="prefetch" href="/t-ui/assets/js/49.a8e26ed7.js"><link rel="prefetch" href="/t-ui/assets/js/5.84818dae.js"><link rel="prefetch" href="/t-ui/assets/js/50.1099c15d.js"><link rel="prefetch" href="/t-ui/assets/js/51.c5a2c34f.js"><link rel="prefetch" href="/t-ui/assets/js/52.f0b9dbc7.js"><link rel="prefetch" href="/t-ui/assets/js/53.cf0b70e9.js"><link rel="prefetch" href="/t-ui/assets/js/54.27a87577.js"><link rel="prefetch" href="/t-ui/assets/js/55.902cf157.js"><link rel="prefetch" href="/t-ui/assets/js/56.03a30fad.js"><link rel="prefetch" href="/t-ui/assets/js/57.f1d33b2a.js"><link rel="prefetch" href="/t-ui/assets/js/58.84364d5b.js"><link rel="prefetch" href="/t-ui/assets/js/59.0dddf13f.js"><link rel="prefetch" href="/t-ui/assets/js/6.d09983c5.js"><link rel="prefetch" href="/t-ui/assets/js/60.76fdd4b7.js"><link rel="prefetch" href="/t-ui/assets/js/61.8eb0caa6.js"><link rel="prefetch" href="/t-ui/assets/js/62.7a914a81.js"><link rel="prefetch" href="/t-ui/assets/js/63.d03b7a03.js"><link rel="prefetch" href="/t-ui/assets/js/64.50c38d10.js"><link rel="prefetch" href="/t-ui/assets/js/65.970bbef5.js"><link rel="prefetch" href="/t-ui/assets/js/66.79b61e63.js"><link rel="prefetch" href="/t-ui/assets/js/67.9a3c9d3e.js"><link rel="prefetch" href="/t-ui/assets/js/68.703cc5c4.js"><link rel="prefetch" href="/t-ui/assets/js/69.d0fd8379.js"><link rel="prefetch" href="/t-ui/assets/js/7.5cd11318.js"><link rel="prefetch" href="/t-ui/assets/js/70.7869c2c5.js"><link rel="prefetch" href="/t-ui/assets/js/71.7f228021.js"><link rel="prefetch" href="/t-ui/assets/js/72.108ec106.js"><link rel="prefetch" href="/t-ui/assets/js/73.f4f3f4a1.js"><link rel="prefetch" href="/t-ui/assets/js/74.5019f10e.js"><link rel="prefetch" href="/t-ui/assets/js/75.53bba992.js"><link rel="prefetch" href="/t-ui/assets/js/76.fb85200a.js"><link rel="prefetch" href="/t-ui/assets/js/77.500e2141.js"><link rel="prefetch" href="/t-ui/assets/js/78.428d72ab.js"><link rel="prefetch" href="/t-ui/assets/js/79.52b693d8.js"><link rel="prefetch" href="/t-ui/assets/js/80.870f6da7.js"><link rel="prefetch" href="/t-ui/assets/js/81.bc66c70f.js"><link rel="prefetch" href="/t-ui/assets/js/82.993bd380.js"><link rel="prefetch" href="/t-ui/assets/js/83.8caae226.js"><link rel="prefetch" href="/t-ui/assets/js/84.97f3eb44.js"><link rel="prefetch" href="/t-ui/assets/js/85.c9721132.js"><link rel="prefetch" href="/t-ui/assets/js/86.dec02764.js"><link rel="prefetch" href="/t-ui/assets/js/87.b34b5fef.js"><link rel="prefetch" href="/t-ui/assets/js/88.a881a1f0.js"><link rel="prefetch" href="/t-ui/assets/js/89.d8f1dbf9.js"><link rel="prefetch" href="/t-ui/assets/js/90.ba47d58e.js"><link rel="prefetch" href="/t-ui/assets/js/91.196c7850.js"><link rel="prefetch" href="/t-ui/assets/js/92.394931e1.js"><link rel="prefetch" href="/t-ui/assets/js/93.fe4e8c66.js"><link rel="prefetch" href="/t-ui/assets/js/94.27547f75.js"><link rel="prefetch" href="/t-ui/assets/js/95.73033b61.js"><link rel="prefetch" href="/t-ui/assets/js/96.7999a639.js"><link rel="prefetch" href="/t-ui/assets/js/97.a7f579a7.js"><link rel="prefetch" href="/t-ui/assets/js/98.05d37fa6.js"><link rel="prefetch" href="/t-ui/assets/js/99.a04dff2f.js"><link rel="prefetch" href="/t-ui/assets/js/vendors~docsearch.c74fbe02.js">
+    <link rel="stylesheet" href="/t-ui/assets/css/0.styles.482a796a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/t-ui/" class="home-link router-link-active"><!----> <span class="site-name">Tui基础组件文档库</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/t-ui/" class="nav-link">
+  主页
+</a></div><div class="nav-item"><a href="/t-ui/projectProblem/permission.html" class="nav-link">
+  实际项目问题
+</a></div><div class="nav-item"><a href="/t-ui/baseComponents/" class="nav-link">
+  基础组件
+</a></div><div class="nav-item"><a href="https://gitee.com/wocwin/t-ui" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Gitee码云
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <a href="https://github.com/wocwin/t-ui" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/t-ui/" class="nav-link">
+  主页
+</a></div><div class="nav-item"><a href="/t-ui/projectProblem/permission.html" class="nav-link">
+  实际项目问题
+</a></div><div class="nav-item"><a href="/t-ui/baseComponents/" class="nav-link">
+  基础组件
+</a></div><div class="nav-item"><a href="https://gitee.com/wocwin/t-ui" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Gitee码云
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <a href="https://github.com/wocwin/t-ui" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Vue项目</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/t-ui/projectProblem/permission.html" class="sidebar-link">Vue 项目 菜单权限及按钮级权限控制</a></li><li><a href="/t-ui/projectProblem/keepAlive.html" class="sidebar-link">keep-alive不能缓存多层级路由(vue-router)菜单问题解决</a></li><li><a href="/t-ui/projectProblem/axios.html" aria-current="page" class="active sidebar-link">axios二次封装，接口统一存放,满足RESTful风格</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="axios二次封装-接口统一存放-满足restful风格"><a href="#axios二次封装-接口统一存放-满足restful风格" class="header-anchor">#</a> axios二次封装，接口统一存放,满足RESTful风格</h1> <h3 id="在新建项目目录src下utils文件夹新建fetch-js文件-此文件统一处理所有http请求和响应。"><a href="#在新建项目目录src下utils文件夹新建fetch-js文件-此文件统一处理所有http请求和响应。" class="header-anchor">#</a> 在新建项目目录src下utils文件夹新建fetch.js文件，此文件统一处理所有http请求和响应。</h3> <ul><li>直接上代码</li></ul> <div class="language- extra-class"><pre class="language-text"><code>import axios from 'axios'
+import qs from 'qs'
+import store from '@/store'
+import router from '@/router'
+import { getToken } from './auth'
+import { Message, MessageBox } from 'element-ui'
+
+const BASE_URL = '/invoice'
+const TIMEOUT_MILLISECONDS = 60000 // 超时链接
+
+const instance = axios.create({
+  withCredentials: false,
+  baseURL: BASE_URL, // 基本url
+  timeout: TIMEOUT_MILLISECONDS,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+})
+</code></pre></div><h4 id="axios请求拦截器"><a href="#axios请求拦截器" class="header-anchor">#</a> axios请求拦截器</h4> <div class="language- extra-class"><pre class="language-text"><code>instance.interceptors.request.use((config) =&gt; {
+  // 每个接口新增时间戳
+  let timestamp = new Date().getTime()
+  if (config.url &amp;&amp; config.url.includes('?')) {
+    config.url = `${config.url}&amp;t=${timestamp}`
+  } else {
+    config.url = `${config.url}?t=${timestamp}`
+  }
+   //PUT POST DELETE方式提交的数据格式化
+   if ((config.method === 'post'||config.method === 'put'||config.method === 'delete') &amp;&amp; config.headers['Content-Type'] !== 'application/json') {
+    config.data = qs.stringify(config.data)
+  }
+  // 在发送请求之前 判断是否存在token，如果存在的话，则每个http header都加上token
+  if (getToken()) {
+    // 让每个请求携带token-- ['Authorization']为自定义key 请根据实际情况自行修改
+    config.headers['Authorization'] = getToken()
+  }
+  return config
+},
+(error) =&gt; Promise.reject(error)
+)
+</code></pre></div><h4 id="axios响应拦截器-统一处理所有http响应"><a href="#axios响应拦截器-统一处理所有http响应" class="header-anchor">#</a> axios响应拦截器(统一处理所有http响应)</h4> <div class="language- extra-class"><pre class="language-text"><code>instance.interceptors.response.use((response) =&gt; {
+// 下载类型特殊处理文件名
+const type = response.request.responseType || ''
+  if (type.includes('blob')) {
+    let disposition = response.headers['content-disposition']
+    let filename = '默认文件名'
+    if (disposition &amp;&amp; disposition.indexOf('filename=') !== -1) {
+      filename = decodeURI(disposition.substring(disposition.indexOf('filename=') + 9, disposition.length))
+    }
+    response.data.filename = filename
+  }
+  return response.data
+}, (error) =&gt; {
+  switch (error.response &amp;&amp; error.response.status) {
+    case 400:
+      error.message = '请求错误(400)'
+      Message.error({
+        message: error.response.data.msg || error.message
+      })
+      break
+    case 401:
+      error.message = '登录信息已过期，请重新登录'// (401)
+      MessageBox.confirm(error.response.data.msg || error.message, {
+        title: '提示',
+        confirmButtonText: '确定',
+        showCancelButton: false,
+        showClose: false,
+        type: 'warning'
+      }).then(() =&gt; {
+       store.dispatch('user/resetToken').then(() =&gt; {
+            router.push('/login')
+          })
+      })
+      break
+    case 403:
+      error.message = '拒绝访问(403)'
+      break
+    case 404:
+      error.message = '请求出错(404)'
+      break
+    case 408:
+      error.message = '请求超时(408)'
+      Message.error({
+        message: error.response.data.msg || error.message
+      })
+      break
+    case 500:
+      error.message = '服务器错误(500)'
+      Message.error({
+        message: error.response.data.msg || error.message
+      })
+      break
+    case 501:
+      error.message = '服务未实现(501)'
+      break
+    case 502:
+      error.message = '网络错误(502)'
+      break
+    case 503:
+      error.message = '服务不可用(503)'
+      break
+    case 504:
+      error.message = '网络超时(504)'
+      break
+    case 505:
+      error.message = 'HTTP版本不受支持(505)'
+      break
+  }
+  if (error.code === 'ECONNABORTED' &amp;&amp; error.message.indexOf('timeout') !== -1) {
+    Message.error({
+      message: '网络异常'
+    })
+  }
+  return Promise.reject(error)
+})
+export default instance
+</code></pre></div><h3 id="在src目录下新建api文件夹-在新建index-js-urlconst-js文件"><a href="#在src目录下新建api文件夹-在新建index-js-urlconst-js文件" class="header-anchor">#</a> 在src目录下新建api文件夹，在新建index.js/urlConst.js文件</h3> <ul><li>urlConst.js 存放api接口路径</li></ul> <div class="language- extra-class"><pre class="language-text"><code>const urlConst = {
+  /**
+   * 公共模块API
+   **/
+  // 发送短信校验码
+  sendPhoneVerify: '/sms/send-phone-verify',
+  // 校验短信验证码
+  verifyCode: '/sms/verify-code',
+  // 获取法人手机号码（1.3版本新增接口）
+  getLegalPhone: '/enterprise/legal-phone',
+  // 获取企业信息
+  current: '/user/current'
+  ......
+}
+export default urlConst
+</code></pre></div><ul><li>index.js封装通用请求方法</li></ul> <div class="language- extra-class"><pre class="language-text"><code>import fetch from '@/utils/fetch'
+import urlConst from './urlConst' // api路径定义文件
+const urlConfig = {
+  ...urlConst
+}
+/**
+ * 通用请求方法
+ * @param {methodType} 请求方式
+ * @param {urlName} 接口名称
+ * @param {dataParams} 正常传参
+ * @param {urlParam} url参数restFul风格
+ */
+/* 通用请求方法 */
+export function ajaxRequest (methodType, urlName, dataParams, urlParam) {
+  methodType = methodType.toUpperCase()
+  dataParams = dataParams || ''
+  urlParam = urlParam || ''
+  let requestConfig = {
+    method: methodType
+  }
+  let url = urlConfig[urlName]
+  requestConfig.url = urlParam ? (url + '/' + urlParam) : url
+  switch (methodType) {
+    case 'POST':
+    case 'PUT':
+    case 'DELETE':
+      requestConfig.headers = { 'Content-Type': 'application/json' }
+      requestConfig.data = dataParams
+      break
+    case 'GET':
+      requestConfig.headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+      requestConfig.params = dataParams
+      break
+    case 'UPLOAD':
+      requestConfig.headers = { 'Content-Type': 'application/form-data' }
+      requestConfig.method = 'POST'
+      requestConfig.data = dataParams
+      break
+    // 下载excel zip
+    case 'DOWNLOAD':
+      requestConfig.headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+      requestConfig.method = 'GET'
+      requestConfig.params = dataParams
+      requestConfig.responseType = 'blob'
+      break
+    // 下载回显图片
+    case 'GETIMAGE':
+      requestConfig.headers = { 'Content-Type': 'application/json' }
+      requestConfig.method = 'GET'
+      requestConfig.params = dataParams
+      requestConfig.responseType = 'blob'
+      break
+    default:
+      requestConfig.headers = { 'Content-Type': 'application/json' }
+      requestConfig.method = 'POST'
+      requestConfig.data = dataParams
+      break
+  }
+  return fetch(requestConfig)
+}
+</code></pre></div><h4 id="将封装的axios挂载在main-js中-供全局使用"><a href="#将封装的axios挂载在main-js中-供全局使用" class="header-anchor">#</a> 将封装的axios挂载在main.js中，供全局使用</h4> <div class="language- extra-class"><pre class="language-text"><code>import { ajaxRequest } from '@/api'
+Vue.prototype.$ajaxRequest = ajaxRequest
+</code></pre></div><h4 id="在文件中直接使用this-ajaxrequest-例如"><a href="#在文件中直接使用this-ajaxrequest-例如" class="header-anchor">#</a> 在文件中直接使用this.$ajaxRequest()，例如</h4> <ul><li>1、正常方式请求接口</li></ul> <div class="language- extra-class"><pre class="language-text"><code>// 修改密码
+ async changePassword (params) {
+      const res = await this.$ajaxRequest('put', 'changePassword', params)
+      注释：
+      put 是请求方式
+      changePassword 是定义的接口名
+      params 是接口所需要的参数
+    }
+</code></pre></div><ul><li>2、RESTful风格请求接口</li></ul> <div class="language- extra-class"><pre class="language-text"><code>// 获取节假日
+    async checkIsHoliday (date) {
+      let dateValue = moment(date).format('YYYYMMDD')
+      const res = await this.$ajaxRequest('get', 'getIsHoliday', '', dateValue)
+       注释：
+      get 是请求方式
+      getIsHoliday 是定义的接口名
+      '' 是正常接口所需要的参数
+      dateValue 是restful风格需要的参数
+    }
+</code></pre></div><hr> <h4 id="相关文章"><a href="#相关文章" class="header-anchor">#</a> 相关文章</h4> <p><a href="https://blog.csdn.net/cwin8951/article/details/104479606" target="_blank" rel="noopener noreferrer">基于elementUI中table组件二次封装（Vue项目）<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <hr> <p><a href="https://blog.csdn.net/cwin8951/article/details/106644118" target="_blank" rel="noopener noreferrer">keep-alive不能缓存多层级路由(vue-router)菜单问题解决<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <hr> <p><a href="https://wocwin.github.io/blog/" target="_blank" rel="noopener noreferrer">基于ElementUi再次封装基础组件文档<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/t-ui/projectProblem/keepAlive.html" class="prev">
+        keep-alive不能缓存多层级路由(vue-router)菜单问题解决
+      </a></span> <!----></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/t-ui/assets/js/app.8c220ab8.js" defer></script><script src="/t-ui/assets/js/2.d3d250b0.js" defer></script><script src="/t-ui/assets/js/1.169e74d9.js" defer></script><script src="/t-ui/assets/js/330.d7a8001a.js" defer></script>
+  </body>
+</html>

@@ -11,7 +11,12 @@
     </div>
     <t-layout-page class="right_content" :style="pageStyle">
       <t-layout-page-item class="table_search" :style="queryPageStyle" v-if="$attrs.opts">
-        <t-query-condition ref="query-condition" v-bind="$attrs" v-on="$listeners">
+        <t-query-condition
+          ref="query-condition"
+          v-bind="$attrs"
+          v-on="$listeners"
+          :isSlotFooterBtn="isShow('footerBtn')"
+        >
           <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name" />
           </template>
@@ -41,6 +46,7 @@
           </template>
         </t-table>
       </t-layout-page-item>
+      <slot :name="slotName" />
       <slot />
     </t-layout-page>
   </div>
@@ -79,7 +85,11 @@ export default {
       default: () => { }
     },
     // 是否table自动撑满
-    isTTableSelfFilling: Boolean
+    isTTableSelfFilling: Boolean,
+    slotName: {
+      type: String,
+      default: 'footerSlot'
+    }
   },
   mounted() {
     this.$emit('update:queryRef', this.$refs['query-condition'])

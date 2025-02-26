@@ -82,8 +82,7 @@
       :class="['btn', { flex_end: cellLength % colLength === 0 }]"
     >
       <template v-if="isFooter">
-        <slot name="footerBtn" />
-        <template v-if="!$slots.footerBtn">
+        <template v-if="!isShow('footerBtn')&&!isSlotFooterBtn">
           <el-button
             class="btn_check"
             @click="checkHandle"
@@ -111,6 +110,7 @@
             @getCheckList="(event) =>$emit('getCheckList', event)"
           />
         </template>
+        <slot name="footerBtn" />
       </template>
     </el-form-item>
   </el-form>
@@ -210,7 +210,8 @@ export default {
     listTypeInfo: {
       type: Object,
       default: () => ({})
-    }
+    },
+    isSlotFooterBtn: Boolean // TAdaptivePage组件是否使用了footerBtn插槽
   },
   data() {
     return {

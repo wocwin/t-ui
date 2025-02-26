@@ -12,6 +12,9 @@
     :isShowPagination="isShowPagination"
   >
     <template #title>优先展示插槽，不写插槽展示tableTitle</template>
+    <template #querybar>
+      <el-button size="small" type="primary">querybar插槽</el-button>
+    </template>
   </t-adaptive-page>
 </template>
 <script>

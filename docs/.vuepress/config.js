@@ -181,6 +181,7 @@ module.exports = {
             'TTable/headerGroup', // 表头合并
             'TTable/slotNameMerge', // 表头合并插槽显示
             'TTable/headerGroupEditTable', // 表头合并单元格编辑功能
+            'TTable/headerGroupRenderHeader', // 表头合并自定义表头
             'TTable/renderCol', // render列渲染
             'TTable/renderFor', // 某列 render for循环渲染
             'TTable/slotName', // 插槽列渲染
@@ -218,6 +219,7 @@ module.exports = {
             'TAdaptivePage/lefttree',
             'TAdaptivePage/virtual',
             'TAdaptivePage/contentSlot',
+            'TAdaptivePage/queryFooterBtn',
             'TAdaptivePage/help',
           ]
         }

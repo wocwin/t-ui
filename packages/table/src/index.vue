@@ -485,8 +485,8 @@
     ></el-pagination>
     <!-- 表格底部按钮 -->
     <footer class="handle_wrap" v-if="isShowFooterBtn && tableData && tableData.length > 0">
-      <slot name="footer" />
-      <div v-if="!$slots.footer">
+      <slot name="footerBotton" />
+      <div v-if="!$slots.footerBotton">
         <el-button type="primary" @click="save">{{saveTxt}}</el-button>
       </div>
     </footer>

@@ -32,6 +32,7 @@
 | widthSize            | 每行显示多少项，最小值2最大值8                  | Number  | 4                                                 |
 | maxVisibleRows       | 收起时设置默认展示行数                          | Number  | 1                                                 |
 | isDropDownSelectMore | 是否以下拉方式展示更多条件                      | Boolean | false                                             |
+| isSlotFooterBtn<el-tag>1.3.1</el-tag> | TAdaptivePage组件是否使用了footerBtn插槽                      | Boolean | false                                             |
 
 
 ### 2-1 以下拉方式展示更多条件--配置参数（Attributes）

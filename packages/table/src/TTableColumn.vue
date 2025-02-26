@@ -7,7 +7,12 @@
     :fixed="item.fixed"
     :min-width="item['min-width'] || item.minWidth"
     :width="item.width"
+    v-bind="$attrs"
+    v-on="$listeners"
   >
+    <template #header v-if="item.renderHeader">
+      <render-header :column="item" :render="item.renderHeader" />
+    </template>
     <template v-for="(val, index) of item.children">
       <t-table-column
         v-if="val.children"
@@ -32,13 +37,15 @@
         :class-name="val.allShow?'flex_column_width':''"
         :width="val.allShow ? flexColumnWidth(val.prop,table.data,index,val['min-width'] || val.minWidth || val.width) : val.width"
         :sortable="val.sort"
-        :render-header="val.renderHeader||(val.headerRequired&&renderHeader)"
         :align="val.align || align"
         :fixed="val.fixed"
         :show-overflow-tooltip="val.noShowTip"
         v-bind="{...val.bind,...$attrs}"
         v-on="$listeners"
       >
+        <template #header v-if="val.renderHeader">
+          <render-header :column="val" :render="val.renderHeader" />
+        </template>
         <template slot-scope="scope">
           <!-- render渲染 -->
           <template v-if="val.render">
@@ -77,11 +84,13 @@
 <script>
 import SingleEditCell from './singleEditCell.vue'
 import RenderCol from './renderCol.vue'
+import RenderHeader from './renderHeader.vue'
 export default {
   name: 'TTableColumn',
   components: {
     SingleEditCell,
-    RenderCol
+    RenderCol,
+    RenderHeader
   },
   props: {
     // 每列的数据
@@ -110,21 +119,6 @@ export default {
     }
   },
   methods: {
-    // 头部标题是否需要加头部必填*符号
-    renderHeader(h, { column }) {
-      const style = {
-        color: '#F56C6C',
-        fontSize: '16px',
-        marginRight: '3px'
-      }
-      // 头部标题是否需要加头部必填*符号
-      return (
-        <div style="display: inline">
-          <span style={style}>*</span>
-          <span>{column.label}</span>
-        </div>
-      )
-    },
     // 自适应表格列宽
     flexColumnWidth(str, arr1, index, minWidth, flag = 'max') {
       // str为该列的字段名(传字符串);tableData为该表格的数据源(传变量);

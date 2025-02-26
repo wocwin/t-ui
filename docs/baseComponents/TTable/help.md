@@ -149,4 +149,4 @@
 | -        | el-table-column单元格编辑插槽（editSlotName命名） | scope |
 | -        | el-table-column表头合并插槽（slotNameMerge命名）  | scope |
 | -        | 操作列前一列自定义默认内容插槽                    | -     |
-| footer   | 底部操作区（默认隐藏，使用插槽展示“保存”按钮）    | -     |
+| footerBotton   | 底部操作区（默认隐藏，使用插槽展示“保存”按钮）    | -     |

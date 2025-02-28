@@ -6,7 +6,9 @@
 
 <common-code-format>
   <docsComponents-TSelect-index slot="source"></docsComponents-TSelect-index>
+
    <<< @/docs/.vuepress/components/docsComponents/TSelect/index.vue
+
 </common-code-format>
 
 ## 单选分页
@@ -73,9 +75,6 @@
 
 ## t-select——下拉 组件组件
 
-**概述：**
-**代码示例：**
-
 ```html
 <t-select
   v-model="selectVlaue"
@@ -108,4 +107,9 @@
 | layout      | 组件布局，子组件名用逗号分隔                                  | string | 'total,prev, pager, next' |
 | bind        | 继承el-pagination属性                                         | Object | -                         |
 
-### 3、继承 el-select&&el-pagination events
+### 3、Methods
+| 方法名 | 说明       |
+| :----- | :--------- |
+| clear  | 清空选中项 |
+
+### 4、继承 el-select&&el-pagination events

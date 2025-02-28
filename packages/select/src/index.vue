@@ -127,7 +127,11 @@ export default {
     },
     selectChecked: {
       get() {
-        return this.childSelectedValue?.length === this.optionSource?.length
+        const _deval = this.value
+        const list = this.optionSource.filter((item) => {
+          return !item.disabled
+        })
+        return _deval?.length === list.length
       },
       set(val) {
         // console.log('set', val)
@@ -138,7 +142,11 @@ export default {
   methods: {
     // 点击全选
     selectAll(val) {
-      const options = JSON.parse(JSON.stringify(this.optionSource))
+      let options = JSON.parse(JSON.stringify(this.optionSource))
+      // 数据源过滤禁用选项
+      options = options.filter((item) => {
+        return !item.disabled
+      })
       if (val) {
         this.childSelectedValue = options.map(item => {
           return item[this.valueKey]
@@ -161,6 +169,10 @@ export default {
       //   return this.customLabel
       // }
       return fun(_item)
+    },
+    // 清空选中值
+    clear() {
+      this.childSelectedValue = null
     }
   }
 }

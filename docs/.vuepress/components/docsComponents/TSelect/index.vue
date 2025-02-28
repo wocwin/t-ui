@@ -1,13 +1,15 @@
 <template>
   <t-layout-page>
-    <t-layout-page-item>
+    <t-layout-page-item style="display: flex; justify-content: space-between;">
       <t-select
         placeholder="请选择工序"
+        ref="selectRef"
         v-model="selectVlaue"
         :optionSource="stepList"
         valueKey="label"
         @change="selectChange"
-      ></t-select>
+      />
+      <el-button style="margin-left: 20px" type="primary" @click="$refs.selectRef.clear()">清空选中</el-button>
     </t-layout-page-item>
   </t-layout-page>
 </template>

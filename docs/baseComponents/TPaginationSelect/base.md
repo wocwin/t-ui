@@ -1,6 +1,11 @@
 # 下拉选择分页组件
 
 ---
+:::warning 注意
+
+该组件v1.3.1废弃，请使用 [TSelect](/baseComponents/TSelect/base) 组件。
+
+:::
 ## 单选
 
 <common-code-format>

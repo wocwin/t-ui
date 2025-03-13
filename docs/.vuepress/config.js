@@ -201,6 +201,7 @@ module.exports = {
             'TTable/rowSort', // 行拖拽排序
             'TTable/columnSet', // 显示隐藏列
             'TTable/operation', // 操作栏
+            'TTable/operationMore', // 操作栏--显示更多
             'TTable/operatorBtn', // 操作栏
             'TTable/operatorRender', // 操作栏
             'TTable/operatorSlotName', // 操作栏

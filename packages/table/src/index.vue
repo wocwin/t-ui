@@ -420,41 +420,105 @@
       >
         <template slot-scope="scope">
           <div class="operator_btn" :style="table.operatorConfig && table.operatorConfig.style">
-            <el-button
-              v-for="(item, index) in table.operator"
-              :key="index"
-              @click="item.fun && item.fun(scope.row, scope.$index, tableData)"
-              v-bind="{
-                type: 'text',
-                size: 'mini',
-                ...item.bind,
+            <template v-for="(item, index) in table.operator">
+              <template v-if="!item.isMore">
+                <el-button
+                  :key="index"
+                  @click="item.fun && item.fun(scope.row, scope.$index, tableData)"
+                  v-bind="{
+                    type: 'text',
+                    size: 'mini',
+                    ...item.bind,
               }"
-              v-show="checkIsShow(scope, item)"
-            >
-              <!-- customRender渲染 -->
-              <template v-if="item.customRender">
-                <OptComponent
-                  v-for="(comp, i) in item.customRender.comps"
-                  :key="scope.$index + i.toString()"
-                  v-bind="comp"
-                  :scope="scope"
-                />
+                  :disabled="item.isDisabled && item.isDisabled(scope.row, item)"
+                  v-show="checkIsShow(scope, item)"
+                >
+                  <!-- customRender渲染 -->
+                  <template v-if="item.customRender">
+                    <OptComponent
+                      v-for="(comp, i) in item.customRender.comps"
+                      :key="scope.$index + i.toString()"
+                      v-bind="comp"
+                      :scope="scope"
+                    />
+                  </template>
+                  <!-- render渲染 -->
+                  <template v-if="item.render">
+                    <render-col
+                      :column="item"
+                      :row="scope.row"
+                      :render="item.render"
+                      :index="scope.$index"
+                    />
+                  </template>
+                  <span v-if="!item.render && !item.customRender">
+                    {{
+                    item.text
+                    }}
+                  </span>
+                </el-button>
               </template>
-              <!-- render渲染 -->
-              <template v-if="item.render">
-                <render-col
-                  :column="item"
-                  :row="scope.row"
-                  :render="item.render"
-                  :index="scope.$index"
-                />
-              </template>
-              <span v-if="!item.render && !item.customRender">
-                {{
-                item.text
-                }}
-              </span>
-            </el-button>
+            </template>
+            <template v-if="hasMoreOper()">
+              <el-dropdown v-bind="hasMoreBind" class="oper_more_dropdown">
+                <span class="more_dropdown-link">
+                  <el-button
+                    v-bind="{
+                      type: 'text',
+                      size: 'mini',
+                      ...hasMoreBind.btnBind
+                    }"
+                  >
+                    {{ hasMoreBind.btnTxt || "更多" }}
+                    <i
+                      v-if="hasMoreBind.isShowArrwIcon"
+                      class="el-icon-arrow-down el-icon--right"
+                    ></i>
+                  </el-button>
+                </span>
+                <template #dropdown>
+                  <el-dropdown-menu v-bind="hasMoreBind.menuBind" class="oper_more_dropdown_menu">
+                    <template v-for="(item, index) in table.operator">
+                      <el-dropdown-item
+                        v-if="item.isMore"
+                        @click.native.stop="item.fun && item.fun(scope.row, scope.$index, tableData)"
+                        :key="'more_' + index"
+                        v-bind="{
+                          disabled: item.isDisabled && item.isDisabled(scope.row, item),
+                          ...item.itemBind
+                        }"
+                      >
+                        <el-button
+                          :key="'morebtn_' + index"
+                          v-bind="{ type: 'text', size: 'mini', ...item.bind }"
+                          v-show="checkIsShow(scope, item)"
+                        >
+                          <!-- customRender渲染 -->
+                          <template v-if="item.customRender">
+                            <OptComponent
+                              v-for="(comp, i) in item.customRender.comps"
+                              :key="scope.$index + i.toString()"
+                              v-bind="comp"
+                              :scope="scope"
+                            />
+                          </template>
+                          <!-- render渲染 -->
+                          <template v-if="item.render">
+                            <render-col
+                              :column="item"
+                              :row="scope.row"
+                              :render="item.render"
+                              :index="scope.$index"
+                            />
+                          </template>
+                          <span v-if="!item.render && !item.customRender">{{ item.text }}</span>
+                        </el-button>
+                      </el-dropdown-item>
+                    </template>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </template>
           </div>
         </template>
       </el-table-column>
@@ -752,6 +816,18 @@ export default {
       return (item) => {
         return this.useVirtual ? true : item.noShowTip ? false : !this.isShowFirstColumn
       }
+    },
+    hasMoreBind() {
+      const btnBind = { type: 'text', size: 'mini' } // 按钮属性
+      const menuBind = {} // 下拉menu属性
+      const setBind = {
+        btnTxt: '更多',
+        isShowArrwIcon: true, // 是否显示下拉箭头
+        ...menuBind, // 下拉menu属性
+        ...btnBind, // 按钮属性
+        ...this.table.operatorConfig.dropdownBind // 下拉属性
+      }
+      return { ...setBind }
     }
   },
   // 过滤器
@@ -775,6 +851,10 @@ export default {
     this.$on('hook:updated', this.doLayout)
   },
   methods: {
+    // 判断操作是否显示更多
+    hasMoreOper() {
+      return this.table.operator.some((item) => item.isMore === true)
+    },
     // 行的 className 的回调方法--不显示首列序号/单选/复现框
     rowClassNameFuc({ row, rowIndex }) {
       // console.log('9999', [...new Set(this.isShowFirstColumnIndex)])
@@ -1876,6 +1956,18 @@ export default {
           }
         }
       }
+    }
+  }
+}
+.oper_more_dropdown_menu {
+  padding: 5px;
+  .el-dropdown-menu__item {
+    padding: 5px 15px;
+    &.el-dropdown-menu__item--divided::before {
+      display: none;
+    }
+    &.is-disabled:hover {
+      cursor: not-allowed;
     }
   }
 }

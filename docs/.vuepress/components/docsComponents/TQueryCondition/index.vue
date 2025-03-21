@@ -10,6 +10,9 @@
         @submit="conditionEnter"
         :btnCheckBind="{btnTitle:'chaxun'}"
       >
+        <template #querybar>
+          <el-button size="small" type="primary" @click="resetWorkshopNum('workshopNum')">重置车间数据</el-button>
+        </template>
         <template #likeTransportNo="{param}">
           <el-input v-model="param.likeTransportNo" clearable placeholder="自定义插槽输入框" />
         </template>
@@ -151,6 +154,11 @@ export default {
       setTimeout(() => {
         this.loading = false
       }, 2000)
+    },
+    // 重置车间
+    resetWorkshopNum(type) {
+      // console.log('重置车间', this.$refs.queryCondition)
+      this.$refs.queryCondition.form[type] = ''
     }
   }
 }

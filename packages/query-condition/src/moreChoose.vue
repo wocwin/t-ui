@@ -150,7 +150,10 @@ export default {
           eventFlag: item?.eventFlag,
           arrLabel: item?.arrLabel,
           arrKey: item?.arrKey,
-          defaultVal: item?.defaultVal
+          defaultVal: item?.defaultVal,
+          placeholder: item?.placeholder,
+          isSelfCom: item?.isSelfCom,
+          ref: item?.ref
         }
         return obj
       }, {})

@@ -39,7 +39,7 @@
       <template v-if="opt.isSelfCom">
         <component
           :is="opt.comp"
-          :ref="opt.comp === 't-select-table' ? `tselecttableref-${i}` : ''"
+          :ref="refArr.includes(opt.comp) ? `${opt.comp}-${i}` : ''"
           v-model="form[opt.dataIndex]"
           :placeholder="opt.placeholder || getPlaceholder(opt)"
           v-bind="
@@ -60,6 +60,7 @@
             ? opt.bind(form)
             : { clearable: true, filterable: true, ...$attrs, ...opt.bind }
         "
+        :ref="opt.ref"
         :placeholder="opt.placeholder || getPlaceholder(opt)"
         @change="handleEvent({ type: opt.eventFlag, val: form[opt.dataIndex] })"
         v-on="cEvent(opt)"
@@ -211,10 +212,14 @@ export default {
       type: Object,
       default: () => ({})
     },
-    isSlotFooterBtn: Boolean // TAdaptivePage组件是否使用了footerBtn插槽
+    isSlotFooterBtn: Boolean, // TAdaptivePage组件是否使用了footerBtn插槽
+    allRef: {
+      type: Object
+    }
   },
   data() {
     return {
+      refArr: ['t-select-table', 't-tree-select'],
       showOpen: this.isShowOpen,
       open: !!this.isExpansion,
       colLength: null,
@@ -455,15 +460,22 @@ export default {
     },
     resetHandle() {
       this.form = this.initForm(this.opts)
-      // 清除下拉选择表格组件
-      const refList = Object.keys(this.$refs).filter((item) =>
-        item.includes('tselecttableref')
-      )
-      if (refList.length > 0) {
-        refList.map((val) => {
-          this.$refs[val][0].clear()
-        })
-      }
+      // 获取所有的tselecttable
+      this.refArr.reduce((acc, item) => {
+        const refs = Object.keys(this.$refs).filter(refKey => refKey.includes(item))
+        if (refs.length > 0) {
+          acc[item] = refs
+          refs.forEach(refKey => {
+            const refInstance = this.$refs[refKey][0]
+            if (refKey.includes('t-select-table')) {
+              refInstance?.clear?.()
+            } else {
+              refInstance?.handleReset?.()
+            }
+          })
+        }
+        return acc
+      }, {})
       this.checkHandle('reset')
       this.$emit('reset', this.form)
     },
@@ -541,8 +553,10 @@ export default {
   },
   activated() {
     this.keyEvent()
+    this.$emit('update:allRef', this.$refs)
   },
   mounted() {
+    this.$emit('update:allRef', this.$refs)
     if (this.isShowWidthSize) {
       this.colLength = this.widthSize
     } else {

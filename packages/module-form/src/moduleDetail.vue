@@ -54,7 +54,10 @@
                 <span
                   v-if="item.filters&&item.filters.list"
                 >{{dataList[item.fieldName] |constantEscape(listTypeInfo[item.filters.list],(item.filters.key||'dictValue'),(item.filters.label||'dictLabel'))}}</span>
-                <span v-else>{{ item.value }}</span>
+                <span v-else>
+                  {{ item.value }}
+                  <span v-if="item.unit&&item.value">{{item.unit}}</span>
+                </span>
               </span>
             </div>
           </el-descriptions-item>
@@ -64,11 +67,16 @@
   </div>
 </template>
 <script>
+import { constantEscape } from '../../utils'
 import RenderTooltip from './renderTooltip'
 export default {
   name: 'ModuleDetail',
   components: {
     RenderTooltip
+  },
+  // 过滤器
+  filters: {
+    constantEscape
   },
   props: {
     descColumn: {
@@ -106,9 +114,7 @@ export default {
         return val
       }
     }
-  },
-  mounted() { },
-  methods: {}
+  }
 }
 </script>
 <style lang="scss">

@@ -291,6 +291,10 @@ export default {
       } else {
         this.$emit('change', val)
       }
+    },
+    // 清空时间
+    clear() {
+      this.time = null
     }
   }
 }

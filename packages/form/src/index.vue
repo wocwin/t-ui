@@ -62,6 +62,7 @@
             :is="item.comp"
             v-model="formOpts.formData[item.value]"
             :placeholder="item.placeholder || getPlaceholder(item)"
+            :ref="item.ref"
             v-bind="
               typeof item.bind == 'function'
                 ? item.bind(formOpts.formData)
@@ -76,6 +77,7 @@
           :is="item.comp"
           v-removeAriaHidden
           v-model="formOpts.formData[item.value]"
+          :ref="item.ref"
           :type="
             item.comp === 'el-input'
               ? item.type || 'input'
@@ -104,19 +106,13 @@
             :disabled="value.disabled"
             :label="compChildLabel(item, value)"
             :value="compChildValue(item, value, key)"
-            >{{ compChildShowLabel(item, value) }}</component
-          >
+          >{{ compChildShowLabel(item, value) }}</component>
         </component>
-        <i
-          :key="index + 'icon'"
-          v-if="isDynamic"
-          class="el-icon-delete"
-          @click="dynamicDel(index)"
-        ></i>
+        <i :key="index + 'icon'" v-if="isDynamic" class="el-icon-delete" @click="dynamicDel(index)"></i>
       </el-form-item>
     </template>
     <!-- 按钮 -->
-    <div class="footer_btn flex-box flex-ver t-margin-top-5">
+    <div class="footer_btn flex-box flex-ver" :style="formOpts.footerStyle">
       <template v-if="formOpts.btnSlotName">
         <slot :name="formOpts.btnSlotName"></slot>
       </template>
@@ -141,9 +137,7 @@
                 ...val.bind,
               }"
               v-if="!val.isHideBtn"
-            >
-              {{ val.label }}
-            </el-button>
+            >{{ val.label }}</el-button>
           </template>
         </template>
       </template>
@@ -151,18 +145,18 @@
   </el-form>
 </template>
 <script>
-import RenderComp from "./renderComp";
-import RenderBtn from "./renderBtn";
+import RenderComp from './renderComp'
+import RenderBtn from './renderBtn'
 export default {
-  name: "TForm",
+  name: 'TForm',
   components: {
     RenderComp,
-    RenderBtn,
+    RenderBtn
   },
   props: {
     // 自定义类名
     className: {
-      type: String,
+      type: String
     },
     /** 表单配置项说明
      * formData object 表单提交数据
@@ -174,183 +168,190 @@ export default {
      */
     formOpts: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     // 一行显示几个输入项;
     widthSize: {
       type: Number,
-      default: 2,
+      default: 2
     },
     // 是否开启动态新增表单项
     isDynamic: {
       type: Boolean,
-      default: false,
+      default: false
     },
     // 全局是否开启清除前后空格
     isTrim: {
       type: Boolean,
-      default: true,
+      default: true
     },
     // ref
     refObj: {
-      type: Object,
+      type: Object
     },
+    allRef: {
+      type: Object
+    }
   },
   directives: {
     removeAriaHidden: {
       bind(el) {
-        let ariaEls = el.querySelectorAll(".el-radio__original");
+        let ariaEls = el.querySelectorAll('.el-radio__original')
         ariaEls.forEach((item) => {
-          item.removeAttribute("aria-hidden");
-        });
-      },
-    },
+          item.removeAttribute('aria-hidden')
+        })
+      }
+    }
   },
   computed: {
     cEvent() {
       return ({ eventHandle }, type) => {
-        let event = { ...eventHandle };
-        let changeEvent = {};
+        let event = { ...eventHandle }
+        let changeEvent = {}
         Object.keys(event).forEach((v) => {
           changeEvent[v] = (e, ids) => {
-            if (type === "t-select-table") {
-              event[v] && event[v](e, ids, arguments);
+            if (type === 't-select-table') {
+              event[v] && event[v](e, ids, arguments)
             } else {
-              if ((typeof e === "number" && e === 0) || e) {
-                event[v] && event[v](e, this.formOpts, arguments);
+              if ((typeof e === 'number' && e === 0) || e) {
+                event[v] && event[v](e, this.formOpts, arguments)
               } else {
-                event[v] && event[v](this.formOpts, arguments);
+                event[v] && event[v](this.formOpts, arguments)
               }
             }
-          };
-        });
-        return { ...changeEvent };
-      };
+          }
+        })
+        return { ...changeEvent }
+      }
     },
     selectListType() {
       return ({ list }) => {
         if (this.formOpts.listTypeInfo) {
-          return this.formOpts.listTypeInfo[list];
+          return this.formOpts.listTypeInfo[list]
         } else {
-          return [];
+          return []
         }
-      };
+      }
     },
     // 子组件名称
     compChildName() {
       return ({ type }) => {
         switch (type) {
-          case "checkbox":
-            return "el-checkbox";
-          case "radio":
-            return "el-radio";
-          case "select-arr":
-          case "select-obj":
-            return "el-option";
+          case 'checkbox':
+            return 'el-checkbox'
+          case 'radio':
+            return 'el-radio'
+          case 'select-arr':
+          case 'select-obj':
+            return 'el-option'
         }
-      };
+      }
     },
     // 子子组件label
     compChildLabel() {
       return ({ type, arrLabel }, value) => {
         switch (type) {
-          case "radio":
-          case "checkbox":
-            return value.value;
-          case "el-select-multiple":
-          case "select-arr":
-            return value[arrLabel || "dictLabel"];
-          case "select-obj":
-            return value;
+          case 'radio':
+          case 'checkbox':
+            return value.value
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrLabel || 'dictLabel']
+          case 'select-obj':
+            return value
         }
-      };
+      }
     },
     // 子子组件value
     compChildValue() {
       return ({ type, arrKey }, value, key) => {
         switch (type) {
-          case "radio":
-          case "checkbox":
-            return value.value;
-          case "el-select-multiple":
-          case "select-arr":
-            return value[arrKey || "dictValue"];
-          case "select-obj":
-            return key;
+          case 'radio':
+          case 'checkbox':
+            return value.value
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrKey || 'dictValue']
+          case 'select-obj':
+            return key
         }
-      };
+      }
     },
     // 子子组件文字展示
     compChildShowLabel() {
       return ({ type, arrLabel }, value) => {
         switch (type) {
-          case "radio":
-          case "checkbox":
-            return value.label;
-          case "el-select-multiple":
-          case "select-arr":
-            return value[arrLabel || "dictLabel"];
-          case "select-obj":
-            return value;
+          case 'radio':
+          case 'checkbox':
+            return value.label
+          case 'el-select-multiple':
+          case 'select-arr':
+            return value[arrLabel || 'dictLabel']
+          case 'select-obj':
+            return value
         }
-      };
-    },
+      }
+    }
   },
   data() {
     return {
       colSize: this.widthSize,
-      fieldList: this.formOpts.fieldList,
-    };
+      fieldList: this.formOpts.fieldList
+    }
   },
   watch: {
-    "formOpts.formData": {
+    'formOpts.formData': {
       handler(val) {
         // 将form实例返回到父级
-        this.$emit("update:refObj", this.$refs.form);
+        this.$emit('update:refObj', this.$refs.form)
       },
-      deep: true, // 深度监听
+      deep: true // 深度监听
     },
     widthSize(val) {
-      this.colSize = val;
-    },
+      this.colSize = val
+    }
+  },
+  activated() {
+    // 将form实例返回到父级
+    this.$emit('update:refObj', this.$refs.form)
+    this.$emit('update:allRef', this.$refs)
   },
   mounted() {
     // 将form实例返回到父级
-    this.$emit("update:refObj", this.$refs.form);
+    this.$emit('update:refObj', this.$refs.form)
+    this.$emit('update:allRef', this.$refs)
   },
   methods: {
     // label与输入框的布局方式
     getChildWidth(item) {
-      if (this.formOpts.labelPosition === "top") {
-        return `flex: 0 1 calc((${
-          100 / (item.widthSize || this.colSize)
-        }% - 10px));margin-right:10px;`;
+      if (this.formOpts.labelPosition === 'top') {
+        return `flex: 0 1 calc((${100 / (item.widthSize || this.colSize)}% - 10px));margin-right:10px`
       } else {
-        return `flex: 0 1 ${100 / (item.widthSize || this.colSize)}%;`;
+        return `flex: 0 1 ${100 / (item.widthSize || this.colSize)}%`
       }
     },
     // 得到placeholder的显示
     getPlaceholder(row) {
-      let placeholder;
-      if (typeof row.comp === "string" && row.comp) {
-        if (row.comp.includes("input")) {
-          placeholder = "请输入" + row.label;
+      let placeholder
+      if (typeof row.comp === 'string' && row.comp) {
+        if (row.comp.includes('input')) {
+          placeholder = '请输入' + row.label
         } else if (
-          row.comp.includes("select") ||
-          row.comp.includes("date") ||
-          row.comp.includes("cascader")
+          row.comp.includes('select') ||
+          row.comp.includes('date') ||
+          row.comp.includes('cascader')
         ) {
-          placeholder = "请选择" + row.label;
+          placeholder = '请选择' + row.label
         } else {
-          placeholder = row.label;
+          placeholder = row.label
         }
       } else {
-        placeholder = row.label;
+        placeholder = row.label
       }
-      return placeholder;
+      return placeholder
     },
     dynamicDel(index) {
-      this.$emit("del", index);
+      this.$emit('del', index)
     },
     // 绑定的相关事件
     handleEvent(type, val, item) {
@@ -359,15 +360,15 @@ export default {
       if (
         this.isTrim &&
         !item.isTrim &&
-        item.comp.includes("el-input") &&
-        item?.bind?.type !== "number" &&
-        item.type !== "password" &&
-        item.type !== "inputNumber"
+        item.comp.includes('el-input') &&
+        item?.bind?.type !== 'number' &&
+        item.type !== 'password' &&
+        item.type !== 'inputNumber'
       ) {
         this.formOpts.formData[item.value] =
-          this.formOpts.formData[item.value].trim();
+          this.formOpts.formData[item.value].trim()
       }
-      this.$emit("handleEvent", type, val);
+      this.$emit('handleEvent', type, val)
     },
     // 校验
     validate() {
@@ -376,41 +377,41 @@ export default {
           if (valid) {
             resolve({
               valid,
-              formData: this.formOpts.formData,
-            });
+              formData: this.formOpts.formData
+            })
           } else {
             // eslint-disable-next-line prefer-promise-reject-errors
             reject({
               valid,
-              formData: null,
-            });
+              formData: null
+            })
           }
-        });
-      });
+        })
+      })
     },
     // 重置表单
     resetFieldsSelf() {
       // 获取所有的下拉表格组件 ref
       const refList = Object.keys(this.$refs).filter((item) =>
-        item.includes("selectTableRef")
-      );
+        item.includes('selectTableRef')
+      )
       // 重置下拉表格组件
       if (refList.length > 0) {
         refList.map((val) => {
-          this.$refs[val][0].clear();
-        });
+          this.$refs[val][0].clear()
+        })
       }
-      return this.$refs.form.resetFields();
+      return this.$refs.form.resetFields()
     },
     // 清空校验
     clearValidate() {
-      return this.$refs.form.clearValidate();
-    },
-  },
-};
+      return this.$refs.form.clearValidate()
+    }
+  }
+}
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 .t-form {
   display: flex;
   flex-wrap: wrap;
@@ -485,6 +486,9 @@ export default {
   }
   .footer_btn {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 }
 </style>

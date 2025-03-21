@@ -128,6 +128,7 @@ module.exports = {
             'TForm/btnisHide', // 操作按钮动态显示&隐藏
             'TForm/btnRender', // 操作按钮render渲染
             'TForm/btnSlotName', // 操作按钮插槽显示
+            'TForm/allRef', // 获取单个表单项的ref
             'TForm/help' // 使用帮助(Attributes)
           ]
         },

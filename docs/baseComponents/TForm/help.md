@@ -15,7 +15,8 @@
 
 | 参数                                 | 说明                                                                                                    | 类型             | 默认值      |
 | :----------------------------------- | :------------------------------------------------------------------------------------------------------ | :--------------- | :---------- |
-| refObj                               | form 表单校验规则方法 （可以参考 elementUI Form 表单方法中的 validate）                                 | obj              | -           |
+| refObj                               | form 表单校验规则方法 （可以参考 elementUI Form 表单方法中的 validate） （组件使用必须加上修饰符.sync） | obj              | -           |
+| allRef                               | TForm组件的所有ref （组件使用必须加上修饰符.sync）                                                      | obj              | -           |
 | className                            | 自定义类名                                                                                              | String           | -           |
 | labelPosition                        | 改变表单项 label 与输入框的布局方式(默认：right) /top                                                   | String           | 'right'     |
 | widthSize                            | 每行显示几个输入项（默认两项）                                                                          | Number           | 2           |

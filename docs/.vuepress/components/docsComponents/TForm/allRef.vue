@@ -1,7 +1,13 @@
 <template>
   <t-layout-page>
     <t-layout-page-item>
-      <t-form :ref-obj.sync="formOpts.ref" ref="TFormRef" :formOpts="formOpts" :widthSize="1" />
+      <t-form
+        :ref-obj.sync="formOpts.ref"
+        :formOpts="formOpts"
+        :widthSize="2"
+        ref="formAllRefs"
+        :all-ref.sync="allRefs"
+      />
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -38,13 +44,13 @@ export default {
               change: (val, scope) => this.changeSex(val, scope),
             }
           },
-          { label: '状态(继承list)', value: 'status1', placeholder: 'TSelect继承list方式', type: 'select-arr', comp: 't-select', list: 'statusList', arrLabel: 'label', arrKey: 'key', bind: {} },
-          { label: '状态', value: 'status', placeholder: 'TSelect单选', comp: 't-select', isSelfCom: true, bind: { optionSource: [] } },
-          { label: '爱好', value: 'hobby', placeholder: 'TSelect多选', comp: 't-select', isSelfCom: true, bind: { multiple: true, optionSource: [] } },
-          { label: '部门', value: 'deptCode', placeholder: 'TCascader使用', comp: 't-cascader', isSelfCom: true, bind: { props: { emitPath: false, children: 'children', label: 'deptName', value: 'deptNum', checkStrictly: true, }, options: [] } },
-          { label: '部门1', value: 'deptCode1', placeholder: 'el-cascader使用', comp: 'el-cascader', isSelfCom: true, bind: { props: { emitPath: false, children: 'children', label: 'deptName', value: 'deptNum', checkStrictly: true, }, options: [] } },
+          { label: '状态(继承list)', value: 'status1', placeholder: 'TSelect继承list方式', ref: 'status1Ref', type: 'select-arr', comp: 't-select', list: 'statusList', arrLabel: 'label', arrKey: 'key', bind: {} },
+          { label: '状态', value: 'status', placeholder: 'TSelect单选', comp: 't-select', ref: 'statusRef', isSelfCom: true, bind: { optionSource: [] } },
+          { label: '爱好', value: 'hobby', placeholder: 'TSelect多选', comp: 't-select', ref: 'hobbyRef', isSelfCom: true, bind: { multiple: true, optionSource: [] } },
+          { label: '部门', value: 'deptCode', placeholder: 'TCascader使用', comp: 't-cascader', ref: 'TCascaderRef', isSelfCom: true, bind: { props: { emitPath: false, children: 'children', label: 'deptName', value: 'deptNum', checkStrictly: true, }, options: [] } },
+          { label: '部门1', value: 'deptCode1', placeholder: 'el-cascader使用', comp: 'el-cascader', ref: 'ElCascaderRef', isSelfCom: true, bind: { props: { emitPath: false, children: 'children', label: 'deptName', value: 'deptNum', checkStrictly: true, }, options: [] } },
           {
-            label: '下拉选择表格', value: 'deptCode2', placeholder: 't-select-table使用', comp: 't-select-table', isSelfCom: true, bind: {
+            label: '下拉选择表格', value: 'deptCode2', placeholder: 't-select-table使用', comp: 't-select-table', ref: 'selectTableRef-deptCode2', isSelfCom: true, bind: {
               isKeyup: true,
               maxHeight: 400,
               keywords: { label: 'name', value: 'id' },
@@ -62,24 +68,44 @@ export default {
               radioChange: (val) => this.radioChange(val)
             }
           },
-          { label: '年份', value: 'createDate', placeholder: 'TDatePicker选择年份', type: 'year', bind: { type: 'year' }, comp: 't-date-picker' },
-          { label: '月份范围', value: 'valDate1', comp: 't-date-picker', bind: { type: 'monthrange', isPickerOptions: true } },
-          { label: '日期范围', value: 'valDate2', comp: 't-date-picker', bind: { type: 'daterange', isPickerOptions: true } },
-          { label: '时间范围', value: 'valDate3', comp: 't-date-picker', bind: { type: 'datetimerange', isPickerOptions: true } },
-          { label: '描述', value: 'desc', type: 'textarea', comp: 'el-input', widthSize: 1 }
+          { label: '年份', value: 'createDate', placeholder: 'TDatePicker选择年份', type: 'year', ref: 'createDateRef', bind: { type: 'year' }, comp: 't-date-picker' },
+          { label: '月份范围', value: 'valDate1', comp: 't-date-picker', ref: 'valDate1Ref', bind: { type: 'monthrange', isPickerOptions: true } },
+          { label: '日期范围', value: 'valDate2', comp: 't-date-picker', ref: 'valDate2Ref', bind: { type: 'daterange', isPickerOptions: true } },
+          { label: '时间范围', value: 'valDate3', comp: 't-date-picker', ref: 'valDate3Ref', bind: { type: 'datetimerange', isPickerOptions: true } },
+          { label: '描述', value: 'desc', type: 'textarea', ref: 'descRef', comp: 'el-input', widthSize: 1 }
         ],
         operatorList: [
           { label: '提交', type: 'danger', fun: this.submitForm },
           { label: '重置', type: 'primary', fun: this.resetForm },
+          {
+            label: "重置下拉表格",
+            bind: { type: "primary" },
+            fun: () => this.resetValue("selectTableRef-deptCode2")
+          },
+          { label: "重置性别", bind: { type: "primary" }, fun: () => this.resetValue("sexRef") },
+          { label: "重置状态1", bind: { type: "primary" }, fun: () => this.resetValue("status1Ref") },
+          { label: "重置状态", bind: { type: "primary" }, fun: () => this.resetValue("statusRef") },
+          { label: "重置爱好", bind: { type: "primary" }, fun: () => this.resetValue("hobbyRef") },
+          { label: "重置TCascader", bind: { type: "primary" }, fun: () => this.resetValue("TCascaderRef", 'deptCode') },
+          { label: "重置elCascader", bind: { type: "primary" }, fun: () => this.resetValue("ElCascaderRef", 'deptCode1') },
+          { label: "重置年份", bind: { type: "primary" }, fun: () => this.resetValue("createDateRef") },
+          { label: "重置月份范围", bind: { type: "primary" }, fun: () => this.resetValue("valDate1Ref") },
+          { label: "重置日期范围", bind: { type: "primary" }, fun: () => this.resetValue("valDate2Ref") },
+          { label: "重置时间范围", bind: { type: "primary" }, fun: () => this.resetValue("valDate3Ref") },
+          { label: "重置描述", bind: { type: "primary" }, fun: () => this.resetValue("descRef") },
         ],
         listTypeInfo: {
           statusList: [],
         }
-      }
+      },
+      allRefs: {}
     }
   },
   async created() {
     await this.getSelectList()
+  },
+  mounted() {
+    console.log('所有refs', this.allRefs)
   },
   methods: {
     getSelectList() {
@@ -153,14 +179,19 @@ export default {
         console.log('最终数据', this.formOpts.formData)
       })
     },
+    // 重置单个表单项的Ref
+    resetValue(type, val) {
+      if (type.includes('Cascader')) {
+        this.formOpts.formData[val] = []
+      } else if (type == 'descRef') {
+        this.formOpts.formData.desc = ''
+      } else {
+        this.allRefs[type][0].clear()
+      }
+    },
     // 重置form表单
     resetForm() {
-      this.$refs.TFormRef.resetFieldsSelf()
-      // console.log('重置form表单', this.formOpts.ref)
-      // Object.assign(
-      //   this.$data.formOpts.formData,
-      //   this.$options.data().formOpts.formData
-      // )
+      this.$refs.formAllRefs.resetFieldsSelf()
     }
   }
 }

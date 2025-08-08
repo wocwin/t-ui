@@ -127,6 +127,7 @@
 | saveMethod    | 保存方法（返回编辑后的所有数据）                   | callback(tableData) |
 | resetFields   | 对表单进行重置，并移除校验结果（单元格编辑时生效） | —                   |
 | clearValidate | 清空校验规则（单元格编辑时生效）                   | -                   |
+| clearRadioHandle | 清除单选选中状态                  | -                   |
 
 ## events 继承el-table/el-pagination 组件事件（如 sort-change 排序事件、size-change pageSize 改变时事件）
 

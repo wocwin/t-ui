@@ -2,11 +2,16 @@
   <t-layout-page>
     <t-layout-page-item>
       <t-table
+        ref="tableRadioRef"
         :table="table"
         :columns="columns"
         @radioChange="radioChange"
         isShowFirstColumn="date"
-      />
+      >
+        <template #toolbar>
+          <el-button size="default" type="primary" @click="cancelSelect">取消选中</el-button>
+        </template>
+      </t-table>
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -66,6 +71,10 @@ export default {
       // this.baseData.radioVal = this.baseData.table.data.indexOf(row)
       // console.log('单选', row, this.baseData.radioVal)
     },
+    cancelSelect() {
+      this.$refs.tableRadioRef.clearRadioHandle()
+      console.log('取消选中')
+    }
   }
 }
 </script>

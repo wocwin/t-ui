@@ -9,6 +9,7 @@
 `firstColumn`: { type: 'radio' }<br/>
 `@radioChange="radioChange"`事件传出选中是数据
 
+
 <<< @/docs/.vuepress/components/docsComponents/TTable/radio.vue
 
 </common-code-format>

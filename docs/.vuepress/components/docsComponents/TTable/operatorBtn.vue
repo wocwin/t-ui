@@ -71,6 +71,7 @@ export default {
           },
           {
             text: '编辑',
+            fun: this.edit,
             bind: {
               type: 'danger',
               icon: 'el-icon-search'
@@ -97,6 +98,9 @@ export default {
   methods: {
     selectionChange(val) {
       this.ids = val
+    },
+    edit(row) {
+      console.log('编辑', row)
     }
   },
 }

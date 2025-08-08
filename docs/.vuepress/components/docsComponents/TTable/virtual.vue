@@ -1,7 +1,14 @@
 <template>
   <t-layout-page>
     <t-layout-page-item>
-      <t-table :table="table" use-virtual :maxHeight="400" :columns="table.columns" />
+      <t-table
+        :table="table"
+        use-virtual
+        :maxHeight="400"
+        row-key="id"
+        :columns="table.columns"
+        @selection-change="selectionChange"
+      />
     </t-layout-page-item>
   </t-layout-page>
 </template>
@@ -11,8 +18,8 @@ export default {
   data() {
     return {
       table: {
+        firstColumn: { type: 'selection', isPaging: true },
         data: [],
-        // 表格内操作列
         operator: [
           {
             text: '新增',
@@ -38,18 +45,14 @@ export default {
             }
           }
         ],
-        // 操作列样式
         operatorConfig: {
-          fixed: 'right', // 固定列表右边（left则固定在左边）
+          fixed: 'right',
           width: 280,
           label: '操作'
         },
         columns: [
-          { prop: 'id', label: '序列', minWidth: 80, fixed: true },
           { prop: 'name', label: '姓名', minWidth: 120 },
           { prop: 'code', label: 'code', minWidth: 80 },
-          { prop: 'address', label: '地址', minWidth: 240 },
-          { prop: 'address', label: '地址', minWidth: 240 },
           { prop: 'address', label: '地址', minWidth: 240 },
           { prop: 'status', label: '状态', minWidth: 120 },
         ]
@@ -70,6 +73,9 @@ export default {
           address: '广东省广东省广州市白云广东省广州市白云广州市白云区' + i,
         })
       }
+    },
+    selectionChange(selection) {
+      console.log('选中数据', selection)
     },
     // 新增
     add(val) {

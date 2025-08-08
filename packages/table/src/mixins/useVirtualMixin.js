@@ -121,16 +121,15 @@ export default {
         this.fixRight = document.querySelector(
           '.el-table .el-table__fixed-right .el-table__fixed-body-wrapper .fix-right'
         )
-        this.tableRef.addEventListener('scroll', this.onScroll)
+        this.tableRef.addEventListener('scroll', () => {
+          this.scrollTop = this.tableRef.scrollTop
+          this.scrollNum = Math.floor(this.scrollTop / (this.itemHeight * this.pageList))
+        })
       })
     },
     init() {
       this.saveDATA = this.table?.data
       this.tableData = this.saveDATA.slice(this.start, this.end)
-    },
-    onScroll() {
-      this.scrollTop = this.tableRef.scrollTop
-      this.scrollNum = Math.floor(this.scrollTop / (this.itemHeight * this.pageList))
     }
   }
 }

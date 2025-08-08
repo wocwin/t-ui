@@ -54,7 +54,7 @@ module.exports = {
             'TTreeSelect/base', // 下拉选择树形及结构组件
             'TSelect/base', // 下拉选择组件
             'TPaginationSelect/base', // 下拉选择分页组件
-            // 'TSelectTable/base', // 下拉选择表格组件
+            'TSwitch/base', // Switch开关组件
             // 'TUploadExcel/base' // 批量上传excel组件
           ]
         },

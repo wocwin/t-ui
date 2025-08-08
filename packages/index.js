@@ -26,6 +26,7 @@ import TTreeSelect from './tree-select'
 import TButton from './button'
 import TAdaptivePage from './adaptive-page'
 import TCascader from './cascader'
+import TSwitch from './switch'
 import { version } from '../package.json'
 // 存储组件列表
 const components = [
@@ -56,7 +57,8 @@ const components = [
   TButton,
   TTreeSelect,
   TAdaptivePage,
-  TCascader
+  TCascader,
+  TSwitch
 ]
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
@@ -101,7 +103,8 @@ export {
   TButton,
   TTreeSelect,
   TAdaptivePage,
-  TCascader
+  TCascader,
+  TSwitch
 }
 export default {
   version,

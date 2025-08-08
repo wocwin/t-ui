@@ -852,9 +852,14 @@ export default {
     // 单选抛出事件radioChange
     radioClick(row, index) {
       this.forbidden = !this.forbidden
-      const emitData = this.radioVal === index ? {} : { ...row }
-      const emitValue = this.radioVal === index ? null : row[this.keywords.value]
-      if (this.radioVal !== index) {
+      // 检查defaultValue是否已包含当前行数据
+      const isCurrentRowSelected = this.defaultValue &&
+        this.defaultValue[this.keywords.value] === row[this.keywords.value]
+      // 即使radioVal === index，如果当前行未被选中，也应视为新选择
+      const shouldEmitSelection = !isCurrentRowSelected || this.radioVal !== index
+      const emitData = shouldEmitSelection ? { ...row } : {}
+      const emitValue = shouldEmitSelection ? row[this.keywords.value] : null
+      if (this.radioVal !== index || !isCurrentRowSelected) {
         this.radioVal = index
         this.defaultValue = { ...row }
         this.isDefaultSelectVal = true

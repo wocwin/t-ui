@@ -160,11 +160,6 @@ npm run docs:dev
   <img src="https://contrib.rocks/image?repo=wocwin/t-ui" alt="contributors" />
 </a>
 
-## 微信交流(请备注 T-ui)
-
-|                微信二维码                 |
-| :---------------------------------------: |
-| <img src="./public/wocwin.jpg" width=170> |
 
 ## Git 提交规范
 
